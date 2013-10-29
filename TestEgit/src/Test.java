@@ -60,7 +60,7 @@ public class Test {
 	public static void main(String[] args) throws IOException {
 		System.out.println("Hello World");
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-		System.out.println("Please enter the lengths of the sides of the triangle:");
+		System.out.println("Please enter the lengths of the sides of the triangle :");
 		System.out.println("a: ");
 		String aInput = in.readLine();
 
