@@ -63,6 +63,8 @@ public class Test {
 		System.out.println("Please enter the lengths of the sides of the triangle :");
 		System.out.println("a: ");
 		String aInput = in.readLine();
+		System.out.println("a: ");
+		System.out.println("a: ");
 
 		System.out.println("b: ");
 		String bInput = in.readLine();
