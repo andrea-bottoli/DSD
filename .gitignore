@@ -220,4 +220,5 @@ pip-log.txt
 ##############
 
 *.asta.lock
+no_git/
 
