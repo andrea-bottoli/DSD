@@ -2,6 +2,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 
 <!DOCTYPE html>
+
 <t:desktopPage>
 
 </t:desktopPage>

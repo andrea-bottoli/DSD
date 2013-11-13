@@ -17,6 +17,7 @@ public class CurrentStateView extends HttpServlet {
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
 		dispatcher.forward(req, resp);
 		//super.doGet(req, resp);
+		 
 	}
 
 	/**
