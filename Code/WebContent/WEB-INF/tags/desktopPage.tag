@@ -11,3 +11,5 @@
 <t:desktopBody>
 	<jsp:doBody />
 </t:desktopBody>
+
+</html>

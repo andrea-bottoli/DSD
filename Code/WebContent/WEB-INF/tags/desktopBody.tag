@@ -12,4 +12,3 @@
 	</div>
 	<div id="footer" class="center"></div>
 </body>
-</html>
