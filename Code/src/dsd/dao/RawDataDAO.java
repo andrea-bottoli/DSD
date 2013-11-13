@@ -1,6 +1,7 @@
 package dsd.dao;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,8 +12,9 @@ import dsd.model.RawData;
 public class RawDataDAO
 {
 
-	private static String tableName = "sensor_data_raw";
-	private static String[] fields = new String[] {"wind_speed", "wind_direction", "hydrometer", "sonar", "sonar_type"};
+	private String tableName = "sensor_data_raw";
+	private String[] fields = new String[]{"wind_speed", "wind_direction", "hydrometer", "sonar",
+			"sonar_type"};
 
 	public int InsertData(List<RawData> listOfData)
 	{
@@ -21,7 +23,8 @@ public class RawDataDAO
 		{
 			try
 			{
-				counter += DAOProvider.InsertRow(tableName, StringUtils.join(fields, ','), PrepareValuesForInsert(rawData));
+				counter += DAOProvider.InsertRow(tableName, StringUtils.join(fields, ','),
+						PrepareValuesForInsert(rawData));
 			}
 			catch (Exception exc)
 			{
@@ -33,10 +36,10 @@ public class RawDataDAO
 
 	public List<RawData> GetAllForPeriod(Date startDate, Date endDate)
 	{
-		List<RawData> rawDataList = null;
+		List<RawData> rawDataList = new ArrayList<RawData>();
 		try
 		{
-			ResultSet results = DAOProvider.SelectTable(tableName, "*" , "", "");
+			ResultSet results = DAOProvider.SelectTable(tableName, "*", "", "");
 			while (results.next())
 			{
 				RawData dataTuple = new RawData();
@@ -46,7 +49,8 @@ public class RawDataDAO
 				dataTuple.setHydrometer(results.getFloat(fields[2]));
 				dataTuple.setSonar(results.getFloat(fields[3]));
 				dataTuple.setSonarType(results.getInt(fields[4]));
-				dataTuple.setTimestamp(results.getDate("timestamp"));
+				dataTuple.setTimestamp(results.getTimestamp("timestamp"));
+				rawDataList.add(dataTuple);
 			}
 		}
 		catch (Exception exc)
