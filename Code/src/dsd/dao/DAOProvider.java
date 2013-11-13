@@ -43,7 +43,7 @@ public class DAOProvider {
 		finally {
 			con.close();
 		}
-		return -1;
+		return 0;
 	}
 	
 	public static ResultSet SelectTable(String table, String select, String where, String order) throws SQLException
@@ -81,7 +81,7 @@ public class DAOProvider {
 		finally {
 			con.close();
 		}
-		return -1;
+		return 0;
 	}
 	
 	public static int InsertRow(String table, String fields, String values) throws SQLException
@@ -106,7 +106,7 @@ public class DAOProvider {
 		finally {
 			con.close();
 		}
-		return -1;
+		return 0;
 	}
 	
 	public static int UpdateRow(String table, String set, String where) throws SQLException
@@ -125,7 +125,7 @@ public class DAOProvider {
 		finally {
 			con.close();
 		}
-		return -1;
+		return 0;
 	}
 	
 }
