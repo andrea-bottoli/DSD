@@ -4,6 +4,11 @@ import java.util.Date;
 
 public class RawData {
 	
+	public RawData()
+	{
+		super();
+	}
+	
 	private long rawDataID;
 	private float windSpeed;
 	private float windDirection;
@@ -11,6 +16,7 @@ public class RawData {
 	private float sonar;
 	private int sonarType;
 	private Date timestamp;
+	
 	public long getRawDataID()
 	{
 		return rawDataID;

@@ -18,6 +18,16 @@
         <servlet-name>CurrentStateView</servlet-name>
         <url-pattern>/CurrentStateView</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+      	<servlet-name>TestRawData</servlet-name>
+      	<servlet-class>dsd.view.TestRawData</servlet-class>
+    </servlet>
+	
+	<servlet-mapping>
+        <servlet-name>TestRawData</servlet-name>
+        <url-pattern>/TestRawData</url-pattern>
+    </servlet-mapping>
   
   
   <welcome-file-list>
