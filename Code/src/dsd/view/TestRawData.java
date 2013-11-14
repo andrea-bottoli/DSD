@@ -20,6 +20,7 @@ public class TestRawData extends HttpServlet
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
 			IOException
 	{
+		@SuppressWarnings("deprecation")
 		List<RawData> rawDataList = CalculatedDataController.GetAllForPeriod(new Date(2013, 1, 1), new Date(
 				2014, 1, 1));
 		req.setAttribute("rawDataList", rawDataList);

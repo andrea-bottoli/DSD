@@ -8,6 +8,8 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.sun.jmx.snmp.Timestamp;
+
 import dsd.model.RawData;
 
 public class RawDataDAO
@@ -15,7 +17,7 @@ public class RawDataDAO
 
 	private static String tableName = "sensor_data_raw";
 	private static String[] insertableFields = new String[]{"wind_speed", "wind_direction", "hydrometer",
-			"sonar", "sonar_type"};
+			"sonar", "sonar_type", "timestamp"};
 
 	public static int InsertData(List<RawData> listOfData)
 	{
@@ -63,7 +65,7 @@ public class RawDataDAO
 					dataTuple.setHydrometer(results.getFloat(insertableFields[2]));
 					dataTuple.setSonar(results.getFloat(insertableFields[3]));
 					dataTuple.setSonarType(results.getInt(insertableFields[4]));
-					dataTuple.setTimestamp(results.getTimestamp("timestamp"));
+					dataTuple.setTimestamp(results.getTimestamp(insertableFields[5]));
 					rawDataList.add(dataTuple);
 				}
 			}
@@ -86,6 +88,6 @@ public class RawDataDAO
 	{
 		return "(" + dataTuple.getWindSpeed() + "," + dataTuple.getWindDirection() + ","
 				+ dataTuple.getHydrometer() + "," + dataTuple.getSonar() + "," + dataTuple.getSonarType()
-				+ ",";
+				+ "," + new Timestamp(dataTuple.getTimestamp().getTime()).toString() + ")";
 	}
 }
