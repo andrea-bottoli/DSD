@@ -55,24 +55,46 @@ public class HydrodynamicFormulas {
 	}
 	
 	/*
-	 *  Formula: 	Vwater = a * (IDRO1^3) + b * (IDRO1^2) + c*IDRO1
+	 *  Formula: 	As = Bs * hs
 	 *  
 	 *  page 8 of Inputs_Conversion_&_Formulas_Calculation
 	 *  
-	 *  This formula calculates the water speed with the 2D analysis
+	 *  This formula calculates the stack area on which there is the water thrust
 	 */
-	/*protected static double WaterSpeed(double aA, double aIdro1, double aB, double aC) {
+	protected static double StackArea(double aBs, double aHs) {
 
-		double Vwater = 0;
+		double StackArea = 0;
 		
 		try
 		{
-			Vwater = aA*Math.pow(aIdro1, 3) + aB*Math.pow(aIdro1, 2) + aC*aIdro1;
+			StackArea = aBs*aHs;
 		}catch(Exception e)
 		{
 			e.printStackTrace();
 		}
-		return Vwater;
-	}*/
+		return StackArea;
+	}
+	
+	
+	/*
+	 *  Formula: 	Swater=0.5*Cd*RHOwater*(As*BetaA)*(Vwater^2)
+	 *  
+	 *  page 8 of Inputs_Conversion_&_Formulas_Calculation
+	 *  
+	 *  This formula calculates the hydrodynamic thrust on the stack
+	 */
+	protected static double HysrodynamicThrust(double aCd, double aRhoWater, double aAs, double aBetaA, double aVwater) {
+
+		double Swater = 0;
+		
+		try
+		{
+			Swater = 0.5 * aCd * aRhoWater * (aAs * aBetaA) * Math.pow(aVwater, 2);
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return Swater;
+	}
 
 }

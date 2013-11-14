@@ -8,7 +8,7 @@ public class CalculationsController {
 	 * 		BATMAN TEST
 	 * #############################
 	 */
-	public void cccc (){
+	public void batman (){
 		
 		//test
 		

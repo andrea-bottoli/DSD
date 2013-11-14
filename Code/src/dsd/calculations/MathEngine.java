@@ -159,5 +159,77 @@ public class MathEngine {
 		}
 		
 		return (float)WaterSpeed;
-	}	
+	}
+	
+	public static float HysrodynamicThrustWithOutDebris(float aCd, float aRhoWater, float aAs, float aVwater) {
+
+		double Swater = 0;
+		double lCd = (double)aCd;
+		double lRhoWater = (double)aRhoWater;
+		double lAs = (double)aAs;
+		double lVwater = (double)aVwater;
+		
+		try
+		{
+			Swater = HydrodynamicFormulas.HysrodynamicThrust(lCd, lRhoWater, lAs, 1, lVwater);
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return (float)Swater;
+	}
+	
+	public static float HysrodynamicThrustWithDebris(float aCd, float aRhoWater, float aAs, float aBetaA, float aVwater) {
+
+		double Swater = 0;
+		double lCd = (double)aCd;
+		double lRhoWater = (double)aRhoWater;
+		double lAs = (double)aAs;
+		double lBetaA = (double)aBetaA;
+		double lVwater = (double)aVwater;
+		
+		try
+		{
+			Swater = HydrodynamicFormulas.HysrodynamicThrust(lCd, lRhoWater, lAs, lBetaA, lVwater);
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return (float)Swater;
+	}
+	
+	//§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§
+	
+	/*
+	 * ##########################################################
+	 * ##########################################################
+	 * #####												#####
+	 * #####			STRUCTURE WEIGHT					#####
+	 * #####												#####
+	 * ##########################################################
+	 * ##########################################################
+	 */
+	
+	public static float StructureWeight(float aPp, float aPpu, float aPtp, float aPb, float aPpy, float aHbeam, float aSonar1)
+	{
+		double StructW = 0;
+		double lPp = (double)aPp;
+		double lPpu = (double)aPpu;
+		double lPtp = (double)aPtp;
+		double lPb = (double)aPb;
+		double lPpy = (double)aPpy;
+		double lHbeam = (double)aHbeam;
+		double lSonar1 = (double)aSonar1;
+		
+		try
+		{
+			StructW = Weight.StructureWeight(lPp, lPpu, lPtp, lPb, lPpy, lHbeam, lSonar1);
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return (float)StructW;
+	}
+	
 }
