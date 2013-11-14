@@ -25,10 +25,7 @@ public class WindPushFormulas {
 		
 		try
 		{
-			//start calculation
 			effectiveWindSpeed = aAne2 * Math.sin(aAne4 + aAlpha);
-			//end calculation
-			
 		}catch(Exception e)
 		{
 			e.printStackTrace();
@@ -50,10 +47,7 @@ public class WindPushFormulas {
 		
 		try
 		{
-			//start calculation
 			windPushOnPlank = 0.5 * aCdwi * aRhoAir * aAplank * Math.pow(aVeffwind,2);
-			//end calculation
-			
 		}catch(Exception e)
 		{
 			e.printStackTrace();
@@ -75,10 +69,7 @@ public class WindPushFormulas {
 		
 		try
 		{
-			//start calculation
 			windPushOnA1TrafficCombination = 0.5 * aCdwi * aRhoAir * (aBeta1*aAtraf) * Math.pow(aVeffwind,2);
-			//end calculation
-			
 		}catch(Exception e)
 		{
 			e.printStackTrace();
@@ -100,10 +91,7 @@ public class WindPushFormulas {
 		
 		try
 		{
-			//start calculation
 			windPushOnA2TrafficCombination = 0.5 * aCdwi * aRhoAir * (aBeta1*aAtraf) * Math.pow(aVeffwind,2);
-			//end calculation
-			
 		}catch(Exception e)
 		{
 			e.printStackTrace();
@@ -125,10 +113,7 @@ public class WindPushFormulas {
 		
 		try
 		{
-			//start calculation
 			windPushOnA3TrafficCombination = 0.5 * aCdwi * aRhoAir * (aBeta2*aAtraf) * Math.pow(aVeffwind,2);
-			//end calculation
-			
 		}catch(Exception e)
 		{
 			e.printStackTrace();
