@@ -31,7 +31,7 @@ public double As;
 public Result_WaterThrust Water_Thrust(InputParams params_input)
 {
 double C_DWA = 1; // “Drag planking” coefficient
-//اگر مقدار دھی نگردد برنامه خطا ميگيرد به ھمين دليل مقدار دھی شده ولی در طول برنامه حتما مقدار صحيح خود را بدست ميآورد
+//
 double h_s = 1;
 double b_s ;
 double As = 0;
