@@ -14,7 +14,7 @@ public class CurrentStateView extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/tempGraph.jsp");
 		dispatcher.forward(req, resp);
 		//super.doGet(req, resp);
 		 
