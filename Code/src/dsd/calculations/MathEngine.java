@@ -12,7 +12,6 @@ public class MathEngine {
 	 * ##########################################################
 	 */
 	
-	
 	public static float EffectiveWindSpeed(float aAne2, float aAne4, float aAlpha)
 	{
 		double effectiveWindSpeed = 0;
@@ -23,7 +22,8 @@ public class MathEngine {
 		try
 		{
 			effectiveWindSpeed = WindPushFormulas.EffectiveWindSpeed(lAne2, lAne4, lAlpha);
-		}catch(Exception e)
+		}
+		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
