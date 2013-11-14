@@ -161,7 +161,7 @@ public class MathEngine {
 		return (float)WaterSpeed;
 	}
 	
-	public static float HysrodynamicThrustWithOutDebris(float aCd, float aRhoWater, float aAs, float aVwater) {
+	public static float HydrodynamicThrustWithOutDebris(float aCd, float aRhoWater, float aAs, float aVwater) {
 
 		double Swater = 0;
 		double lCd = (double)aCd;
@@ -179,7 +179,7 @@ public class MathEngine {
 		return (float)Swater;
 	}
 	
-	public static float HysrodynamicThrustWithDebris(float aCd, float aRhoWater, float aAs, float aBetaA, float aVwater) {
+	public static float HydrodynamicThrustWithDebris(float aCd, float aRhoWater, float aAs, float aBetaA, float aVwater) {
 
 		double Swater = 0;
 		double lCd = (double)aCd;

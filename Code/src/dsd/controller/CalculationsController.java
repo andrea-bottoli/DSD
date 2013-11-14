@@ -2,6 +2,8 @@ package dsd.controller;
 
 import java.util.ArrayList;
 import java.util.ListIterator;
+
+import dsd.calculations.MathEngine;
 import dsd.model.CalculatedData;
 import dsd.model.LineForces;
 import dsd.model.PlankForces;
@@ -11,27 +13,28 @@ import dsd.model.RawData;
 public class CalculationsController {
 	
 	//Variables to be instantiated
-	CalculatedData calculatedData = null;
-	PlankForces plankForces = null;
-	LineForces lineForces = null;
-	PylonForces pylonForces = null;
+	private CalculatedData calculatedData = null;
+	private PlankForces plankForces = null;
+	private LineForces lineForces = null;
+	private PylonForces pylonForces = null;
 	
 	//Variables to store raw data
-	ArrayList<RawData> rawData = null;
-	ArrayList<RawData> tenMinData = null;
-	ArrayList<RawData> oneHourData = null;
-	ArrayList<RawData> oneDayData = null;
+	private ArrayList<RawData> rawData = null;
+	private ArrayList<RawData> tenMinData = null;
+	private ArrayList<RawData> oneHourData = null;
+	private ArrayList<RawData> oneDayData = null;
 	
 	//Variables for timestamps
-	float lastRawDataTimestamp;
-	float last10minDataTimestamp;
-	float last1hourDataTimestamp;
+	private float lastRawDataTimestamp;
+	private float last10minDataTimestamp;
+	private float last1hourDataTimestamp;
+	
 	//VariableForCalculatedData
 	
 	//Variables from technical instruments
-	float[] instrumentsDataANE = null;
-	float[] instrumentsDataIDRO = null;
-	float[] instrumentsDataSONAR = null;
+	private float[] instrumentsDataANE = null;
+	private float[] instrumentsDataIDRO = null;
+	private float[] instrumentsDataSONAR = null;
 	
 	//Constructor
 	public CalculationsController()
@@ -71,8 +74,7 @@ public class CalculationsController {
 	{
 		//Local variables
 		ArrayList<RawData> localRawData = new ArrayList<RawData>();
-		ListIterator<RawData> globalIterator = rawData.listIterator();
-		int flag = 0;
+		ListIterator<RawData> globalIterator = this.rawData.listIterator();
 		
 		try
 		{
@@ -88,23 +90,21 @@ public class CalculationsController {
 			 * prepare the index for the cycles
 			 * and prepare the lists of data
 			 */
-
 			
 			do
 			{
+				
 				localRawData.clear();
 				
 				for(int i = 0; i < 600; i++)
 				{
-					localRawData.add(rawData.get(flag+i));
+					localRawData.add(globalIterator.next());
 				}
-				
-				flag = flag +600;
 				
 				/*
 				 * Start calculations for one line of the DB
 				 */
-				CalculateMeanValues();
+				CalculateMeanValues(localRawData, localRawData.size());
 				CalculatePlankForces();
 				CalculateLineForces();
 				CalculatePylonForces();
@@ -119,7 +119,6 @@ public class CalculationsController {
 		}
 		catch (Exception e)
 		{
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 	}
@@ -159,7 +158,7 @@ public class CalculationsController {
 	/*
 	 * Calculates the mean values from ANE, IDRO and SONAR, then sonar statistics
 	 */
-	private void CalculateMeanValues()
+	private void CalculateMeanValues(ArrayList<RawData> localRawData, int size)
 	{
 		//TO_DO
 	}
@@ -170,6 +169,11 @@ public class CalculationsController {
 	private void CalculatePlankForces()
 	{
 		//TO-DO
+		float effectiveWindSpeed;
+		//CHANGE 5 WITH ALPHA
+		effectiveWindSpeed = MathEngine.EffectiveWindSpeed(this.instrumentsDataANE[1], this.instrumentsDataANE[4], 5);
+		//PARAMETERS ARE MISSING
+		
 	}
 	
 	/*
