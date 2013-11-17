@@ -5,7 +5,11 @@ import java.util.GregorianCalendar;
 
 public class TimeCalculations
 {
-
+	public static long LabViewTimestampGregToMiliSeconds(long lvTimestamp)
+	{
+		return LabViewTimestampsToGregCalendar(lvTimestamp).getTime().getTime();
+	}
+	
 	public static GregorianCalendar LabViewTimestampsToGregCalendar(long lvTimestamp)
 	{
 

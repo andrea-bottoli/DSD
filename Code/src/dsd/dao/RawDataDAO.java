@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.sun.jmx.snmp.Timestamp;
 
 import dsd.model.RawData;
+import dsd.model.eSonarType;
 
 public class RawDataDAO
 {
@@ -64,8 +65,8 @@ public class RawDataDAO
 					dataTuple.setWindDirection(results.getFloat(insertableFields[1]));
 					dataTuple.setHydrometer(results.getFloat(insertableFields[2]));
 					dataTuple.setSonar(results.getFloat(insertableFields[3]));
-					dataTuple.setSonarType(results.getInt(insertableFields[4]));
-					dataTuple.setTimestamp(results.getTimestamp(insertableFields[5]));
+					dataTuple.setSonarType(eSonarType.getSonarType(results.getInt(insertableFields[4])));
+					dataTuple.setTimestamp(results.getTimestamp(insertableFields[5]).getTime());
 					rawDataList.add(dataTuple);
 				}
 			}
@@ -88,6 +89,6 @@ public class RawDataDAO
 	{
 		return "(" + dataTuple.getWindSpeed() + "," + dataTuple.getWindDirection() + ","
 				+ dataTuple.getHydrometer() + "," + dataTuple.getSonar() + "," + dataTuple.getSonarType()
-				+ "," + new Timestamp(dataTuple.getTimestamp().getTime()).toString() + ")";
+				+ "," + new Timestamp(dataTuple.getTimestamp()).toString() + ")";
 	}
 }

@@ -222,7 +222,7 @@ public class CalculationsController {
 	 */
 	private void WriteOnDB()
 	{
-		// TODO Auto-generated method stub
+		// TO-DO
 	}
 	
 }

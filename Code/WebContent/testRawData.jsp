@@ -23,7 +23,7 @@
 				<td>${rawData.hydrometer}</td>
 				<td>${rawData.sonar}</td>
 				<td>${rawData.sonarType}</td>
-				<td>${rawData.timestamp}</td>
+				<td>${rawData.timestampDate}</td>
 			</tr>
 		</c:forEach>
 	</table>

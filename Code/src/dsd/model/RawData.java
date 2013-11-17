@@ -14,8 +14,9 @@ public class RawData {
 	private float windDirection;
 	private float hydrometer;
 	private float sonar;
-	private int sonarType;
-	private Date timestamp;
+	private eSonarType sonarType;
+	private long timestamp;
+	private Date timestampDate;
 	
 	public long getRawDataID()
 	{
@@ -57,22 +58,26 @@ public class RawData {
 	{
 		this.sonar = sonar;
 	}
-	public int getSonarType()
+	public eSonarType getSonarType()
 	{
 		return sonarType;
 	}
-	public void setSonarType(int sonarType)
+	public void setSonarType(eSonarType sonarType)
 	{
 		this.sonarType = sonarType;
 	}
-	public Date getTimestamp()
+	public long getTimestamp()
 	{
 		return timestamp;
 	}
-	public void setTimestamp(Date timestamp)
+	public void setTimestamp(long timestamp)
 	{
 		this.timestamp = timestamp;
+		this.timestampDate = new Date(timestamp);
 	}
-	
+	public Date getTimestampDate()
+	{
+		return timestampDate;
+	}
 	
 }

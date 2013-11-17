@@ -1,5 +1,6 @@
 package dsd.view;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -10,8 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dsd.controller.CalculatedDataController;
+import dsd.controller.ParserControler;
+import dsd.controller.RawDataController;
 import dsd.model.RawData;
+import dsd.model.eFileType;
 
 public class TestRawData extends HttpServlet
 {
@@ -21,9 +24,16 @@ public class TestRawData extends HttpServlet
 			IOException
 	{
 		@SuppressWarnings("deprecation")
-		List<RawData> rawDataList = CalculatedDataController.GetAllForPeriod(new Date(2013, 1, 1), new Date(
+		List<RawData> rawDataList = RawDataController.GetAllForPeriod(new Date(2013, 1, 1), new Date(
 				2014, 1, 1));
 		req.setAttribute("rawDataList", rawDataList);
+		
+		File sonarFile = new File(getServletContext().getRealPath("/") + "sonar3383657735.txt");
+		ParserControler.ParseInputFile(sonarFile, eFileType.Sonar);
+		
+		File analogFile = new File(getServletContext().getRealPath("/") + "analog3383657735.txt");
+		ParserControler.ParseInputFile(analogFile, eFileType.Analog);
+		
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/testRawData.jsp");
 		dispatcher.forward(req, resp);
 	}
