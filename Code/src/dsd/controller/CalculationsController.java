@@ -5,36 +5,45 @@ import java.util.ListIterator;
 
 import dsd.calculations.MathEngine;
 import dsd.model.CalculatedData;
+import dsd.model.InstrumentsData;
 import dsd.model.LineForces;
 import dsd.model.PlankForces;
 import dsd.model.PylonForces;
 import dsd.model.RawData;
+import dsd.model.enums.eSonarType;
 
 public class CalculationsController {
 	
 	//Variables to be instantiated
-	private CalculatedData calculatedData = null;
+	
+	//Variables to read/store data from sources
+	private CalculatedDataController calculatedDataController = null;	// --> Has to be instanced or is a input ??
+	private ParametersController parametersController = null;			// --> Has to be instanced or is a input ??
+	
+	//Variables from technical instruments
+	private InstrumentsData instrumentsData =null;
+	
+	//Variable for each kind of forces
 	private PlankForces plankForces = null;
 	private LineForces lineForces = null;
 	private PylonForces pylonForces = null;
 	
-	//Variables to store raw data
+	//Variable in which store the calculations results
+	private CalculatedData calculatedData = null;
+	
+	//Variables to store grouped data after reading/loading from DB
 	private ArrayList<RawData> rawData = null;
 	private ArrayList<RawData> tenMinData = null;
 	private ArrayList<RawData> oneHourData = null;
 	private ArrayList<RawData> oneDayData = null;
 	
-	//Variables for timestamps
+	//Variables to track timestamps
 	private float lastRawDataTimestamp;
 	private float last10minDataTimestamp;
 	private float last1hourDataTimestamp;
 	
-	//VariableForCalculatedData
-	
-	//Variables from technical instruments
-	private float[] instrumentsDataANE = null;
-	private float[] instrumentsDataIDRO = null;
-	private float[] instrumentsDataSONAR = null;
+	//Variable to store parameters
+	private float parameters;
 	
 	//Constructor
 	public CalculationsController()
@@ -43,9 +52,7 @@ public class CalculationsController {
 		this.plankForces = new PlankForces();
 		this.lineForces = new LineForces();
 		this.pylonForces = new PylonForces();
-		this.instrumentsDataANE = new float[4];
-		this.instrumentsDataIDRO = new float[2];
-		this.instrumentsDataSONAR = new float[7];
+		this.instrumentsData = new InstrumentsData();
 	}
 	
 	/*
@@ -60,6 +67,10 @@ public class CalculationsController {
 	{
 		try
 		{
+			//Loding parameters
+			
+			
+			//start calculations
 			Calculate10mins();
 			Calculate1hour();
 			Calculate1day();
@@ -157,6 +168,17 @@ public class CalculationsController {
 	}
 	
 	/*
+	 * Get parameters from DB
+	 */
+	/**
+	 * This method allows to read and load parameters
+	 */
+	private void ReadParameters()
+	{
+		//TO_DO
+	}
+	
+	/*
 	 * Get data from DB
 	 */
 	/**
@@ -193,9 +215,118 @@ public class CalculationsController {
 	 * SONAR5, SONAR6 and SONAR7. For sonar values, there are also some
 	 * statistics that have to be calculated.
 	 */
-	private void CalculateMeanValues(ArrayList<RawData> localRawData, int size)
+	private void CalculateMeanValues(ArrayList<RawData> localRawData, int sampleSize)
 	{
-		//TO_DO
+		float sumWindSpeed,sumWindDirection, sumWaterLevel, sumWaterVariance, sumRiverBottomLevel, sumRiverBottomLevelVariance;
+		float meanWindSpeed, maxWindSpeed, meanWindDirection,maxWindDirection;
+		float meanWaterLevel, varianceWaterLevel;
+		float meanRiverBottomLevel, varianceRiverBottomLevel, percUtilizedData12overWholeSample;
+		float percWrongData3overWholeSample, percOutWaterData4overWholeSample, percErrorData5overWholeSample;
+		float percUncertainData2over12Sample;
+		int numbCertainValue, numbUncertainValue, numbWrongValue, numbOutOfWaterValue, numbErrorValue;
+		
+		//RawData rawData = null;
+		//ListIterator<RawData> iRawData = localRawData.listIterator();
+		
+		maxWindSpeed=0;
+		maxWindDirection=0;
+		sumWindSpeed=0;
+		sumWindDirection=0;
+		sumWaterLevel=0;
+		sumWaterVariance=0;
+		sumRiverBottomLevel=0;
+		sumRiverBottomLevelVariance=0;
+		numbCertainValue=0;
+		numbUncertainValue=0;
+		numbWrongValue=0;
+		numbOutOfWaterValue=0;
+		numbErrorValue=0;
+		
+		for(RawData rawData : localRawData)
+		{
+			
+			//Anemometer operations
+			sumWindSpeed = sumWindSpeed + rawData.getWindSpeed();
+			sumWindDirection = sumWindDirection + rawData.getWindDirection();
+			if(rawData.getWindSpeed()>maxWindSpeed)
+			{
+				maxWindSpeed=rawData.getWindSpeed();
+				maxWindDirection=rawData.getWindDirection();
+			}
+			
+			//Idrometer operations
+			sumWaterLevel = sumWaterLevel + rawData.getHydrometer();
+			
+			//Sonar operations
+			if(rawData.getSonarType() == eSonarType.CorrectData)
+			{
+				sumRiverBottomLevel = sumRiverBottomLevel + rawData.getSonar();
+				numbCertainValue++;
+			}else if(rawData.getSonarType() == eSonarType.UncertainData)
+			{
+				sumRiverBottomLevel = sumRiverBottomLevel + rawData.getSonar();
+				numbUncertainValue++;
+			}else if(rawData.getSonarType() == eSonarType.WrongData)
+			{
+				numbWrongValue++;
+			}else if(rawData.getSonarType() == eSonarType.SonarOutOfWaterData)
+			{
+				numbOutOfWaterValue++;
+			}else if(rawData.getSonarType() == eSonarType.ErrorData)
+			{
+				numbErrorValue++;
+			}
+		}
+		
+		//calculation of mean values for all instruments plus sonar statistics
+		//Anemometer
+		meanWindSpeed = sumWindSpeed/sampleSize;
+		meanWindDirection = sumWindDirection/sampleSize;
+		
+		//Idrometer
+		meanWaterLevel = sumWaterLevel/sampleSize;
+		
+		//sonar
+		meanRiverBottomLevel = sumRiverBottomLevel/sampleSize;
+		percUtilizedData12overWholeSample = (numbCertainValue+numbUncertainValue)/sampleSize;
+		percWrongData3overWholeSample = numbWrongValue/sampleSize;
+		percOutWaterData4overWholeSample = numbOutOfWaterValue/sampleSize;
+		percErrorData5overWholeSample = numbErrorValue/sampleSize;
+		percUncertainData2over12Sample = numbUncertainValue/(numbCertainValue+numbUncertainValue);
+		
+		//Calculation of variances
+		for(RawData rawData : localRawData)
+		{
+			sumWaterVariance += Math.pow((meanWaterLevel-rawData.getHydrometer()), 2);
+			if(rawData.getSonarType() == eSonarType.CorrectData || rawData.getSonarType() == eSonarType.UncertainData)
+			{
+				sumRiverBottomLevelVariance += Math.pow((meanRiverBottomLevel-rawData.getSonar()), 2);
+			}
+		}
+		
+		varianceWaterLevel = sumWaterVariance/sampleSize;
+		varianceRiverBottomLevel = sumRiverBottomLevelVariance/(numbCertainValue+numbUncertainValue);
+		
+		
+		//Results are saved into class variables
+		//Anemometer
+		this.instrumentsData.setAne1(meanWindSpeed);
+		this.instrumentsData.setAne2(maxWindSpeed);
+		this.instrumentsData.setAne3(meanWindDirection);
+		this.instrumentsData.setAne4(maxWindDirection);
+		
+		//Idrometer
+		this.instrumentsData.setIdro1(meanWaterLevel);
+		this.instrumentsData.setIdro2(varianceWaterLevel);
+		
+		//Sonar
+		this.instrumentsData.setSonar1(meanRiverBottomLevel);
+		this.instrumentsData.setSonar2(varianceRiverBottomLevel);
+		this.instrumentsData.setSonar3(percUtilizedData12overWholeSample);
+		this.instrumentsData.setSonar4(percWrongData3overWholeSample);
+		this.instrumentsData.setSonar5(percOutWaterData4overWholeSample);
+		this.instrumentsData.setSonar6(percErrorData5overWholeSample);
+		this.instrumentsData.setSonar7(percUncertainData2over12Sample);
 	}
 	
 	/*
@@ -207,14 +338,113 @@ public class CalculationsController {
 	 */
 	private void CalculatePlankForces()
 	{
-		//TO-DO
-		float effectiveWindSpeed;
-		//CHANGE 5 WITH ALPHA
-		effectiveWindSpeed = MathEngine.EffectiveWindSpeed(this.instrumentsDataANE[1], this.instrumentsDataANE[4], 5);
-		//PARAMETERS ARE MISSING
+		float lFlowRate, lWaterSpeed, lAs, lHs, lBs, lSwater;
+		float lPPstruct;
 		
+		//WIND PUSH
+		CalculatePlankWindForces();
+		
+		
+		//WATER PUSH
+		/*##############################
+		 *CHANGE 17 WITH Hwater1, 22 WITH Hwater2 and 25.3 WITH Hmax
+		 *PARAMETERS ARE MISSING
+		 *############################# 
+		 */
+		if(this.instrumentsData.getIdro1()<17)
+		{
+			/*##############################
+			 *CHANGE 1 WITH a1, 2 WITH b1 and 3 with c1
+			 *PARAMETERS ARE MISSING
+			 *############################# 
+			 */
+			lFlowRate = MathEngine.FlowRate(1, this.instrumentsData.getIdro1(), 2, 3);
+		}else if(this.instrumentsData.getIdro1()<22)
+		{
+			/*##############################
+			 *CHANGE 1 WITH a2, 2 WITH b2 and 3 with c2
+			 *PARAMETERS ARE MISSING
+			 *############################# 
+			 */
+			lFlowRate = MathEngine.FlowRate(1, this.instrumentsData.getIdro1(), 2, 3);			
+		}else if(this.instrumentsData.getIdro1()<25.3)
+		{
+			/*##############################
+			 *CHANGE 1 WITH a3, 2 WITH b3 and 3 with c3
+			 *PARAMETERS ARE MISSING
+			 *############################# 
+			 */
+			lFlowRate = MathEngine.FlowRate(1, this.instrumentsData.getIdro1(), 2, 3);
+		}
+		
+		/*##############################
+		 *CHANGE 1 WITH a, 2 WITH b and 3 with c
+		 *PARAMETERS ARE MISSING
+		 *############################# 
+		 */
+		lWaterSpeed = MathEngine.WaterSpeed(1, this.instrumentsData.getIdro1(), 2, 3);
+		
+		
+		
+		
+		//STRUCTURE WEIGHT
 	}
 	
+	/*
+	 * This method calculates the four component
+	 * of wind force on the planking
+	 */
+	/**
+	 * This method calculates the four component
+	 * of wind force on the planking: Svplank,
+	 * Sva1traf, Sva2traf, Sva3traf
+	 */
+	private void CalculatePlankWindForces() {
+		
+		float lEffectiveWindSpeed;
+		float lWindPushOnPlank,lWindPushOnA1traf, lWindPushOnA2traf, lWindPushOnA3traf;
+		
+		/*##############################
+		 *CHANGE 5 WITH ALPHA
+		 *PARAMETERS ARE MISSING
+		 *############################# 
+		 */
+		lEffectiveWindSpeed = MathEngine.EffectiveWindSpeed(this.instrumentsData.getAne2(), this.instrumentsData.getAne4(), 5);
+		
+		/*##############################
+		 *CHANGE 1 WITH Cdwi, 2 with RhoAir, 3 with Aplank
+		 *PARAMETERS ARE MISSING
+		 *############################# 
+		 */
+		lWindPushOnPlank = MathEngine.WindPushOnPlank(1, 2, 3, lEffectiveWindSpeed);
+		
+		/*##############################
+		 *CHANGE 1 WITH Cdwi, 2 with RhoAir, 3 with Beta1, 4 with Atraf
+		 *PARAMETERS ARE MISSING
+		 *############################# 
+		 */
+		lWindPushOnA1traf = MathEngine.WindPushOnA1TrafficCombination(1, 2, 3, 4, lEffectiveWindSpeed);
+		
+		/*##############################
+		 *CHANGE 1 WITH Cdwi, 2 with RhoAir, 3 with Beta1, 4 with Atraf
+		 *PARAMETERS ARE MISSING
+		 *############################# 
+		 */
+		lWindPushOnA2traf = MathEngine.WindPushOnA2TrafficCombination(1, 2, 3, 4, lEffectiveWindSpeed);
+		
+		/*##############################
+		 *CHANGE 1 WITH Cdwi, 2 with RhoAir, 3 with Beta2, 4 with Atraf
+		 *PARAMETERS ARE MISSING
+		 *############################# 
+		 */
+		lWindPushOnA3traf = MathEngine.WindPushOnA3TrafficCombination(1, 2, 3, 4, lEffectiveWindSpeed);
+		
+		plankForces.setWindPushOnPlank(lWindPushOnPlank);
+		plankForces.setWindPushOnA1TrafficCombination(lWindPushOnA1traf);
+		plankForces.setWindPushOnA2TrafficCombination(lWindPushOnA2traf);
+		plankForces.setWindPushOnA3TrafficCombination(lWindPushOnA3traf);
+	}
+
 	/*
 	 * This method calculates the Line Forces
 	 */
