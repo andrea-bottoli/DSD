@@ -241,13 +241,13 @@ public class MathEngine {
 	 * @param Vwater: water speed
 	 * @return The value of the force of water push
 	 */
-	public static float HydrodynamicThrustWithOutDebris(float aCd, float aRhoWater, float aAs, float aVwater) {
+	public static float HydrodynamicThrustWithOutDebris(float Cd, float RhoWater, float As, float Vwater) {
 
 		double Swater = 0;
-		double lCd = (double)aCd;
-		double lRhoWater = (double)aRhoWater;
-		double lAs = (double)aAs;
-		double lVwater = (double)aVwater;
+		double lCd = (double)Cd;
+		double lRhoWater = (double)RhoWater;
+		double lAs = (double)As;
+		double lVwater = (double)Vwater;
 		
 		try
 		{
@@ -299,7 +299,6 @@ public class MathEngine {
 	 */
 	
 	/**
-	 * @param Pp: planking weight
 	 * @param Ppu: pulvino weight
 	 * @param Ptp: trunk of pylon weight
 	 * @param Pb: beam weight
@@ -308,10 +307,9 @@ public class MathEngine {
 	 * @param Sonar1: SONAR1 value
 	 * @return The value of Structure Weight 
 	 */
-	public static float StructureWeight(float Pp, float Ppu, float Ptp, float Pb, float Ppy, float Hbeam, float Sonar1)
+	public static float StackWeight(float Ppu, float Ptp, float Pb, float Ppy, float Hbeam, float Sonar1)
 	{
-		double StructW = 0;
-		double lPp = (double)Pp;
+		double stackW = 0;
 		double lPpu = (double)Ppu;
 		double lPtp = (double)Ptp;
 		double lPb = (double)Pb;
@@ -321,12 +319,12 @@ public class MathEngine {
 		
 		try
 		{
-			StructW = Weight.StructureWeight(lPp, lPpu, lPtp, lPb, lPpy, lHbeam, lSonar1);
+			stackW = Weight.StackWeight(lPpu, lPtp, lPb, lPpy, lHbeam, lSonar1);
 		}catch(Exception e)
 		{
 			e.printStackTrace();
 		}
 		
-		return (float)StructW;
+		return (float)stackW;
 	}
 }

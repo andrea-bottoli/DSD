@@ -18,159 +18,159 @@ public class InstrumentsData {
 	
 	
 	/**
-	 * @return the ane1
+	 * @return the ANE1: Mean value of Wind Speed
 	 */
 	public float getAne1() {
 		return ane1;
 	}
 	/**
-	 * @param ane1 the ane1 to set
+	 * @param meanWindSpeed the ANE1 to set
 	 */
-	public void setAne1(float ane1) {
-		this.ane1 = ane1;
+	public void setAne1(float meanWindSpeed) {
+		this.ane1 = meanWindSpeed;
 	}
 	/**
-	 * @return the ane2
+	 * @return the ANE2: Max value of Wind Speed
 	 */
 	public float getAne2() {
 		return ane2;
 	}
 	/**
-	 * @param ane2 the ane2 to set
+	 * @param maxWindSpeed the ANE2 to set
 	 */
-	public void setAne2(float ane2) {
-		this.ane2 = ane2;
+	public void setAne2(float maxWindSpeed) {
+		this.ane2 = maxWindSpeed;
 	}
 	/**
-	 * @return the ane3
+	 * @return the ANE3: Mean value of Wind Direction
 	 */
 	public float getAne3() {
 		return ane3;
 	}
 	/**
-	 * @param ane3 the ane3 to set
+	 * @param meanWindDirection the ANE3 to set
 	 */
-	public void setAne3(float ane3) {
-		this.ane3 = ane3;
+	public void setAne3(float meanWindDirection) {
+		this.ane3 = meanWindDirection;
 	}
 	/**
-	 * @return the ane4
+	 * @return the ANE34: Max value of Wind Direction
 	 */
 	public float getAne4() {
 		return ane4;
 	}
 	/**
-	 * @param ane4 the ane4 to set
+	 * @param maxWindDirection the ANE4 to set
 	 */
-	public void setAne4(float ane4) {
-		this.ane4 = ane4;
+	public void setAne4(float maxWindDirection) {
+		this.ane4 = maxWindDirection;
 	}
 	/**
-	 * @return the idro1
+	 * @return the IDRO1: Mean value of Water Level
 	 */
 	public float getIdro1() {
 		return idro1;
 	}
 	/**
-	 * @param idro1 the idro1 to set
+	 * @param meanWaterLevel the IDRO1 to set
 	 */
-	public void setIdro1(float idro1) {
-		this.idro1 = idro1;
+	public void setIdro1(float meanWaterLevel) {
+		this.idro1 = meanWaterLevel;
 	}
 	/**
-	 * @return the idro2
+	 * @return the IDRO2: Variance of Water Level
 	 */
 	public float getIdro2() {
 		return idro2;
 	}
 	/**
-	 * @param idro2 the idro2 to set
+	 * @param varianceWaterLevel the IDRO2 to set
 	 */
-	public void setIdro2(float idro2) {
-		this.idro2 = idro2;
+	public void setIdro2(float varianceWaterLevel) {
+		this.idro2 = varianceWaterLevel;
 	}
 	/**
-	 * @return the sonar1
+	 * @return the SONAR1: Mean value of River Bottom height
 	 */
 	public float getSonar1() {
 		return sonar1;
 	}
 	/**
-	 * @param sonar1 the sonar1 to set
+	 * @param riverBottonHeight the SONAR1 to set
 	 */
-	public void setSonar1(float sonar1) {
-		this.sonar1 = sonar1;
+	public void setSonar1(float riverBottonHeight) {
+		this.sonar1 = riverBottonHeight;
 	}
 	/**
-	 * @return the sonar2
+	 * @return the SONAR2: Variance of the River Bottom Height
 	 */
 	public float getSonar2() {
 		return sonar2;
 	}
 	/**
-	 * @param sonar2 the sonar2 to set
+	 * @param varianceRiverBottonHeight the SONAR2 to set
 	 */
-	public void setSonar2(float sonar2) {
-		this.sonar2 = sonar2;
+	public void setSonar2(float varianceRiverBottonHeight) {
+		this.sonar2 = varianceRiverBottonHeight;
 	}
 	/**
-	 * @return the sonar3
+	 * @return the SONAR3: Percent of utilized data of type 1 and 2 over the whole sample
 	 */
 	public float getSonar3() {
 		return sonar3;
 	}
 	/**
-	 * @param sonar3 the sonar3 to set
+	 * @param percUtilizedData12OverWholeSample the SONAR3 to set
 	 */
-	public void setSonar3(float sonar3) {
-		this.sonar3 = sonar3;
+	public void setSonar3(float percUtilizedData12OverWholeSample) {
+		this.sonar3 = percUtilizedData12OverWholeSample;
 	}
 	/**
-	 * @return the sonar4
+	 * @return the SONAR4: Percent of wrong data 3 over the whole sample
 	 */
 	public float getSonar4() {
 		return sonar4;
 	}
 	/**
-	 * @param sonar4 the sonar4 to set
+	 * @param percWrongData3OverWholeSample the SONAR4 to set
 	 */
-	public void setSonar4(float sonar4) {
-		this.sonar4 = sonar4;
+	public void setSonar4(float percWrongData3OverWholeSample) {
+		this.sonar4 = percWrongData3OverWholeSample;
 	}
 	/**
-	 * @return the sonar5
+	 * @return the SONAR5: Percent of Out of Water data 4 over the whole sample
 	 */
 	public float getSonar5() {
 		return sonar5;
 	}
 	/**
-	 * @param sonar5 the sonar5 to set
+	 * @param percOutWaterData4OverWholeSample the SONAR5 to set
 	 */
-	public void setSonar5(float sonar5) {
-		this.sonar5 = sonar5;
+	public void setSonar5(float percOutWaterData4OverWholeSample) {
+		this.sonar5 = percOutWaterData4OverWholeSample;
 	}
 	/**
-	 * @return the sonar6
+	 * @return the SONAR6: Percent of Error data 5 over the whole sample
 	 */
 	public float getSonar6() {
 		return sonar6;
 	}
 	/**
-	 * @param sonar6 the sonar6 to set
+	 * @param percErrorData5OverWholeSample the SONAR6 to set
 	 */
-	public void setSonar6(float sonar6) {
-		this.sonar6 = sonar6;
+	public void setSonar6(float percErrorData5OverWholeSample) {
+		this.sonar6 = percErrorData5OverWholeSample;
 	}
 	/**
-	 * @return the sonar7
+	 * @return the SONAR7: Percent of Uncertain data 2 over the 1+2 sample
 	 */
 	public float getSonar7() {
 		return sonar7;
 	}
 	/**
-	 * @param sonar7 the sonar7 to set
+	 * @param percUncertainData2Over12Sample the SONAR7 to set
 	 */
-	public void setSonar7(float sonar7) {
-		this.sonar7 = sonar7;
+	public void setSonar7(float percUncertainData2Over12Sample) {
+		this.sonar7 = percUncertainData2Over12Sample;
 	}
 }

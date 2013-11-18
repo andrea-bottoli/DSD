@@ -8,120 +8,138 @@ public class PlankForces
 	private float windPushOnA3TrafficCombination;
 	private float flowRate;
 	private float waterSpeed;
-	private float hydrodynamicThrust;
-	private float structureWeight;
-	
+	private float hydrodynamicThrustWithOutDebris;
+	private float hydrodynamicThrustWithDebris;
+	private float plankWeight;
+	private float stackWeight;
 	/**
 	 * @return the windPushOnPlank
 	 */
-	public float getWindPushOnPlank()
-	{
+	public float getWindPushOnPlank() {
 		return windPushOnPlank;
-	}
-	/**
-	 * @return the windPushOnA1TrafficCombination
-	 */
-	public float getWindPushOnA1TrafficCombination()
-	{
-		return windPushOnA1TrafficCombination;
-	}
-	/**
-	 * @return the windPushOnA2TrafficCombination
-	 */
-	public float getWindPushOnA2TrafficCombination()
-	{
-		return windPushOnA2TrafficCombination;
-	}
-	/**
-	 * @return the windPushOnA3TrafficCombination
-	 */
-	public float getWindPushOnA3TrafficCombination()
-	{
-		return windPushOnA3TrafficCombination;
-	}
-	/**
-	 * @return the flowRate
-	 */
-	public float getFlowRate()
-	{
-		return flowRate;
-	}
-	/**
-	 * @return the waterSpeed
-	 */
-	public float getWaterSpeed()
-	{
-		return waterSpeed;
-	}
-	/**
-	 * @return the hydrodynamicThrust
-	 */
-	public float getHydrodynamicThrust()
-	{
-		return hydrodynamicThrust;
-	}
-	/**
-	 * @return the structureWeight
-	 */
-	public float getStructureWeight()
-	{
-		return structureWeight;
 	}
 	/**
 	 * @param windPushOnPlank the windPushOnPlank to set
 	 */
-	public void setWindPushOnPlank(float windPushOnPlank)
-	{
+	public void setWindPushOnPlank(float windPushOnPlank) {
 		this.windPushOnPlank = windPushOnPlank;
+	}
+	/**
+	 * @return the windPushOnA1TrafficCombination
+	 */
+	public float getWindPushOnA1TrafficCombination() {
+		return windPushOnA1TrafficCombination;
 	}
 	/**
 	 * @param windPushOnA1TrafficCombination the windPushOnA1TrafficCombination to set
 	 */
-	public void setWindPushOnA1TrafficCombination(float windPushOnA1TrafficCombination)
-	{
+	public void setWindPushOnA1TrafficCombination(
+			float windPushOnA1TrafficCombination) {
 		this.windPushOnA1TrafficCombination = windPushOnA1TrafficCombination;
+	}
+	/**
+	 * @return the windPushOnA2TrafficCombination
+	 */
+	public float getWindPushOnA2TrafficCombination() {
+		return windPushOnA2TrafficCombination;
 	}
 	/**
 	 * @param windPushOnA2TrafficCombination the windPushOnA2TrafficCombination to set
 	 */
-	public void setWindPushOnA2TrafficCombination(float windPushOnA2TrafficCombination)
-	{
+	public void setWindPushOnA2TrafficCombination(
+			float windPushOnA2TrafficCombination) {
 		this.windPushOnA2TrafficCombination = windPushOnA2TrafficCombination;
+	}
+	/**
+	 * @return the windPushOnA3TrafficCombination
+	 */
+	public float getWindPushOnA3TrafficCombination() {
+		return windPushOnA3TrafficCombination;
 	}
 	/**
 	 * @param windPushOnA3TrafficCombination the windPushOnA3TrafficCombination to set
 	 */
-	public void setWindPushOnA3TrafficCombination(float windPushOnA3TrafficCombination)
-	{
+	public void setWindPushOnA3TrafficCombination(
+			float windPushOnA3TrafficCombination) {
 		this.windPushOnA3TrafficCombination = windPushOnA3TrafficCombination;
+	}
+	/**
+	 * @return the flowRate
+	 */
+	public float getFlowRate() {
+		return flowRate;
 	}
 	/**
 	 * @param flowRate the flowRate to set
 	 */
-	public void setFlowRate(float flowRate)
-	{
+	public void setFlowRate(float flowRate) {
 		this.flowRate = flowRate;
+	}
+	/**
+	 * @return the waterSpeed
+	 */
+	public float getWaterSpeed() {
+		return waterSpeed;
 	}
 	/**
 	 * @param waterSpeed the waterSpeed to set
 	 */
-	public void setWaterSpeed(float waterSpeed)
-	{
+	public void setWaterSpeed(float waterSpeed) {
 		this.waterSpeed = waterSpeed;
 	}
 	/**
-	 * @param hydrodynamicThrust the hydrodynamicThrust to set
+	 * @return the hydrodynamicThrustWithOutDebris
 	 */
-	public void setHydrodynamicThrust(float hydrodynamicThrust)
-	{
-		this.hydrodynamicThrust = hydrodynamicThrust;
+	public float getHydrodynamicThrustWithOutDebris() {
+		return hydrodynamicThrustWithOutDebris;
 	}
 	/**
-	 * @param structureWeight the structureWeight to set
+	 * @param hydrodynamicThrustWithOutDebris the hydrodynamicThrustWithOutDebris to set
 	 */
-	public void setStructureWeight(float structureWeight)
-	{
-		this.structureWeight = structureWeight;
+	public void setHydrodynamicThrustWithOutDebris(
+			float hydrodynamicThrustWithOutDebris) {
+		this.hydrodynamicThrustWithOutDebris = hydrodynamicThrustWithOutDebris;
 	}
-	
+	/**
+	 * @return the hydrodynamicThrustWithDebris
+	 */
+	public float getHydrodynamicThrustWithDebris() {
+		return hydrodynamicThrustWithDebris;
+	}
+	/**
+	 * @param hydrodynamicThrustWithDebris the hydrodynamicThrustWithDebris to set
+	 */
+	public void setHydrodynamicThrustWithDebris(float hydrodynamicThrustWithDebris) {
+		this.hydrodynamicThrustWithDebris = hydrodynamicThrustWithDebris;
+	}
+	/**
+	 * @return the plankWeight
+	 */
+	public float getPlankWeight() {
+		return plankWeight;
+	}
+	/**
+	 * @param plankWeight the plankWeight to set
+	 */
+	public void setPlankWeight(float plankWeight) {
+		this.plankWeight = plankWeight;
+	}
+	/**
+	 * @return the stackWeight
+	 */
+	public float getStackWeight() {
+		return stackWeight;
+	}
+	/**
+	 * @param stackWeight the stackWeight to set
+	 */
+	public void setStackWeight(float stackWeight) {
+		this.stackWeight = stackWeight;
+	}
+	/**
+	 * @return the structureWeight
+	 */
+	public float getStructureWeight() {
+		return (this.plankWeight+this.stackWeight);
+	}
 }

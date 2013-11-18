@@ -68,7 +68,7 @@ public class CalculationsController {
 		try
 		{
 			//Loding parameters
-			
+			ReadParameters();
 			
 			//start calculations
 			Calculate10mins();
@@ -102,7 +102,6 @@ public class CalculationsController {
 			 * Think about managing requests lack of time
 			 * from last timestamp to the last data available
 			 */
-			
 			ReadRawData();
 			
 			/*
@@ -220,13 +219,10 @@ public class CalculationsController {
 		float sumWindSpeed,sumWindDirection, sumWaterLevel, sumWaterVariance, sumRiverBottomLevel, sumRiverBottomLevelVariance;
 		float meanWindSpeed, maxWindSpeed, meanWindDirection,maxWindDirection;
 		float meanWaterLevel, varianceWaterLevel;
-		float meanRiverBottomLevel, varianceRiverBottomLevel, percUtilizedData12overWholeSample;
-		float percWrongData3overWholeSample, percOutWaterData4overWholeSample, percErrorData5overWholeSample;
-		float percUncertainData2over12Sample;
+		float meanRiverBottomLevel, varianceRiverBottomLevel, percUtilizedData12OverWholeSample;
+		float percWrongData3OverWholeSample, percOutWaterData4OverWholeSample, percErrorData5OverWholeSample;
+		float percUncertainData2Over12Sample;
 		int numbCertainValue, numbUncertainValue, numbWrongValue, numbOutOfWaterValue, numbErrorValue;
-		
-		//RawData rawData = null;
-		//ListIterator<RawData> iRawData = localRawData.listIterator();
 		
 		maxWindSpeed=0;
 		maxWindDirection=0;
@@ -258,21 +254,21 @@ public class CalculationsController {
 			sumWaterLevel = sumWaterLevel + rawData.getHydrometer();
 			
 			//Sonar operations
-			if(rawData.getSonarType() == eSonarType.CorrectData)
+			if(rawData.getSonarType().equals(eSonarType.CorrectData))
 			{
 				sumRiverBottomLevel = sumRiverBottomLevel + rawData.getSonar();
 				numbCertainValue++;
-			}else if(rawData.getSonarType() == eSonarType.UncertainData)
+			}else if(rawData.getSonarType().equals(eSonarType.UncertainData))
 			{
 				sumRiverBottomLevel = sumRiverBottomLevel + rawData.getSonar();
 				numbUncertainValue++;
-			}else if(rawData.getSonarType() == eSonarType.WrongData)
+			}else if(rawData.getSonarType().equals(eSonarType.WrongData))
 			{
 				numbWrongValue++;
-			}else if(rawData.getSonarType() == eSonarType.SonarOutOfWaterData)
+			}else if(rawData.getSonarType().equals(eSonarType.SonarOutOfWaterData))
 			{
 				numbOutOfWaterValue++;
-			}else if(rawData.getSonarType() == eSonarType.ErrorData)
+			}else if(rawData.getSonarType().equals(eSonarType.ErrorData))
 			{
 				numbErrorValue++;
 			}
@@ -288,11 +284,11 @@ public class CalculationsController {
 		
 		//sonar
 		meanRiverBottomLevel = sumRiverBottomLevel/sampleSize;
-		percUtilizedData12overWholeSample = (numbCertainValue+numbUncertainValue)/sampleSize;
-		percWrongData3overWholeSample = numbWrongValue/sampleSize;
-		percOutWaterData4overWholeSample = numbOutOfWaterValue/sampleSize;
-		percErrorData5overWholeSample = numbErrorValue/sampleSize;
-		percUncertainData2over12Sample = numbUncertainValue/(numbCertainValue+numbUncertainValue);
+		percUtilizedData12OverWholeSample = (numbCertainValue+numbUncertainValue)/sampleSize;
+		percWrongData3OverWholeSample = numbWrongValue/sampleSize;
+		percOutWaterData4OverWholeSample = numbOutOfWaterValue/sampleSize;
+		percErrorData5OverWholeSample = numbErrorValue/sampleSize;
+		percUncertainData2Over12Sample = numbUncertainValue/(numbCertainValue+numbUncertainValue);
 		
 		//Calculation of variances
 		for(RawData rawData : localRawData)
@@ -322,11 +318,11 @@ public class CalculationsController {
 		//Sonar
 		this.instrumentsData.setSonar1(meanRiverBottomLevel);
 		this.instrumentsData.setSonar2(varianceRiverBottomLevel);
-		this.instrumentsData.setSonar3(percUtilizedData12overWholeSample);
-		this.instrumentsData.setSonar4(percWrongData3overWholeSample);
-		this.instrumentsData.setSonar5(percOutWaterData4overWholeSample);
-		this.instrumentsData.setSonar6(percErrorData5overWholeSample);
-		this.instrumentsData.setSonar7(percUncertainData2over12Sample);
+		this.instrumentsData.setSonar3(percUtilizedData12OverWholeSample);
+		this.instrumentsData.setSonar4(percWrongData3OverWholeSample);
+		this.instrumentsData.setSonar5(percOutWaterData4OverWholeSample);
+		this.instrumentsData.setSonar6(percErrorData5OverWholeSample);
+		this.instrumentsData.setSonar7(percUncertainData2Over12Sample);
 	}
 	
 	/*
@@ -337,65 +333,23 @@ public class CalculationsController {
 	 * are acting on the plank.
 	 */
 	private void CalculatePlankForces()
-	{
-		float lFlowRate, lWaterSpeed, lAs, lHs, lBs, lSwater;
-		float lPPstruct;
-		
+	{		
 		//WIND PUSH
 		CalculatePlankWindForces();
 		
-		
 		//WATER PUSH
-		/*##############################
-		 *CHANGE 17 WITH Hwater1, 22 WITH Hwater2 and 25.3 WITH Hmax
-		 *PARAMETERS ARE MISSING
-		 *############################# 
-		 */
-		if(this.instrumentsData.getIdro1()<17)
-		{
-			/*##############################
-			 *CHANGE 1 WITH a1, 2 WITH b1 and 3 with c1
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
-			lFlowRate = MathEngine.FlowRate(1, this.instrumentsData.getIdro1(), 2, 3);
-		}else if(this.instrumentsData.getIdro1()<22)
-		{
-			/*##############################
-			 *CHANGE 1 WITH a2, 2 WITH b2 and 3 with c2
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
-			lFlowRate = MathEngine.FlowRate(1, this.instrumentsData.getIdro1(), 2, 3);			
-		}else if(this.instrumentsData.getIdro1()<25.3)
-		{
-			/*##############################
-			 *CHANGE 1 WITH a3, 2 WITH b3 and 3 with c3
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
-			lFlowRate = MathEngine.FlowRate(1, this.instrumentsData.getIdro1(), 2, 3);
-		}
-		
-		/*##############################
-		 *CHANGE 1 WITH a, 2 WITH b and 3 with c
-		 *PARAMETERS ARE MISSING
-		 *############################# 
-		 */
-		lWaterSpeed = MathEngine.WaterSpeed(1, this.instrumentsData.getIdro1(), 2, 3);
-		
-		
-		
+		CalculatePlankWaterForces();
 		
 		//STRUCTURE WEIGHT
+		CalculatePlankWeightForces();
 	}
 	
 	/*
-	 * This method calculates the four component
+	 * This method calculates the four components
 	 * of wind force on the planking
 	 */
 	/**
-	 * This method calculates the four component
+	 * This method calculates the four components
 	 * of wind force on the planking: Svplank,
 	 * Sva1traf, Sva2traf, Sva3traf
 	 */
@@ -443,6 +397,119 @@ public class CalculationsController {
 		plankForces.setWindPushOnA1TrafficCombination(lWindPushOnA1traf);
 		plankForces.setWindPushOnA2TrafficCombination(lWindPushOnA2traf);
 		plankForces.setWindPushOnA3TrafficCombination(lWindPushOnA3traf);
+	}
+	
+	/*
+	 * This method calculates the three components
+	 * of water force on the planking
+	 */
+	/**
+	 * This method calculates the three components
+	 * of water force on the planking: Q Flow rate,
+	 * V Water speed, Sw Water Push
+	 */
+	private void CalculatePlankWaterForces() {
+		
+		float lFlowRate, lWaterSpeed, lAs, lHs, lBs, lSwater;
+		
+		/*##############################
+		 *CHANGE 17 WITH Hwater1, 22 WITH Hwater2 and 25.3 WITH Hmax
+		 *PARAMETERS ARE MISSING
+		 *############################# 
+		 */
+		if(this.instrumentsData.getIdro1()<17)
+		{
+			/*##############################
+			 *CHANGE 1 WITH a1, 2 WITH b1 and 3 with c1
+			 *PARAMETERS ARE MISSING
+			 *############################# 
+			 */
+			lFlowRate = MathEngine.FlowRate(1, this.instrumentsData.getIdro1(), 2, 3);
+		}else if(this.instrumentsData.getIdro1()<22)
+		{
+			/*##############################
+			 *CHANGE 1 WITH a2, 2 WITH b2 and 3 with c2
+			 *PARAMETERS ARE MISSING
+			 *############################# 
+			 */
+			lFlowRate = MathEngine.FlowRate(1, this.instrumentsData.getIdro1(), 2, 3);			
+		}else if(this.instrumentsData.getIdro1()<25.3)
+		{
+			/*##############################
+			 *CHANGE 1 WITH a3, 2 WITH b3 and 3 with c3
+			 *PARAMETERS ARE MISSING
+			 *############################# 
+			 */
+			lFlowRate = MathEngine.FlowRate(1, this.instrumentsData.getIdro1(), 2, 3);
+		}
+		
+		/*##############################
+		 *CHANGE 1 WITH a, 2 WITH b and 3 with c
+		 *PARAMETERS ARE MISSING
+		 *############################# 
+		 */
+		lWaterSpeed = MathEngine.WaterSpeed(1, this.instrumentsData.getIdro1(), 2, 3);
+		
+		/*##############################
+		 *CHANGE 1 WITH bottom_ref
+		 *PARAMETERS ARE MISSING
+		 *############################# 
+		 */
+		if(this.instrumentsData.getSonar1()<1)
+		{
+			lHs=this.instrumentsData.getIdro2() - 1;
+		}else
+		{
+			lHs=this.instrumentsData.getIdro2() - this.instrumentsData.getSonar1();
+		}
+		
+		/*##############################
+		 *CHANGE 1 WITH Cspan, 2 WITH Cd0, 3 WITH RHOwater
+		 *PARAMETERS ARE MISSING
+		 *############################# 
+		 */
+		lBs = 1;
+		lAs = lBs*lHs;
+		lSwater = MathEngine.HydrodynamicThrustWithOutDebris(2, 3, lAs, lWaterSpeed);
+		plankForces.setHydrodynamicThrustWithOutDebris(lSwater);
+		
+		/*##############################
+		 *CHANGE 666 WITH Dpylon, 2WITH Cd1, 3 WITH RHOwater, 4 WITH BetaA
+		 *PARAMETERS ARE MISSING
+		 *############################# 
+		 */
+		lBs = 2*666;
+		lAs = lBs*lHs;
+		lSwater = MathEngine.HydrodynamicThrustWithDebris(2, 3, lAs, 4, lWaterSpeed);
+		plankForces.setHydrodynamicThrustWithDebris(lSwater);
+	}
+	
+	/*
+	 * This method calculates the component
+	 * of weight of the planking
+	 */
+	/**
+	 * This method calculates the component
+	 * of weight of the planking: PPplank
+	 */
+	private void CalculatePlankWeightForces() {
+		
+		float lPstack;
+		
+		/*##############################
+		 *CHANGE 1 WITH Ppu, 2 WITH Ptp, 3 WITH Ppy, 4 WITH Hbeam
+		 *PARAMETERS IS MISSING
+		 *############################# 
+		 */
+		lPstack=MathEngine.StackWeight(1, 2, 3, 4, 5, this.instrumentsData.getSonar1());
+		
+		/*##############################
+		 *CHANGE 1 WITH Pplank
+		 *PARAMETERS IS MISSING
+		 *############################# 
+		 */
+		plankForces.setPlankWeight(1);
+		plankForces.setStackWeight(lPstack);
 	}
 
 	/*

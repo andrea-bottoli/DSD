@@ -20,7 +20,6 @@ public class Weight {
 	 *  This formula calculates the structure weight
 	 */
 	/**
-	 * @param Pp: planking weight
 	 * @param Ppu: pulvino weight
 	 * @param Ptp: trunk of pylon weight
 	 * @param Pb: beam weight
@@ -29,18 +28,18 @@ public class Weight {
 	 * @param Sonar1: SONAR1 value
 	 * @return The value of Structure Weight 
 	 */
-	protected static double StructureWeight(double Pp, double Ppu, double Ptp, double Pb, double Ppy, double Hbeam, double Sonar1) {
+	protected static double StackWeight(double Ppu, double Ptp, double Pb, double Ppy, double Hbeam, double Sonar1) {
 		
-		double StructureWeight = 0;
+		double stackWeight = 0;
 		
 		try
 		{
-			StructureWeight = Pp + ((2*Ppu + 6*Ptp + 2*Pb) + 6*(Ppy*(Hbeam - Sonar1)));
+			stackWeight = ((2*Ppu + 6*Ptp + 2*Pb) + 6*(Ppy*(Hbeam - Sonar1)));
 		}catch(Exception e)
 		{
 			e.printStackTrace();
 		}
-		return StructureWeight;
+		return stackWeight;
 	}
 
 }
