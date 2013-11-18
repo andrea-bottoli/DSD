@@ -19,13 +19,20 @@ public class WindPushFormulas {
 	 *  
 	 *  This formula calculates the effective Wind speed
 	 */
-	protected static double EffectiveWindSpeed(double aAne2, double aAne4, double aAlpha)
+	/**
+	 * 
+	 * @param Ane2: maximum wind speed
+	 * @param Ane4: wind direction related to the max wind speed
+	 * @param Alpha: parameter of bridge angle respects to the north
+	 * @return The value represents the Effective Wind Speed
+	 */
+	protected static double EffectiveWindSpeed(double Ane2, double Ane4, double Alpha)
 	{
 		double effectiveWindSpeed = 0;
 		
 		try
 		{
-			effectiveWindSpeed = aAne2 * Math.sin(aAne4 + aAlpha);
+			effectiveWindSpeed = Ane2 * Math.sin(Ane4 + Alpha);
 		}catch(Exception e)
 		{
 			e.printStackTrace();
@@ -41,13 +48,20 @@ public class WindPushFormulas {
 	 *  
 	 *  This formula calculates the wind push on the planking
 	 */
-	protected static double WindPushOnPlank(double aCdwi, double aRhoAir, double aAplank, double aVeffwind)
+	/**
+	 * @param Cdwi: "Drag" parameter of dynamic push
+	 * @param RhoAir: parameter of air density
+	 * @param Aplank: planking area on which the wind can push
+	 * @param Veffwind: the effective wind speed
+	 * @return The value of wind push on the planking
+	 */
+	protected static double WindPushOnPlank(double Cdwi, double RhoAir, double Aplank, double Veffwind)
 	{
 		double windPushOnPlank = 0;
 		
 		try
 		{
-			windPushOnPlank = 0.5 * aCdwi * aRhoAir * aAplank * Math.pow(aVeffwind,2);
+			windPushOnPlank = 0.5 * Cdwi * RhoAir * Aplank * Math.pow(Veffwind,2);
 		}catch(Exception e)
 		{
 			e.printStackTrace();
@@ -63,13 +77,21 @@ public class WindPushFormulas {
 	 *  
 	 *  This formula calculates the wind push on the traffic combination A1
 	 */
-	protected static double WindPushOnA1TrafficCombination(double aCdwi, double aRhoAir, double aBeta1, double aAtraf, double aVeffwind)
+	/**
+	 * @param Cdwi: "Drag" parameter of dynamic push
+	 * @param RhoAir: parameter of air density
+	 * @param Beta1: reduction area parameter
+	 * @param Atraf: traffic area/surface on which the wind can push
+	 * @param Veffwind: the effective wind speed
+	 * @return The value of wind push on the A1 traffic combination
+	 */
+	protected static double WindPushOnA1TrafficCombination(double Cdwi, double RhoAir, double Beta1, double Atraf, double Veffwind)
 	{
 		double windPushOnA1TrafficCombination = 0;
 		
 		try
 		{
-			windPushOnA1TrafficCombination = 0.5 * aCdwi * aRhoAir * (aBeta1*aAtraf) * Math.pow(aVeffwind,2);
+			windPushOnA1TrafficCombination = 0.5 * Cdwi * RhoAir * (Beta1*Atraf) * Math.pow(Veffwind,2);
 		}catch(Exception e)
 		{
 			e.printStackTrace();
@@ -85,13 +107,21 @@ public class WindPushFormulas {
 	 *  
 	 *  This formula calculates the wind push on the traffic combination A2
 	 */
-	protected static double WindPushOnA2TrafficCombination(double aCdwi, double aRhoAir, double aBeta1, double aAtraf, double aVeffwind)
+	/**
+	 * @param Cdwi: "Drag" parameter of dynamic push
+	 * @param RhoAir: parameter of air density
+	 * @param Beta1: reduction area parameter
+	 * @param Atraf: traffic area/surface on which the wind can push
+	 * @param Veffwind: the effective wind speed
+	 * @return The value of wind push on the A2 traffic combination
+	 */
+	protected static double WindPushOnA2TrafficCombination(double Cdwi, double RhoAir, double Beta1, double Atraf, double Veffwind)
 	{
 		double windPushOnA2TrafficCombination = 0;
 		
 		try
 		{
-			windPushOnA2TrafficCombination = 0.5 * aCdwi * aRhoAir * (aBeta1*aAtraf) * Math.pow(aVeffwind,2);
+			windPushOnA2TrafficCombination = 0.5 * Cdwi * RhoAir * (Beta1*Atraf) * Math.pow(Veffwind,2);
 		}catch(Exception e)
 		{
 			e.printStackTrace();
@@ -107,13 +137,21 @@ public class WindPushFormulas {
 	 *  
 	 *  This formula calculates the wind push on the traffic combination A3
 	 */
-	protected static double WindPushOnA3TrafficCombination(double aCdwi, double aRhoAir, double aBeta2, double aAtraf, double aVeffwind)
+	/**
+	 * @param Cdwi: "Drag" parameter of dynamic push
+	 * @param RhoAir: parameter of air density
+	 * @param Beta1: reduction area parameter
+	 * @param Atraf: traffic area/surface on which the wind can push
+	 * @param Veffwind: the effective wind speed
+	 * @return The value of wind push on the A3 traffic combination
+	 */
+	protected static double WindPushOnA3TrafficCombination(double Cdwi, double RhoAir, double Beta2, double Atraf, double Veffwind)
 	{
 		double windPushOnA3TrafficCombination = 0;
 		
 		try
 		{
-			windPushOnA3TrafficCombination = 0.5 * aCdwi * aRhoAir * (aBeta2*aAtraf) * Math.pow(aVeffwind,2);
+			windPushOnA3TrafficCombination = 0.5 * Cdwi * RhoAir * (Beta2*Atraf) * Math.pow(Veffwind,2);
 		}catch(Exception e)
 		{
 			e.printStackTrace();

@@ -12,12 +12,18 @@ public class MathEngine {
 	 * ##########################################################
 	 */
 	
-	public static float EffectiveWindSpeed(float aAne2, float aAne4, float aAlpha)
+	/**
+	 * @param Ane2: maximum wind speed
+	 * @param Ane4: wind direction related to the max wind speed
+	 * @param Alpha: parameter of bridge angle respects to the north
+	 * @return The value represents the Effective Wind Speed
+	 */
+	public static float EffectiveWindSpeed(float Ane2, float Ane4, float Alpha)
 	{
 		double effectiveWindSpeed = 0;
-		double lAne2 = (double)aAne2;
-		double lAne4 = (double)aAne4;
-		double lAlpha = (double)aAlpha;
+		double lAne2 = (double)Ane2;
+		double lAne4 = (double)Ane4;
+		double lAlpha = (double)Alpha;
 		
 		try
 		{
@@ -31,13 +37,20 @@ public class MathEngine {
 		return (float)effectiveWindSpeed;
 	}
 	
-	public static float WindPushOnPlank(float aCdwi, float aRhoAir, float aAplank, float aVeffwind)
+	/**
+	 * @param Cdwi: "Drag" parameter of dynamic push
+	 * @param RhoAir: parameter of air density
+	 * @param Aplank: planking area on which the wind can push
+	 * @param Veffwind: the effective wind speed
+	 * @return The value of wind push on the planking
+	 */
+	public static float WindPushOnPlank(float Cdwi, float RhoAir, float Aplank, float Veffwind)
 	{
 		double windPushOnPlank = 0;
-		double lCdwi = (double)aCdwi;
-		double lRhoAir = (double)aRhoAir;
-		double lAplank = (double)aAplank;
-		double lVeffwind = (double)aVeffwind;
+		double lCdwi = (double)Cdwi;
+		double lRhoAir = (double)RhoAir;
+		double lAplank = (double)Aplank;
+		double lVeffwind = (double)Veffwind;
 		
 		try
 		{
@@ -50,14 +63,22 @@ public class MathEngine {
 		return (float)windPushOnPlank;
 	}
 	
-	public static float WindPushOnA1TrafficCombination(float aCdwi, float aRhoAir, float aBeta1, float aAtraf, float aVeffwind)
+	/**
+	 * @param Cdwi: "Drag" parameter of dynamic push
+	 * @param RhoAir: parameter of air density
+	 * @param Beta1: reduction area parameter
+	 * @param Atraf: traffic area/surface on which the wind can push
+	 * @param Veffwind: the effective wind speed
+	 * @return The value of wind push on the A1 traffic combination
+	 */
+	public static float WindPushOnA1TrafficCombination(float Cdwi, float RhoAir, float Beta1, float Atraf, float Veffwind)
 	{
 		double windPushOnA1TrafficCombination = 0;
-		double lCdwi = (double)aCdwi;
-		double lRhoAir = (double)aRhoAir;
-		double lBeta1 = (double)aBeta1;
-		double lAtraf = (double)aAtraf;
-		double lVeffwind = (double)aVeffwind;
+		double lCdwi = (double)Cdwi;
+		double lRhoAir = (double)RhoAir;
+		double lBeta1 = (double)Beta1;
+		double lAtraf = (double)Atraf;
+		double lVeffwind = (double)Veffwind;
 		
 		try
 		{
@@ -70,14 +91,22 @@ public class MathEngine {
 		return (float)windPushOnA1TrafficCombination;
 	}
 
-	public static float WindPushOnA2TrafficCombination(float aCdwi, float aRhoAir, float aBeta1, float aAtraf, float aVeffwind)
+	/**
+	 * @param Cdwi: "Drag" parameter of dynamic push
+	 * @param RhoAir: parameter of air density
+	 * @param Beta1: reduction area parameter
+	 * @param Atraf: traffic area/surface on which the wind can push
+	 * @param Veffwind: the effective wind speed
+	 * @return The value of wind push on the A2 traffic combination
+	 */
+	public static float WindPushOnA2TrafficCombination(float Cdwi, float RhoAir, float Beta1, float Atraf, float Veffwind)
 	{
 		double windPushOnA2TrafficCombination = 0;
-		double lCdwi = (double)aCdwi;
-		double lRhoAir = (double)aRhoAir;
-		double lBeta1 = (double)aBeta1;
-		double lAtraf = (double)aAtraf;
-		double lVeffwind = (double)aVeffwind;
+		double lCdwi = (double)Cdwi;
+		double lRhoAir = (double)RhoAir;
+		double lBeta1 = (double)Beta1;
+		double lAtraf = (double)Atraf;
+		double lVeffwind = (double)Veffwind;
 		
 		try
 		{
@@ -90,14 +119,22 @@ public class MathEngine {
 		return (float)windPushOnA2TrafficCombination;
 	}
 
-	public static float WindPushOnA3TrafficCombination(float aCdwi, float aRhoAir, float aBeta2, float aAtraf, float aVeffwind)
+	/**
+	 * @param Cdwi: "Drag" parameter of dynamic push
+	 * @param RhoAir: parameter of air density
+	 * @param Beta1: reduction area parameter
+	 * @param Atraf: traffic area/surface on which the wind can push
+	 * @param Veffwind: the effective wind speed
+	 * @return The value of wind push on the A3 traffic combination
+	 */
+	public static float WindPushOnA3TrafficCombination(float Cdwi, float RhoAir, float Beta2, float Atraf, float Veffwind)
 	{
 		double windPushOnA3TrafficCombination = 0;
-		double lCdwi = (double)aCdwi;
-		double lRhoAir = (double)aRhoAir;
-		double lBeta2 = (double)aBeta2;
-		double lAtraf = (double)aAtraf;
-		double lVeffwind = (double)aVeffwind;
+		double lCdwi = (double)Cdwi;
+		double lRhoAir = (double)RhoAir;
+		double lBeta2 = (double)Beta2;
+		double lAtraf = (double)Atraf;
+		double lVeffwind = (double)Veffwind;
 		
 		try
 		{
@@ -123,13 +160,20 @@ public class MathEngine {
 	 * ##########################################################
 	 */
 	
-	public static float FlowRate(float aA, float aIdro1, float aB, float aC)
+	/**
+	 * @param a: parameters to calculate water flow rate
+	 * @param Idro1: mean value of water level
+	 * @param b: parameters to calculate water flow rate
+	 * @param c: parameters to calculate water flow rate
+	 * @return The water flow rate
+	 */
+	public static float FlowRate(float a, float Idro1, float b, float c)
 	{
 		double Q = 0;
-		double lA = (double)aA;
-		double lIdro1 = (double)aIdro1;
-		double lB = (double)aB;
-		double lC = (double)aC;
+		double lA = (double)a;
+		double lIdro1 = (double)Idro1;
+		double lB = (double)b;
+		double lC = (double)c;
 		
 		try
 		{
@@ -142,13 +186,20 @@ public class MathEngine {
 		return (float)Q;
 	}
 	
-	public static float WaterSpeed(float aA, float aIdro1, float aB, float aC)
+	/**
+	 * @param a: parameters to calculate water speed
+	 * @param Idro1: mean value of water level
+	 * @param b: parameters to calculate water speed
+	 * @param c: parameters to calculate water speed
+	 * @return The water speed
+	 */
+	public static float WaterSpeed(float a, float Idro1, float b, float c)
 	{
 		double WaterSpeed = 0;
-		double lA = (double)aA;
-		double lIdro1 = (double)aIdro1;
-		double lB = (double)aB;
-		double lC = (double)aC;
+		double lA = (double)a;
+		double lIdro1 = (double)Idro1;
+		double lB = (double)b;
+		double lC = (double)c;
 		
 		try
 		{
@@ -161,6 +212,35 @@ public class MathEngine {
 		return (float)WaterSpeed;
 	}
 	
+	/**
+	 * @param Bs: stack base area
+	 * @param Hs: stack height under water
+	 * @return The stack area on which the water can push
+	 */
+	public static double StackArea(float Bs, float Hs) {
+
+		double StackArea = 0;
+		double lBs = (double)Bs;
+		double lHs = (double)Hs;
+		
+		try
+		{
+			StackArea = HydrodynamicFormulas.StackArea(lBs, lHs);
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return (float)StackArea;
+	}
+	
+	
+	/**
+	 * @param Cd: "Drag" parameter of dynamic push
+	 * @param RhoWater: water density parameter
+	 * @param As: Stack area
+	 * @param Vwater: water speed
+	 * @return The value of the force of water push
+	 */
 	public static float HydrodynamicThrustWithOutDebris(float aCd, float aRhoWater, float aAs, float aVwater) {
 
 		double Swater = 0;
@@ -179,14 +259,22 @@ public class MathEngine {
 		return (float)Swater;
 	}
 	
-	public static float HydrodynamicThrustWithDebris(float aCd, float aRhoWater, float aAs, float aBetaA, float aVwater) {
+	/**
+	 * @param Cd: "Drag" parameter of dynamic push
+	 * @param RhoWater: water density parameter
+	 * @param As: Stack area
+	 * @param BetaA: reduction area parameter in case of debris
+	 * @param Vwater: water speed
+	 * @return The value of the force of water push in case of debris
+	 */
+	public static float HydrodynamicThrustWithDebris(float Cd, float RhoWater, float As, float BetaA, float Vwater) {
 
 		double Swater = 0;
-		double lCd = (double)aCd;
-		double lRhoWater = (double)aRhoWater;
-		double lAs = (double)aAs;
-		double lBetaA = (double)aBetaA;
-		double lVwater = (double)aVwater;
+		double lCd = (double)Cd;
+		double lRhoWater = (double)RhoWater;
+		double lAs = (double)As;
+		double lBetaA = (double)BetaA;
+		double lVwater = (double)Vwater;
 		
 		try
 		{
@@ -210,16 +298,26 @@ public class MathEngine {
 	 * ##########################################################
 	 */
 	
-	public static float StructureWeight(float aPp, float aPpu, float aPtp, float aPb, float aPpy, float aHbeam, float aSonar1)
+	/**
+	 * @param Pp: planking weight
+	 * @param Ppu: pulvino weight
+	 * @param Ptp: trunk of pylon weight
+	 * @param Pb: beam weight
+	 * @param Ppy: pylon weight
+	 * @param Hbeam: beam height
+	 * @param Sonar1: SONAR1 value
+	 * @return The value of Structure Weight 
+	 */
+	public static float StructureWeight(float Pp, float Ppu, float Ptp, float Pb, float Ppy, float Hbeam, float Sonar1)
 	{
 		double StructW = 0;
-		double lPp = (double)aPp;
-		double lPpu = (double)aPpu;
-		double lPtp = (double)aPtp;
-		double lPb = (double)aPb;
-		double lPpy = (double)aPpy;
-		double lHbeam = (double)aHbeam;
-		double lSonar1 = (double)aSonar1;
+		double lPp = (double)Pp;
+		double lPpu = (double)Ppu;
+		double lPtp = (double)Ptp;
+		double lPb = (double)Pb;
+		double lPpy = (double)Ppy;
+		double lHbeam = (double)Hbeam;
+		double lSonar1 = (double)Sonar1;
 		
 		try
 		{
@@ -231,5 +329,4 @@ public class MathEngine {
 		
 		return (float)StructW;
 	}
-	
 }

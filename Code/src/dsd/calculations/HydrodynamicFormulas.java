@@ -19,13 +19,20 @@ public class HydrodynamicFormulas {
 	 *  
 	 *  This formula calculates the flow rate of water
 	 */
-	protected static double FlowRate(double aA, double aIdro1, double aB, double aC) {
+	/**
+	 * @param a: parameters to calculate water flow rate
+	 * @param Idro1: mean value of water level
+	 * @param b: parameters to calculate water flow rate
+	 * @param c: parameters to calculate water flow rate
+	 * @return The water flow rate
+	 */
+	protected static double FlowRate(double a, double Idro1, double b, double c) {
 
 		double Q = 0;
 		
 		try
 		{
-			Q = aA*Math.pow(aIdro1, 2) + aB*aIdro1 + aC;
+			Q = a*Math.pow(Idro1, 2) + b*Idro1 + c;
 		}catch(Exception e)
 		{
 			e.printStackTrace();
@@ -39,6 +46,13 @@ public class HydrodynamicFormulas {
 	 *  page 8 of Inputs_Conversion_&_Formulas_Calculation
 	 *  
 	 *  This formula calculates the water speed with the 2D analysis
+	 */
+	/**
+	 * @param a: parameters to calculate water speed
+	 * @param Idro1: mean value of water level
+	 * @param b: parameters to calculate water speed
+	 * @param c: parameters to calculate water speed
+	 * @return The water speed
 	 */
 	protected static double WaterSpeed(double aA, double aIdro1, double aB, double aC) {
 
@@ -61,13 +75,18 @@ public class HydrodynamicFormulas {
 	 *  
 	 *  This formula calculates the stack area on which there is the water thrust
 	 */
-	protected static double StackArea(double aBs, double aHs) {
+	/**
+	 * @param Bs: stack base area
+	 * @param Hs: stack height under water
+	 * @return The stack area on which the water can push
+	 */
+	protected static double StackArea(double Bs, double Hs) {
 
 		double StackArea = 0;
 		
 		try
 		{
-			StackArea = aBs*aHs;
+			StackArea = Bs*Hs;
 		}catch(Exception e)
 		{
 			e.printStackTrace();
@@ -83,13 +102,21 @@ public class HydrodynamicFormulas {
 	 *  
 	 *  This formula calculates the hydrodynamic thrust on the stack
 	 */
-	protected static double HysrodynamicThrust(double aCd, double aRhoWater, double aAs, double aBetaA, double aVwater) {
+	/**
+	 * @param Cd: "Drag" parameter of dynamic push
+	 * @param RhoWater: water density parameter
+	 * @param As: Stack area
+	 * @param BetaA: reduction area parameter in case of debris
+	 * @param Vwater: water speed
+	 * @return The value of the force of water push
+	 */
+	protected static double HysrodynamicThrust(double Cd, double RhoWater, double As, double BetaA, double Vwater) {
 
 		double Swater = 0;
 		
 		try
 		{
-			Swater = 0.5 * aCd * aRhoWater * (aAs * aBetaA) * Math.pow(aVwater, 2);
+			Swater = 0.5 * Cd * RhoWater * (As * BetaA) * Math.pow(Vwater, 2);
 		}catch(Exception e)
 		{
 			e.printStackTrace();
