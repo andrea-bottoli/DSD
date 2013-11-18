@@ -8,11 +8,11 @@ import java.util.concurrent.TimeUnit;
 
 import dsd.calculations.MathEngine;
 import dsd.model.CalculatedData;
-import dsd.model.InstrumentsData;
-import dsd.model.LineForces;
-import dsd.model.PlankForces;
-import dsd.model.PylonForces;
 import dsd.model.RawData;
+import dsd.model.calculation.InstrumentsData;
+import dsd.model.calculation.LineForces;
+import dsd.model.calculation.PlankForces;
+import dsd.model.calculation.PylonForces;
 import dsd.model.enums.eSonarType;
 
 public class CalculationsController implements Runnable{
