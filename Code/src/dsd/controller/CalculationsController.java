@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.ListIterator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import dsd.calculations.MathEngine;
 import dsd.model.CalculatedData;
@@ -144,7 +145,6 @@ public class CalculationsController implements Runnable{
 				WriteOnDB();
 			}
 			while (globalIterator.hasNext());
-			
 		}
 		catch (Exception e)
 		{
@@ -345,7 +345,23 @@ public class CalculationsController implements Runnable{
 	private void CalculatePlankForces()
 	{		
 		//THINK ABOUT DO THIS WITH THREADS !!!!
+		ExecutorService pool = Executors.newFixedThreadPool(3);
+
+		//WIND PUSH
+		pool.submit(new PlankWindForcesController(this));
+		//WATER PUSH
+		pool.submit(new PlankWaterForcesController(this));
+		//WEIGHT PRESSURE
+		pool.submit(new PlankWeightForcesController(this));
 		
+		pool.shutdown();
+		
+		try {
+			pool.awaitTermination(60, TimeUnit.SECONDS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		/*
 		//WIND PUSH
 		CalculatePlankWindForces();
 		
@@ -354,6 +370,7 @@ public class CalculationsController implements Runnable{
 		
 		//STRUCTURE WEIGHT
 		CalculatePlankWeightForces();
+		*/
 	}
 	
 	/*
@@ -590,5 +607,43 @@ public class CalculationsController implements Runnable{
 	private void WriteOnDB()
 	{
 		// TO-DO
-	}	
+	}
+
+	
+	
+	//GETTERS & SETTERS
+	/**
+	 * @return the plankForces
+	 */
+	public PlankForces getPlankForces() {
+		return plankForces;
+	}
+
+	/**
+	 * @return the lineForces
+	 */
+	public LineForces getLineForces() {
+		return lineForces;
+	}
+
+	/**
+	 * @return the pylonForces
+	 */
+	public PylonForces getPylonForces() {
+		return pylonForces;
+	}
+
+	/**
+	 * @return the parameters
+	 */
+	public float getParameters() {
+		return parameters;
+	}
+
+	/**
+	 * @return the instrumentsData
+	 */
+	public InstrumentsData getInstrumentsData() {
+		return instrumentsData;
+	}
 }
