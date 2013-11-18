@@ -2,6 +2,8 @@ package dsd.controller;
 
 import java.util.ArrayList;
 import java.util.ListIterator;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import dsd.calculations.MathEngine;
 import dsd.model.CalculatedData;
@@ -12,7 +14,7 @@ import dsd.model.PylonForces;
 import dsd.model.RawData;
 import dsd.model.enums.eSonarType;
 
-public class CalculationsController {
+public class CalculationsController implements Runnable{
 	
 	//Variables to be instantiated
 	
@@ -38,9 +40,9 @@ public class CalculationsController {
 	private ArrayList<RawData> oneDayData = null;
 	
 	//Variables to track timestamps
-	private float lastRawDataTimestamp;
-	private float last10minDataTimestamp;
-	private float last1hourDataTimestamp;
+	private long lastRawDataTimestamp;
+	private long last10minDataTimestamp;
+	private long last1hourDataTimestamp;
 	
 	//Variable to store parameters
 	private float parameters;
@@ -53,6 +55,11 @@ public class CalculationsController {
 		this.lineForces = new LineForces();
 		this.pylonForces = new PylonForces();
 		this.instrumentsData = new InstrumentsData();
+	}
+	
+	@Override
+	public void run() {
+		StartCalculations();		
 	}
 	
 	/*
@@ -93,6 +100,7 @@ public class CalculationsController {
 	private void Calculate10mins()
 	{
 		//Local variables
+		RawData	rd = null;
 		ArrayList<RawData> localRawData = new ArrayList<RawData>();
 		ListIterator<RawData> globalIterator = this.rawData.listIterator();
 		
@@ -117,8 +125,11 @@ public class CalculationsController {
 				
 				for(int i = 0; i < 600; i++)
 				{
-					localRawData.add(globalIterator.next());
+					rd = globalIterator.next();
+					localRawData.add(rd);
 				}
+				
+				this.lastRawDataTimestamp = rd.getTimestamp();
 				
 				/*
 				 * Start calculations for one line of the DB
@@ -131,7 +142,6 @@ public class CalculationsController {
 				DetectMostStressedPylon();
 				StoreCalculatedValues();
 				WriteOnDB();
-				
 			}
 			while (globalIterator.hasNext());
 			
@@ -250,7 +260,7 @@ public class CalculationsController {
 				maxWindDirection=rawData.getWindDirection();
 			}
 			
-			//Idrometer operations
+			//Hydrometer operations
 			sumWaterLevel = sumWaterLevel + rawData.getHydrometer();
 			
 			//Sonar operations
@@ -279,7 +289,7 @@ public class CalculationsController {
 		meanWindSpeed = sumWindSpeed/sampleSize;
 		meanWindDirection = sumWindDirection/sampleSize;
 		
-		//Idrometer
+		//Hydrometer
 		meanWaterLevel = sumWaterLevel/sampleSize;
 		
 		//sonar
@@ -311,7 +321,7 @@ public class CalculationsController {
 		this.instrumentsData.setAne3(meanWindDirection);
 		this.instrumentsData.setAne4(maxWindDirection);
 		
-		//Idrometer
+		//Hydrometer
 		this.instrumentsData.setIdro1(meanWaterLevel);
 		this.instrumentsData.setIdro2(varianceWaterLevel);
 		
@@ -334,6 +344,8 @@ public class CalculationsController {
 	 */
 	private void CalculatePlankForces()
 	{		
+		//THINK ABOUT DO THIS WITH THREADS !!!!
+		
 		//WIND PUSH
 		CalculatePlankWindForces();
 		
@@ -353,7 +365,7 @@ public class CalculationsController {
 	 * of wind force on the planking: Svplank,
 	 * Sva1traf, Sva2traf, Sva3traf
 	 */
-	private void CalculatePlankWindForces() {
+	private void CalculatePlankWindForces(){
 		
 		float lEffectiveWindSpeed;
 		float lWindPushOnPlank,lWindPushOnA1traf, lWindPushOnA2traf, lWindPushOnA3traf;
@@ -578,6 +590,5 @@ public class CalculationsController {
 	private void WriteOnDB()
 	{
 		// TO-DO
-	}
-	
+	}	
 }

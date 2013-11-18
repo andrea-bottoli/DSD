@@ -1,7 +1,9 @@
 package dsd.model;
 
-public class InstrumentsData {
+import java.util.Date;
 
+public class InstrumentsData {
+	
 	private float ane1;
 	private float ane2;
 	private float ane3;
@@ -15,7 +17,8 @@ public class InstrumentsData {
 	private float sonar5;
 	private float sonar6;
 	private float sonar7;
-	
+	private long timestamp;
+	private Date timestampDate;
 	
 	/**
 	 * @return the ANE1: Mean value of Wind Speed
@@ -172,5 +175,29 @@ public class InstrumentsData {
 	 */
 	public void setSonar7(float percUncertainData2Over12Sample) {
 		this.sonar7 = percUncertainData2Over12Sample;
+	}
+	/**
+	 * @return the timestamp
+	 */
+	public long getTimestamp() {
+		return timestamp;
+	}
+	/**
+	 * @param timestamp the timestamp to set
+	 */
+	public void setTimestamp(long timestamp) {
+		this.timestamp = timestamp;
+	}
+	/**
+	 * @return the timestampDate
+	 */
+	public Date getTimestampDate() {
+		return timestampDate;
+	}
+	/**
+	 * @param timestampDate the timestampDate to set
+	 */
+	public void setTimestampDate(Date timestampDate) {
+		this.timestampDate = timestampDate;
 	}
 }
