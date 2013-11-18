@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import dsd.controller.ParserControler;
 import dsd.controller.RawDataController;
 import dsd.model.RawData;
-import dsd.model.eFileType;
+import dsd.model.enums.eFileType;
 
 public class TestRawData extends HttpServlet
 {

@@ -1,4 +1,4 @@
-package dsd.model;
+package dsd.model.enums;
 
 public enum eDataType
 {

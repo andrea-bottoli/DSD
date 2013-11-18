@@ -1,4 +1,4 @@
-package dsd.model;
+package dsd.model.enums;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -2,6 +2,8 @@ package dsd.model;
 
 import java.util.Date;
 
+import dsd.model.enums.eSonarType;
+
 public class RawData {
 	
 	public RawData()

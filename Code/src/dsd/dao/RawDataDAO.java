@@ -11,13 +11,13 @@ import org.apache.commons.lang3.StringUtils;
 import com.sun.jmx.snmp.Timestamp;
 
 import dsd.model.RawData;
-import dsd.model.eSonarType;
+import dsd.model.enums.eSonarType;
 
 public class RawDataDAO
 {
 
 	private static String tableName = "sensor_data_raw";
-	private static String[] insertableFields = new String[]{"wind_speed", "wind_direction", "hydrometer",
+	private static String[] fields = new String[]{"wind_speed", "wind_direction", "hydrometer",
 			"sonar", "sonar_type", "timestamp"};
 
 	public static int InsertData(List<RawData> listOfData)
@@ -30,7 +30,7 @@ public class RawDataDAO
 			{
 				try
 				{
-					counter += DAOProvider.InsertRow(tableName, StringUtils.join(insertableFields, ','),
+					counter += DAOProvider.InsertRow(tableName, StringUtils.join(fields, ','),
 							PrepareValuesForInsert(rawData), con);
 				}
 				catch (Exception exc)
@@ -61,12 +61,12 @@ public class RawDataDAO
 				{
 					RawData dataTuple = new RawData();
 					dataTuple.setRawDataID(results.getInt("ID"));
-					dataTuple.setWindSpeed(results.getFloat(insertableFields[0]));
-					dataTuple.setWindDirection(results.getFloat(insertableFields[1]));
-					dataTuple.setHydrometer(results.getFloat(insertableFields[2]));
-					dataTuple.setSonar(results.getFloat(insertableFields[3]));
-					dataTuple.setSonarType(eSonarType.getSonarType(results.getInt(insertableFields[4])));
-					dataTuple.setTimestamp(results.getTimestamp(insertableFields[5]).getTime());
+					dataTuple.setWindSpeed(results.getFloat(fields[0]));
+					dataTuple.setWindDirection(results.getFloat(fields[1]));
+					dataTuple.setHydrometer(results.getFloat(fields[2]));
+					dataTuple.setSonar(results.getFloat(fields[3]));
+					dataTuple.setSonarType(eSonarType.getSonarType(results.getInt(fields[4])));
+					dataTuple.setTimestamp(results.getTimestamp(fields[5]).getTime());
 					rawDataList.add(dataTuple);
 				}
 			}

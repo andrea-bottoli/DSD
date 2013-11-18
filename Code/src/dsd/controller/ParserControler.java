@@ -9,8 +9,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import dsd.calculations.TimeCalculations;
 import dsd.model.RawData;
-import dsd.model.eFileType;
-import dsd.model.eSonarType;
+import dsd.model.enums.eFileType;
+import dsd.model.enums.eSonarType;
 
 public class ParserControler
 {
