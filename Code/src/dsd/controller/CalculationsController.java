@@ -7,6 +7,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import dsd.calculations.MathEngine;
+import dsd.controller.mathEngineTask.PlankWaterForcesTask;
+import dsd.controller.mathEngineTask.PlankWeightForcesTask;
+import dsd.controller.mathEngineTask.PlankWindForcesTask;
 import dsd.model.CalculatedData;
 import dsd.model.RawData;
 import dsd.model.calculation.InstrumentsData;
@@ -348,11 +351,11 @@ public class CalculationsController implements Runnable{
 		ExecutorService pool = Executors.newFixedThreadPool(3);
 
 		//WIND PUSH
-		pool.submit(new PlankWindForcesController(this));
+		pool.submit(new PlankWindForcesTask(this));
 		//WATER PUSH
-		pool.submit(new PlankWaterForcesController(this));
+		pool.submit(new PlankWaterForcesTask(this));
 		//WEIGHT PRESSURE
-		pool.submit(new PlankWeightForcesController(this));
+		pool.submit(new PlankWeightForcesTask(this));
 		
 		pool.shutdown();
 		

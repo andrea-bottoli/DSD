@@ -1,12 +1,13 @@
-package dsd.controller;
+package dsd.controller.mathEngineTask;
 
 import dsd.calculations.MathEngine;
+import dsd.controller.CalculationsController;
 
-public class PlankWaterForcesController implements Runnable{
+public class PlankWaterForcesTask implements Runnable{
 	
 	private CalculationsController calculationControl = null;
 	
-	public PlankWaterForcesController(CalculationsController calContr)
+	public PlankWaterForcesTask(CalculationsController calContr)
 	{
 		this.calculationControl = calContr;
 	}

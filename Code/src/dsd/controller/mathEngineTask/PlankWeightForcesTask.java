@@ -1,12 +1,13 @@
-package dsd.controller;
+package dsd.controller.mathEngineTask;
 
 import dsd.calculations.MathEngine;
+import dsd.controller.CalculationsController;
 
-public class PlankWeightForcesController implements Runnable{
+public class PlankWeightForcesTask implements Runnable{
 
 	private CalculationsController calculationControl = null;
 	
-	public PlankWeightForcesController(CalculationsController calContr)
+	public PlankWeightForcesTask(CalculationsController calContr)
 	{
 		this.calculationControl = calContr;
 	}
