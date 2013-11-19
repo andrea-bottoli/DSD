@@ -10,5 +10,5 @@
 	<div id="content">
 		<jsp:doBody />
 	</div>
-	<div id="footer" class="center"></div>
+	<div id="footer" class="center">Miraldi</div>
 </body>
