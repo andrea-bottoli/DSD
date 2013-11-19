@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -112,7 +113,7 @@ public class DAOProvider
 	 * @throws SQLException
 	 */
 	public static ResultSet SelectTableSecure(String table, String select, String where, String order,
-			Connection con, String[] parameters) throws SQLException
+			Connection con, Object[] parameters) throws SQLException
 	{
 		ResultSet resultSet = null;
 		try
@@ -123,8 +124,8 @@ public class DAOProvider
 							: "order by " + order)));
 
 			for (int i = 0; i < parameters.length; i++)
-			{
-				command.setString(i, parameters[i]);
+			{		
+				SetParameter(command, parameters[i], i + 1);
 			}
 
 			resultSet = command.executeQuery();
@@ -212,6 +213,38 @@ public class DAOProvider
 			ex.printStackTrace();
 		}
 		return 0;
+	}
+	
+	/**
+	 * calls the correct method for setting the command parameter depending on parameter type
+	 * @param command 
+	 * @param object
+	 * @param parameterIndex
+	 * @throws SQLException
+	 */
+	private static void SetParameter(PreparedStatement command, Object object, int parameterIndex) throws SQLException
+	{
+		if (object instanceof Timestamp)
+		{
+			command.setTimestamp(parameterIndex, (Timestamp)object);
+		}
+		else if (object instanceof String)
+		{
+			command.setString(parameterIndex, (String)object);
+		}
+		else if (object instanceof Long)
+		{
+			command.setLong(parameterIndex, (Long)object);
+		}
+		else if (object instanceof Integer)
+		{
+			command.setInt(parameterIndex, (Integer)object);
+		}
+		else
+		{
+			throw new IllegalArgumentException("type needs to be inserted in DAOProvider class");
+		}
+		
 	}
 
 }

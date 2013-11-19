@@ -2,12 +2,12 @@ package dsd.dao;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-
-import com.sun.jmx.snmp.Timestamp;
 
 import dsd.model.Parameter;
 import dsd.model.enums.eParameterCategory;
@@ -77,7 +77,7 @@ public class ParametersDAO {
 		return 0;
 	}
 
-	public static List<Parameter> GetValidParameters(long timestamp)
+	public static List<Parameter> GetValidParameters(Calendar cal)
 	{
 		try
 		{
@@ -85,7 +85,10 @@ public class ParametersDAO {
 			ArrayList<Parameter> parametersList = new ArrayList<Parameter>();
 			try
 			{
-				ResultSet results = DAOProvider.SelectTable(
+				Object[] parameters = new Object[1];
+				parameters[0] = new Timestamp(cal.getTimeInMillis());
+				
+				ResultSet results = DAOProvider.SelectTableSecure(
 						// table part
 						tableNameParameters + " join " + tableNameParameterData + " on " +
 						tableNameParameters + ".ID = " + tableNameParameterData + "." + tableParameterDataFields[0] ,
@@ -97,14 +100,15 @@ public class ParametersDAO {
 						tableNameParameterData + "." + tableParameterDataFields[3] + " as " + tableNameParameterData + "_" + tableParameterDataFields[3] + ", " +
 						"parameters.* ", 
 						// where part
-						" where (parameters_id, timestamp) in (select parameters_id,  max(timestamp) " +
+						" (parameters_id, timestamp) in (select parameters_id,  max(timestamp) " +
 																" from parameter_data " +
-																" where timestamp < '" + new Timestamp(timestamp).toString() + "'" +
+																" where timestamp < ? " +
 																" group by parameters_id " +
 																"); ", 
 						// order by part
 						"", 
-						con);
+						con,
+						parameters);
 				while (results.next())
 				{
 					Parameter parameter = new Parameter();
@@ -142,7 +146,10 @@ public class ParametersDAO {
 			ArrayList<Parameter> parametersList = new ArrayList<Parameter>();
 			try
 			{
-				ResultSet results = DAOProvider.SelectTable(
+				Object[] parameters = new Object[1];
+				parameters[0] = new Long(parameterID);
+				
+				ResultSet results = DAOProvider.SelectTableSecure(
 						// table part
 						tableNameParameters + " join " + tableNameParameterData + " on " +
 						tableNameParameters + ".ID = " + tableNameParameterData + "." + tableParameterDataFields[0] ,
@@ -154,10 +161,11 @@ public class ParametersDAO {
 						tableNameParameterData + "." + tableParameterDataFields[3] + " as " + tableNameParameterData + "_" + tableParameterDataFields[3] + ", " +
 						"parameters.* ", 
 						// where part
-						" where parameters_id = " + parameterID, 
+						" parameters_id = ? ", 
 						// order by part
 						"", 
-						con);
+						con,
+						parameters);
 				while (results.next())
 				{
 					Parameter parameter = new Parameter();

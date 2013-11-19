@@ -1,5 +1,7 @@
 package dsd.model;
 
+import java.util.Date;
+
 import dsd.model.enums.eParameterCategory;
 
 public class Parameter {
@@ -14,6 +16,7 @@ public class Parameter {
 	float value;
 	long userID;
 	long timestamp;
+	Date timestampDate;
 	
 	public long getParameterDataID()
 	{
@@ -94,5 +97,14 @@ public class Parameter {
 	public void setTimestamp(long timestamp)
 	{
 		this.timestamp = timestamp;
+		setTimestampDate(new Date(timestamp));
+	}
+	public Date getTimestampDate()
+	{
+		return timestampDate;
+	}
+	public void setTimestampDate(Date timestampDate)
+	{
+		this.timestampDate = timestampDate;
 	}
 }
