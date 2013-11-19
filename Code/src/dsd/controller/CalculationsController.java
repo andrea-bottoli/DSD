@@ -7,6 +7,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import dsd.calculations.MathEngine;
+import dsd.controller.mathEngineTask.MatrixFillTask;
 import dsd.controller.mathEngineTask.PlankWaterForcesTask;
 import dsd.controller.mathEngineTask.PlankWeightForcesTask;
 import dsd.controller.mathEngineTask.PlankWindForcesTask;
@@ -14,6 +15,7 @@ import dsd.model.CalculatedData;
 import dsd.model.RawData;
 import dsd.model.calculation.InstrumentsData;
 import dsd.model.calculation.LineForces;
+import dsd.model.calculation.LineForcesMatrix;
 import dsd.model.calculation.PlankForces;
 import dsd.model.calculation.PylonForces;
 import dsd.model.enums.eSonarType;
@@ -31,8 +33,12 @@ public class CalculationsController implements Runnable{
 	
 	//Variable for each kind of forces
 	private PlankForces plankForces = null;
-	private LineForces lineForces = null;
-	private PylonForces pylonForces = null;
+	private LineForcesMatrix mnLineMatrix = null;
+	private LineForcesMatrix moLineMatrix = null;
+	private LineForces mnLineForces = null;
+	private LineForces moLineForces = null;
+	private PylonForces mnPylonsForces = null;
+	private PylonForces moPylonsForces = null;
 	
 	//Variable in which store the calculations results
 	private CalculatedData calculatedData = null;
@@ -55,10 +61,14 @@ public class CalculationsController implements Runnable{
 	public CalculationsController()
 	{
 		this.calculatedData = new CalculatedData();
-		this.plankForces = new PlankForces();
-		this.lineForces = new LineForces();
-		this.pylonForces = new PylonForces();
 		this.instrumentsData = new InstrumentsData();
+		this.plankForces = new PlankForces();
+		this.mnLineMatrix = new LineForcesMatrix();
+		this.moLineMatrix = new LineForcesMatrix();
+		this.mnLineForces = new LineForces();
+		this.moLineForces = new LineForces();
+		this.mnPylonsForces = new PylonForces();
+		this.moPylonsForces = new PylonForces();
 	}
 	
 	@Override
@@ -140,6 +150,7 @@ public class CalculationsController implements Runnable{
 				 */
 				CalculateMeanValues(localRawData, localRawData.size());
 				CalculatePlankForces();
+				CalculateLineForcesMatrix();
 				CalculateLineForces();
 				CalculatePylonForces();
 				CalculateRiskFactor();
@@ -543,7 +554,35 @@ public class CalculationsController implements Runnable{
 		plankForces.setPlankWeight(1);
 		plankForces.setStackWeight(lPstack);
 	}
+	
+	
+	
+	/**
+	 * This method calculates and fills the LinesForcesMatrix
+	 * variables
+	 */
+	private void CalculateLineForcesMatrix()
+	{
+		//THINK ABOUT DO THIS WITH THREADS !!!!
+		ExecutorService pool = Executors.newFixedThreadPool(2);
 
+		//Mantova Line
+		pool.submit(new MatrixFillTask(this, 0));
+		//Modena Line
+		pool.submit(new MatrixFillTask(this,1));
+		
+		pool.shutdown();
+		
+		try {
+			pool.awaitTermination(60, TimeUnit.SECONDS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	
 	/*
 	 * This method calculates the Line Forces
 	 */
@@ -621,19 +660,47 @@ public class CalculationsController implements Runnable{
 	public PlankForces getPlankForces() {
 		return plankForces;
 	}
-
+	
 	/**
-	 * @return the lineForces
+	 * @return the Mantova Forces Matrix
 	 */
-	public LineForces getLineForces() {
-		return lineForces;
+	public LineForcesMatrix getMantovaLineForcesMatrix() {
+		return mnLineMatrix;
+	}
+	
+	/**
+	 * @return the Modena Forces Matrix
+	 */
+	public LineForcesMatrix getMModenaLineForcesMatrix() {
+		return moLineMatrix;
+	}
+	
+	/**
+	 * @return the Mantova Line Forces
+	 */
+	public LineForces getMantovaLineForces() {
+		return mnLineForces;
+	}
+	
+	/**
+	 * @return the Modena Line Forces
+	 */
+	public LineForces getModenaLineForces() {
+		return moLineForces;
 	}
 
 	/**
-	 * @return the pylonForces
+	 * @return the Mantova Pylons Forces
 	 */
-	public PylonForces getPylonForces() {
-		return pylonForces;
+	public PylonForces getMantovaPylonsForces() {
+		return mnPylonsForces;
+	}
+	
+	/**
+	 * @return the Modena Pylons Forces
+	 */
+	public PylonForces getModenaPylonsForces() {
+		return moPylonsForces;
 	}
 
 	/**
@@ -649,4 +716,19 @@ public class CalculationsController implements Runnable{
 	public InstrumentsData getInstrumentsData() {
 		return instrumentsData;
 	}
+
+	/**
+	 * @return the mnLineMatrix
+	 */
+	public LineForcesMatrix getMnLineMatrix() {
+		return mnLineMatrix;
+	}
+
+	/**
+	 * @return the moLineMatrix
+	 */
+	public LineForcesMatrix getMoLineMatrix() {
+		return moLineMatrix;
+	}
+	
 }
