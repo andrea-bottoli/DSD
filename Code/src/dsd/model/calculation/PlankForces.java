@@ -8,6 +8,9 @@ public class PlankForces
 	private float windPushOnA3TrafficCombination;
 	private float flowRate;
 	private float waterSpeed;
+	private float hs;
+	private float bsWithoutDebris;
+	private float bsWithDebris;
 	private float hydrodynamicThrustWithOutDebris;
 	private float hydrodynamicThrustWithDebris;
 	private float plankWeight;
@@ -86,6 +89,42 @@ public class PlankForces
 	 */
 	public void setWaterSpeed(float waterSpeed) {
 		this.waterSpeed = waterSpeed;
+	}
+	/**
+	 * @return the stackBase
+	 */
+	public float getHs() {
+		return hs;
+	}
+	/**
+	 * @param stackBase the stackBase to set
+	 */
+	public void setHs(float hs) {
+		this.hs = hs;
+	}
+	/**
+	 * @return the baseStackWithoutDebris
+	 */
+	public float getBsWithoutDebris() {
+		return bsWithoutDebris;
+	}
+	/**
+	 * @param baseStackWithoutDebris the baseStackWithoutDebris to set
+	 */
+	public void setBsWithOutDebris(float bsWithoutDebris) {
+		this.bsWithoutDebris = bsWithoutDebris;
+	}
+	/**
+	 * @return the baseStackWithDebris
+	 */
+	public float getBsWithDebris() {
+		return bsWithDebris;
+	}
+	/**
+	 * @param baseStackWithDebris the baseStackWithDebris to set
+	 */
+	public void setBsWithDebris(float bsWithDebris) {
+		this.bsWithDebris = bsWithDebris;
 	}
 	/**
 	 * @return the hydrodynamicThrustWithOutDebris

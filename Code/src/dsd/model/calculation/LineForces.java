@@ -2,8 +2,6 @@ package dsd.model.calculation;
 
 import java.util.ArrayList;
 
-import dsd.controller.CalculationsController;
-
 public class LineForces
 {
 	private Combination combo01A =null;
@@ -45,40 +43,40 @@ public class LineForces
 	
 	public LineForces()
 	{
-		combo01A = new Combination(Boolean.FALSE, Boolean.FALSE);
-		combo01B = new Combination(Boolean.FALSE, Boolean.TRUE);
-		combo02A = new Combination(Boolean.TRUE, Boolean.FALSE);
-		combo02B = new Combination(Boolean.TRUE, Boolean.TRUE);
-		combo03A = new Combination(Boolean.TRUE, Boolean.FALSE);
-		combo03B = new Combination(Boolean.TRUE, Boolean.TRUE);
-		combo04A = new Combination(Boolean.TRUE, Boolean.FALSE);
-		combo04B = new Combination(Boolean.TRUE, Boolean.TRUE);
-		combo05A = new Combination(Boolean.TRUE, Boolean.FALSE);
-		combo05B = new Combination(Boolean.TRUE, Boolean.TRUE);
-		combo06A = new Combination(Boolean.TRUE, Boolean.FALSE);
-		combo06B = new Combination(Boolean.TRUE, Boolean.TRUE);
-		combo07A = new Combination(Boolean.TRUE, Boolean.FALSE);
-		combo07B = new Combination(Boolean.TRUE, Boolean.TRUE);
-		combo08A = new Combination(Boolean.TRUE, Boolean.FALSE);
-		combo08B = new Combination(Boolean.TRUE, Boolean.TRUE);
-		combo09A = new Combination(Boolean.TRUE, Boolean.FALSE);
-		combo09B = new Combination(Boolean.TRUE, Boolean.TRUE);
-		combo10A = new Combination(Boolean.TRUE, Boolean.FALSE);
-		combo10B = new Combination(Boolean.TRUE, Boolean.TRUE);
-		combo11A = new Combination(Boolean.TRUE, Boolean.FALSE);
-		combo11B = new Combination(Boolean.TRUE, Boolean.TRUE);
-		combo12A = new Combination(Boolean.TRUE, Boolean.FALSE);
-		combo12B = new Combination(Boolean.TRUE, Boolean.TRUE);
-		combo13A = new Combination(Boolean.TRUE, Boolean.FALSE);
-		combo13B = new Combination(Boolean.TRUE, Boolean.TRUE);
-		combo14A = new Combination(Boolean.TRUE, Boolean.FALSE);
-		combo14B = new Combination(Boolean.TRUE, Boolean.TRUE);
-		combo15A = new Combination(Boolean.TRUE, Boolean.FALSE);
-		combo15B = new Combination(Boolean.TRUE, Boolean.TRUE);
-		combo16A = new Combination(Boolean.TRUE, Boolean.FALSE);
-		combo16B = new Combination(Boolean.TRUE, Boolean.TRUE);
-		combo17A = new Combination(Boolean.TRUE, Boolean.FALSE);
-		combo17B = new Combination(Boolean.TRUE, Boolean.TRUE);
+		combo01A = new Combination(1,Boolean.FALSE, Boolean.FALSE);
+		combo01B = new Combination(2,Boolean.FALSE, Boolean.TRUE);
+		combo02A = new Combination(3,Boolean.TRUE, Boolean.FALSE);
+		combo02B = new Combination(4,Boolean.TRUE, Boolean.TRUE);
+		combo03A = new Combination(5,Boolean.TRUE, Boolean.FALSE);
+		combo03B = new Combination(6,Boolean.TRUE, Boolean.TRUE);
+		combo04A = new Combination(7,Boolean.TRUE, Boolean.FALSE);
+		combo04B = new Combination(8,Boolean.TRUE, Boolean.TRUE);
+		combo05A = new Combination(9,Boolean.TRUE, Boolean.FALSE);
+		combo05B = new Combination(10,Boolean.TRUE, Boolean.TRUE);
+		combo06A = new Combination(11,Boolean.TRUE, Boolean.FALSE);
+		combo06B = new Combination(12,Boolean.TRUE, Boolean.TRUE);
+		combo07A = new Combination(13,Boolean.TRUE, Boolean.FALSE);
+		combo07B = new Combination(14,Boolean.TRUE, Boolean.TRUE);
+		combo08A = new Combination(15,Boolean.TRUE, Boolean.FALSE);
+		combo08B = new Combination(16,Boolean.TRUE, Boolean.TRUE);
+		combo09A = new Combination(17,Boolean.TRUE, Boolean.FALSE);
+		combo09B = new Combination(18,Boolean.TRUE, Boolean.TRUE);
+		combo10A = new Combination(19,Boolean.TRUE, Boolean.FALSE);
+		combo10B = new Combination(20,Boolean.TRUE, Boolean.TRUE);
+		combo11A = new Combination(21,Boolean.TRUE, Boolean.FALSE);
+		combo11B = new Combination(22,Boolean.TRUE, Boolean.TRUE);
+		combo12A = new Combination(23,Boolean.TRUE, Boolean.FALSE);
+		combo12B = new Combination(24,Boolean.TRUE, Boolean.TRUE);
+		combo13A = new Combination(25,Boolean.TRUE, Boolean.FALSE);
+		combo13B = new Combination(26,Boolean.TRUE, Boolean.TRUE);
+		combo14A = new Combination(27,Boolean.TRUE, Boolean.FALSE);
+		combo14B = new Combination(28,Boolean.TRUE, Boolean.TRUE);
+		combo15A = new Combination(29,Boolean.TRUE, Boolean.FALSE);
+		combo15B = new Combination(30,Boolean.TRUE, Boolean.TRUE);
+		combo16A = new Combination(31,Boolean.TRUE, Boolean.FALSE);
+		combo16B = new Combination(32,Boolean.TRUE, Boolean.TRUE);
+		combo17A = new Combination(33,Boolean.TRUE, Boolean.FALSE);
+		combo17B = new Combination(34,Boolean.TRUE, Boolean.TRUE);
 		
 		comboList = new ArrayList<Combination>();
 		comboList.add(combo01A);

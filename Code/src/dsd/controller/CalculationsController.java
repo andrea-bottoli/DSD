@@ -7,17 +7,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import dsd.calculations.MathEngine;
-import dsd.controller.mathEngineTask.MatrixFillTask;
-import dsd.controller.mathEngineTask.PlankWaterForcesTask;
-import dsd.controller.mathEngineTask.PlankWeightForcesTask;
-import dsd.controller.mathEngineTask.PlankWindForcesTask;
+import dsd.controller.mathEngineTask.*;
 import dsd.model.CalculatedData;
 import dsd.model.RawData;
-import dsd.model.calculation.InstrumentsData;
-import dsd.model.calculation.LineForces;
-import dsd.model.calculation.LineForcesMatrix;
-import dsd.model.calculation.PlankForces;
-import dsd.model.calculation.PylonForces;
+import dsd.model.calculation.*;
 import dsd.model.enums.eSonarType;
 
 public class CalculationsController implements Runnable{
@@ -150,7 +143,6 @@ public class CalculationsController implements Runnable{
 				 */
 				CalculateMeanValues(localRawData, localRawData.size());
 				CalculatePlankForces();
-				CalculateLineForcesMatrix();
 				CalculateLineForces();
 				CalculatePylonForces();
 				CalculateRiskFactor();
@@ -569,7 +561,26 @@ public class CalculationsController implements Runnable{
 		//Mantova Line
 		pool.submit(new MatrixFillTask(this, 0));
 		//Modena Line
-		pool.submit(new MatrixFillTask(this,1));
+		pool.submit(new MatrixFillTask(this, 1));
+		
+		pool.shutdown();
+		
+		try {
+			pool.awaitTermination(60, TimeUnit.SECONDS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void CombinationsCalculation()
+	{
+		//THINK ABOUT DO THIS WITH THREADS !!!!
+		ExecutorService pool = Executors.newFixedThreadPool(2);
+
+		//Mantova Line
+		pool.submit(new CombinationsCalculationTask(this, 0));
+		//Modena Line
+		pool.submit(new CombinationsCalculationTask(this, 1));
 		
 		pool.shutdown();
 		
@@ -592,7 +603,8 @@ public class CalculationsController implements Runnable{
 	 */
 	private void CalculateLineForces()
 	{
-		//TO-DO
+		CalculateLineForcesMatrix();
+		CombinationsCalculation();
 	}
 	
 	/*
@@ -671,7 +683,7 @@ public class CalculationsController implements Runnable{
 	/**
 	 * @return the Modena Forces Matrix
 	 */
-	public LineForcesMatrix getMModenaLineForcesMatrix() {
+	public LineForcesMatrix getModenaLineForcesMatrix() {
 		return moLineMatrix;
 	}
 	
@@ -720,14 +732,14 @@ public class CalculationsController implements Runnable{
 	/**
 	 * @return the mnLineMatrix
 	 */
-	public LineForcesMatrix getMnLineMatrix() {
+	public LineForcesMatrix getMantovaLineMatrix() {
 		return mnLineMatrix;
 	}
 
 	/**
 	 * @return the moLineMatrix
 	 */
-	public LineForcesMatrix getMoLineMatrix() {
+	public LineForcesMatrix getModenaLineMatrix() {
 		return moLineMatrix;
 	}
 	
