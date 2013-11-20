@@ -381,11 +381,11 @@ public class CalculationsController implements Runnable{
 				pool = Executors.newFixedThreadPool(3);
 						
 				//WIND PUSH
-				pool.submit(new PlankWindForcesTask(this));
+				pool.submit(new PlankWindForcesTask(instrumentsData, plankForces));
 				//WATER PUSH
-				pool.submit(new PlankWaterForcesTask(this));
+				pool.submit(new PlankWaterForcesTask(instrumentsData, plankForces));
 				//WEIGHT PRESSURE
-				pool.submit(new PlankWeightForcesTask(this));
+				pool.submit(new PlankWeightForcesTask(instrumentsData, plankForces));
 				
 				pool.shutdown();
 			}
@@ -598,12 +598,12 @@ public class CalculationsController implements Runnable{
 				pool2 = Executors.newFixedThreadPool(1);
 				
 				//Start the Calculations and filling the matrix for each line
-				pool1.submit(new MatrixFillTask(this, 0));
-				pool2.submit(new MatrixFillTask(this, 1));
+				pool1.submit(new MatrixFillTask(instrumentsData, plankForces, mnLineMatrix, 0));
+				pool2.submit(new MatrixFillTask(instrumentsData, plankForces, moLineMatrix, 1));
 				
 				//Start the calculations of the all combinations for each line
-				pool1.submit(new CombinationsCalculationTask(this, 0));
-				pool2.submit(new CombinationsCalculationTask(this, 1));
+				pool1.submit(new CombinationsCalculationTask(mnLineMatrix, mnLineForces, plankForces));
+				pool2.submit(new CombinationsCalculationTask(moLineMatrix, moLineForces, plankForces));
 				
 				pool1.shutdown();
 				pool2.shutdown();

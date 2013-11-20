@@ -1,19 +1,23 @@
 package dsd.controller.mathEngineTask;
 
 import dsd.calculations.MathEngine;
-import dsd.controller.CalculationsController;
+import dsd.model.calculation.InstrumentsData;
+import dsd.model.calculation.PlankForces;
 
 public class PlankWeightForcesTask implements Runnable{
 
-	private CalculationsController calculationControl = null;
+	private InstrumentsData instrumentsData;
+	private PlankForces plankForces;
 	
-	public PlankWeightForcesTask(CalculationsController calContr)
+	public PlankWeightForcesTask(InstrumentsData instrumentsData, PlankForces plankForces)
 	{
-		this.calculationControl = calContr;
+		this.instrumentsData = instrumentsData;
+		this.plankForces = plankForces;
 	}
 	
 	@Override
-	public void run() {
+	public void run()
+	{
 		CalculatePlankWeightForces();
 	}
 	
@@ -25,7 +29,8 @@ public class PlankWeightForcesTask implements Runnable{
 	 * This method calculates the component
 	 * of weight of the planking: PPplank
 	 */
-	private void CalculatePlankWeightForces() {
+	private void CalculatePlankWeightForces()
+	{
 		
 		float lPstack;
 		
@@ -34,14 +39,15 @@ public class PlankWeightForcesTask implements Runnable{
 		 *PARAMETERS IS MISSING
 		 *############################# 
 		 */
-		lPstack=MathEngine.StackWeight(1, 2, 3, 4, 5, this.calculationControl.getInstrumentsData().getSonar1());
+		lPstack=MathEngine.StackWeight(1, 2, 3, 4, 5, instrumentsData.getSonar1());
 		
 		/*##############################
 		 *CHANGE 1 WITH Pplank
 		 *PARAMETERS IS MISSING
 		 *############################# 
 		 */
-		this.calculationControl.getPlankForces().setPlankWeight(1);
-		this.calculationControl.getPlankForces().setStackWeight(lPstack);
+		plankForces.setPlankWeight(1);
+		plankForces.setStackWeight(lPstack);
+			
 	}
 }

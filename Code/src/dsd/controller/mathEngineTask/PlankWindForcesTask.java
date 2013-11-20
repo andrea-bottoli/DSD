@@ -1,42 +1,43 @@
 package dsd.controller.mathEngineTask;
 
 import dsd.calculations.MathEngine;
-import dsd.controller.CalculationsController;
+import dsd.model.calculation.InstrumentsData;
+import dsd.model.calculation.PlankForces;
 
 public class PlankWindForcesTask implements Runnable{
 	
-	private CalculationsController calculationController = null;
+	private InstrumentsData instrumentsData;
+	private PlankForces plankForces;
 		
-	public PlankWindForcesTask(CalculationsController calCont){
-		this.calculationController = calCont;
+	public PlankWindForcesTask(InstrumentsData instrumentsData, PlankForces plankForces)
+	{
+		this.instrumentsData = instrumentsData;
+		this.plankForces = plankForces;
 	}
 	
-	
 	@Override
-	public void run() {
+	public void run()
+	{
 		CalculatePlankWindForces();
 	}
 	
-	/*
-	 * This method calculates the four components
-	 * of wind force on the planking
-	 */
 	/**
 	 * This method calculates the four components
 	 * of wind force on the planking: Svplank,
 	 * Sva1traf, Sva2traf, Sva3traf
 	 */
-	private void CalculatePlankWindForces(){
+	private void CalculatePlankWindForces()
+	{
 		
 		float lEffectiveWindSpeed;
-		float lWindPushOnPlank,lWindPushOnA1traf, lWindPushOnA2traf, lWindPushOnA3traf;
+		float lWindPushOnPlank, lWindPushOnA1traf, lWindPushOnA2traf, lWindPushOnA3traf;
 		
 		/*##############################
 		 *CHANGE 5 WITH ALPHA
 		 *PARAMETERS ARE MISSING
 		 *############################# 
 		 */
-		lEffectiveWindSpeed = MathEngine.EffectiveWindSpeed(this.calculationController.getInstrumentsData().getAne2(), this.calculationController.getInstrumentsData().getAne4(), 5);
+		lEffectiveWindSpeed = MathEngine.EffectiveWindSpeed(instrumentsData.getAne2(), instrumentsData.getAne4(), 5);
 		
 		/*##############################
 		 *CHANGE 1 WITH Cdwi, 2 with RhoAir, 3 with Aplank
@@ -66,10 +67,11 @@ public class PlankWindForcesTask implements Runnable{
 		 */
 		lWindPushOnA3traf = MathEngine.WindPushOnA3TrafficCombination(1, 2, 3, 4, lEffectiveWindSpeed);
 		
-		this.calculationController.getPlankForces().setWindPushOnPlank(lWindPushOnPlank);
-		this.calculationController.getPlankForces().setWindPushOnA1TrafficCombination(lWindPushOnA1traf);
-		this.calculationController.getPlankForces().setWindPushOnA2TrafficCombination(lWindPushOnA2traf);
-		this.calculationController.getPlankForces().setWindPushOnA3TrafficCombination(lWindPushOnA3traf);
+		plankForces.setWindPushOnPlank(lWindPushOnPlank);
+		plankForces.setWindPushOnA1TrafficCombination(lWindPushOnA1traf);
+		plankForces.setWindPushOnA2TrafficCombination(lWindPushOnA2traf);
+		plankForces.setWindPushOnA3TrafficCombination(lWindPushOnA3traf);
+			
 	}
 
 }

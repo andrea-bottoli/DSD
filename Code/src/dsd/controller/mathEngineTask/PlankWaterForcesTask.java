@@ -1,19 +1,24 @@
 package dsd.controller.mathEngineTask;
 
 import dsd.calculations.MathEngine;
-import dsd.controller.CalculationsController;
+import dsd.model.calculation.InstrumentsData;
+import dsd.model.calculation.PlankForces;
 
 public class PlankWaterForcesTask implements Runnable{
 	
-	private CalculationsController calculationControl = null;
+	private InstrumentsData instrumentsData;
+	private PlankForces plankForces;
 	
-	public PlankWaterForcesTask(CalculationsController calContr)
+	public PlankWaterForcesTask(InstrumentsData instrumentsData, PlankForces plankForces)
 	{
-		this.calculationControl = calContr;
+		this.instrumentsData = instrumentsData;
+		this.plankForces = plankForces;
 	}
 	
+	
 	@Override
-	public void run() {
+	public void run()
+	{
 		CalculatePlankWaterForces();
 	}
 	
@@ -35,62 +40,62 @@ public class PlankWaterForcesTask implements Runnable{
 		 *PARAMETERS ARE MISSING
 		 *############################# 
 		 */
-		if(this.calculationControl.getInstrumentsData().getIdro1()<17)
+		if(instrumentsData.getIdro1()<17)
 		{
 			/*##############################
 			 *CHANGE 1 WITH a1, 2 WITH b1 and 3 with c1
 			 *PARAMETERS ARE MISSING
 			 *############################# 
 			 */
-			lFlowRate = MathEngine.FlowRate(1, this.calculationControl.getInstrumentsData().getIdro1(), 2, 3);
-		}else if(this.calculationControl.getInstrumentsData().getIdro1()<22)
+			lFlowRate = MathEngine.FlowRate(1, instrumentsData.getIdro1(), 2, 3);
+		}else if(instrumentsData.getIdro1()<22)
 		{
 			/*##############################
 			 *CHANGE 1 WITH a2, 2 WITH b2 and 3 with c2
 			 *PARAMETERS ARE MISSING
 			 *############################# 
 			 */
-			lFlowRate = MathEngine.FlowRate(1, this.calculationControl.getInstrumentsData().getIdro1(), 2, 3);			
-		}else if(this.calculationControl.getInstrumentsData().getIdro1()<25.3)
+			lFlowRate = MathEngine.FlowRate(1, instrumentsData.getIdro1(), 2, 3);			
+		}else if(instrumentsData.getIdro1()<25.3)
 		{
 			/*##############################
 			 *CHANGE 1 WITH a3, 2 WITH b3 and 3 with c3
 			 *PARAMETERS ARE MISSING
 			 *############################# 
 			 */
-			lFlowRate = MathEngine.FlowRate(1, this.calculationControl.getInstrumentsData().getIdro1(), 2, 3);
+			lFlowRate = MathEngine.FlowRate(1, instrumentsData.getIdro1(), 2, 3);
 		}
-		this.calculationControl.getPlankForces().setFlowRate(lFlowRate);
+		plankForces.setFlowRate(lFlowRate);
 		/*##############################
 		 *CHANGE 1 WITH a, 2 WITH b and 3 with c
 		 *PARAMETERS ARE MISSING
 		 *############################# 
 		 */
-		lWaterSpeed = MathEngine.WaterSpeed(1, this.calculationControl.getInstrumentsData().getIdro1(), 2, 3);
+		lWaterSpeed = MathEngine.WaterSpeed(1, instrumentsData.getIdro1(), 2, 3);
 		
 		/*##############################
 		 *CHANGE 1 WITH bottom_ref
 		 *PARAMETERS ARE MISSING
 		 *############################# 
 		 */
-		if(this.calculationControl.getInstrumentsData().getSonar1()<1)
+		if(instrumentsData.getSonar1()<1)
 		{
-			lHs=this.calculationControl.getInstrumentsData().getIdro1() - 1;
+			lHs=instrumentsData.getIdro1() - 1;
 		}else
 		{
-			lHs=this.calculationControl.getInstrumentsData().getIdro1() - this.calculationControl.getInstrumentsData().getSonar1();
+			lHs=instrumentsData.getIdro1() - instrumentsData.getSonar1();
 		}
-		this.calculationControl.getPlankForces().setHs(lHs);
+		plankForces.setHs(lHs);
 		/*##############################
 		 *CHANGE 1 WITH Cspan, 2 WITH Cd0, 3 WITH RHOwater
 		 *PARAMETERS ARE MISSING
 		 *############################# 
 		 */
 		lBs = 1;
-		this.calculationControl.getPlankForces().setBsWithOutDebris(lBs);
+		plankForces.setBsWithOutDebris(lBs);
 		lAs = lBs*lHs;
 		lSwater = MathEngine.HydrodynamicThrustWithOutDebris(2, 3, lAs, lWaterSpeed);
-		this.calculationControl.getPlankForces().setHydrodynamicThrustWithOutDebris(lSwater);
+		plankForces.setHydrodynamicThrustWithOutDebris(lSwater);
 		
 		/*##############################
 		 *CHANGE 666 WITH Dpylon, 2WITH Cd1, 3 WITH RHOwater, 4 WITH BetaA
@@ -98,9 +103,9 @@ public class PlankWaterForcesTask implements Runnable{
 		 *############################# 
 		 */
 		lBs = 2*666;
-		this.calculationControl.getPlankForces().setBsWithDebris(lBs);
+		plankForces.setBsWithDebris(lBs);
 		lAs = lBs*lHs;
 		lSwater = MathEngine.HydrodynamicThrustWithDebris(2, 3, lAs, 4, lWaterSpeed);
-		this.calculationControl.getPlankForces().setHydrodynamicThrustWithDebris(lSwater);
+		plankForces.setHydrodynamicThrustWithDebris(lSwater);
 	}
 }

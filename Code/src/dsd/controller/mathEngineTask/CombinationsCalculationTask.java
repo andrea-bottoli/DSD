@@ -1,17 +1,16 @@
 package dsd.controller.mathEngineTask;
 
-import dsd.controller.CalculationsController;
 import dsd.model.calculation.Combination;
 import dsd.model.calculation.LineForcesMatrix;
 import dsd.model.calculation.LineForces;
+import dsd.model.calculation.PlankForces;
 
 public class CombinationsCalculationTask implements Runnable{
 	
-	private CalculationsController calculationController = null;
-	private int side;
+	private LineForcesMatrix lineForcesMatrix;
+	private LineForces lineForces;
+	private PlankForces plankForces;
 	private float n=0, tx=0, ty=0, qy=0, mx=0;
-	private LineForcesMatrix forcesMatrix = null;
-	private LineForces lineForces = null;
 	
 	/*
 	 * DEFINITIONS OF WHICH COMPONENTS OF LINE_FORCES_MATRIX HAVE TO BE USED FOR EACH COMBINATION CALCULATION
@@ -54,10 +53,11 @@ public class CombinationsCalculationTask implements Runnable{
 									{LineForcesMatrix.PS,LineForcesMatrix.A322,LineForcesMatrix.FR01,LineForcesMatrix.VT1A3,LineForcesMatrix.AQD0}};
 			
 			
-	public CombinationsCalculationTask(CalculationsController calculationController, int side)
+	public CombinationsCalculationTask(LineForcesMatrix lineForcesMatrix, LineForces lineForces, PlankForces plankForces)
 	{
-		this.calculationController = calculationController;
-		this.side = side;
+		this.lineForcesMatrix = lineForcesMatrix;
+		this.lineForces = lineForces;
+		this.plankForces = plankForces;
 	}
 	
 	@Override
@@ -83,16 +83,6 @@ public class CombinationsCalculationTask implements Runnable{
 	{	
 		int j=0;
 		
-		if(side==0)
-		{
-			forcesMatrix = this.calculationController.getMantovaLineMatrix();
-			lineForces = this.calculationController.getMantovaLineForces();
-		}else if(side==1)
-		{
-			forcesMatrix = this.calculationController.getModenaLineForcesMatrix();
-			lineForces = this.calculationController.getModenaLineForces();
-		}
-		
 		for(Combination c : this.lineForces.getComboList())
 		{
 			clearVariables();
@@ -100,14 +90,14 @@ public class CombinationsCalculationTask implements Runnable{
 			
 			for(int i=0; i<this.components[j].length ; i++)
 			{
-				this.n  += forcesMatrix.getForcesList().get(this.components[j][i]).getN();
-				this.tx += forcesMatrix.getForcesList().get(this.components[j][i]).getTx();
-				this.ty += forcesMatrix.getForcesList().get(this.components[j][i]).getTy();
-				this.qy += forcesMatrix.getForcesList().get(this.components[j][i]).getQy();
-				this.mx += forcesMatrix.getForcesList().get(this.components[j][i]).getMx();
+				this.n  += this.lineForcesMatrix.getForcesList().get(this.components[j][i]).getN();
+				this.tx += this.lineForcesMatrix.getForcesList().get(this.components[j][i]).getTx();
+				this.ty += this.lineForcesMatrix.getForcesList().get(this.components[j][i]).getTy();
+				this.qy += this.lineForcesMatrix.getForcesList().get(this.components[j][i]).getQy();
+				this.mx += this.lineForcesMatrix.getForcesList().get(this.components[j][i]).getMx();
 			}
 			
-			c.setN(this.n + (this.calculationController.getPlankForces().getStackWeight()/2));
+			c.setN(this.n + (this.plankForces.getStackWeight()/2));
 			c.setTx(this.tx);
 			c.setTy(this.ty);
 			c.setQy(this.qy);
