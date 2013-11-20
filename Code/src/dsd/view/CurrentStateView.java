@@ -24,8 +24,8 @@ public class CurrentStateView extends HttpServlet {
 		List<RawData> rawDataList = RawDataController.GetAllForPeriod(new Date(2013, 1, 1), new Date(
 				2014, 1, 1));
 		
-		RawData r = rawDataList.get(2);	
-		req.setAttribute("rawDataList", r);
+		//RawData r = rawDataList.get(2);	
+		req.setAttribute("rawDataList", rawDataList);
 		
 		
 		
