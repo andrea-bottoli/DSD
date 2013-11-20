@@ -21,10 +21,6 @@ public class PlankWeightForcesTask implements Runnable{
 		CalculatePlankWeightForces();
 	}
 	
-	/*
-	 * This method calculates the component
-	 * of weight of the planking
-	 */
 	/**
 	 * This method calculates the component
 	 * of weight of the planking: PPplank
@@ -50,4 +46,5 @@ public class PlankWeightForcesTask implements Runnable{
 		plankForces.setStackWeight(lPstack);
 			
 	}
+	
 }

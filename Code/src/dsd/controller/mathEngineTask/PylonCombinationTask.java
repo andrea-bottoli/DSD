@@ -12,7 +12,8 @@ public class PylonCombinationTask implements Runnable {
 	}
 	
 	@Override
-	public void run() {
+	public void run()
+	{
 		pylonCalculation();
 	}
 	

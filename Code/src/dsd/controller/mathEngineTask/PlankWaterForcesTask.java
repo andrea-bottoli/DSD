@@ -15,17 +15,12 @@ public class PlankWaterForcesTask implements Runnable{
 		this.plankForces = plankForces;
 	}
 	
-	
 	@Override
 	public void run()
 	{
 		CalculatePlankWaterForces();
 	}
 	
-	/*
-	 * This method calculates the three components
-	 * of water force on the planking
-	 */
 	/**
 	 * This method calculates the three components
 	 * of water force on the planking: Q Flow rate,
@@ -108,4 +103,5 @@ public class PlankWaterForcesTask implements Runnable{
 		lSwater = MathEngine.HydrodynamicThrustWithDebris(2, 3, lAs, 4, lWaterSpeed);
 		plankForces.setHydrodynamicThrustWithDebris(lSwater);
 	}
+	
 }
