@@ -59,8 +59,8 @@ public class CalculationsController implements Runnable{
 		this.moLineMatrix = new LineForcesMatrix();
 		this.mnLineForces = new LineForces();
 		this.moLineForces = new LineForces();
-		this.mnPylonsForces = new PylonForces();
-		this.moPylonsForces = new PylonForces();
+		this.mnPylonsForces = new PylonForces(mnLineForces, 0);
+		this.moPylonsForces = new PylonForces(moLineForces, 1);
 	}
 	
 	@Override
