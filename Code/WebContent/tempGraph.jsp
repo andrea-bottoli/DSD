@@ -6,33 +6,27 @@
 
 	<body>
 		<h1>Current state diagram</h1>
-		<canvas id="buyers" width="600" height="400"></canvas>
+		<canvas id="buyers" width="300" height="200"></canvas>
 		
 		
 		
 		
-		<script type="text/javascript">
+		<script>
 		    var buyers = document.getElementById('buyers').getContext('2d');
-		    
-		    var list = eval('('+'${rawDataList}'+')');
-		    
-		    var array =  list.Dates;
-		    var dataSet = list.ValuesOfWindSpeed;
-		    
+		    var time2 = '${rawDataList.rawDataID}';
 		    var buyerData = {
-		    		labels : array,
+		    		labels : [ time2 ,"February","March","April","May","June"],
 		    		datasets : [
 		    			{
 		    				fillColor : "rgba(172,194,132,0.4)",
 		    				strokeColor : "#ACC26D",
 		    				pointColor : "#fff",
 		    				pointStrokeColor : "#9DB86D",
-		    				data : dataSet
+		    				data : [203,156,99,251,305,247]
 		    			}
 		    		]
 		    	}
 		    new Chart(buyers).Line(buyerData);  
-		   
 		</script>
 		
 		<h1>This is so cool! :)</h1>

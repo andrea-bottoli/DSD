@@ -4,38 +4,63 @@ import java.util.ArrayList;
 
 public class LineForcesMatrix {
 	
+	/*
+	 * Define a variable for each raw on the "matrix" and then
+	 * define also a constant that represents the matrix row
+	 * in which this variable is
+	 * 
+	 * These costants are used by the CombinationsCalculationTask
+	 * to define which components made the combinations so which
+	 * forces contribute at the calculations of each combination.
+	 */
 	private Force ps;
 	public static final int PS = 0;
+	
 	private Force a110;
 	public static final int A110 = 1;
+	
 	private Force a120;
 	public static final int A120 = 2;
+	
 	private Force a210;
 	public static final int A210 = 3;
+	
 	private Force a220;
 	public static final int A220 = 4;
+	
 	private Force a311;
 	public static final int A311 = 5;
+	
 	private Force a312;
 	public static final int A312 = 6;
+	
 	private Force a321;
 	public static final int A321 = 7;
+	
 	private Force a322;
 	public static final int A322 = 8;
+	
 	private Force fr01;
 	public static final int FR01 = 9;
+	
 	private Force fr02;
 	public static final int FR02 = 10;
+	
 	private Force vt0;
 	public static final int VT0 = 11;
+	
 	private Force vt1a1;
 	public static final int VT1A1 = 12;
+	
 	private Force vt1a2;
 	public static final int VT1A2 = 13;
+	
 	private Force vt1a3;
 	public static final int VT1A3 = 14;
+	
 	private Force aqd0;
 	public static final int AQD0 = 15;
+	
 	private Force aqd1;
 	public static final int AQD1 = 16;
 	

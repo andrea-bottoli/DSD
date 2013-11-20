@@ -1,14 +1,17 @@
 <%@ tag language="java" pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 
 <body>
-	<img class=center src="SiteImages/logo.png" alt="Real-time bridge monitoring logo" />
-	<br/>
-	<hr/>
-	<div id="header" class="center">
-		<h1>Real-time bridge monitoring</h1>
-	</div>
+	<t:header>
+	
+	</t:header>
+	
 	<div id="content">
 		<jsp:doBody />
 	</div>
-	<div id="footer" class="center">Miraldi</div>
+	
+	<t:footer>
+	
+	</t:footer>
+
 </body>

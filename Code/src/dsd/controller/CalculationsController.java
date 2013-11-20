@@ -42,12 +42,15 @@ public class CalculationsController implements Runnable{
 	private ArrayList<RawData> oneHourData = null;
 	private ArrayList<RawData> oneDayData = null;
 	
-	//Variables to track timestamps
+	/*
+	 * Variable that tracks the timestamps to know till where the system
+	 * has analyzed the data for each source
+	 */
 	private long lastRawDataTimestamp;
 	private long last10minDataTimestamp;
 	private long last1hourDataTimestamp;
 	
-	//Variable to store parameters
+	//Variable to store parameters after red them from DB
 	private float parameters;
 	
 	//Constructor
@@ -324,8 +327,8 @@ public class CalculationsController implements Runnable{
 		//Anemometer
 		this.instrumentsData.setAne1(meanWindSpeed);
 		this.instrumentsData.setAne2(maxWindSpeed);
-		this.instrumentsData.setAne3(meanWindDirection);
-		this.instrumentsData.setAne4(maxWindDirection);
+		this.instrumentsData.setAne3(fixWindDirection(meanWindDirection));
+		this.instrumentsData.setAne4(fixWindDirection(maxWindDirection));
 		
 		//Hydrometer
 		this.instrumentsData.setIdro1(meanWaterLevel);
@@ -341,6 +344,29 @@ public class CalculationsController implements Runnable{
 		this.instrumentsData.setSonar7(percUncertainData2Over12Sample);
 	}
 	
+	
+	/**
+	 * This method calculate the right direction of the wind
+	 * The value WindDirection in RawData file is the direction
+	 * from which the wind comes.
+	 * 
+	 * This method returns the direction to which the wind goes.
+	 * 
+	 * @param 
+	 * @return
+	 */
+	private float fixWindDirection(float windOrigin)
+	{
+		if(windOrigin < 180)
+		{
+			return (windOrigin + 180);
+		}else 
+		{
+			return (windOrigin - 180);
+		}
+	}
+	
+	
 	/*
 	 * This method calculates the Plank Forces
 	 */
@@ -351,19 +377,23 @@ public class CalculationsController implements Runnable{
 	private void CalculatePlankForces()
 	{		
 		//THINK ABOUT DO THIS WITH THREADS !!!!
-		ExecutorService pool = Executors.newFixedThreadPool(3);
-
-		//WIND PUSH
-		pool.submit(new PlankWindForcesTask(this));
-		//WATER PUSH
-		pool.submit(new PlankWaterForcesTask(this));
-		//WEIGHT PRESSURE
-		pool.submit(new PlankWeightForcesTask(this));
-		
-		pool.shutdown();
+		ExecutorService pool = null;
 		
 		try {
-			pool.awaitTermination(60, TimeUnit.SECONDS);
+			do
+			{
+				pool = Executors.newFixedThreadPool(3);
+						
+				//WIND PUSH
+				pool.submit(new PlankWindForcesTask(this));
+				//WATER PUSH
+				pool.submit(new PlankWaterForcesTask(this));
+				//WEIGHT PRESSURE
+				pool.submit(new PlankWeightForcesTask(this));
+				
+				pool.shutdown();
+			}
+			while(!pool.awaitTermination(60, TimeUnit.SECONDS));
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -445,7 +475,7 @@ public class CalculationsController implements Runnable{
 	 */
 	private void CalculatePlankWaterForces() {
 		
-		float lFlowRate, lWaterSpeed, lAs, lHs, lBs, lSwater;
+		float lFlowRate=0, lWaterSpeed=0, lAs=0, lHs=0, lBs=0, lSwater=0;
 		
 		/*##############################
 		 *CHANGE 17 WITH Hwater1, 22 WITH Hwater2 and 25.3 WITH Hmax
@@ -477,7 +507,7 @@ public class CalculationsController implements Runnable{
 			 */
 			lFlowRate = MathEngine.FlowRate(1, this.instrumentsData.getIdro1(), 2, 3);
 		}
-		
+		this.plankForces.setFlowRate(lFlowRate);
 		/*##############################
 		 *CHANGE 1 WITH a, 2 WITH b and 3 with c
 		 *PARAMETERS ARE MISSING
@@ -548,65 +578,46 @@ public class CalculationsController implements Runnable{
 	}
 	
 	
-	
-	/**
-	 * This method calculates and fills the LinesForcesMatrix
-	 * variables
-	 */
-	private void CalculateLineForcesMatrix()
-	{
-		//THINK ABOUT DO THIS WITH THREADS !!!!
-		ExecutorService pool = Executors.newFixedThreadPool(2);
-
-		//Mantova Line
-		pool.submit(new MatrixFillTask(this, 0));
-		//Modena Line
-		pool.submit(new MatrixFillTask(this, 1));
-		
-		pool.shutdown();
-		
-		try {
-			pool.awaitTermination(60, TimeUnit.SECONDS);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	private void CombinationsCalculation()
-	{
-		//THINK ABOUT DO THIS WITH THREADS !!!!
-		ExecutorService pool = Executors.newFixedThreadPool(2);
-
-		//Mantova Line
-		pool.submit(new CombinationsCalculationTask(this, 0));
-		//Modena Line
-		pool.submit(new CombinationsCalculationTask(this, 1));
-		
-		pool.shutdown();
-		
-		try {
-			pool.awaitTermination(60, TimeUnit.SECONDS);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
-	
-	
 	/*
 	 * This method calculates the Line Forces
 	 */
 	/**
 	 * This method calculates the values of the forces that
 	 * are acting on the single line of pylons.
+	 * 
+	 * Execute the task to caluclate the LineForcesMatrix and LineForces
+	 * for each line of pylons.
 	 */
 	private void CalculateLineForces()
-	{
-		CalculateLineForcesMatrix();
-		CombinationsCalculation();
+	{	
+		//POOL1 for MANTOVA LINE
+		ExecutorService pool1 = null;
+		//POOL2 for MODENA LINE
+		ExecutorService pool2 = null;
+		
+		try {
+			do
+			{
+				pool1 = Executors.newFixedThreadPool(1);
+				pool2 = Executors.newFixedThreadPool(1);
+				
+				//Start the Calculations and filling the matrix for each line
+				pool1.submit(new MatrixFillTask(this, 0));
+				pool2.submit(new MatrixFillTask(this, 1));
+				
+				//Start the calculations of the all combinations for each line
+				pool1.submit(new CombinationsCalculationTask(this, 0));
+				pool2.submit(new CombinationsCalculationTask(this, 1));
+				
+				pool1.shutdown();
+				pool2.shutdown();
+			}
+			while(!(pool1.awaitTermination(60, TimeUnit.SECONDS) && pool2.awaitTermination(60, TimeUnit.SECONDS)));
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
-	
+		
 	/*
 	 * This method calculates the Pylon Forces
 	 */
