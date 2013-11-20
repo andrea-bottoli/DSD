@@ -19,7 +19,6 @@ public class CalculationsController implements Runnable{
 	
 	//Variables to read/store data from sources
 	private CalculatedDataController calculatedDataController = null;	// --> Has to be instanced or is a input ??
-	private ParametersController parametersController = null;			// --> Has to be instanced or is a input ??
 	
 	//Variables from technical instruments
 	private InstrumentsData instrumentsData =null;
@@ -49,9 +48,6 @@ public class CalculationsController implements Runnable{
 	private long lastRawDataTimestamp;
 	private long last10minDataTimestamp;
 	private long last1hourDataTimestamp;
-	
-	//Variable to store parameters after red them from DB
-	private float parameters;
 	
 	//Constructor
 	public CalculationsController()
@@ -724,13 +720,6 @@ public class CalculationsController implements Runnable{
 	 */
 	public PylonForces getModenaPylonsForces() {
 		return moPylonsForces;
-	}
-
-	/**
-	 * @return the parameters
-	 */
-	public float getParameters() {
-		return parameters;
 	}
 
 	/**
