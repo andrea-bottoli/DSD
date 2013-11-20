@@ -4,11 +4,16 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
+import dsd.model.enums.eCameraType;
+
 public class FilesDAO
 {
 
 	// Just for the moment as dirty solution!!
 	private static String anaFileDir = "/home/joti/Dokumente/Uni/MDH/DSD/Data Sources/2011.Borgoforte/04. Ane_Idro/";
+	private static String sonarFileDir = "/home/joti/Dokumente/Uni/MDH/DSD/Data Sources/2011.Borgoforte/04. Ane_Idro/";
+	private static String pictureModenaFileDir = "/home/joti/Dokumente/Uni/MDH/DSD/Data Sources/2011.Borgoforte/04. Ane_Idro/";
+	private static String pictureMantovaFileDir = "/home/joti/Dokumente/Uni/MDH/DSD/Data Sources/2011.Borgoforte/04. Ane_Idro/";
 
 	public static ArrayList<File> getNewAneFiles(GregorianCalendar date)
 	{
@@ -20,7 +25,7 @@ public class FilesDAO
 		for (int i = 0; i < fileArray.length; i++)
 		{
 			String fileName = fileArray[i].getName();
-			if (fileName.substring(0, 1).equals("a"))
+			if (fileName.substring(0, 6).equals("analog"))
 			{
 				String timestamp = fileName.substring(6, fileName.length() - 4);
 				if (date.before(dsd.calculations.TimeCalculations.LabViewTimestampsToGregCalendar(Long
@@ -34,10 +39,93 @@ public class FilesDAO
 		return returnList;
 
 	}
+
 	public static ArrayList<File> getNewSonoFiles(GregorianCalendar date)
 	{
-		return null;
+		ArrayList<File> returnList = new ArrayList<File>();
 
+		File file = new File(sonarFileDir);
+		File[] fileArray = file.listFiles();
+
+		for (int i = 0; i < fileArray.length; i++)
+		{
+			String fileName = fileArray[i].getName();
+			if (fileName.substring(0, 5).equals("sonar"))
+			{
+				String timestamp = fileName.substring(5, fileName.length() - 4);
+				if (date.before(dsd.calculations.TimeCalculations.LabViewTimestampsToGregCalendar(Long
+						.parseLong(timestamp))))
+				{
+					returnList.add(fileArray[i]);
+				}
+			}
+		}
+
+		return returnList;
+
+	}
+
+	/**
+	 * Returns all Images newer than given date. Use getMantovaImages() and
+	 * getModenaImages() inside.
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public static ArrayList<File> getNewImages(GregorianCalendar date)
+	{
+		ArrayList<File> returnList = new ArrayList<File>();
+
+		returnList = getMantovaImages(date, returnList);
+		returnList = getModenaImages(date, returnList);
+
+		return returnList;
+	}
+
+	public static ArrayList<File> getMantovaImages(GregorianCalendar date, ArrayList<File> fileList)
+	{
+		String cameraType = eCameraType.Mantova.toString();
+		File file = new File(pictureMantovaFileDir);
+		File[] fileArray = file.listFiles();
+
+		for (int i = 0; i < fileArray.length; i++)
+		{
+			String fileName = fileArray[i].getName();
+			if (fileName.substring(0, cameraType.length()).equalsIgnoreCase(cameraType))
+			{
+				String timestamp = fileName.substring(cameraType.length(), fileName.length() - 4);
+				if (date.before(dsd.calculations.TimeCalculations.PictureTimeToGregCalendar(timestamp)))
+					;
+				{
+					fileList.add(fileArray[i]);
+				}
+			}
+		}
+
+		return fileList;
+	}
+
+	public static ArrayList<File> getModenaImages(GregorianCalendar date, ArrayList<File> fileList)
+	{
+		String cameraType = eCameraType.Modena.toString();
+		File file = new File(pictureModenaFileDir);
+		File[] fileArray = file.listFiles();
+
+		for (int i = 0; i < fileArray.length; i++)
+		{
+			String fileName = fileArray[i].getName();
+			if (fileName.substring(0, cameraType.length()).equalsIgnoreCase(cameraType))
+			{
+				String timestamp = fileName.substring(cameraType.length(), fileName.length() - 4);
+				if (date.before(dsd.calculations.TimeCalculations.PictureTimeToGregCalendar(timestamp)))
+					;
+				{
+					fileList.add(fileArray[i]);
+				}
+			}
+		}
+
+		return fileList;
 	}
 
 }
