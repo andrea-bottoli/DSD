@@ -124,7 +124,7 @@ public class DAOProvider
 							: "order by " + order)));
 
 			for (int i = 0; i < parameters.length; i++)
-			{		
+			{
 				SetParameter(command, parameters[i], i + 1);
 			}
 
@@ -192,6 +192,52 @@ public class DAOProvider
 	}
 
 	/**
+	 * Secure function, works most like InsertRow, but instead of values, just
+	 * give Array of Values.
+	 * 
+	 * @param table
+	 * @param fields
+	 * @param con
+	 * @param valueArray
+	 * @return
+	 * @throws SQLException
+	 */
+	public static int InsertRowSecure(String table, String fields, Connection con, Object[] valueArray)
+			throws SQLException
+	{
+		try
+		{
+			String values = "";
+			if (valueArray.length > 0)
+			{
+				values = "?";
+			}
+			for (int i = 1; i < valueArray.length; i++)
+			{
+				values += ",?";
+			}
+
+			PreparedStatement command = con.prepareStatement(String.format("insert into %s (%s) values %s",
+					table, fields, values));
+			command.executeUpdate();
+			for (int i = 0; i < valueArray.length; i++)
+			{
+				SetParameter(command, valueArray[i], i);
+			}
+
+			command = con.prepareStatement(String.format("select Max(ID) from %s", table));
+			ResultSet rs = command.executeQuery();
+			rs.next();
+
+			return rs.getInt(1);
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		return 0;
+	}
+	/**
 	 * 
 	 * @param table
 	 * @param set
@@ -214,37 +260,40 @@ public class DAOProvider
 		}
 		return 0;
 	}
-	
+
 	/**
-	 * calls the correct method for setting the command parameter depending on parameter type
-	 * @param command 
+	 * calls the correct method for setting the command parameter depending on
+	 * parameter type
+	 * 
+	 * @param command
 	 * @param object
 	 * @param parameterIndex
 	 * @throws SQLException
 	 */
-	private static void SetParameter(PreparedStatement command, Object object, int parameterIndex) throws SQLException
+	private static void SetParameter(PreparedStatement command, Object object, int parameterIndex)
+			throws SQLException
 	{
 		if (object instanceof Timestamp)
 		{
-			command.setTimestamp(parameterIndex, (Timestamp)object);
+			command.setTimestamp(parameterIndex, (Timestamp) object);
 		}
 		else if (object instanceof String)
 		{
-			command.setString(parameterIndex, (String)object);
+			command.setString(parameterIndex, (String) object);
 		}
 		else if (object instanceof Long)
 		{
-			command.setLong(parameterIndex, (Long)object);
+			command.setLong(parameterIndex, (Long) object);
 		}
 		else if (object instanceof Integer)
 		{
-			command.setInt(parameterIndex, (Integer)object);
+			command.setInt(parameterIndex, (Integer) object);
 		}
 		else
 		{
 			throw new IllegalArgumentException("type needs to be inserted in DAOProvider class");
 		}
-		
+
 	}
 
 }
