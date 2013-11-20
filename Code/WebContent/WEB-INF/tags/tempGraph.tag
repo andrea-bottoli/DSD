@@ -1,12 +1,3 @@
-<%@ tag language="java" pageEncoding="ISO-8859-1"%>
-<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
-
-<t:desktopHead>
-	<jsp:attribute name="headerExtension">
-			<!--  additional header definitions -->
-		</jsp:attribute>
-</t:desktopHead>
-
 
 <body>
 <h1>Current state diagram</h1>
