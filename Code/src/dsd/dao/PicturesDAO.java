@@ -68,9 +68,9 @@ public class PicturesDAO
 				Picture pic = pictureIterator.next();
 
 				// Use not a secure function in the moment!!!
-				String input = pic.getPath() + ", " + pic.getTimestamp() + ", " + pic.getCamera();
-				DAOProvider.InsertRow(tableName, tableFields[1] + ", " + tableFields[2] + ", "
-						+ tableFields[3], input, con);
+				Object[] input = {pic.getPath(), pic.getTimestamp(), pic.getCamera()};
+				DAOProvider.InsertRowSecure(tableName, tableFields[1] + ", " + tableFields[2] + ", "
+						+ tableFields[3], con, input);
 
 			}
 
