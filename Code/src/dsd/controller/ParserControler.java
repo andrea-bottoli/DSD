@@ -1,14 +1,23 @@
 package dsd.controller;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.el.MethodNotFoundException;
 
 import org.apache.commons.lang3.StringUtils;
 
 import dsd.calculations.TimeCalculations;
+import dsd.dao.PicturesDAO;
+import dsd.model.Picture;
 import dsd.model.RawData;
+import dsd.model.enums.eCameraType;
 import dsd.model.enums.eFileType;
 import dsd.model.enums.eSonarType;
 
@@ -32,7 +41,7 @@ public class ParserControler
 				case Analog :
 					ReadAnalogData(br, rawDataList);
 					break;
-				default:
+				default :
 					throw new MethodNotFoundException();
 			}
 			// TO-DO call method for inserting the data in the database
@@ -64,7 +73,7 @@ public class ParserControler
 		String line = null;
 		boolean timestampIsLastReadLine = true;
 		while ((line = br.readLine()) != null)
-		{		
+		{
 			boolean lineStartsWithWhitespace = Character.isWhitespace(line.charAt(0));
 			if (lineStartsWithWhitespace)
 			{
@@ -131,7 +140,7 @@ public class ParserControler
 			double windSpeed = Double.parseDouble(inputs[0]);
 			double windDirection = Double.parseDouble(inputs[2]);
 			double hydrometer = Double.parseDouble(inputs[1]);
-			long timestamp = (long)Double.parseDouble(inputs[3]);
+			long timestamp = (long) Double.parseDouble(inputs[3]);
 
 			data.setWindSpeed((float) windSpeed);
 			data.setWindDirection((float) windDirection);
@@ -140,5 +149,37 @@ public class ParserControler
 			rawDataList.add(data);
 			data = new RawData();
 		}
+	}
+
+	private static void ReadImageData(GregorianCalendar date)
+	{
+		ArrayList<File> fileList = dsd.dao.FilesDAO.getNewImages(date);
+		ArrayList<Picture> picList = new ArrayList<Picture>();
+		Iterator<File> fileIterator = fileList.iterator();
+		while (fileIterator.hasNext())
+		{
+			File item = fileIterator.next();
+			Picture newPicture = new Picture();
+			newPicture.setPath(item.getAbsolutePath());
+			if (item.getName().substring(0, eCameraType.Mantova.toString().length())
+					.equalsIgnoreCase(eCameraType.Mantova.toString()))
+			{
+				newPicture.setCamera(eCameraType.Mantova.getCode());
+				newPicture.setTimestamp(TimeCalculations.PictureTimestampToGregToMiliSeconds(item.getName()
+						.substring(eCameraType.Mantova.toString().length(), item.getName().length() - 4)));
+			}
+			else if (item.getName().substring(0, eCameraType.Modena.toString().length())
+					.equalsIgnoreCase(eCameraType.Modena.toString()))
+			{
+				newPicture.setCamera(eCameraType.Modena.getCode());
+				newPicture.setTimestamp(TimeCalculations.PictureTimestampToGregToMiliSeconds(item.getName()
+						.substring(eCameraType.Modena.toString().length(), item.getName().length() - 4)));
+			}
+			picList.add(newPicture);
+
+		}
+
+		PicturesDAO.setPictures(picList);
+
 	}
 }

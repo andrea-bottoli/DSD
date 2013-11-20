@@ -69,4 +69,9 @@ public class TimeCalculations
 
 	}
 
+	public static long PictureTimestampToGregToMiliSeconds(String timestamp)
+	{
+		return PictureTimeToGregCalendar(timestamp).getTime().getTime();
+	}
+
 }

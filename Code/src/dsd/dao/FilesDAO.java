@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
+import dsd.model.enums.eCameraType;
+
 public class FilesDAO
 {
 
@@ -82,15 +84,16 @@ public class FilesDAO
 
 	public static ArrayList<File> getMantovaImages(GregorianCalendar date, ArrayList<File> fileList)
 	{
+		String cameraType = eCameraType.Mantova.toString();
 		File file = new File(pictureMantovaFileDir);
 		File[] fileArray = file.listFiles();
 
 		for (int i = 0; i < fileArray.length; i++)
 		{
 			String fileName = fileArray[i].getName();
-			if (fileName.substring(0, 7).equals("mantova"))
+			if (fileName.substring(0, cameraType.length()).equalsIgnoreCase(cameraType))
 			{
-				String timestamp = fileName.substring(7, fileName.length() - 4);
+				String timestamp = fileName.substring(cameraType.length(), fileName.length() - 4);
 				if (date.before(dsd.calculations.TimeCalculations.PictureTimeToGregCalendar(timestamp)))
 					;
 				{
@@ -104,15 +107,16 @@ public class FilesDAO
 
 	public static ArrayList<File> getModenaImages(GregorianCalendar date, ArrayList<File> fileList)
 	{
+		String cameraType = eCameraType.Modena.toString();
 		File file = new File(pictureModenaFileDir);
 		File[] fileArray = file.listFiles();
 
 		for (int i = 0; i < fileArray.length; i++)
 		{
 			String fileName = fileArray[i].getName();
-			if (fileName.substring(0, 6).equals("modena"))
+			if (fileName.substring(0, cameraType.length()).equalsIgnoreCase(cameraType))
 			{
-				String timestamp = fileName.substring(6, fileName.length() - 4);
+				String timestamp = fileName.substring(cameraType.length(), fileName.length() - 4);
 				if (date.before(dsd.calculations.TimeCalculations.PictureTimeToGregCalendar(timestamp)))
 					;
 				{

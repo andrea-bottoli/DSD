@@ -56,7 +56,7 @@ public class PicturesDAO
 	 * 
 	 * @param pictureList
 	 */
-	public void setPictures(ArrayList<Picture> pictureList)
+	public static void setPictures(ArrayList<Picture> pictureList)
 	{
 
 		Iterator<Picture> pictureIterator = pictureList.iterator();
