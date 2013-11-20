@@ -75,18 +75,19 @@ public class PlankWaterForcesTask implements Runnable{
 		 */
 		if(this.calculationControl.getInstrumentsData().getSonar1()<1)
 		{
-			lHs=this.calculationControl.getInstrumentsData().getIdro2() - 1;
+			lHs=this.calculationControl.getInstrumentsData().getIdro1() - 1;
 		}else
 		{
-			lHs=this.calculationControl.getInstrumentsData().getIdro2() - this.calculationControl.getInstrumentsData().getSonar1();
+			lHs=this.calculationControl.getInstrumentsData().getIdro1() - this.calculationControl.getInstrumentsData().getSonar1();
 		}
-		
+		this.calculationControl.getPlankForces().setHs(lHs);
 		/*##############################
 		 *CHANGE 1 WITH Cspan, 2 WITH Cd0, 3 WITH RHOwater
 		 *PARAMETERS ARE MISSING
 		 *############################# 
 		 */
 		lBs = 1;
+		this.calculationControl.getPlankForces().setBsWithOutDebris(lBs);
 		lAs = lBs*lHs;
 		lSwater = MathEngine.HydrodynamicThrustWithOutDebris(2, 3, lAs, lWaterSpeed);
 		this.calculationControl.getPlankForces().setHydrodynamicThrustWithOutDebris(lSwater);
@@ -97,6 +98,7 @@ public class PlankWaterForcesTask implements Runnable{
 		 *############################# 
 		 */
 		lBs = 2*666;
+		this.calculationControl.getPlankForces().setBsWithDebris(lBs);
 		lAs = lBs*lHs;
 		lSwater = MathEngine.HydrodynamicThrustWithDebris(2, 3, lAs, 4, lWaterSpeed);
 		this.calculationControl.getPlankForces().setHydrodynamicThrustWithDebris(lSwater);

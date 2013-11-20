@@ -2,12 +2,14 @@ package dsd.model.calculation;
 
 public class Combination extends Force{
 	
-	private final boolean debris;
-	private final boolean traffic;
+	private int combinationNumber;
+	private boolean debris;
+	private boolean traffic;
 	
-	public Combination(boolean t, boolean d)
+	public Combination(int combinationNumber, boolean t, boolean d)
 	{
 		super();
+		this.combinationNumber = combinationNumber;
 		this.debris=d;
 		this.traffic=t;
 	}
@@ -25,6 +27,11 @@ public class Combination extends Force{
 	public boolean isThereTraffic() {
 		return this.traffic;
 	}
-	
-	
+
+	/**
+	 * @return the combinationNumber
+	 */
+	public int getCombinationNumber() {
+		return combinationNumber;
+	}
 }

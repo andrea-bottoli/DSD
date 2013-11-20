@@ -28,6 +28,16 @@
         <servlet-name>TestRawData</servlet-name>
         <url-pattern>/TestRawData</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+      	<servlet-name>TestParametersData</servlet-name>
+      	<servlet-class>dsd.view.TestParametersView</servlet-class>
+    </servlet>
+	
+	<servlet-mapping>
+        <servlet-name>TestParametersData</servlet-name>
+        <url-pattern>/TestParametersData</url-pattern>
+    </servlet-mapping>
   
   
   <welcome-file-list>

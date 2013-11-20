@@ -5,22 +5,39 @@ import java.util.ArrayList;
 public class LineForcesMatrix {
 	
 	private Force ps;
+	public static final int PS = 0;
 	private Force a110;
+	public static final int A110 = 1;
 	private Force a120;
+	public static final int A120 = 2;
 	private Force a210;
+	public static final int A210 = 3;
 	private Force a220;
+	public static final int A220 = 4;
 	private Force a311;
+	public static final int A311 = 5;
 	private Force a312;
+	public static final int A312 = 6;
 	private Force a321;
+	public static final int A321 = 7;
 	private Force a322;
+	public static final int A322 = 8;
 	private Force fr01;
+	public static final int FR01 = 9;
 	private Force fr02;
+	public static final int FR02 = 10;
 	private Force vt0;
+	public static final int VT0 = 11;
 	private Force vt1a1;
+	public static final int VT1A1 = 12;
 	private Force vt1a2;
+	public static final int VT1A2 = 13;
 	private Force vt1a3;
+	public static final int VT1A3 = 14;
 	private Force aqd0;
+	public static final int AQD0 = 15;
 	private Force aqd1;
+	public static final int AQD1 = 16;
 	
 	private ArrayList<Force> forcesList = null;
 	
@@ -73,24 +90,10 @@ public class LineForcesMatrix {
 	}
 
 	/**
-	 * @param ps the ps to set
-	 */
-	public void setPs(Force ps) {
-		this.ps = ps;
-	}
-
-	/**
 	 * @return the a110
 	 */
 	public Force getA110() {
 		return a110;
-	}
-
-	/**
-	 * @param a110 the a110 to set
-	 */
-	public void setA110(Force a110) {
-		this.a110 = a110;
 	}
 
 	/**
@@ -101,24 +104,10 @@ public class LineForcesMatrix {
 	}
 
 	/**
-	 * @param a120 the a120 to set
-	 */
-	public void setA120(Force a120) {
-		this.a120 = a120;
-	}
-
-	/**
 	 * @return the a210
 	 */
 	public Force getA210() {
 		return a210;
-	}
-
-	/**
-	 * @param a210 the a210 to set
-	 */
-	public void setA210(Force a210) {
-		this.a210 = a210;
 	}
 
 	/**
@@ -129,24 +118,10 @@ public class LineForcesMatrix {
 	}
 
 	/**
-	 * @param a220 the a220 to set
-	 */
-	public void setA220(Force a220) {
-		this.a220 = a220;
-	}
-
-	/**
 	 * @return the a311
 	 */
 	public Force getA311() {
 		return a311;
-	}
-
-	/**
-	 * @param a311 the a311 to set
-	 */
-	public void setA311(Force a311) {
-		this.a311 = a311;
 	}
 
 	/**
@@ -157,24 +132,10 @@ public class LineForcesMatrix {
 	}
 
 	/**
-	 * @param a312 the a312 to set
-	 */
-	public void setA312(Force a312) {
-		this.a312 = a312;
-	}
-
-	/**
 	 * @return the a321
 	 */
 	public Force getA321() {
 		return a321;
-	}
-
-	/**
-	 * @param a321 the a321 to set
-	 */
-	public void setA321(Force a321) {
-		this.a321 = a321;
 	}
 
 	/**
@@ -185,122 +146,59 @@ public class LineForcesMatrix {
 	}
 
 	/**
-	 * @param a322 the a322 to set
-	 */
-	public void setA322(Force a322) {
-		this.a322 = a322;
-	}
-
-	/**
 	 * @return the fr01
 	 */
-	public Force getFr01() {
+	public Force getFR01() {
 		return fr01;
-	}
-
-	/**
-	 * @param fr01 the fr01 to set
-	 */
-	public void setFr01(Force fr01) {
-		this.fr01 = fr01;
 	}
 
 	/**
 	 * @return the fr02
 	 */
-	public Force getFr02() {
+	public Force getFR02() {
 		return fr02;
-	}
-
-	/**
-	 * @param fr02 the fr02 to set
-	 */
-	public void setFr02(Force fr02) {
-		this.fr02 = fr02;
 	}
 
 	/**
 	 * @return the vt0
 	 */
-	public Force getVt0() {
+	public Force getVT0() {
 		return vt0;
-	}
-
-	/**
-	 * @param vt0 the vt0 to set
-	 */
-	public void setVt0(Force vt0) {
-		this.vt0 = vt0;
 	}
 
 	/**
 	 * @return the vt1a1
 	 */
-	public Force getVt1a1() {
+	public Force getVT1A1() {
 		return vt1a1;
-	}
-
-	/**
-	 * @param vt1a1 the vt1a1 to set
-	 */
-	public void setVt1a1(Force vt1a1) {
-		this.vt1a1 = vt1a1;
 	}
 
 	/**
 	 * @return the vt1a2
 	 */
-	public Force getVt1a2() {
+	public Force getVT1A2() {
 		return vt1a2;
-	}
-
-	/**
-	 * @param vt1a2 the vt1a2 to set
-	 */
-	public void setVt1a2(Force vt1a2) {
-		this.vt1a2 = vt1a2;
 	}
 
 	/**
 	 * @return the vt1a3
 	 */
-	public Force getVt1a3() {
+	public Force getVT1A3() {
 		return vt1a3;
-	}
-
-	/**
-	 * @param vt1a3 the vt1a3 to set
-	 */
-	public void setVt1a3(Force vt1a3) {
-		this.vt1a3 = vt1a3;
 	}
 
 	/**
 	 * @return the aqd0
 	 */
-	public Force getAqd0() {
+	public Force getAQD0() {
 		return aqd0;
-	}
-
-	/**
-	 * @param aqd0 the aqd0 to set
-	 */
-	public void setAqd0(Force aqd0) {
-		this.aqd0 = aqd0;
 	}
 
 	/**
 	 * @return the aqd1
 	 */
-	public Force getAqd1() {
+	public Force getAQD1() {
 		return aqd1;
-	}
-
-	/**
-	 * @param aqd1 the aqd1 to set
-	 */
-	public void setAqd1(Force aqd1) {
-		this.aqd1 = aqd1;
 	}
 
 	/**
