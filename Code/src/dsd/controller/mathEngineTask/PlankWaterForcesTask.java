@@ -28,7 +28,7 @@ public class PlankWaterForcesTask implements Runnable{
 	 */
 	private void CalculatePlankWaterForces() {
 		
-		float lFlowRate, lWaterSpeed, lAs, lHs, lBs, lSwater;
+		float lFlowRate=0, lWaterSpeed=0, lAs=0, lHs=0, lBs=0, lSwater=0;
 		
 		/*##############################
 		 *CHANGE 17 WITH Hwater1, 22 WITH Hwater2 and 25.3 WITH Hmax
@@ -60,7 +60,7 @@ public class PlankWaterForcesTask implements Runnable{
 			 */
 			lFlowRate = MathEngine.FlowRate(1, this.calculationControl.getInstrumentsData().getIdro1(), 2, 3);
 		}
-		
+		this.calculationControl.getPlankForces().setFlowRate(lFlowRate);
 		/*##############################
 		 *CHANGE 1 WITH a, 2 WITH b and 3 with c
 		 *PARAMETERS ARE MISSING

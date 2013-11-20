@@ -13,7 +13,7 @@ public class WindPushFormulas {
 	 */
 	
 	/*
-	 *  Formula: 	Veffwind = [ANE2]*sin([ANE4]+ALPHA)
+	 *  Formula: 	Veffwind = abs{ [ANE2]*sin([ANE4]+ALPHA) }
 	 *  
 	 *  page 6 of Inputs_Conversion_&_Formulas_Calculation
 	 *  
@@ -32,7 +32,7 @@ public class WindPushFormulas {
 		
 		try
 		{
-			effectiveWindSpeed = Ane2 * Math.sin(Ane4 + Alpha);
+			effectiveWindSpeed = Math.abs((Ane2 * Math.sin(Ane4 + Alpha)));
 		}catch(Exception e)
 		{
 			e.printStackTrace();
