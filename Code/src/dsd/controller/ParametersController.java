@@ -17,11 +17,11 @@ public class ParametersController
 		currentValidParameters = GetCurrentValidParameters();
 	}
 
-	public static Parameter getParameterWithName(eParameter parameter)
+	public static Parameter getParameter(eParameter eParameter)
 	{
 		for (Parameter param : currentValidParameters)
 		{
-			if (param.getName().equals(parameter.getName())) { return param; }
+			if (param.getName().equals(eParameter.getName())) { return param; }
 		}
 		return null;
 	}

@@ -2,6 +2,7 @@ package dsd.view;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -23,9 +24,12 @@ public class TestRawData extends HttpServlet
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
 			IOException
 	{
-		@SuppressWarnings("deprecation")
-		List<RawData> rawDataList = RawDataController.GetAllForPeriod(new Date(2013, 1, 1), new Date(
-				2014, 1, 1));
+		Calendar calStart = Calendar.getInstance();
+		calStart.set(2008, 10, 10, 10, 10, 10);
+		Calendar calEnd = Calendar.getInstance();
+		calEnd.set(2014, 10, 10, 10, 10, 10);
+		List<RawData> rawDataList = RawDataController.GetAllForPeriod(calStart, calEnd);
+		
 		req.setAttribute("rawDataList", rawDataList);
 		
 		File sonarFile = new File(getServletContext().getRealPath("/") + "sonar3383657735.txt");
