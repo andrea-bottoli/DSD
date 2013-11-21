@@ -23,8 +23,10 @@
 		    		labels : array,
 		    		datasets : [
 		    			{
-		    				fillColor : "rgba(172,194,132,0.4)",
-		    				strokeColor : "#ACC26D",
+		    				//fillColor : "rgba(172,194,132,0.4)",
+		    				fillColor : "rgba(61, 118, 65, 1)",
+		    				//strokeColor : "#ACC26D",
+		    				strokeColor : "#660066",
 		    				pointColor : "#fff",
 		    				pointStrokeColor : "#9DB86D",
 		    				data : dataSet

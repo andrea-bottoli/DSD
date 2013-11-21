@@ -1,3 +1,6 @@
 <%@ tag language="java" pageEncoding="ISO-8859-1"%>
 
- Footer Miraldi
+<div class="footer" >
+	 <h1>Footer Miraldi</h1>
+</div>
+

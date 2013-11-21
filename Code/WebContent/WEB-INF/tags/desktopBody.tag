@@ -6,7 +6,7 @@
 	
 	</t:header>
 	
-	<div id="content">
+	<div id="content" class= "content">
 		<jsp:doBody />
 	</div>
 	
