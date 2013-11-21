@@ -5,10 +5,12 @@ import java.util.ListIterator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
 import dsd.controller.mathEngineTask.*;
 import dsd.model.CalculatedData;
 import dsd.model.RawData;
 import dsd.model.calculation.*;
+import dsd.model.enums.eParameter;
 import dsd.model.enums.eSonarType;
 
 public class CalculationsController implements Runnable{
@@ -390,8 +392,8 @@ public class CalculationsController implements Runnable{
 				pool2.submit(new MatrixFillTask(instrumentsData, plankForces, moLineMatrix, 1));
 				
 				//Start the calculations of the all combinations for each line
-				pool1.submit(new CombinationsCalculationTask(mnLineMatrix, mnLineForces, plankForces));
-				pool2.submit(new CombinationsCalculationTask(moLineMatrix, moLineForces, plankForces));
+				pool1.submit(new LineCombinationsTask(mnLineMatrix, mnLineForces, plankForces));
+				pool2.submit(new LineCombinationsTask(moLineMatrix, moLineForces, plankForces));
 				
 				pool1.shutdown();
 				pool2.shutdown();
@@ -408,7 +410,26 @@ public class CalculationsController implements Runnable{
 	 */
 	private void CalculatePylonForces()
 	{
-		//TO-DO
+		ExecutorService pool = null;
+		
+		try
+		{
+			do
+			{
+				pool = Executors.newFixedThreadPool(2);
+				
+				//Mantova pylons
+				pool.submit(new PylonCombinationTask(instrumentsData, mnLineForces, mnPylonsForces));
+				//Modena pylons
+				pool.submit(new PylonCombinationTask(instrumentsData, moLineForces, moPylonsForces));
+
+				
+				pool.shutdown();
+			}
+			while(!pool.awaitTermination(120, TimeUnit.SECONDS));
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -434,7 +455,117 @@ public class CalculationsController implements Runnable{
 	 */
 	private void StoreCalculatedValues()
 	{
-		//TO_DO
+		//TO-DO
+		
+		/*
+		 * TEMP CODE TO DEBUG THE RESULTS OF EACH CALCULATIONS
+		 */
+		//INSTUMENTS DATA
+		System.out.println("--------INSTRUMENTS DATA-------");
+		System.out.println("ANE1\tANE2\tANE3\tANE4\t\t"
+						+ "IDRO1\tIDRO2\t\t"
+						+ "SONAR1\tSONAR2\tSONAR3\tSONAR4\tSONAR5\tSONAR6\tSONAR7");
+		System.out.println(instrumentsData.getAne1()+"\t"+ instrumentsData.getAne2() +"\t"+instrumentsData.getAne3()+"\t"+instrumentsData.getAne4()+"\t\t"
+				+ instrumentsData.getIdro1()+"\t"+instrumentsData.getIdro2()+"\t\t"
+				+ instrumentsData.getSonar1()+"\t"+instrumentsData.getSonar2()+"\t"+instrumentsData.getSonar3()+"\t"+instrumentsData.getSonar4()+"\t"
+				+ instrumentsData.getSonar5()+"\t"+instrumentsData.getSonar6()+"\t"+instrumentsData.getSonar7());
+		System.out.println("\n\n");
+		
+		//PLANK FORCES
+		System.out.println("--------PLANK FORCES-------");
+		System.out.println("\n#WIND");
+		System.out.println("1)Svplank: "+plankForces.getWindPushOnPlank());
+		System.out.println("2)SvA1: "+plankForces.getWindPushOnA1TrafficCombination());
+		System.out.println("3)SvA2: "+plankForces.getWindPushOnA2TrafficCombination());
+		System.out.println("4)SvA3: "+plankForces.getWindPushOnA3TrafficCombination());
+		System.out.println("\n#WATER");
+		System.out.println("1)Q: "+plankForces.getFlowRate());
+		System.out.println("2)V: "+plankForces.getWaterSpeed());
+		System.out.println("3)Svd0: "+plankForces.getHydrodynamicThrustWithOutDebris());
+		System.out.println("4)Svd1: "+plankForces.getHydrodynamicThrustWithDebris());
+		System.out.println("5)hs: "+plankForces.getHs());
+		System.out.println("6)Bsd0: "+plankForces.getBsWithoutDebris());
+		System.out.println("7)Bsd0: "+plankForces.getBsWithDebris());
+		System.out.println("\n#WEIGHT");
+		System.out.println("1)Pplank: "+plankForces.getStructureWeight());
+		System.out.println("2)Pstack: "+plankForces.getStackWeight());
+		System.out.println("\n\n");
+		
+		//LINE FORCES
+		System.out.println("--------LINE FORCES-------");
+		System.out.println("\n#MANTOVA line");
+		for(Combination c : mnLineForces.getComboList())
+		{
+			System.out.println("_________");
+			System.out.println("Combo number: "+c.getCombinationNumber());
+			System.out.println("T: "+c.isThereTraffic());
+			System.out.println("D: "+c.areThereDebris());
+			System.out.println("N: "+c.getN());
+			System.out.println("Tx: "+c.getTx());
+			System.out.println("Ty: "+c.getTy());
+			System.out.println("qy: "+c.getQy());
+			System.out.println("Mx: "+c.getMx());
+			System.out.println("_________");
+			System.out.println("\n");
+		}
+		
+		System.out.println("\n#MODENA line");
+		for(Combination c : mnLineForces.getComboList())
+		{
+			System.out.println("_________");
+			System.out.println("Combo number: "+c.getCombinationNumber());
+			System.out.println("T: "+c.isThereTraffic());
+			System.out.println("D: "+c.areThereDebris());
+			System.out.println("N: "+c.getN());
+			System.out.println("Tx: "+c.getTx());
+			System.out.println("Ty: "+c.getTy());
+			System.out.println("qy: "+c.getQy());
+			System.out.println("Mx: "+c.getMx());
+			System.out.println("_________");
+			System.out.println("\n");
+		}
+		
+		
+		System.out.println("--------PYLON FORCES-------");
+		System.out.println("\n#MANTOVA line");
+		for(PylonCombination c : mnPylonsForces.getPylonComboList())
+		{
+			System.out.println("_________");
+			System.out.println("Combo number: "+c.getCombination().getCombinationNumber());
+			System.out.println("T: "+c.getCombination().isThereTraffic());
+			System.out.println("D: "+c.getCombination().areThereDebris());
+			for(Pylon p : c.getPylonList())
+			{
+				System.out.println("\tpylon number: "+p.getPylonNumber());
+				System.out.println("\tN: "+p.getN());
+				System.out.println("\tTx: "+p.getTx());
+				System.out.println("\tTy: "+p.getTy());
+				System.out.println("\tqy: "+p.getQy());
+				System.out.println("\tMx: "+p.getMx());
+			}
+			System.out.println("_________");
+			System.out.println("\n");
+		}
+		
+		System.out.println("\n#MODENA line");
+		for(PylonCombination c : mnPylonsForces.getPylonComboList())
+		{
+			System.out.println("_________");
+			System.out.println("Combo number: "+c.getCombination().getCombinationNumber());
+			System.out.println("T: "+c.getCombination().isThereTraffic());
+			System.out.println("D: "+c.getCombination().areThereDebris());
+			for(Pylon p : c.getPylonList())
+			{
+				System.out.println("\tpylon number: "+p.getPylonNumber());
+				System.out.println("\tN: "+p.getN());
+				System.out.println("\tTx: "+p.getTx());
+				System.out.println("\tTy: "+p.getTy());
+				System.out.println("\tqy: "+p.getQy());
+				System.out.println("\tMx: "+p.getMx());
+			}
+			System.out.println("_________");
+			System.out.println("\n");
+		}
 	}
 	
 	/*
@@ -443,79 +574,5 @@ public class CalculationsController implements Runnable{
 	private void WriteOnDB()
 	{
 		// TO-DO
-	}
-
-	
-	
-	//GETTERS & SETTERS
-	/**
-	 * @return the plankForces
-	 */
-	public PlankForces getPlankForces() {
-		return plankForces;
-	}
-	
-	/**
-	 * @return the Mantova Forces Matrix
-	 */
-	public LineForcesMatrix getMantovaLineForcesMatrix() {
-		return mnLineMatrix;
-	}
-	
-	/**
-	 * @return the Modena Forces Matrix
-	 */
-	public LineForcesMatrix getModenaLineForcesMatrix() {
-		return moLineMatrix;
-	}
-	
-	/**
-	 * @return the Mantova Line Forces
-	 */
-	public LineForces getMantovaLineForces() {
-		return mnLineForces;
-	}
-	
-	/**
-	 * @return the Modena Line Forces
-	 */
-	public LineForces getModenaLineForces() {
-		return moLineForces;
-	}
-
-	/**
-	 * @return the Mantova Pylons Forces
-	 */
-	public PylonForces getMantovaPylonsForces() {
-		return mnPylonsForces;
-	}
-	
-	/**
-	 * @return the Modena Pylons Forces
-	 */
-	public PylonForces getModenaPylonsForces() {
-		return moPylonsForces;
-	}
-
-	/**
-	 * @return the instrumentsData
-	 */
-	public InstrumentsData getInstrumentsData() {
-		return instrumentsData;
-	}
-
-	/**
-	 * @return the mnLineMatrix
-	 */
-	public LineForcesMatrix getMantovaLineMatrix() {
-		return mnLineMatrix;
-	}
-
-	/**
-	 * @return the moLineMatrix
-	 */
-	public LineForcesMatrix getModenaLineMatrix() {
-		return moLineMatrix;
-	}
-	
+	}	
 }

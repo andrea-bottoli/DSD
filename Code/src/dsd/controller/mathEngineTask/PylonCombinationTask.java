@@ -1,14 +1,22 @@
 package dsd.controller.mathEngineTask;
 
-import dsd.controller.CalculationsController;
+import dsd.model.calculation.InstrumentsData;
+import dsd.model.calculation.LineForces;
+import dsd.model.calculation.PylonCombination;
+import dsd.model.calculation.PylonForces;
+
 
 public class PylonCombinationTask implements Runnable {
 
-	private CalculationsController calculationController;
+	private LineForces lineForces;
+	private PylonForces pylonForces;
+	private InstrumentsData instrumetnsData;
 	
-	public PylonCombinationTask(CalculationsController calculationController)
+	public PylonCombinationTask( InstrumentsData instrumetnsData, LineForces lineForces, PylonForces pylonForces)
 	{
-		this.calculationController = calculationController;
+		this.instrumetnsData = instrumetnsData;
+		this.lineForces = lineForces;
+		this.pylonForces = pylonForces;
 	}
 	
 	@Override
@@ -18,7 +26,8 @@ public class PylonCombinationTask implements Runnable {
 	}
 	
 	/**
-	 * Some calculation
+	 * Calculations the distributions of the line forces
+	 * due to the combinations, on the single pylons.
 	 */
 	private void pylonCalculation()
 	{
