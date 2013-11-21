@@ -11,6 +11,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class DAOProvider
 {
 
@@ -40,56 +42,6 @@ public class DAOProvider
 			e.printStackTrace();
 		}
 		return dataSource;
-	}
-
-	/**
-	 * 
-	 * @param query
-	 * @param con
-	 * @return
-	 * @throws SQLException
-	 */
-	public static int Query(String query, Connection con) throws SQLException
-	{
-		try
-		{
-			PreparedStatement command = con.prepareStatement(query);
-			return command.executeUpdate();
-		}
-		catch (Exception ex)
-		{
-			ex.printStackTrace();
-		}
-		return 0;
-	}
-
-	/**
-	 * 
-	 * @param table
-	 * @param select
-	 * @param where
-	 * @param order
-	 * @param con
-	 * @return
-	 * @throws SQLException
-	 */
-	public static ResultSet SelectTable(String table, String select, String where, String order,
-			Connection con) throws SQLException
-	{
-		ResultSet resultSet = null;
-		try
-		{
-			PreparedStatement command = con.prepareStatement(String.format("select %s from %s %s %s", select,
-					table, (where.trim().equals("") ? "" : "where " + where), (order.trim().equals("")
-							? ""
-							: "order by " + order)));
-			resultSet = command.executeQuery();
-		}
-		catch (Exception ex)
-		{
-			ex.printStackTrace();
-		}
-		return resultSet;
 	}
 
 	/**
@@ -138,6 +90,7 @@ public class DAOProvider
 	}
 
 	/**
+	 * the delete row function done in a secure way
 	 * 
 	 * @param table
 	 * @param where
@@ -145,12 +98,18 @@ public class DAOProvider
 	 * @return
 	 * @throws SQLException
 	 */
-	public static int DeleteRow(String table, String where, Connection con) throws SQLException
+	public static int DeleteRowSecure(String table, String where, Connection con, Object[] parameters) throws SQLException
 	{
 		try
 		{
 			PreparedStatement command = con.prepareStatement(String.format("delete from %s %s", table, (where
 					.trim().equals("") ? "" : "where " + where)));
+			
+			for (int i = 0; i < parameters.length; i++)
+			{
+				SetParameter(command, parameters[i], i + 1);
+			}
+			
 			return command.executeUpdate();
 		}
 		catch (Exception ex)
@@ -160,40 +119,9 @@ public class DAOProvider
 		return 0;
 	}
 
-	/**
-	 * 
-	 * @param table
-	 * @param fields
-	 * @param values
-	 * @param con
-	 * @return
-	 * @throws SQLException
-	 */
-	public static int InsertRow(String table, String fields, String values, Connection con)
-			throws SQLException
-	{
-		try
-		{
-			PreparedStatement command = con.prepareStatement(String.format("insert into %s (%s) values %s",
-					table, fields, values));
-			command.executeUpdate();
-
-			command = con.prepareStatement(String.format("select Max(ID) from %s", table));
-			ResultSet rs = command.executeQuery();
-			rs.next();
-
-			return rs.getInt(1);
-		}
-		catch (Exception ex)
-		{
-			ex.printStackTrace();
-		}
-		return 0;
-	}
 
 	/**
-	 * Secure function, works most like InsertRow, but instead of values, just
-	 * give Array of Values.
+	 * the insert row function done in a secure way
 	 * 
 	 * @param table
 	 * @param fields
@@ -219,11 +147,13 @@ public class DAOProvider
 
 			PreparedStatement command = con.prepareStatement(String.format("insert into %s (%s) values %s",
 					table, fields, values));
-			command.executeUpdate();
+			
 			for (int i = 0; i < valueArray.length; i++)
 			{
-				SetParameter(command, valueArray[i], i);
+				SetParameter(command, valueArray[i], i + 1);
 			}
+			
+			command.executeUpdate();
 
 			command = con.prepareStatement(String.format("select Max(ID) from %s", table));
 			ResultSet rs = command.executeQuery();
@@ -237,21 +167,45 @@ public class DAOProvider
 		}
 		return 0;
 	}
+
 	/**
+	 * the update row method done in a secure way
 	 * 
 	 * @param table
-	 * @param set
+	 * @param updateColumns
 	 * @param where
 	 * @param con
+	 * @param valueArray
+	 * @param wherePartParameters
 	 * @return
 	 * @throws SQLException
 	 */
-	public static int UpdateRow(String table, String set, String where, Connection con) throws SQLException
+	public static int UpdateRowSecure(String table, String[] updateColumns, String where, Connection con, Object[] valueArray, Object[] wherePartParameters) throws SQLException
 	{
 		try
 		{
+			if (updateColumns.length != valueArray.length || updateColumns.length == 0)
+				throw new IllegalArgumentException("The size of updateColumns and valueArray parameters should be the same!");
+			
+			String set = "";
+			for (int i = 0; i < valueArray.length; i++)
+			{
+				set += updateColumns[i] + " = ? ,";
+			}
+			StringUtils.removeEnd(set, ",");
+			
 			PreparedStatement command = con.prepareStatement(String.format("update %s set %s %s", table, set,
 					(where.trim().equals("") ? "" : "where " + where)));
+			
+			for (int i = 0; i < valueArray.length; i++)
+			{
+				SetParameter(command, valueArray[i], i + 1);
+			}
+			for (int i = 0; i < wherePartParameters.length; i++)
+			{
+				SetParameter(command, wherePartParameters[i], valueArray.length + i + 1);
+			}
+			
 			return command.executeUpdate();
 		}
 		catch (Exception ex)
@@ -291,7 +245,7 @@ public class DAOProvider
 		}
 		else
 		{
-			throw new IllegalArgumentException("type needs to be inserted in DAOProvider class");
+			throw new IllegalArgumentException("type needs to be inserted in Set parameter method of DAOProvider class");
 		}
 
 	}

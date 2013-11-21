@@ -30,8 +30,8 @@ public class RawDataDAO
 			{
 				try
 				{
-					counter += DAOProvider.InsertRow(tableName, StringUtils.join(fields, ','),
-							PrepareValuesForInsert(rawData), con);
+					counter += DAOProvider.InsertRowSecure(tableName, StringUtils.join(fields, ','),
+							con, PrepareValuesForInsert(rawData));
 				}
 				catch (Exception exc)
 				{
@@ -56,7 +56,7 @@ public class RawDataDAO
 			ArrayList<RawData> rawDataList = new ArrayList<RawData>();
 			try
 			{
-				ResultSet results = DAOProvider.SelectTable(tableName, "*", "", "", con);
+				ResultSet results = DAOProvider.SelectTableSecure(tableName, "*", "", "", con, null);
 				while (results.next())
 				{
 					RawData dataTuple = new RawData();
@@ -85,10 +85,10 @@ public class RawDataDAO
 
 	}
 
-	private static String PrepareValuesForInsert(RawData dataTuple)
+	private static Object[] PrepareValuesForInsert(RawData dataTuple)
 	{
-		return "(" + dataTuple.getWindSpeed() + "," + dataTuple.getWindDirection() + ","
-				+ dataTuple.getHydrometer() + "," + dataTuple.getSonar() + "," + dataTuple.getSonarType()
-				+ "," + new Timestamp(dataTuple.getTimestamp()).toString() + ")";
+		Object[] valueArray = new Object[1];
+		valueArray[0] = new Integer(0);
+		return valueArray;
 	}
 }

@@ -27,12 +27,12 @@ public class ParametersDAO {
 		{
 			Connection con = DAOProvider.getDataSource().getConnection();
 			int counter = 0;
-			for (Parameter rawData : listOfParamters)
+			for (Parameter parameter : listOfParamters)
 			{
 				try
 				{
-					counter += DAOProvider.InsertRow(tableNameParameters, StringUtils.join(tableParametersFields, ','),
-							PrepareValuesForInsert(rawData), con);
+					counter += DAOProvider.InsertRowSecure(tableNameParameters, StringUtils.join(tableParametersFields, ','),
+							con, PrepareValuesForInsert(parameter));
 				}
 				catch (Exception exc)
 				{
@@ -55,12 +55,12 @@ public class ParametersDAO {
 		{
 			Connection con = DAOProvider.getDataSource().getConnection();
 			int counter = 0;
-			for (Parameter rawData : listOfParamters)
+			for (Parameter parameter : listOfParamters)
 			{
 				try
 				{
-					counter += DAOProvider.InsertRow(tableNameParameters, StringUtils.join(tableParametersFields, ','),
-							PrepareValuesForInsert(rawData), con);
+					counter += DAOProvider.UpdateRowSecure(tableNameParameters, tableParametersFields, "parameter", 
+							con, PrepareValuesForInsert(parameter), null);
 				}
 				catch (Exception exc)
 				{
@@ -195,8 +195,10 @@ public class ParametersDAO {
 		return null;
 	}
 
-	private static String PrepareValuesForInsert(Parameter dataTuple)
+	private static Object[] PrepareValuesForInsert(Parameter dataTuple)
 	{
-		return "";
+		Object[] valueArray = new Object[1];
+		valueArray[0] = new Integer(0);
+		return valueArray;
 	}
 }

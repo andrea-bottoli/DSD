@@ -6,6 +6,7 @@ import java.util.List;
 
 import dsd.dao.ParametersDAO;
 import dsd.model.Parameter;
+import dsd.model.enums.eParameter;
 
 public class ParametersController
 {
@@ -16,11 +17,11 @@ public class ParametersController
 		currentValidParameters = GetCurrentValidParameters();
 	}
 
-	public static Parameter getParameterWithName(String name)
+	public static Parameter getParameterWithName(eParameter parameter)
 	{
 		for (Parameter param : currentValidParameters)
 		{
-			if (param.getName().equals(name)) { return param; }
+			if (param.getName().equals(parameter.getName())) { return param; }
 		}
 		return null;
 	}
