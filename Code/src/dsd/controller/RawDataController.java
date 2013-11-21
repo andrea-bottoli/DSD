@@ -1,14 +1,14 @@
 package dsd.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 
 import dsd.dao.RawDataDAO;
 import dsd.model.RawData;
 
 public class RawDataController
 {
-	public static ArrayList<RawData> GetAllForPeriod(Date startDate, Date endDate)
+	public static ArrayList<RawData> GetAllForPeriod(Calendar startDate, Calendar endDate)
 	{
 		return RawDataDAO.GetAllForPeriod(startDate, endDate);
 	}

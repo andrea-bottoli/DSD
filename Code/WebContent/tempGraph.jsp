@@ -30,7 +30,7 @@
 		    				data : dataSet
 		    			}
 		    		]
-		    	}
+		    	};
 		    new Chart(buyers).Line(buyerData);  
 		   
 		</script>

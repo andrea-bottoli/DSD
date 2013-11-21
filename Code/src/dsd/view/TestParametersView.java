@@ -24,7 +24,7 @@ public class TestParametersView extends HttpServlet
 		req.setAttribute("currentValidParameters", parametersList);
 
 		Calendar cal = Calendar.getInstance();
-		cal.set(2008, 10, 10, 10, 10, 10);;
+		cal.set(2008, 10, 10, 10, 10, 10);
 		List<Parameter> parametersListForTimestamp = ParametersController.GetValidParametersForTimestamp(cal);
 		req.setAttribute("parametersListForTimestamp", parametersListForTimestamp);
 

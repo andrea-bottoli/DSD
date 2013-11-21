@@ -2,13 +2,12 @@ package dsd.dao;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-
-import com.sun.jmx.snmp.Timestamp;
 
 import dsd.model.RawData;
 import dsd.model.enums.eSonarType;
@@ -48,7 +47,7 @@ public class RawDataDAO
 		return 0;
 	}
 
-	public static ArrayList<RawData> GetAllForPeriod(Date startDate, Date endDate)
+	public static ArrayList<RawData> GetAllForPeriod(Calendar startDate, Calendar endDate)
 	{
 		try
 		{
@@ -56,7 +55,10 @@ public class RawDataDAO
 			ArrayList<RawData> rawDataList = new ArrayList<RawData>();
 			try
 			{
-				ResultSet results = DAOProvider.SelectTableSecure(tableName, "*", "", "", con, null);
+				Object[] parameters = new Object[2];
+				parameters[0] = new Timestamp(startDate.getTimeInMillis());
+				parameters[1] = new Timestamp(endDate.getTimeInMillis());
+				ResultSet results = DAOProvider.SelectTableSecure(tableName, "*", " timestamp > ? and timestamp < ? ", "", con, parameters);
 				while (results.next())
 				{
 					RawData dataTuple = new RawData();
