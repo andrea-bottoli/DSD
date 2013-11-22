@@ -6,13 +6,13 @@
 
 
 	</div>
-	<div id="tabs" class= "tabs">
+	<div id="tabs">
 		 <h1 class=title>Real-time bridge monitoring</h1>
-
-			<button type="button"><a href="http://localhost:8080/BridgeMonitoring/">Home</a></button>
-		    <button type="button"><a href="http://localhost:8080/BridgeMonitoring/CurrentStateView">Current State</a></button>
-		    <button type="button"><a href="#">History Diagrams</a></button>
-
+			<span class="tabs"><a href="http://localhost:8080/BridgeMonitoring/">Home</a></span>
+		    <span class="tabs"><a href="http://localhost:8080/BridgeMonitoring/CurrentStateView">Current State</a></span>
+		    <span class="tabs"><a href="http://localhost:8080/BridgeMonitoring/TestParametersData">Parameters</a></span>
+		    <span class="tabs"><a href="#">History Diagrams</a></span>
+		<br/>
 		<hr/>
 	</div>
 </div>

@@ -5,8 +5,8 @@
 
 <t:desktopPage>
 	<jsp:useBean id="currentValidParameters" type="java.util.ArrayList<dsd.model.Parameter>" scope="request"/>
-	<jsp:useBean id="parametersListForTimestamp" type="java.util.ArrayList<dsd.model.Parameter>" scope="request"/>
-	<jsp:useBean id="parameterHistory" type="java.util.ArrayList<dsd.model.Parameter>" scope="request"/>
+	<%-- <jsp:useBean id="parametersListForTimestamp" type="java.util.ArrayList<dsd.model.Parameter>" scope="request"/>
+	<jsp:useBean id="parameterHistory" type="java.util.ArrayList<dsd.model.Parameter>" scope="request"/> --%>
 	<h1>Current valid parameters</h1>
 	<table border="1">
 		<tr>
@@ -35,7 +35,7 @@
 		</c:forEach>
 	</table>
 	<br />
-	<h1>Parameters list valid on 10.10.2008. 10:10:10</h1>
+	<%-- <h1>Parameters list valid on 10.10.2008. 10:10:10</h1>
 	<table border="1">
 		<tr>
 			<td>Parameter Data ID:</td>
@@ -89,5 +89,5 @@
 				<td>${parameter.timestampDate}</td>
 			</tr>
 		</c:forEach>
-	</table>
+	</table> --%>
 </t:desktopPage>
