@@ -2,31 +2,43 @@
 
 img.header {
 	display: block;
-	height: 200px;
-	width: 400px;
+	height: 20%;
+	width: 10%;
 }
 
 .title {
 	font-family: Monospace;
-	font-size: 40px;
+	font-size: 100%;
+	float: left;
+	width: 45%;
+	height: 55%;
+	padding-left: 5%;
 }
 
 .logo {
 	margin-left: auto;
-	padding: 20px;
+	padding: 1%;
 	float: left;
+	width: 20%;
+	height: 60%;	
 }
 
-/* button {
-	background: #fff;
-	border: 1px solid #000;
-	width: 200px;
-	height: 30px;
-} */
+.form 
+{
+	font-family: Monospace;
+	font-size: 100%;
+	float: left;
+	width: 20%;
+	height: 55%;
+	padding-left: 5%;
+}
 
-#tabs {
+.buttons {
+	width: 100%;
+	height: 20%;
 	margin-right: auto;
 	float: left;
+	padding: 1%;
 }
 
 .header {
@@ -48,33 +60,42 @@ img.header {
 }
 
 
-.tabs {
-	width: 200px;
-	height: 30px;
+.button {
+	width: 12%;
+	height: 5%;
 	display: inline-block;
+	
+	text-align: center;
 }
 
-.tabs a {
+.button a {
 	display: inline-block;
-	width: 200px;
+	width: 80%;
 	background-color: #33CC66;
 	color: black;
-	height: 30px;
+	height: 90%;
 	background-position: center;
 	text-align: center;
 	vertical-align: middle;
 	text-decoration: none;
+	
+	padding: 1%;
 }
 
-.tabs a:HOVER {
+
+
+.button a:HOVER {
 	background-color: #22BB55;
 	font-weight: bold; 
 }
 
-/*
-#header
-{
-	width:400px;
-	background-color:#00ff00;
+.link{
+	font-family: Monospace;
+		width: 12%;
+	height: 5%;
+	display: inline-block;
+	
+	text-align: center;
+	float: right;
+	padding: 1%;
 }
-*/
