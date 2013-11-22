@@ -82,6 +82,36 @@ img.header {
 	padding: 1%;
 }
 
+.sensorValues p 
+{
+	font-size: 25px;
+}
+
+.sensorValues 
+{
+	float: left;
+	padding: 30px;
+	padding-right: 80px;
+}
+
+.sensorPics 
+{
+	width: 350px;
+	height: 350px;
+	padding: 30px;
+}
+
+#windSpeedGraph 
+{
+	float:left;
+	width: 33%;
+}
+
+#sonarGraph 
+{
+	float:left;
+	width:33%;
+}
 
 
 .button a:HOVER {
