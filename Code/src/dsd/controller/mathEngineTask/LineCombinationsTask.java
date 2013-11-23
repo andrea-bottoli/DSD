@@ -97,7 +97,8 @@ public class LineCombinationsTask implements Runnable{
 				this.mx += this.lineForcesMatrix.getForcesList().get(this.components[j][i]).getMx();
 			}
 			
-			c.setN(this.n + (this.plankForces.getStackWeight()/2));
+			c.setN(this.n);
+			c.setStackWeight(this.plankForces.getStackWeight()/2);
 			c.setTx(this.tx);
 			c.setTy(this.ty);
 			c.setQy(this.qy);

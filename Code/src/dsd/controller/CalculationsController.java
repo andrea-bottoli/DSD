@@ -37,21 +37,22 @@ public class CalculationsController implements Runnable{
 	
 	//Variables to store grouped data after reading/loading from DB
 	private ArrayList<RawData> rawData = null;
-	private ArrayList<RawData> tenMinData = null;
-	private ArrayList<RawData> oneHourData = null;
-	private ArrayList<RawData> oneDayData = null;
 	
 	/*
 	 * Variable that tracks the timestamps to know till where the system
 	 * has analyzed the data for each source
 	 */
-	private long lastRawDataTimestamp;
-	private long last10minDataTimestamp;
-	private long last1hourDataTimestamp;
+	private long last10minTimestamp;
+	private long last1hourTimestamp;
+	private long last1dayTimestamp;
+
 	
 	//Constructor
 	public CalculationsController()
 	{
+		this.last10minTimestamp = 0;
+		this.last1hourTimestamp = 0;
+		this.last1dayTimestamp = 0;		
 		this.calculatedData = new CalculatedData();
 		this.instrumentsData = new InstrumentsData();
 		this.plankForces = new PlankForces();
@@ -61,6 +62,8 @@ public class CalculationsController implements Runnable{
 		this.moLineForces = new LineForces();
 		this.mnPylonsForces = new PylonForces(mnLineForces, 0);
 		this.moPylonsForces = new PylonForces(moLineForces, 1);
+		
+		ParametersController.IntializeCurrentParemeters();
 	}
 	
 	@Override
@@ -112,7 +115,7 @@ public class CalculationsController implements Runnable{
 			 * from last timestamp to the last data available
 			 */
 			
-			ReadRawData();
+			ReadRawData(this.last10minTimestamp);
 			
 			/*
 			 * Remember to do the validation of input 
@@ -130,7 +133,7 @@ public class CalculationsController implements Runnable{
 					localRawData.add(rd);
 				}
 				
-				this.lastRawDataTimestamp = rd.getTimestamp();
+				this.last10minTimestamp = rd.getTimestamp();
 				
 				/*
 				 * Start calculations for one line of the DB
@@ -159,6 +162,57 @@ public class CalculationsController implements Runnable{
 	private void Calculate1hour()
 	{
 		//TO-DO
+		//Local variables
+		RawData	rd = null;
+		ArrayList<RawData> localRawData = new ArrayList<RawData>();
+		ListIterator<RawData> globalIterator = this.rawData.listIterator();
+		
+		try
+		{
+			
+			/*
+			 * Think about managing requests lack of time
+			 * from last timestamp to the last data available
+			 */
+			
+			ReadRawData(this.last1hourTimestamp);
+			
+			/*
+			 * Remember to do the validation of input 
+			 * prepare the index for the cycles
+			 * and prepare the lists of data
+			 */
+			
+			do
+			{
+				localRawData.clear();
+				
+				for(int i = 0; i < 3600; i++)
+				{
+					rd = globalIterator.next();
+					localRawData.add(rd);
+				}
+				
+				this.last1hourTimestamp = rd.getTimestamp();
+				
+				/*
+				 * Start calculations for one line of the DB
+				 */
+				CalculateMeanValues(localRawData, localRawData.size());
+				CalculatePlankForces();
+				CalculateLineForces();
+				CalculatePylonForces();
+				CalculateRiskFactor();
+				DetectMostStressedPylon();
+				StoreCalculatedValues();
+				WriteOnDB();
+			}
+			while (globalIterator.hasNext());
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -168,6 +222,57 @@ public class CalculationsController implements Runnable{
 	private void Calculate1day()
 	{
 		//TO-DO
+		//Local Variables
+		RawData	rd = null;
+		ArrayList<RawData> localRawData = new ArrayList<RawData>();
+		ListIterator<RawData> globalIterator = this.rawData.listIterator();
+		
+		try
+		{
+			
+			/*
+			 * Think about managing requests lack of time
+			 * from last timestamp to the last data available
+			 */
+			
+			ReadRawData(this.last1dayTimestamp);
+			
+			/*
+			 * Remember to do the validation of input 
+			 * prepare the index for the cycles
+			 * and prepare the lists of data
+			 */
+			
+			do
+			{
+				localRawData.clear();
+				
+				for(int i = 0; i < 86400; i++)
+				{
+					rd = globalIterator.next();
+					localRawData.add(rd);
+				}
+				
+				this.last1dayTimestamp = rd.getTimestamp();
+				
+				/*
+				 * Start calculations for one line of the DB
+				 */
+				CalculateMeanValues(localRawData, localRawData.size());
+				CalculatePlankForces();
+				CalculateLineForces();
+				CalculatePylonForces();
+				CalculateRiskFactor();
+				DetectMostStressedPylon();
+				StoreCalculatedValues();
+				WriteOnDB();
+			}
+			while (globalIterator.hasNext());
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -181,20 +286,11 @@ public class CalculationsController implements Runnable{
 	/**
 	 * This method allows to read and load the RawData
 	 * for any time interval
+	 * @param lastRawDataTimestamp2 
 	 */
-	private void ReadRawData()
+	private void ReadRawData(long lastRawDataTimestamp2)
 	{
 		//TO_DO
-	}
-	
-	/**
-	 * This method allows to read and load all kind of
-	 * GroupedData (10min, 1hour, 1day) for any
-	 * time interval
-	 */
-	private void ReadGroupedData()
-	{
-		//TO-DO
 	}
 	
 	/**

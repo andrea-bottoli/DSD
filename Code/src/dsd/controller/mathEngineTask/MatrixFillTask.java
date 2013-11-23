@@ -1,8 +1,10 @@
 package dsd.controller.mathEngineTask;
 
+import dsd.controller.ParametersController;
 import dsd.model.calculation.InstrumentsData;
 import dsd.model.calculation.LineForcesMatrix;
 import dsd.model.calculation.PlankForces;
+import dsd.model.enums.eParameter;
 
 public class MatrixFillTask implements Runnable{
 	
@@ -39,265 +41,159 @@ public class MatrixFillTask implements Runnable{
 		/*
 		 * Calculate and set the Weight of the structure
 		 */
+		r1 = ParametersController.getParameter(eParameter.PlankWeightOnTheStack).getValue()/2;
+		r2 = ParametersController.getParameter(eParameter.MomentGeneratedByAsymmetry).getValue()/ParametersController.getParameter(eParameter.DistanceBetweenTwoLineOfPylon).getValue();
 		if(side==0)
 		{
 			//MANTOVA
-			/*##############################
-			 *CHANGE 11111 WITH Pplank, 666 WITH Mt, 999 WITH c_span
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
-			r1 = 11111/2;
-			r2 = 666/999;
 			this.lineForcesMatrix.getPs().setN(r1+r2);
-			
 		}else if(side==1)
 		{
 			//MODENA
-			/*##############################
-			 *CHANGE 11111 WITH Pplank, 666 WITH Mt, 999 WITH c_span
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
-			r1 = 11111/2;
-			r2 = 666/999;
 			this.lineForcesMatrix.getPs().setN(r1-r2);			
 		}
 		
 		
 		/*
 		 * Calculate and set the shifting loads
-		 * with all three traffic combinations
+		 * with the A1 traffic combination
 		 */
+		r1 = ParametersController.getParameter(eParameter.AxialLoadForLoadCombinationA1).getValue()/2;
+		r2 = ParametersController.getParameter(eParameter.BendingMomentYYForLoadCombinationA1).getValue()/ParametersController.getParameter(eParameter.DistanceBetweenTwoLineOfPylon).getValue();
+		m1 = ParametersController.getParameter(eParameter.BendingMomentXXForLoadCombinationA1).getValue()/2;
 		if(side==0)
 		{
 			//MANTOVA
 			//A110 traffic
-			/*##############################
-			 *CHANGE 111 WITH N(A1), 666 WITH Myy(A1), 999 WITH c_span, 777 WITH Mxx(A1)
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
-			r1 = 111/2;
-			r2 = 666/999;
-			m1 = 777/2;
 			this.lineForcesMatrix.getA110().setN(r1+r2);
 			this.lineForcesMatrix.getA110().setMx(m1);
 			
 			//A120 traffic
-			/*##############################
-			 *CHANGE 111 WITH N(A1), 666 WITH Myy(A1), 999 WITH c_span, 777 WITH Mxx(A1)
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
 			this.lineForcesMatrix.getA120().setN(r1+r2);
 			this.lineForcesMatrix.getA120().setMx(-m1);
+		}else if(side==1)
+		{
+			//MODENA
+			//A110 traffic
+			this.lineForcesMatrix.getA110().setN(r1-r2);
+			this.lineForcesMatrix.getA110().setMx(+m1);
 			
+			//A120 traffic
+			this.lineForcesMatrix.getA120().setN(r1-r2);
+			this.lineForcesMatrix.getA120().setMx(-m1);
+		}
+		
+		/*
+		 * Calculate and set the shifting loads
+		 * with the A2 traffic combination
+		 */
+		r1 = ParametersController.getParameter(eParameter.AxialLoadForLoadCombinationA2).getValue()/2;
+		r2 = ParametersController.getParameter(eParameter.BendingMomentYYForLoadCombinationA2).getValue()/ParametersController.getParameter(eParameter.DistanceBetweenTwoLineOfPylon).getValue();
+		m1 = ParametersController.getParameter(eParameter.BendingMomentXXForLoadCombinationA2).getValue()/2;
+		if(side==0)
+		{
+			//MANTOVA
 			//A210 traffic
-			/*##############################
-			 *CHANGE 111 WITH N(A2), 666 WITH Myy(A2), 999 WITH c_span, 777 WITH Mxx(A2)
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
-			r1 = 111/2;
-			r2 = 666/999;
-			m1 = 777/2;
 			this.lineForcesMatrix.getA210().setN(r1+r2);
 			this.lineForcesMatrix.getA210().setMx(m1);
 			
 			//A220 traffic
-			/*##############################
-			 *CHANGE 111 WITH N(A2), 666 WITH Myy(A2), 999 WITH c_span, 777 WITH Mxx(A2)
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
 			this.lineForcesMatrix.getA220().setN(r1-r2);
 			this.lineForcesMatrix.getA220().setMx(-m1);
+		}else if(side==1)
+		{
+			//MODENA
+			//A210 traffic
+			this.lineForcesMatrix.getA210().setN(r1-r2);
+			this.lineForcesMatrix.getA210().setMx(+m1);
 			
+			//A220 traffic
+			this.lineForcesMatrix.getA220().setN(r1+r2);
+			this.lineForcesMatrix.getA220().setMx(-m1);
+		}
+		
+		/*
+		 * Calculate and set the shifting loads
+		 * with the A3 traffic combination
+		 */
+		r1 = ParametersController.getParameter(eParameter.AxialLoadForLoadCombinationA3).getValue()/2;
+		r2 = ParametersController.getParameter(eParameter.BendingMomentYYForLoadCombinationA3).getValue()/
+				ParametersController.getParameter(eParameter.DistanceBetweenTwoLineOfPylon).getValue();
+		m1 = ParametersController.getParameter(eParameter.BendingMomentXXForLoadCombinationA3).getValue()/2;
+		if(side==0)
+		{
+			//MANTOVA
 			//A311 traffic
-			/*##############################
-			 *CHANGE 111 WITH N(A3), 666 WITH Myy(A3), 999 WITH c_span, 777 WITH Mxx(A3)
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
-			r1 = 111/2;
-			r2 = 666/999;
-			m1 = 777/2;
 			this.lineForcesMatrix.getA311().setN(r1+r2);
-			this.lineForcesMatrix.getA311().setMx(m1);
+			this.lineForcesMatrix.getA311().setMx(+m1);
 			
 			//A312 traffic
-			/*##############################
-			 *CHANGE 111 WITH N(A3), 666 WITH Myy(A3), 999 WITH c_span, 777 WITH Mxx(A3)
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
 			this.lineForcesMatrix.getA312().setN(r1-r2);
 			this.lineForcesMatrix.getA312().setMx(+m1);
 			
 			//A321 traffic
-			/*##############################
-			 *CHANGE 111 WITH N(A3), 666 WITH Myy(A3), 999 WITH c_span, 777 WITH Mxx(A3)
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
-			r1 = 111/2;
-			r2 = 666/999;
-			m1 = 777/2;
 			this.lineForcesMatrix.getA321().setN(r1+r2);
 			this.lineForcesMatrix.getA321().setMx(-m1);
 			
 			//A322 traffic
-			/*##############################
-			 *CHANGE 111 WITH N(A3), 666 WITH Myy(A3), 999 WITH c_span, 777 WITH Mxx(A3)
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
 			this.lineForcesMatrix.getA322().setN(r1-r2);
 			this.lineForcesMatrix.getA322().setMx(-m1);
 		}else if(side==1)
 		{
 			//MODENA
-			//A110 traffic
-			/*##############################
-			 *CHANGE 111 WITH N(A1), 666 WITH Myy(A1), 999 WITH c_span, 777 WITH Mxx(A1)
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
-			this.lineForcesMatrix.getA110().setN(r1-r2);
-			this.lineForcesMatrix.getA110().setMx(-m1);
-			
-			//A120 traffic
-			/*##############################
-			 *CHANGE 111 WITH N(A1), 666 WITH Myy(A1), 999 WITH c_span, 777 WITH Mxx(A1)
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
-			r1 = 111/2;
-			r2 = 666/999;
-			m1 = 777/2;
-			this.lineForcesMatrix.getA120().setN(r1+r2);
-			this.lineForcesMatrix.getA120().setMx(m1);
-			
-			//A210 traffic
-			/*##############################
-			 *CHANGE 111 WITH N(A2), 666 WITH Myy(A2), 999 WITH c_span, 777 WITH Mxx(A2)
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
-			r1 = 111/2;
-			r2 = 666/999;
-			m1 = 777/2;
-			this.lineForcesMatrix.getA210().setN(r1-r2);
-			this.lineForcesMatrix.getA210().setMx(m1);
-			
-			//A220 traffic
-			/*##############################
-			 *CHANGE 111 WITH N(A2), 666 WITH Myy(A2), 999 WITH c_span, 777 WITH Mxx(A2)
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
-			this.lineForcesMatrix.getA220().setN(r1+r2);
-			this.lineForcesMatrix.getA220().setMx(-m1);
-			
 			//A311 traffic
-			/*##############################
-			 *CHANGE 111 WITH N(A3), 666 WITH Myy(A3), 999 WITH c_span, 777 WITH Mxx(A3)
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
-			r1 = 111/2;
-			r2 = 666/999;
-			m1 = 777/2;
 			this.lineForcesMatrix.getA311().setN(r1-r2);
-			this.lineForcesMatrix.getA311().setMx(m1);
+			this.lineForcesMatrix.getA311().setMx(+m1);
 			
 			//A312 traffic
-			/*##############################
-			 *CHANGE 111 WITH N(A3), 666 WITH Myy(A3), 999 WITH c_span, 777 WITH Mxx(A3)
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
 			this.lineForcesMatrix.getA312().setN(r1+r2);
 			this.lineForcesMatrix.getA312().setMx(+m1);
 			
 			//A321 traffic
-			/*##############################
-			 *CHANGE 111 WITH N(A2), 666 WITH Myy(A2), 999 WITH c_span, 777 WITH Mxx(A2)
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
-			r1 = 111/2;
-			r2 = 666/999;
-			m1 = 777/2;
 			this.lineForcesMatrix.getA321().setN(r1-r2);
 			this.lineForcesMatrix.getA321().setMx(-m1);
 			
 			//A322 traffic
-			/*##############################
-			 *CHANGE 111 WITH N(A3), 666 WITH Myy(A3), 999 WITH c_span, 777 WITH Mxx(A3)
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
 			this.lineForcesMatrix.getA322().setN(r1+r2);
 			this.lineForcesMatrix.getA322().setMx(-m1);
 		}
 		
+		
 		/*
 		 * Calculate and set the Braking Vehicles
 		 */
+		t1 = ParametersController.getParameter(eParameter.ValueOfTheForceDueToTheVehicleBraking).getValue()/2;
+		r1 = (ParametersController.getParameter(eParameter.ValueOfTheForceDueToTheVehicleBraking).getValue()*
+				ParametersController.getParameter(eParameter.ArmForTheVehicleBrakingMoment).getValue())/
+				ParametersController.getParameter(eParameter.DistanceBetweenTwoLineOfPylon).getValue();
 		if(side==0)
 		{
 			//MANTOVA
 			//FR01
-			/*##############################
-			 *CHANGE 111 WITH Fr, 666 WITH n, 999 WITH c_span
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
-			t1 = 111/2;
-			r1 = (111*666)/999;
 			this.lineForcesMatrix.getFR01().setN(r1);
 			this.lineForcesMatrix.getFR01().setTx(t1);
 			
 			//FR02
-			/*##############################
-			 *CHANGE 111 WITH Fr, 666 WITH n, 999 WITH c_span
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
 			this.lineForcesMatrix.getFR02().setN(-r1);
 			this.lineForcesMatrix.getFR02().setTx(-t1);
 		}else if(side==1)
 		{
 			//MODENA
 			//FR01
-			/*##############################
-			 *CHANGE 111 WITH Fr, 666 WITH n, 999 WITH c_span
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
-			t1 = 111/2;
-			r1 = (111*666)/999;
 			this.lineForcesMatrix.getFR01().setN(-r1);
 			this.lineForcesMatrix.getFR01().setTx(t1);
 			
 			//FR02
-			/*##############################
-			 *CHANGE 111 WITH Fr, 666 WITH n, 999 WITH c_span
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
-			this.lineForcesMatrix.getFR02().setN(-r1);
+			this.lineForcesMatrix.getFR02().setN(+r1);
 			this.lineForcesMatrix.getFR02().setTx(-t1);		
 		}
 		
-		/*##############################
-		 *CHANGE 111 WITH alpha
-		 *PARAMETERS ARE MISSING
-		 *############################# 
+		
+		/*
+		 * Calculations of the sign of the wind push.
 		 */
-		if((this.instrumentsData.getAne4()<(180-111)) || (this.instrumentsData.getAne4()>(360-111)))
+		if((this.instrumentsData.getAne4()<(180-ParametersController.getParameter(eParameter.PlanimetricAnticlockwiseInclinationOfTheBridgeFormTheNorth).getValue())) ||
+			(this.instrumentsData.getAne4()>(360-ParametersController.getParameter(eParameter.PlanimetricAnticlockwiseInclinationOfTheBridgeFormTheNorth).getValue())))
 		{
 			ws=1;
 		}else
@@ -307,127 +203,102 @@ public class MatrixFillTask implements Runnable{
 		
 		/*
 		 * Calculate and set the Wind component
-		 * both on plank and on traffic
+		 * both on plank
 		 */
+		f = this.plankForces.getWindPushOnPlank()/2;
+		r = (this.plankForces.getWindPushOnPlank()*ParametersController.getParameter(eParameter.ThrustCenterDueToLongitudinalAsymmetryOnlyOfSVplank).getValue())/
+			ParametersController.getParameter(eParameter.DistanceBetweenTwoLineOfPylon).getValue();
+		m1 = (this.plankForces.getWindPushOnPlank()*ParametersController.getParameter(eParameter.ArmForBendingMomentOfSVplank).getValue())/2;
 		if(side==0)
 		{
 			//MANTOVA
-			//VT01
-			/*##############################
-			 *CHANGE 666 WITH r, 999 WITH c_span, 777 WITH e_plank
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
-			f = this.plankForces.getWindPushOnPlank()/2;
-			r = (this.plankForces.getWindPushOnPlank()*666)/999;
-			m1 = (this.plankForces.getWindPushOnPlank()*777)/2;
+			//VT0			
 			this.lineForcesMatrix.getVT0().setTy(ws*(f+r));
 			this.lineForcesMatrix.getVT0().setMx(ws*(m1));
-			
-			//VT1A1
-			/*##############################
-			 *CHANGE 777 WITH e_plank, 888 WITH e_traf
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
-			f = (this.plankForces.getWindPushOnPlank()+this.plankForces.getWindPushOnA1TrafficCombination())/2;
-			m1 = (this.plankForces.getWindPushOnPlank()*777 + this.plankForces.getWindPushOnA1TrafficCombination()*888)/2;
-			this.lineForcesMatrix.getVT1A1().setTy(ws*(f+r));
-			this.lineForcesMatrix.getVT1A1().setMx(ws*(m1));
-			
-			//VT1A2
-			/*##############################
-			 *CHANGE 777 WITH e_plank, 888 WITH e_traf
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
-			f = (this.plankForces.getWindPushOnPlank()+this.plankForces.getWindPushOnA2TrafficCombination())/2;
-			m1 = (this.plankForces.getWindPushOnPlank()*777 + this.plankForces.getWindPushOnA2TrafficCombination()*888)/2;
-			this.lineForcesMatrix.getVT1A2().setTy(ws*(f+r));
-			this.lineForcesMatrix.getVT1A2().setMx(ws*(m1));
-			
-			//VT1A3
-			/*##############################
-			 *CHANGE 777 WITH e_plank, 888 WITH e_traf
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
-			f = (this.plankForces.getWindPushOnPlank()+this.plankForces.getWindPushOnA3TrafficCombination())/2;
-			m1 = (this.plankForces.getWindPushOnPlank()*777 + this.plankForces.getWindPushOnA3TrafficCombination()*888)/2;
-			this.lineForcesMatrix.getVT1A3().setTy(ws*(f+r));
-			this.lineForcesMatrix.getVT1A3().setMx(ws*(m1));
-		}else if(side==1)
+		}else if (side==1)
 		{
 			//MODENA
-			//VT01
-			/*##############################
-			 *CHANGE 666 WITH r, 999 WITH c_span, 777 WITH e_plank
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
-			f = this.plankForces.getWindPushOnPlank()/2;
-			r = (this.plankForces.getWindPushOnPlank()*666)/999;
-			m1 = (this.plankForces.getWindPushOnPlank()*777)/2;
+			//VT0
 			this.lineForcesMatrix.getVT0().setTy(ws*(f-r));
 			this.lineForcesMatrix.getVT0().setMx(ws*(m1));
-			
-			//VT1A1
-			/*##############################
-			 *CHANGE 777 WITH e_plank, 888 WITH e_traf
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
-			f = (this.plankForces.getWindPushOnPlank()+this.plankForces.getWindPushOnA1TrafficCombination())/2;
-			m1 = (this.plankForces.getWindPushOnPlank()*777 + this.plankForces.getWindPushOnA1TrafficCombination()*888)/2;
-			this.lineForcesMatrix.getVT1A1().setTy(ws*(f-r));
-			this.lineForcesMatrix.getVT1A1().setMx(ws*(m1));
-			
-			//VT1A2
-			/*##############################
-			 *CHANGE 777 WITH e_plank, 888 WITH e_traf
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
-			f = (this.plankForces.getWindPushOnPlank()+this.plankForces.getWindPushOnA2TrafficCombination())/2;
-			m1 = (this.plankForces.getWindPushOnPlank()*777 + this.plankForces.getWindPushOnA2TrafficCombination()*888)/2;
-			this.lineForcesMatrix.getVT1A2().setTy(ws*(f-r));
-			this.lineForcesMatrix.getVT1A2().setMx(ws*(m1));
-			
-			//VT1A3
-			/*##############################
-			 *CHANGE 777 WITH e_plank, 888 WITH e_traf
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
-			f = (this.plankForces.getWindPushOnPlank()+this.plankForces.getWindPushOnA3TrafficCombination())/2;
-			m1 = (this.plankForces.getWindPushOnPlank()*777 + this.plankForces.getWindPushOnA3TrafficCombination()*888)/2;
-			this.lineForcesMatrix.getVT1A3().setTy(ws*(f-r));
-			this.lineForcesMatrix.getVT1A3().setMx(ws*(m1));
 		}
 		
 		/*
-		 * Calculate and set the Water thrust
+		 * Calculate and set the Wind component
+		 * both on A1 traffic combination
 		 */
+		f = (this.plankForces.getWindPushOnPlank()+this.plankForces.getWindPushOnA1TrafficCombination())/2;
+		m1 = (this.plankForces.getWindPushOnPlank()*ParametersController.getParameter(eParameter.ArmForBendingMomentOfSVplank).getValue() +
+			this.plankForces.getWindPushOnA1TrafficCombination()*ParametersController.getParameter(eParameter.ArmForBendingMomentOfSVtraf).getValue())/2;
 		if(side==0)
 		{
 			//MANTOVA
-			//AQD0
-			t1 = (this.plankForces.getHydrodynamicThrustWithOutDebris()/this.plankForces.getHs())/2;
-			this.lineForcesMatrix.getAQD0().setQy(t1);
-			
-			//AQD1
-			t1 = (this.plankForces.getHydrodynamicThrustWithDebris()/this.plankForces.getHs())/2;
-			this.lineForcesMatrix.getAQD1().setQy(t1);
-		}else if(side==1)
+			//VT1A1			
+			this.lineForcesMatrix.getVT1A1().setTy(ws*(f+r));
+			this.lineForcesMatrix.getVT1A1().setMx(ws*(m1));
+		}else if (side==1)
 		{
 			//MODENA
-			//AQD0
-			t1 = (this.plankForces.getHydrodynamicThrustWithOutDebris()/this.plankForces.getHs())/2;
-			this.lineForcesMatrix.getAQD0().setQy(t1);
-			
-			//AQD1
-			t1 = (this.plankForces.getHydrodynamicThrustWithDebris()/this.plankForces.getHs())/2;
-			this.lineForcesMatrix.getAQD1().setQy(t1);
+			//VT1A1
+			this.lineForcesMatrix.getVT1A1().setTy(ws*(f-r));
+			this.lineForcesMatrix.getVT1A1().setMx(ws*(m1));
 		}
+		
+		/*
+		 * Calculate and set the Wind component
+		 * both on A2 traffic combination
+		 */
+		f = (this.plankForces.getWindPushOnPlank()+this.plankForces.getWindPushOnA2TrafficCombination())/2;
+		m1 = (this.plankForces.getWindPushOnPlank()*ParametersController.getParameter(eParameter.ArmForBendingMomentOfSVplank).getValue() +
+			this.plankForces.getWindPushOnA2TrafficCombination()*ParametersController.getParameter(eParameter.ArmForBendingMomentOfSVtraf).getValue())/2;
+		if(side==0)
+		{
+			//MANTOVA
+			//VT1A2		
+			this.lineForcesMatrix.getVT1A1().setTy(ws*(f+r));
+			this.lineForcesMatrix.getVT1A1().setMx(ws*(m1));
+		}else if (side==1)
+		{
+			//MODENA
+			//VT1A2
+			this.lineForcesMatrix.getVT1A1().setTy(ws*(f-r));
+			this.lineForcesMatrix.getVT1A1().setMx(ws*(m1));
+		}
+		
+		/*
+		 * Calculate and set the Wind component
+		 * both on A3 traffic combination
+		 */
+		f = (this.plankForces.getWindPushOnPlank()+this.plankForces.getWindPushOnA3TrafficCombination())/2;
+		m1 = (this.plankForces.getWindPushOnPlank()*ParametersController.getParameter(eParameter.ArmForBendingMomentOfSVplank).getValue() +
+			this.plankForces.getWindPushOnA3TrafficCombination()*ParametersController.getParameter(eParameter.ArmForBendingMomentOfSVtraf).getValue())/2;
+		if(side==0)
+		{
+			//MANTOVA
+			//VT1A3	
+			this.lineForcesMatrix.getVT1A1().setTy(ws*(f+r));
+			this.lineForcesMatrix.getVT1A1().setMx(ws*(m1));
+		}else if (side==1)
+		{
+			//MODENA
+			//VT1A3
+			this.lineForcesMatrix.getVT1A1().setTy(ws*(f-r));
+			this.lineForcesMatrix.getVT1A1().setMx(ws*(m1));
+		}
+		
+		
+		
+		
+		/*
+		 * Calculate and set the Water thrust with D=0
+		 */
+		//Is the same or both MANTOVA and MODENA side
+		//AQD0
+		t1 = (this.plankForces.getHydrodynamicThrustWithOutDebris()/this.plankForces.getHs())/2;
+		this.lineForcesMatrix.getAQD0().setQy(t1);
+		
+		//AQD1
+		t1 = (this.plankForces.getHydrodynamicThrustWithDebris()/this.plankForces.getHs())/2;
+		this.lineForcesMatrix.getAQD1().setQy(t1);
 	}
 }
