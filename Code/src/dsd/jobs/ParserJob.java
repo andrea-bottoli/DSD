@@ -11,7 +11,7 @@ public class ParserJob implements Job{
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		System.out.println("QUARTZ JOB TEST EVERY 15 seconds");
-		//StartParser.CheckAndStart();
+		StartParser.CheckAndStart();
 	}
 
 }
