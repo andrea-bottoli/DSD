@@ -1,11 +1,14 @@
 package dsd.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.ListIterator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import dsd.calculations.TimeCalculations;
 import dsd.controller.mathEngineTask.*;
 import dsd.model.CalculatedData;
 import dsd.model.RawData;
@@ -107,6 +110,7 @@ public class CalculationsController implements Runnable {
 	private void Calculate10mins()
 	{
 		//Local variables
+		int sizeSample = 600;
 		RawData	rd = null;
 		ArrayList<RawData> localRawData = new ArrayList<RawData>();
 		ListIterator<RawData> globalIterator = this.rawData.listIterator();
@@ -131,25 +135,28 @@ public class CalculationsController implements Runnable {
 			{
 				localRawData.clear();
 				
-				for(int i = 0; i < 600; i++)
+				for(int i = 0; i < sizeSample; i++)
 				{
 					rd = globalIterator.next();
 					localRawData.add(rd);
 				}
 				
-				this.last10minTimestamp = rd.getTimestamp();
-				this.instrumentsData.setTimestamp(this.last10minTimestamp);
-				/*
-				 * Start calculations for one line of the DB
-				 */
-				CalculateMeanValues(localRawData, localRawData.size());
-				CalculatePlankForces();
-				CalculateLineForces();
-				CalculatePylonForces();
-				CalculateRiskFactor();
-				DetectMostStressedPylon();
-				StoreCalculatedValues();
-				WriteOnDB();
+				if(checkSampleSize(localRawData,sizeSample))
+				{
+					this.last10minTimestamp = rd.getTimestamp();
+					this.instrumentsData.setTimestamp(this.last10minTimestamp);
+					/*
+					 * Start calculations for one line of the DB
+					 */
+					CalculateMeanValues(localRawData, localRawData.size());
+					CalculatePlankForces();
+					CalculateLineForces();
+					CalculatePylonForces();
+					CalculateRiskFactor();
+					DetectMostStressedPylon();
+					StoreCalculatedValues();
+					WriteOnDB();
+				}
 			}
 			while (globalIterator.hasNext());
 		}
@@ -165,8 +172,8 @@ public class CalculationsController implements Runnable {
 	 */
 	private void Calculate1hour()
 	{
-		//TO-DO
 		//Local variables
+		int sizeSample = 3600;
 		RawData	rd = null;
 		ArrayList<RawData> localRawData = new ArrayList<RawData>();
 		ListIterator<RawData> globalIterator = this.rawData.listIterator();
@@ -191,25 +198,28 @@ public class CalculationsController implements Runnable {
 			{
 				localRawData.clear();
 				
-				for(int i = 0; i < 3600; i++)
+				for(int i = 0; i < sizeSample; i++)
 				{
 					rd = globalIterator.next();
 					localRawData.add(rd);
 				}
 				
-				this.last1hourTimestamp = rd.getTimestamp();
-				this.instrumentsData.setTimestamp(this.last1hourTimestamp);
-				/*
-				 * Start calculations for one line of the DB
-				 */
-				CalculateMeanValues(localRawData, localRawData.size());
-				CalculatePlankForces();
-				CalculateLineForces();
-				CalculatePylonForces();
-				CalculateRiskFactor();
-				DetectMostStressedPylon();
-				StoreCalculatedValues();
-				WriteOnDB();
+				if(checkSampleSize(localRawData,sizeSample))
+				{
+					this.last1hourTimestamp = rd.getTimestamp();
+					this.instrumentsData.setTimestamp(this.last1hourTimestamp);
+					/*
+					 * Start calculations for one line of the DB
+					 */
+					CalculateMeanValues(localRawData, localRawData.size());
+					CalculatePlankForces();
+					CalculateLineForces();
+					CalculatePylonForces();
+					CalculateRiskFactor();
+					DetectMostStressedPylon();
+					StoreCalculatedValues();
+					WriteOnDB();
+				}
 			}
 			while (globalIterator.hasNext());
 		}
@@ -225,8 +235,8 @@ public class CalculationsController implements Runnable {
 	 */
 	private void Calculate1day()
 	{
-		//TO-DO
 		//Local Variables
+		int sizeSample = 86400;
 		RawData	rd = null;
 		ArrayList<RawData> localRawData = new ArrayList<RawData>();
 		ListIterator<RawData> globalIterator = this.rawData.listIterator();
@@ -251,31 +261,44 @@ public class CalculationsController implements Runnable {
 			{
 				localRawData.clear();
 				
-				for(int i = 0; i < 86400; i++)
+				for(int i = 0; i < sizeSample; i++)
 				{
 					rd = globalIterator.next();
 					localRawData.add(rd);
 				}
 				
-				this.last1dayTimestamp = rd.getTimestamp();
-				this.instrumentsData.setTimestamp(this.last1dayTimestamp);
-				/*
-				 * Start calculations for one line of the DB
-				 */
-				CalculateMeanValues(localRawData, localRawData.size());
-				CalculatePlankForces();
-				CalculateLineForces();
-				CalculatePylonForces();
-				CalculateRiskFactor();
-				DetectMostStressedPylon();
-				StoreCalculatedValues();
-				WriteOnDB();
+				if(checkSampleSize(localRawData,sizeSample))
+				{
+					this.last1dayTimestamp = rd.getTimestamp();
+					this.instrumentsData.setTimestamp(this.last1dayTimestamp);
+					/*
+					 * Start calculations for one line of the DB
+					 */
+					CalculateMeanValues(localRawData, localRawData.size());
+					CalculatePlankForces();
+					CalculateLineForces();
+					CalculatePylonForces();
+					CalculateRiskFactor();
+					DetectMostStressedPylon();
+					StoreCalculatedValues();
+					WriteOnDB();
+				}
 			}
 			while (globalIterator.hasNext());
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
+		}
+	}
+	
+	private boolean checkSampleSize(ArrayList<RawData> localRawData, int size)
+	{
+		if(localRawData.size()==size)
+		{
+			return true;
+		}else{
+			return false;
 		}
 	}
 	
@@ -292,9 +315,9 @@ public class CalculationsController implements Runnable {
 	 * for any time interval
 	 * @param lastRawDataTimestamp2 
 	 */
-	private void ReadRawData(long lastRawDataTimestamp2)
+	private void ReadRawData(long lastRawDataTimestamp)
 	{
-		//TO_DO
+		this.rawData = RawDataController.GetAllForPeriod(TimeCalculations.LabViewTimestampsToGregCalendar(lastRawDataTimestamp), new GregorianCalendar());
 	}
 	
 	/**
@@ -705,5 +728,12 @@ public class CalculationsController implements Runnable {
 	private void clearCalculatedDataList()
 	{
 		calculatedData.clear();
+	}
+	
+	public void resetFlags()
+	{
+		this.last10minTimestamp = 0;
+		this.last1hourTimestamp = 0;
+		this.last1dayTimestamp = 0;
 	}
 }
