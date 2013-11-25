@@ -13,6 +13,7 @@ import javax.el.MethodNotFoundException;
 
 import org.apache.commons.lang3.StringUtils;
 
+import dsd.calculations.InputConversion;
 import dsd.calculations.TimeCalculations;
 import dsd.dao.PicturesDAO;
 import dsd.model.Picture;
@@ -97,20 +98,19 @@ public class ParserControler
 						}
 						else
 						{
-							data.setSonar(Float
-									.parseFloat(line.trim().substring(1, line.trim().length() - 1)));
+							data.setSonar((float)InputConversion.sonarConversion(Double.parseDouble(line.trim().substring(1, line.trim().length() - 1))));
 							data.setSonarType(eSonarType.UncertainData);
 						}
 					}
 					else
 					{
-						data.setSonar(Float.parseFloat(line.trim().substring(1, line.trim().length())));
+						data.setSonar((float)InputConversion.sonarConversion(Double.parseDouble(line.trim().substring(1, line.trim().length()))));
 						data.setSonarType(eSonarType.CorrectData);
 					}
 				}
 				else
 				{
-					data.setSonar(Float.parseFloat(line.trim().substring(0, line.trim().length())));
+					data.setSonar((float)InputConversion.sonarConversion(Double.parseDouble(line.trim().substring(0, line.trim().length()))));
 					data.setSonarType(eSonarType.WrongData);
 				}
 				timestampIsLastReadLine = false;
@@ -133,14 +133,19 @@ public class ParserControler
 	private static void ReadAnalogData(BufferedReader br, List<RawData> rawDataList) throws IOException
 	{
 		String line = null;
+		double windSpeed = 0;
+		double windDirection = 0;
+		double hydrometer = 0;
+		long timestamp = 0;
+		
 		while ((line = br.readLine()) != null)
 		{
 			RawData data = new RawData();
 			String[] inputs = StringUtils.split(line);
-			double windSpeed = Double.parseDouble(inputs[0]);
-			double windDirection = Double.parseDouble(inputs[2]);
-			double hydrometer = Double.parseDouble(inputs[1]);
-			long timestamp = (long) Double.parseDouble(inputs[3]);
+			windSpeed = InputConversion.windSpeedConversion(Double.parseDouble(inputs[0]));
+			windDirection = InputConversion.windDirectionConversion(Double.parseDouble(inputs[2]));
+			hydrometer = InputConversion.waterLevelConversion(Double.parseDouble(inputs[1]));
+			timestamp = (long) Double.parseDouble(inputs[3]);
 
 			data.setWindSpeed((float) windSpeed);
 			data.setWindDirection((float) windDirection);
