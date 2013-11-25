@@ -47,7 +47,6 @@ public class TimeCalculations
 
 	public static GregorianCalendar PictureTimeToGregCalendar(String timestamp)
 	{
-
 		try
 		{
 			int year = Integer.parseInt(timestamp.substring(0, 2));

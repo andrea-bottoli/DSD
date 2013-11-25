@@ -13,7 +13,7 @@ import dsd.model.calculation.*;
 import dsd.model.enums.eParameter;
 import dsd.model.enums.eSonarType;
 
-public class CalculationsController implements Runnable{
+public class CalculationsController implements Runnable {
 	
 	//Variables to be instantiated
 	

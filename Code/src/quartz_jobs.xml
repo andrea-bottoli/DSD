@@ -27,7 +27,7 @@
 				<name>ParserTrigger</name>
 				<job-name>ParserJob</job-name>
 				<repeat-count>-1</repeat-count> <!-- repeat indefinitely  -->
-				<repeat-interval>15000</repeat-interval>  <!--  every 5 seconds -->
+				<repeat-interval>60000</repeat-interval>  <!--  every 60 seconds -->
 			</simple>
 		</trigger>
 	</schedule>
