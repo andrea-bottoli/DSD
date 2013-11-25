@@ -4,21 +4,20 @@ import java.util.Date;
 
 public class InstrumentsData {
 	
-	private float ane1;
-	private float ane2;
-	private float ane3;
-	private float ane4;
-	private float idro1;
-	private float idro2;
-	private float sonar1;
-	private float sonar2;
-	private float sonar3;
-	private float sonar4;
-	private float sonar5;
-	private float sonar6;
-	private float sonar7;
-	private long timestamp;
-	private Date timestampDate;
+	private float ane1;		//mean wind speed
+	private float ane2;		//max wind speed
+	private float ane3;		//mean wind direction
+	private float ane4;		//direction of the max wind speed
+	private float idro1;	//mean water level
+	private float idro2;	//variance of water level
+	private float sonar1; 	//mean value of river bed height with data of type 1+2
+	private float sonar2; 	//variance of sample data with data of type 1+2
+	private float sonar3; 	//% of data of type 1+2 utilized over the whole sample.
+	private float sonar4; 	//% of wrong data of type 3 that there are in the whole sample.
+	private float sonar5; 	//% of out of water data of type 4 that there are in the whole sample.
+	private float sonar6; 	//% of error data of type 5 that there are in the whole sample.
+	private float sonar7; 	//% of uncertain data of type 2 utilized over the 1+2 sample.
+	private long timestamp;	//timestamp of this row data
 	
 	/**
 	 * @return the ANE1: Mean value of Wind Speed
@@ -188,16 +187,5 @@ public class InstrumentsData {
 	public void setTimestamp(long timestamp) {
 		this.timestamp = timestamp;
 	}
-	/**
-	 * @return the timestampDate
-	 */
-	public Date getTimestampDate() {
-		return timestampDate;
-	}
-	/**
-	 * @param timestampDate the timestampDate to set
-	 */
-	public void setTimestampDate(Date timestampDate) {
-		this.timestampDate = timestampDate;
-	}
+	
 }

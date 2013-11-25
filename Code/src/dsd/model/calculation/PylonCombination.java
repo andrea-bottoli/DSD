@@ -15,15 +15,15 @@ public class PylonCombination {
 		
 		if(side == 0) //Mantova side
 		{
-			this.pylon1 = new Pylon(1);
+			this.pylon1 = new Pylon(5);
 			this.pylon2 = new Pylon(3);
-			this.pylon3 = new Pylon(5);
+			this.pylon3 = new Pylon(1);
 		}
 		else if(side == 1) //Modena side
 		{
-			this.pylon1 = new Pylon(2);
+			this.pylon1 = new Pylon(6);
 			this.pylon2 = new Pylon(4);
-			this.pylon3 = new Pylon(6);
+			this.pylon3 = new Pylon(2);
 		}
 		
 		this.pylonList = new ArrayList<Pylon>();

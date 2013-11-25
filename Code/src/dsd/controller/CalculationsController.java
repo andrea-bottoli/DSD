@@ -10,7 +10,6 @@ import dsd.controller.mathEngineTask.*;
 import dsd.model.CalculatedData;
 import dsd.model.RawData;
 import dsd.model.calculation.*;
-import dsd.model.enums.eParameter;
 import dsd.model.enums.eSonarType;
 
 public class CalculationsController implements Runnable {
@@ -31,9 +30,10 @@ public class CalculationsController implements Runnable {
 	private LineForces moLineForces = null;
 	private PylonForces mnPylonsForces = null;
 	private PylonForces moPylonsForces = null;
+	private SafetyFactor safeyFactor = null;
 	
 	//Variable in which store the calculations results
-	private CalculatedData calculatedData = null;
+	private ArrayList<CalculatedData> calculatedData = null;
 	
 	//Variables to store grouped data after reading/loading from DB
 	private ArrayList<RawData> rawData = null;
@@ -53,7 +53,7 @@ public class CalculationsController implements Runnable {
 		this.last10minTimestamp = 0;
 		this.last1hourTimestamp = 0;
 		this.last1dayTimestamp = 0;		
-		this.calculatedData = new CalculatedData();
+		this.calculatedData = new ArrayList<CalculatedData>();
 		this.instrumentsData = new InstrumentsData();
 		this.plankForces = new PlankForces();
 		this.mnLineMatrix = new LineForcesMatrix();
@@ -62,6 +62,7 @@ public class CalculationsController implements Runnable {
 		this.moLineForces = new LineForces();
 		this.mnPylonsForces = new PylonForces(mnLineForces, 0);
 		this.moPylonsForces = new PylonForces(moLineForces, 1);
+		this.safeyFactor = new SafetyFactor();
 		
 		ParametersController.IntializeCurrentParemeters();
 	}
@@ -80,6 +81,9 @@ public class CalculationsController implements Runnable {
 	{
 		try
 		{
+			//clear the list that will contains the outputs
+			clearCalculatedDataList();
+			
 			//Loding parameters
 			ReadParameters();
 			
@@ -134,7 +138,7 @@ public class CalculationsController implements Runnable {
 				}
 				
 				this.last10minTimestamp = rd.getTimestamp();
-				
+				this.instrumentsData.setTimestamp(this.last10minTimestamp);
 				/*
 				 * Start calculations for one line of the DB
 				 */
@@ -194,7 +198,7 @@ public class CalculationsController implements Runnable {
 				}
 				
 				this.last1hourTimestamp = rd.getTimestamp();
-				
+				this.instrumentsData.setTimestamp(this.last1hourTimestamp);
 				/*
 				 * Start calculations for one line of the DB
 				 */
@@ -254,7 +258,7 @@ public class CalculationsController implements Runnable {
 				}
 				
 				this.last1dayTimestamp = rd.getTimestamp();
-				
+				this.instrumentsData.setTimestamp(this.last1dayTimestamp);
 				/*
 				 * Start calculations for one line of the DB
 				 */
@@ -518,7 +522,6 @@ public class CalculationsController implements Runnable {
 				pool.submit(new PylonCombinationTask(instrumentsData, mnLineForces, mnPylonsForces));
 				//Modena pylons
 				pool.submit(new PylonCombinationTask(instrumentsData, moLineForces, moPylonsForces));
-
 				
 				pool.shutdown();
 			}
@@ -552,6 +555,27 @@ public class CalculationsController implements Runnable {
 	private void StoreCalculatedValues()
 	{
 		//TO-DO
+		CalculatedData cd = new CalculatedData(this.instrumentsData.getAne1(), this.instrumentsData.getAne3(), this.instrumentsData.getAne2(), this.instrumentsData.getAne4(),
+												this.instrumentsData.getIdro1(), this.instrumentsData.getIdro2(),
+												this.instrumentsData.getSonar1(), this.instrumentsData.getSonar2(), this.instrumentsData.getSonar3(), this.instrumentsData.getSonar4(),
+												this.instrumentsData.getSonar5(), this.instrumentsData.getSonar6(), this.instrumentsData.getSonar7(),
+												this.safeyFactor.getSafetyFactor00(), this.safeyFactor.getStressed_pylon00().getPylonNumber(),
+												this.safeyFactor.getSafetyFactor01(), this.safeyFactor.getStressed_pylon01().getPylonNumber(),
+												this.safeyFactor.getSafetyFactor10(), this.safeyFactor.getStressed_pylon10().getPylonNumber(),
+												this.safeyFactor.getSafetyFactor11(), this.safeyFactor.getStressed_pylon11().getPylonNumber(),
+												this.instrumentsData.getTimestamp());
+		
+		calculatedData.add(cd);
+		
+		
+		/*
+		 * ################################################################
+		 * ################################################################
+		 * ################################################################
+		 * ################################################################
+		 * ################################################################
+		 * 
+		 */
 		
 		/*
 		 * TEMP CODE TO DEBUG THE RESULTS OF EACH CALCULATIONS
@@ -664,11 +688,22 @@ public class CalculationsController implements Runnable {
 		}
 	}
 	
-	/*
-	 * Writes the calculated data on the DB
+	
+	
+	/**
+	 * Write the results of calculations into the DB
 	 */
 	private void WriteOnDB()
 	{
 		// TO-DO
-	}	
+	}
+	
+	
+	/**
+	 * This method clears the list of calculated data
+	 */
+	private void clearCalculatedDataList()
+	{
+		calculatedData.clear();
+	}
 }

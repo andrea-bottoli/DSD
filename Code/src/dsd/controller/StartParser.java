@@ -80,18 +80,21 @@ public class StartParser
 					}
 				}
 			}
+			
+			
+			imgList = FilesDAO.getNewImages(imageCalendar);
+
+			if(!imgList.isEmpty())
+			{
+				//Call the method to parse the images
+			}
+			
+			
 		}
 		catch (Exception ex)
 		{
 			ex.printStackTrace();
 		}
-		// imgList = FilesDAO.getNewImages(imageCalendar);
-
-		// if(!imgList.isEmpty())
-		// {
-		// //Call the method to parse the images
-		// }
-
 	}
 
 	private static void startParsing()
