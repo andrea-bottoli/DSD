@@ -1,0 +1,150 @@
+/* css released under Creative Commons License -  http://creativecommons.org/licenses/by/2.0/deed.en  */
+/* html5 + CSS 3 Template created by miss monorom  http://intensivstation.ch 2013 */
+
+/* reset */
+* {
+margin: 0;
+padding: 0;
+-moz-box-sizing: border-box;
+-webkit-box-sizing: border-box;
+box-sizing: border-box;
+}
+/* render html5 elements as block 
+   rendert html5 elemente als block  */
+
+.header, .footer { display: block;}
+
+.clear_float{clear: both;}
+
+body {
+background-color: #eee;
+font-size: 0.95em;
+font-family: Monospace, SunSans-Regular, Sans-Serif;
+color:#564b47;
+}
+
+a:link, a:visited{
+	color: #564b47;
+	text-decoration: underline;
+}
+
+a:hover {color: #564b47;}
+a:active { color:#000000;}
+
+h1, h2 {
+font-size:1.8em;
+font-weight: normal;
+margin: 0 0 20px;
+}
+
+	
+
+/* ----------header for logo-------------- */
+.header {
+	background: #ccc;
+	width: 100%; 
+	position: fixed;
+	left: 0;
+	top: 0;
+	border-bottom:1px solid #666;
+	border-top:1px solid #666;
+}
+
+.logo {
+	float: right;
+}
+.logo img { 
+	padding: 0 0 10px;
+	width: 200px;	
+}
+
+.login{
+	float: clear both;
+	display: block;
+	position: absolute;
+	top: 10px;
+	margin-left: 20px;
+}
+
+.title{
+	text-align: center;
+}
+
+.buttons{
+	float: left;
+	margin-left: 20px;
+	position: absolute;
+	bottom: 5px;
+	
+}
+
+.button{
+	float:left;
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-top: 10px;
+	border:black solid 1px;
+	width: 200px;
+	height: 40px;;
+	background-color: #fff;
+	text-align: center;
+	margin: 1px;
+}
+
+.button:hover{
+	background-color: #aaa;
+}
+
+
+
+
+/* ----------------- content--------------------- */
+
+.content {
+background-color: #fff;
+max-width: 1300px;
+min-width:700px;
+margin:0  auto;
+padding: 200px 20px 130px;
+}
+
+.leftDiv{
+	margin-top: 5px;
+	float: left;
+	max-width: 650px;
+}
+
+.rightDiv{
+	margin-top: 5px;
+	float:right;
+	max-width: 650px;
+	
+}
+
+.sensorPics{
+	width:400px;
+	margin-left: 100px;
+}
+
+
+
+.graphs{
+	margin-top: 10px;	
+}
+
+.graph{
+	margin-top: 10px;
+
+	}
+
+/* -----------footer--------------------------- */
+
+.footer {
+	background: #eee;
+	width: 100%; 
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	border-bottom:1px solid #666;
+	border-top:1px solid #666;
+	}

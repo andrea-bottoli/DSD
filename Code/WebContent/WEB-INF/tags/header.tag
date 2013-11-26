@@ -3,25 +3,13 @@
 <div id="header" class="header">
 	<div id="logo" class= "logo">
 		<img class=center src="SiteImages/logo.png" alt="Real-time bridge monitoring logo" />
-
-
 	</div>
 	
 	<div id="title" class=title>
 		 <h1>Real-time bridge monitoring</h1>
-		 
-		 
-		
-		<hr/>
 	</div>
 	
-	<div class="form">
-		 	<form >
-				UserName: <input type="text" name="username"><br>
-				Password: <input type="text" name="password"><br>
-				<input type="submit">
-			</form>
-		</div>
+
 	
 	<div id="tabs" class="buttons">
 		<div class="button">
@@ -46,5 +34,14 @@
 		  -->
 		
 		<br/>
-	</div>	
+	</div>
+	 
+		<div class="login">
+		 	<form >
+				UserName: <input type="text" name="username"><br>
+				Password: <input type="text" name="password"><br>
+				<input type="submit">
+			</form>
+		</div>
+	
 </div>
