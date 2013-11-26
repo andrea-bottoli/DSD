@@ -6,17 +6,17 @@ import dsd.model.enums.eParameterCategory;
 
 public class Parameter {
 
-	long parameterDataID;
-	long parameterID;
-	String name;
-	String abbreviation;
-	String unit;
-	eParameterCategory category;
-	boolean constant;
-	float value;
-	long userID;
-	long timestamp;
-	Date timestampDate;
+	private long parameterDataID;
+	private long parameterID;
+	private String name;
+	private String abbreviation;
+	private String unit;
+	private eParameterCategory category;
+	private boolean constant;
+	private float value;
+	private long userID;
+	private long timestamp;
+	private Date timestampDate;
 	
 	public long getParameterDataID()
 	{
