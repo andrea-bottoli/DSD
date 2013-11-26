@@ -90,7 +90,7 @@ public class CalculationsController implements Runnable {
 		this.safeyFactor = new SafetyFactor();
 		
 //		ParametersController.IntializeCurrentParemeters();
-		ParametersController.set(param);
+//		ParametersController.set(param);
 		this.rawData = lista;
 	}
 	
