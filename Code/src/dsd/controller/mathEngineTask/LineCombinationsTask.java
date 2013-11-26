@@ -53,7 +53,7 @@ public class LineCombinationsTask implements Runnable{
 									{LineForcesMatrix.PS,LineForcesMatrix.A322,LineForcesMatrix.FR01,LineForcesMatrix.VT1A3,LineForcesMatrix.AQD0}};
 			
 			
-	public LineCombinationsTask(LineForcesMatrix lineForcesMatrix, LineForces lineForces, PlankForces plankForces)
+	public LineCombinationsTask(PlankForces plankForces, LineForcesMatrix lineForcesMatrix, LineForces lineForces)
 	{
 		this.lineForcesMatrix = lineForcesMatrix;
 		this.lineForces = lineForces;

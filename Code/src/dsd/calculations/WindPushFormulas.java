@@ -32,7 +32,7 @@ public class WindPushFormulas {
 		
 		try
 		{
-			effectiveWindSpeed = Math.abs((Ane2 * Math.sin(Ane4 + Alpha)));
+			effectiveWindSpeed = Math.abs((Ane2 * Math.sin((Math.toRadians(Ane4 + Alpha)))));
 		}catch(Exception e)
 		{
 			e.printStackTrace();

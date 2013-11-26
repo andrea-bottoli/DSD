@@ -1,8 +1,10 @@
 package dsd.controller.mathEngineTask;
 
 import dsd.calculations.MathEngine;
+import dsd.controller.ParametersController;
 import dsd.model.calculation.InstrumentsData;
 import dsd.model.calculation.PlankForces;
+import dsd.model.enums.eParameter;
 
 public class PlankWeightForcesTask implements Runnable{
 
@@ -27,22 +29,16 @@ public class PlankWeightForcesTask implements Runnable{
 	 */
 	private void CalculatePlankWeightForces()
 	{
-		
 		float lPstack;
 		
-		/*##############################
-		 *CHANGE 1 WITH Ppu, 2 WITH Ptp, 3 WITH Ppy, 4 WITH Hbeam
-		 *PARAMETERS IS MISSING
-		 *############################# 
-		 */
-		lPstack=MathEngine.StackWeight(1, 2, 3, 4, 5, instrumentsData.getSonar1());
+		lPstack=MathEngine.StackWeight(ParametersController.getParameter(eParameter.WeightOfSinglePulvino).getValue(),
+										ParametersController.getParameter(eParameter.WeightOfTheTrunkOfPylon).getValue(),
+										ParametersController.getParameter(eParameter.WeightOfTheSingleBeam).getValue(),
+										ParametersController.getParameter(eParameter.WeightPerMeterOfPylon).getValue(),
+										ParametersController.getParameter(eParameter.HeightOfTheLowerBeam).getValue(),
+										instrumentsData.getSonar1());
 		
-		/*##############################
-		 *CHANGE 1 WITH Pplank
-		 *PARAMETERS IS MISSING
-		 *############################# 
-		 */
-		plankForces.setPlankWeight(1);
+		plankForces.setPlankWeight(ParametersController.getParameter(eParameter.PlankWeightOnTheStack).getValue());
 		plankForces.setStackWeight(lPstack);
 			
 	}

@@ -1,7 +1,6 @@
 package dsd.controller;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.ListIterator;
 import java.util.concurrent.ExecutorService;
@@ -11,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 import dsd.calculations.TimeCalculations;
 import dsd.controller.mathEngineTask.*;
 import dsd.model.CalculatedData;
+import dsd.model.Parameter;
 import dsd.model.RawData;
 import dsd.model.calculation.*;
 import dsd.model.enums.eSonarType;
@@ -19,7 +19,7 @@ public class CalculationsController implements Runnable {
 	
 	//Variables to be instantiated
 	
-	//Variables to read/store data from sources
+	//Variables to store data into data base
 	private CalculatedDataController calculatedDataController = null;	// --> Has to be instanced or is a input ??
 	
 	//Variables from technical instruments
@@ -70,10 +70,35 @@ public class CalculationsController implements Runnable {
 		ParametersController.IntializeCurrentParemeters();
 	}
 	
+	/*
+	 * ITS ONLY FOR DEBUGGING AND INTERNAL TEST
+	 */
+	public CalculationsController(ArrayList<RawData> lista, ArrayList<Parameter> param)
+	{
+		this.last10minTimestamp = 0;
+		this.last1hourTimestamp = 0;
+		this.last1dayTimestamp = 0;		
+		this.calculatedData = new ArrayList<CalculatedData>();
+		this.instrumentsData = new InstrumentsData();
+		this.plankForces = new PlankForces();
+		this.mnLineMatrix = new LineForcesMatrix();
+		this.moLineMatrix = new LineForcesMatrix();
+		this.mnLineForces = new LineForces();
+		this.moLineForces = new LineForces();
+		this.mnPylonsForces = new PylonForces(mnLineForces, 0);
+		this.moPylonsForces = new PylonForces(moLineForces, 1);
+		this.safeyFactor = new SafetyFactor();
+		
+//		ParametersController.IntializeCurrentParemeters();
+		ParametersController.set(param);
+		this.rawData = lista;
+	}
+	
 	@Override
 	public void run() {
 		StartCalculations();		
 	}
+	
 	
 	/**
 	 * This method starts the whole elaborations on all
@@ -88,19 +113,17 @@ public class CalculationsController implements Runnable {
 			clearCalculatedDataList();
 			
 			//Loding parameters
-			ReadParameters();
+//			ReadParameters();
 			
 			//start calculations
 			Calculate10mins();
-			Calculate1hour();
-			Calculate1day();
+//			Calculate1hour();
+//			Calculate1day();
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		
-		//TO-DO
 	}
 	
 	/**
@@ -123,13 +146,7 @@ public class CalculationsController implements Runnable {
 			 * from last timestamp to the last data available
 			 */
 			
-			ReadRawData(this.last10minTimestamp);
-			
-			/*
-			 * Remember to do the validation of input 
-			 * prepare the index for the cycles
-			 * and prepare the lists of data
-			 */
+//			ReadRawData(this.last10minTimestamp);
 			
 			do
 			{
@@ -307,7 +324,7 @@ public class CalculationsController implements Runnable {
 	 */
 	private void ReadParameters()
 	{
-		//TO_DO
+		ParametersController.IntializeCurrentParemeters();
 	}
 	
 	/**
@@ -335,9 +352,8 @@ public class CalculationsController implements Runnable {
 		float meanWindSpeed, maxWindSpeed, meanWindDirection,maxWindDirection;
 		float meanWaterLevel, varianceWaterLevel;
 		float meanRiverBottomLevel, varianceRiverBottomLevel, percUtilizedData12OverWholeSample;
-		float percWrongData3OverWholeSample, percOutWaterData4OverWholeSample, percErrorData5OverWholeSample;
-		float percUncertainData2Over12Sample;
-		int numbCertainValue, numbUncertainValue, numbWrongValue, numbOutOfWaterValue, numbErrorValue;
+		float percWrongData3OverWholeSample, percOutWaterData4OverWholeSample, percErrorData5OverWholeSample, percUncertainData2Over12Sample;
+		float numbCertainValue, numbUncertainValue, numbWrongValue, numbOutOfWaterValue, numbErrorValue;
 		
 		maxWindSpeed=0;
 		maxWindDirection=0;
@@ -359,6 +375,7 @@ public class CalculationsController implements Runnable {
 			//Anemometer operations
 			sumWindSpeed = sumWindSpeed + rawData.getWindSpeed();
 			sumWindDirection = sumWindDirection + rawData.getWindDirection();
+			
 			if(rawData.getWindSpeed()>maxWindSpeed)
 			{
 				maxWindSpeed=rawData.getWindSpeed();
@@ -398,12 +415,12 @@ public class CalculationsController implements Runnable {
 		meanWaterLevel = sumWaterLevel/sampleSize;
 		
 		//sonar
-		meanRiverBottomLevel = sumRiverBottomLevel/sampleSize;
+		meanRiverBottomLevel = sumRiverBottomLevel/(numbCertainValue+numbUncertainValue);
 		percUtilizedData12OverWholeSample = (numbCertainValue+numbUncertainValue)/sampleSize;
 		percWrongData3OverWholeSample = numbWrongValue/sampleSize;
 		percOutWaterData4OverWholeSample = numbOutOfWaterValue/sampleSize;
 		percErrorData5OverWholeSample = numbErrorValue/sampleSize;
-		percUncertainData2Over12Sample = numbUncertainValue/(numbCertainValue+numbUncertainValue);
+		percUncertainData2Over12Sample = numbUncertainValue/(numbCertainValue + numbUncertainValue);
 		
 		//Calculation of variances
 		for(RawData rawData : localRawData)
@@ -475,11 +492,11 @@ public class CalculationsController implements Runnable {
 				pool = Executors.newFixedThreadPool(3);
 						
 				//WIND PUSH
-				pool.submit(new PlankWindForcesTask(instrumentsData, plankForces));
+				pool.submit(new PlankWindForcesTask(this.instrumentsData, this.plankForces));
 				//WATER PUSH
-				pool.submit(new PlankWaterForcesTask(instrumentsData, plankForces));
+				pool.submit(new PlankWaterForcesTask(this.instrumentsData, this.plankForces));
 				//WEIGHT PRESSURE
-				pool.submit(new PlankWeightForcesTask(instrumentsData, plankForces));
+				pool.submit(new PlankWeightForcesTask(this.instrumentsData, this.plankForces));
 				
 				pool.shutdown();
 			}
@@ -487,7 +504,6 @@ public class CalculationsController implements Runnable {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	/**
@@ -511,12 +527,12 @@ public class CalculationsController implements Runnable {
 				pool2 = Executors.newFixedThreadPool(1);
 				
 				//Start the Calculations and filling the matrix for each line
-				pool1.submit(new MatrixFillTask(instrumentsData, plankForces, mnLineMatrix, 0));
-				pool2.submit(new MatrixFillTask(instrumentsData, plankForces, moLineMatrix, 1));
+				pool1.submit(new MatrixFillTask(this.instrumentsData, this.plankForces, this.mnLineMatrix, 0));
+				pool2.submit(new MatrixFillTask(this.instrumentsData, this.plankForces, this.moLineMatrix, 1));
 				
 				//Start the calculations of the all combinations for each line
-				pool1.submit(new LineCombinationsTask(mnLineMatrix, mnLineForces, plankForces));
-				pool2.submit(new LineCombinationsTask(moLineMatrix, moLineForces, plankForces));
+				pool1.submit(new LineCombinationsTask(this.plankForces, this.mnLineMatrix, this.mnLineForces));
+				pool2.submit(new LineCombinationsTask(this.plankForces, this.moLineMatrix, this.moLineForces));
 				
 				pool1.shutdown();
 				pool2.shutdown();
@@ -542,9 +558,9 @@ public class CalculationsController implements Runnable {
 				pool = Executors.newFixedThreadPool(2);
 				
 				//Mantova pylons
-				pool.submit(new PylonCombinationTask(instrumentsData, mnLineForces, mnPylonsForces));
+				pool.submit(new PylonCombinationTask(this.instrumentsData, this.mnLineForces, this.mnPylonsForces));
 				//Modena pylons
-				pool.submit(new PylonCombinationTask(instrumentsData, moLineForces, moPylonsForces));
+				pool.submit(new PylonCombinationTask(this.instrumentsData, this.moLineForces, this.moPylonsForces));
 				
 				pool.shutdown();
 			}
@@ -578,17 +594,17 @@ public class CalculationsController implements Runnable {
 	private void StoreCalculatedValues()
 	{
 		//TO-DO
-		CalculatedData cd = new CalculatedData(this.instrumentsData.getAne1(), this.instrumentsData.getAne3(), this.instrumentsData.getAne2(), this.instrumentsData.getAne4(),
-												this.instrumentsData.getIdro1(), this.instrumentsData.getIdro2(),
-												this.instrumentsData.getSonar1(), this.instrumentsData.getSonar2(), this.instrumentsData.getSonar3(), this.instrumentsData.getSonar4(),
-												this.instrumentsData.getSonar5(), this.instrumentsData.getSonar6(), this.instrumentsData.getSonar7(),
-												this.safeyFactor.getSafetyFactor00(), this.safeyFactor.getStressed_pylon00().getPylonNumber(),
-												this.safeyFactor.getSafetyFactor01(), this.safeyFactor.getStressed_pylon01().getPylonNumber(),
-												this.safeyFactor.getSafetyFactor10(), this.safeyFactor.getStressed_pylon10().getPylonNumber(),
-												this.safeyFactor.getSafetyFactor11(), this.safeyFactor.getStressed_pylon11().getPylonNumber(),
-												this.instrumentsData.getTimestamp());
-		
-		calculatedData.add(cd);
+//		CalculatedData cd = new CalculatedData(this.instrumentsData.getAne1(), this.instrumentsData.getAne3(), this.instrumentsData.getAne2(), this.instrumentsData.getAne4(),
+//												this.instrumentsData.getIdro1(), this.instrumentsData.getIdro2(),
+//												this.instrumentsData.getSonar1(), this.instrumentsData.getSonar2(), this.instrumentsData.getSonar3(), this.instrumentsData.getSonar4(),
+//												this.instrumentsData.getSonar5(), this.instrumentsData.getSonar6(), this.instrumentsData.getSonar7(),
+//												this.safeyFactor.getSafetyFactor00(), this.safeyFactor.getStressed_pylon00().getPylonNumber(),
+//												this.safeyFactor.getSafetyFactor01(), this.safeyFactor.getStressed_pylon01().getPylonNumber(),
+//												this.safeyFactor.getSafetyFactor10(), this.safeyFactor.getStressed_pylon10().getPylonNumber(),
+//												this.safeyFactor.getSafetyFactor11(), this.safeyFactor.getStressed_pylon11().getPylonNumber(),
+//												this.instrumentsData.getTimestamp());
+//		
+//		calculatedData.add(cd);
 		
 		
 		/*
@@ -604,7 +620,7 @@ public class CalculationsController implements Runnable {
 		 * TEMP CODE TO DEBUG THE RESULTS OF EACH CALCULATIONS
 		 */
 		//INSTUMENTS DATA
-		System.out.println("--------INSTRUMENTS DATA-------");
+		System.out.println("------------------------------INSTRUMENTS DATA------------------------------");
 		System.out.println("ANE1\tANE2\tANE3\tANE4\t\t"
 						+ "IDRO1\tIDRO2\t\t"
 						+ "SONAR1\tSONAR2\tSONAR3\tSONAR4\tSONAR5\tSONAR6\tSONAR7");
@@ -615,13 +631,13 @@ public class CalculationsController implements Runnable {
 		System.out.println("\n\n");
 		
 		//PLANK FORCES
-		System.out.println("--------PLANK FORCES-------");
-		System.out.println("\n#WIND");
+		System.out.println("------------------------------PLANK FORCES------------------------------");
+		System.out.println("\n# WIND");
 		System.out.println("1)Svplank: "+plankForces.getWindPushOnPlank());
 		System.out.println("2)SvA1: "+plankForces.getWindPushOnA1TrafficCombination());
 		System.out.println("3)SvA2: "+plankForces.getWindPushOnA2TrafficCombination());
 		System.out.println("4)SvA3: "+plankForces.getWindPushOnA3TrafficCombination());
-		System.out.println("\n#WATER");
+		System.out.println("\n# WATER");
 		System.out.println("1)Q: "+plankForces.getFlowRate());
 		System.out.println("2)V: "+plankForces.getWaterSpeed());
 		System.out.println("3)Svd0: "+plankForces.getHydrodynamicThrustWithOutDebris());
@@ -629,14 +645,17 @@ public class CalculationsController implements Runnable {
 		System.out.println("5)hs: "+plankForces.getHs());
 		System.out.println("6)Bsd0: "+plankForces.getBsWithoutDebris());
 		System.out.println("7)Bsd0: "+plankForces.getBsWithDebris());
-		System.out.println("\n#WEIGHT");
-		System.out.println("1)Pplank: "+plankForces.getStructureWeight());
+		System.out.println("\n# WEIGHT");
+		System.out.println("1)Pplank: "+plankForces.getPlankWeight());
 		System.out.println("2)Pstack: "+plankForces.getStackWeight());
+		System.out.println("3)Pstruct: "+plankForces.getStructureWeight());
 		System.out.println("\n\n");
 		
 		//LINE FORCES
-		System.out.println("--------LINE FORCES-------");
-		System.out.println("\n#MANTOVA line");
+		System.out.println("------------------------------LINE FORCES------------------------------");
+		System.out.println("\n###############");
+		System.out.println("## MANTOVA line");
+		System.out.println("###############");
 		for(Combination c : mnLineForces.getComboList())
 		{
 			System.out.println("_________");
@@ -652,7 +671,9 @@ public class CalculationsController implements Runnable {
 			System.out.println("\n");
 		}
 		
-		System.out.println("\n#MODENA line");
+		System.out.println("\n###############");
+		System.out.println("## MODENA line");
+		System.out.println("###############");
 		for(Combination c : mnLineForces.getComboList())
 		{
 			System.out.println("_________");
@@ -669,8 +690,10 @@ public class CalculationsController implements Runnable {
 		}
 		
 		
-		System.out.println("--------PYLON FORCES-------");
-		System.out.println("\n#MANTOVA line");
+		System.out.println("------------------------------PYLON FORCES------------------------------");
+		System.out.println("\n###############");
+		System.out.println("## MANTOVA line");
+		System.out.println("###############");
 		for(PylonCombination c : mnPylonsForces.getPylonComboList())
 		{
 			System.out.println("_________");
@@ -683,14 +706,16 @@ public class CalculationsController implements Runnable {
 				System.out.println("\tN: "+p.getN());
 				System.out.println("\tTx: "+p.getTx());
 				System.out.println("\tTy: "+p.getTy());
-				System.out.println("\tqy: "+p.getQy());
 				System.out.println("\tMx: "+p.getMx());
+				System.out.println("\tMy: "+p.getMy());
 			}
 			System.out.println("_________");
 			System.out.println("\n");
 		}
 		
-		System.out.println("\n#MODENA line");
+		System.out.println("\n###############");
+		System.out.println("## MODENA line");
+		System.out.println("###############");
 		for(PylonCombination c : mnPylonsForces.getPylonComboList())
 		{
 			System.out.println("_________");
@@ -703,8 +728,8 @@ public class CalculationsController implements Runnable {
 				System.out.println("\tN: "+p.getN());
 				System.out.println("\tTx: "+p.getTx());
 				System.out.println("\tTy: "+p.getTy());
-				System.out.println("\tqy: "+p.getQy());
 				System.out.println("\tMx: "+p.getMx());
+				System.out.println("\tMy: "+p.getMy());
 			}
 			System.out.println("_________");
 			System.out.println("\n");

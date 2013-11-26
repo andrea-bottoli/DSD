@@ -1,8 +1,10 @@
 package dsd.controller.mathEngineTask;
 
 import dsd.calculations.MathEngine;
+import dsd.controller.ParametersController;
 import dsd.model.calculation.InstrumentsData;
 import dsd.model.calculation.PlankForces;
+import dsd.model.enums.eParameter;
 
 public class PlankWaterForcesTask implements Runnable{
 	
@@ -30,78 +32,61 @@ public class PlankWaterForcesTask implements Runnable{
 		
 		float lFlowRate=0, lWaterSpeed=0, lAs=0, lHs=0, lBs=0, lSwater=0;
 		
-		/*##############################
-		 *CHANGE 17 WITH Hwater1, 22 WITH Hwater2 and 25.3 WITH Hmax
-		 *PARAMETERS ARE MISSING
-		 *############################# 
-		 */
-		if(instrumentsData.getIdro1()<17)
+		if(instrumentsData.getIdro1() < ParametersController.getParameter(eParameter.HeightLimitOfTheRiverForParametersa1b1c1).getValue())
 		{
-			/*##############################
-			 *CHANGE 1 WITH a1, 2 WITH b1 and 3 with c1
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
-			lFlowRate = MathEngine.FlowRate(1, instrumentsData.getIdro1(), 2, 3);
-		}else if(instrumentsData.getIdro1()<22)
+			lFlowRate = MathEngine.FlowRate(ParametersController.getParameter(eParameter.CoefficientA1forQhWhenIDRO1lessThanHwater1).getValue(),
+											instrumentsData.getIdro1(),
+											ParametersController.getParameter(eParameter.CoefficientB1forQhWhenIDRO1lessThanHwater1).getValue(),
+											ParametersController.getParameter(eParameter.CoefficientC1forQhWhenIDRO1lessThanHwater1).getValue());
+			
+		}else if(instrumentsData.getIdro1()<ParametersController.getParameter(eParameter.HeightLimitOfTheRiverForParametersa2b2c2).getValue())
 		{
-			/*##############################
-			 *CHANGE 1 WITH a2, 2 WITH b2 and 3 with c2
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
-			lFlowRate = MathEngine.FlowRate(1, instrumentsData.getIdro1(), 2, 3);			
-		}else if(instrumentsData.getIdro1()<25.3)
+			lFlowRate = MathEngine.FlowRate(ParametersController.getParameter(eParameter.CoefficientA2forQhWhenIDRO1lessThanHwater1).getValue(),
+											instrumentsData.getIdro1(),
+											ParametersController.getParameter(eParameter.CoefficientB2forQhWhenIDRO1lessThanHwater1).getValue(),
+											ParametersController.getParameter(eParameter.CoefficientC2forQhWhenIDRO1lessThanHwater1).getValue());
+			
+		}else if(instrumentsData.getIdro1() < ParametersController.getParameter(eParameter.MaxHeightLevelOfTheRiverAndLimitForUseParametersa3b3c3).getValue())
 		{
-			/*##############################
-			 *CHANGE 1 WITH a3, 2 WITH b3 and 3 with c3
-			 *PARAMETERS ARE MISSING
-			 *############################# 
-			 */
-			lFlowRate = MathEngine.FlowRate(1, instrumentsData.getIdro1(), 2, 3);
+			lFlowRate = MathEngine.FlowRate(ParametersController.getParameter(eParameter.CoefficientA3forQhWhenIDRO1lessThanHwater1).getValue(),
+											instrumentsData.getIdro1(),
+											ParametersController.getParameter(eParameter.CoefficientB3forQhWhenIDRO1lessThanHwater1).getValue(),
+											ParametersController.getParameter(eParameter.CoefficientC3forQhWhenIDRO1lessThanHwater1).getValue());
 		}
 		plankForces.setFlowRate(lFlowRate);
-		/*##############################
-		 *CHANGE 1 WITH a, 2 WITH b and 3 with c
-		 *PARAMETERS ARE MISSING
-		 *############################# 
-		 */
-		lWaterSpeed = MathEngine.WaterSpeed(1, instrumentsData.getIdro1(), 2, 3);
 		
-		/*##############################
-		 *CHANGE 1 WITH bottom_ref
-		 *PARAMETERS ARE MISSING
-		 *############################# 
-		 */
-		if(instrumentsData.getSonar1()<1)
+		lWaterSpeed = MathEngine.WaterSpeed(ParametersController.getParameter(eParameter.CoefficientAforTheRelationVwaterIDRO1).getValue(),
+											instrumentsData.getIdro1(),
+											ParametersController.getParameter(eParameter.CoefficientBforTheRelationVwaterIDRO1).getValue(),
+											ParametersController.getParameter(eParameter.CoefficientCforTheRelationVwaterIDRO1).getValue());
+		
+		plankForces.setWaterSpeed(lWaterSpeed);
+		
+		if(instrumentsData.getSonar1() < ParametersController.getParameter(eParameter.HeightOfTheReferenceOfTheBottomOfTheRiver).getValue())
 		{
-			lHs=instrumentsData.getIdro1() - 1;
+			lHs=instrumentsData.getIdro1() - ParametersController.getParameter(eParameter.HeightOfTheReferenceOfTheBottomOfTheRiver).getValue();
 		}else
 		{
 			lHs=instrumentsData.getIdro1() - instrumentsData.getSonar1();
 		}
 		plankForces.setHs(lHs);
-		/*##############################
-		 *CHANGE 1 WITH Cspan, 2 WITH Cd0, 3 WITH RHOwater
-		 *PARAMETERS ARE MISSING
-		 *############################# 
-		 */
-		lBs = 1;
+		
+		lBs = ParametersController.getParameter(eParameter.DistanceBetweenTwoLineOfPylon).getValue();
 		plankForces.setBsWithOutDebris(lBs);
 		lAs = lBs*lHs;
-		lSwater = MathEngine.HydrodynamicThrustWithOutDebris(2, 3, lAs, lWaterSpeed);
+		lSwater = MathEngine.HydrodynamicThrustWithOutDebris(ParametersController.getParameter(eParameter.DragPlankingCoefficientDequals0).getValue(),
+																ParametersController.getParameter(eParameter.WaterDensity).getValue(), lAs, lWaterSpeed);
 		plankForces.setHydrodynamicThrustWithOutDebris(lSwater);
 		
-		/*##############################
-		 *CHANGE 666 WITH Dpylon, 2WITH Cd1, 3 WITH RHOwater, 4 WITH BetaA
-		 *PARAMETERS ARE MISSING
-		 *############################# 
-		 */
-		lBs = 2*666;
+		lBs = 2*ParametersController.getParameter(eParameter.DiameterOfThePylon).getValue();
 		plankForces.setBsWithDebris(lBs);
 		lAs = lBs*lHs;
-		lSwater = MathEngine.HydrodynamicThrustWithDebris(2, 3, lAs, 4, lWaterSpeed);
+		lSwater = MathEngine.HydrodynamicThrustWithDebris(ParametersController.getParameter(eParameter.DragPlankingCoefficientDequals1).getValue(),
+															ParametersController.getParameter(eParameter.WaterDensity).getValue(),
+															lAs,
+															ParametersController.getParameter(eParameter.AreaReductionForDequals1).getValue(),
+															lWaterSpeed);
+		
 		plankForces.setHydrodynamicThrustWithDebris(lSwater);
 	}
-	
 }

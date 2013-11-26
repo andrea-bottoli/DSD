@@ -10,7 +10,7 @@ public class PlankWindForcesTask implements Runnable{
 	
 	private InstrumentsData instrumentsData;
 	private PlankForces plankForces;
-		
+	
 	public PlankWindForcesTask(InstrumentsData instrumentsData, PlankForces plankForces)
 	{
 		this.instrumentsData = instrumentsData;
@@ -33,8 +33,9 @@ public class PlankWindForcesTask implements Runnable{
 		
 		float lEffectiveWindSpeed;
 		float lWindPushOnPlank, lWindPushOnA1traf, lWindPushOnA2traf, lWindPushOnA3traf;
-		
-		lEffectiveWindSpeed = MathEngine.EffectiveWindSpeed(instrumentsData.getAne2(), instrumentsData.getAne4(), ParametersController.getParameter(eParameter.PlanimetricAnticlockwiseInclinationOfTheBridgeFormTheNorth).getValue());
+		lEffectiveWindSpeed = MathEngine.EffectiveWindSpeed(this.instrumentsData.getAne2(),
+															this.instrumentsData.getAne4(),
+															ParametersController.getParameter(eParameter.PlanimetricAnticlockwiseInclinationOfTheBridgeFormTheNorth).getValue());
 		
 		lWindPushOnPlank = MathEngine.WindPushOnPlank(ParametersController.getParameter(eParameter.DragPlankingCoefficient).getValue(),
 														ParametersController.getParameter(eParameter.AirDensity).getValue(),
@@ -58,11 +59,10 @@ public class PlankWindForcesTask implements Runnable{
 																		ParametersController.getParameter(eParameter.SurfaceOfTrafficExposedToTheWindPressure).getValue(),
 																		lEffectiveWindSpeed);
 		
-		plankForces.setWindPushOnPlank(lWindPushOnPlank);
-		plankForces.setWindPushOnA1TrafficCombination(lWindPushOnA1traf);
-		plankForces.setWindPushOnA2TrafficCombination(lWindPushOnA2traf);
-		plankForces.setWindPushOnA3TrafficCombination(lWindPushOnA3traf);
-			
+		this.plankForces.setWindPushOnPlank(lWindPushOnPlank);
+		this.plankForces.setWindPushOnA1TrafficCombination(lWindPushOnA1traf);
+		this.plankForces.setWindPushOnA2TrafficCombination(lWindPushOnA2traf);
+		this.plankForces.setWindPushOnA3TrafficCombination(lWindPushOnA3traf);
 	}
 
 }

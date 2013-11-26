@@ -22,11 +22,9 @@ public class PylonCombinationTask implements Runnable {
 	private float hi;
 	private float H;
 	private float H1;
-	private float H2;
-	
-	public PylonCombinationTask( InstrumentsData instrumetnsData, LineForces lineForces, PylonForces pylonForces)
+	public PylonCombinationTask(InstrumentsData instrumentsData, LineForces lineForces, PylonForces pylonForces)
 	{
-		this.instrumetnsData = instrumetnsData;
+		this.instrumetnsData = instrumentsData;
 		this.lineForces = lineForces;
 		this.pylonForces = pylonForces;
 	}
@@ -85,7 +83,6 @@ public class PylonCombinationTask implements Runnable {
 		this.hi = 0;
 		this.H = 0;
 		this.H1 = 0;
-		this.H2 = 0;
 	}
 	
 	/**
@@ -123,8 +120,6 @@ public class PylonCombinationTask implements Runnable {
 			//CASE B: hi<=h2
 			this.H1 = mh/this.l2;
 		}
-		
-		this.H2 = this.H - this.H1;
 	}
 	
 	

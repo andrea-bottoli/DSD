@@ -1,7 +1,5 @@
 package dsd.model.calculation;
 
-import java.util.Date;
-
 public class InstrumentsData {
 	
 	private float ane1;		//mean wind speed
