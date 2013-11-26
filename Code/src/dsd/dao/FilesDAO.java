@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
-import dsd.model.enums.eCameraType;
+import dsd.model.enums.eFileType;
 
 public class FilesDAO
 {
@@ -84,7 +84,7 @@ public class FilesDAO
 
 	public static ArrayList<File> getMantovaImages(GregorianCalendar date, ArrayList<File> fileList)
 	{
-		String cameraType = eCameraType.Mantova.toString();
+		String cameraType = eFileType.Mantova.toString();
 		File file = new File(pictureMantovaFileDir);
 		File[] fileArray = file.listFiles();
 
@@ -107,7 +107,7 @@ public class FilesDAO
 
 	public static ArrayList<File> getModenaImages(GregorianCalendar date, ArrayList<File> fileList)
 	{
-		String cameraType = eCameraType.Modena.toString();
+		String cameraType = eFileType.Modena.toString();
 		File file = new File(pictureModenaFileDir);
 		File[] fileArray = file.listFiles();
 

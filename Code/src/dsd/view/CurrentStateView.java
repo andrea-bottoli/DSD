@@ -29,7 +29,7 @@ public class CurrentStateView extends HttpServlet {
 		calStart.set(2008, 10, 10, 10, 10, 10);
 		Calendar calEnd = Calendar.getInstance();
 		calEnd.set(2014, 10, 10, 10, 10, 10);
-		List<RawData> rawDataList = RawDataController.GetAllForPeriod(calStart, calEnd);
+		//List<RawData> rawDataList = RawDataController.GetAllForPeriod(calStart, calEnd);
 		
 	//	eSonarType sonarType = new eSonarType(1);
 		//Create new list of raw data with hard coded values (for presentation only)
@@ -41,7 +41,7 @@ public class CurrentStateView extends HttpServlet {
 		float hydrometer = (float) 17.286;
 		float sonar = (float) 2.19;
 		eSonarType sonarType = eSonarType.CorrectData;
-		long timestamp = 0;
+		//long timestamp = 0;
 		Date timestampDate = new Timestamp(calStart.getTimeInMillis());
 		
 		for (int i = 1; i <= 10; i++) {

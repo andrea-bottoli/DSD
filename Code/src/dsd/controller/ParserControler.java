@@ -2,9 +2,13 @@ package dsd.controller;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
@@ -18,13 +22,31 @@ import dsd.calculations.TimeCalculations;
 import dsd.dao.PicturesDAO;
 import dsd.model.Picture;
 import dsd.model.RawData;
-import dsd.model.enums.eCameraType;
 import dsd.model.enums.eFileType;
 import dsd.model.enums.eSonarType;
 
 public class ParserControler
 {
 	/*
+	 * these values are hard-coded for now because we need to quickly parse the raw data,
+	 * in the future some other approach is needed where the server will be able to process and parse files 
+	 * on any physical machine
+	 */
+	public static final String path2011 = "C:\\Users\\Marko\\Desktop\\2011.Borgoforte\\";
+	public static final String path2012 = "C:\\Users\\Marko\\Desktop\\2012.Borgoforte\\";
+	public static final String path2013 = "C:\\Users\\Marko\\Desktop\\2013.Borgoforte\\";
+	public static final String path2014 = "C:\\Users\\Marko\\Desktop\\2014.Borgoforte\\";
+
+	public static final String pathMantova = "01. Telecamera Mantova\\";
+	public static final String pathModena = "02. Telecamera Modena\\";
+	public static final String pathSonar = "03. Ecoscandaglio\\";
+	public static final String pathAnalog = "04. Ane_Idro\\";
+	
+    public static final List<String> listDirs = new ArrayList<String>(Arrays.asList(path2011/*, path2012, path2013, path2014*/));
+    public static final List<String> listDirs2 = new ArrayList<String>(Arrays.asList(pathAnalog, pathMantova, pathModena, pathSonar));
+	
+    
+    /*
 	 * parse the sonar file or analog file and update the raw data
 	 */
 	public static void ParseInputFile(File file, eFileType fileType)
@@ -41,6 +63,8 @@ public class ParserControler
 					break;
 				case Analog :
 					ReadAnalogData(br, rawDataList);
+					break;
+				case Mantova:
 					break;
 				default :
 					throw new MethodNotFoundException();
@@ -98,19 +122,22 @@ public class ParserControler
 						}
 						else
 						{
-							data.setSonar((float)InputConversion.sonarConversion(Double.parseDouble(line.trim().substring(1, line.trim().length() - 1))));
+							data.setSonar((float) InputConversion.sonarConversion(Double.parseDouble(line
+									.trim().substring(1, line.trim().length() - 1))));
 							data.setSonarType(eSonarType.UncertainData);
 						}
 					}
 					else
 					{
-						data.setSonar((float)InputConversion.sonarConversion(Double.parseDouble(line.trim().substring(1, line.trim().length()))));
+						data.setSonar((float) InputConversion.sonarConversion(Double.parseDouble(line.trim()
+								.substring(1, line.trim().length()))));
 						data.setSonarType(eSonarType.CorrectData);
 					}
 				}
 				else
 				{
-					data.setSonar((float)InputConversion.sonarConversion(Double.parseDouble(line.trim().substring(0, line.trim().length()))));
+					data.setSonar((float) InputConversion.sonarConversion(Double.parseDouble(line.trim()
+							.substring(0, line.trim().length()))));
 					data.setSonarType(eSonarType.WrongData);
 				}
 				timestampIsLastReadLine = false;
@@ -137,7 +164,7 @@ public class ParserControler
 		double windDirection = 0;
 		double hydrometer = 0;
 		long timestamp = 0;
-		
+
 		while ((line = br.readLine()) != null)
 		{
 			RawData data = new RawData();
@@ -166,19 +193,19 @@ public class ParserControler
 			File item = fileIterator.next();
 			Picture newPicture = new Picture();
 			newPicture.setPath(item.getAbsolutePath());
-			if (item.getName().substring(0, eCameraType.Mantova.toString().length())
-					.equalsIgnoreCase(eCameraType.Mantova.toString()))
+			if (item.getName().substring(0, eFileType.Mantova.toString().length())
+					.equalsIgnoreCase(eFileType.Mantova.toString()))
 			{
-				newPicture.setCamera(eCameraType.Mantova.getCode());
+				newPicture.setCamera(eFileType.Mantova.getCode());
 				newPicture.setTimestamp(TimeCalculations.PictureTimestampToGregToMiliSeconds(item.getName()
-						.substring(eCameraType.Mantova.toString().length(), item.getName().length() - 4)));
+						.substring(eFileType.Mantova.toString().length(), item.getName().length() - 4)));
 			}
-			else if (item.getName().substring(0, eCameraType.Modena.toString().length())
-					.equalsIgnoreCase(eCameraType.Modena.toString()))
+			else if (item.getName().substring(0, eFileType.Modena.toString().length())
+					.equalsIgnoreCase(eFileType.Modena.toString()))
 			{
-				newPicture.setCamera(eCameraType.Modena.getCode());
+				newPicture.setCamera(eFileType.Modena.getCode());
 				newPicture.setTimestamp(TimeCalculations.PictureTimestampToGregToMiliSeconds(item.getName()
-						.substring(eCameraType.Modena.toString().length(), item.getName().length() - 4)));
+						.substring(eFileType.Modena.toString().length(), item.getName().length() - 4)));
 			}
 			picList.add(newPicture);
 
@@ -187,4 +214,27 @@ public class ParserControler
 		PicturesDAO.setPictures(picList);
 
 	}
-}
+	
+	public void ParseFiles()
+	{
+	for (String dir : listDirs)
+    {
+        for (String dir2 : listDirs2)
+        {
+            File folderPath = new File(dir + dir2);
+            if (folderPath.exists() && folderPath.isDirectory())
+            {
+                for (File file : folderPath.listFiles())
+                {
+                	for (eFileType fileType : eFileType.values())
+                	{
+                		if (file.getName().startsWith(fileType.toString().toLowerCase()))
+                		{
+                			ParseInputFile(file, fileType);
+                		}
+                	}
+                }
+            }
+        }
+    }
+}}
