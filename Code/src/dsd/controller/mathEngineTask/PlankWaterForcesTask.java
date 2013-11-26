@@ -65,9 +65,17 @@ public class PlankWaterForcesTask implements Runnable{
 		if(instrumentsData.getSonar1() < ParametersController.getParameter(eParameter.HeightOfTheReferenceOfTheBottomOfTheRiver).getValue())
 		{
 			lHs=instrumentsData.getIdro1() - ParametersController.getParameter(eParameter.HeightOfTheReferenceOfTheBottomOfTheRiver).getValue();
+			if(lHs < 0)
+			{
+				lHs = ParametersController.getParameter(eParameter.HeightOfTheReferenceOfTheBottomOfTheRiver).getValue();
+			}
 		}else
 		{
 			lHs=instrumentsData.getIdro1() - instrumentsData.getSonar1();
+			if(lHs < 0)
+			{
+				lHs = instrumentsData.getSonar1();
+			}
 		}
 		plankForces.setHs(lHs);
 		

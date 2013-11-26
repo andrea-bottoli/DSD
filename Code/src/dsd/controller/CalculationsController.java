@@ -439,8 +439,8 @@ public class CalculationsController implements Runnable {
 		//Anemometer
 		this.instrumentsData.setAne1(meanWindSpeed);
 		this.instrumentsData.setAne2(maxWindSpeed);
-		this.instrumentsData.setAne3(fixWindDirection(meanWindDirection));
-		this.instrumentsData.setAne4(fixWindDirection(maxWindDirection));
+		this.instrumentsData.setAne3(meanWindDirection);
+		this.instrumentsData.setAne4(maxWindDirection);
 		
 		//Hydrometer
 		this.instrumentsData.setIdro1(meanWaterLevel);
@@ -454,27 +454,6 @@ public class CalculationsController implements Runnable {
 		this.instrumentsData.setSonar5(percOutWaterData4OverWholeSample);
 		this.instrumentsData.setSonar6(percErrorData5OverWholeSample);
 		this.instrumentsData.setSonar7(percUncertainData2Over12Sample);
-	}
-	
-	/**
-	 * This method calculate the right direction of the wind
-	 * The value WindDirection in RawData file is the direction
-	 * from which the wind comes.
-	 * 
-	 * This method returns the direction to which the wind goes.
-	 * 
-	 * @param 
-	 * @return
-	 */
-	private float fixWindDirection(float windOrigin)
-	{
-		if(windOrigin < 180)
-		{
-			return (windOrigin + 180);
-		}else 
-		{
-			return (windOrigin - 180);
-		}
 	}
 	
 	/**

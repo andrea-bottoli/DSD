@@ -98,7 +98,7 @@ public class MatrixFillTask implements Runnable{
 			this.lineForcesMatrix.getA210().setMx(m1);
 			
 			//A220 traffic
-			this.lineForcesMatrix.getA220().setN(r1-r2);
+			this.lineForcesMatrix.getA220().setN(r1+r2);
 			this.lineForcesMatrix.getA220().setMx(-m1);
 		}else if(side==1)
 		{
@@ -108,7 +108,7 @@ public class MatrixFillTask implements Runnable{
 			this.lineForcesMatrix.getA210().setMx(+m1);
 			
 			//A220 traffic
-			this.lineForcesMatrix.getA220().setN(r1+r2);
+			this.lineForcesMatrix.getA220().setN(r1-r2);
 			this.lineForcesMatrix.getA220().setMx(-m1);
 		}
 		
@@ -195,10 +195,10 @@ public class MatrixFillTask implements Runnable{
 		if((this.instrumentsData.getAne4()<(180-ParametersController.getParameter(eParameter.PlanimetricAnticlockwiseInclinationOfTheBridgeFormTheNorth).getValue())) ||
 			(this.instrumentsData.getAne4()>(360-ParametersController.getParameter(eParameter.PlanimetricAnticlockwiseInclinationOfTheBridgeFormTheNorth).getValue())))
 		{
-			ws=1;
+			ws=-1;
 		}else
 		{
-			ws=-1;
+			ws=+1;
 		}
 		
 		/*
