@@ -33,14 +33,14 @@ public class Combination extends Force{
 	/**
 	 * @return the status of presence of debris
 	 */
-	public boolean areThereDebris() {
+	public boolean getDebris() {
 		return this.debris;
 	}
 
 	/**
 	 * @return the status of presence of traffic
 	 */
-	public boolean isThereTraffic() {
+	public boolean getTraffic() {
 		return this.traffic;
 	}
 

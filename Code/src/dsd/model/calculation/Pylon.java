@@ -17,5 +17,26 @@ public class Pylon extends Force {
 	{
 		return pylonNumber;
 	}
-
+	
+	
+	/**
+	 * @return the Total N of the pylon
+	 */
+	public float getPylonN()
+	{
+		return this.getN();
+	}
+	
+	/**
+	 * @return the Total M of the pylon
+	 */
+	public float getPylonM()
+	{
+		double m;
+		/*
+		 * M = (Mx^2 + My^2)^(0.5)
+		 */
+		m = Math.sqrt((Math.pow(this.getMx(), 2)) + (Math.pow(this.getMy(), 2)));
+		return (float)m;
+	}
 }
