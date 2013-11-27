@@ -33,7 +33,7 @@ public class CalculationsController implements Runnable {
 	private LineForces moLineForces = null;
 	private PylonForces mnPylonsForces = null;
 	private PylonForces moPylonsForces = null;
-	private SafetyFactor safeyFactor = null;
+	private SafetyFactor safetyFactor = null;
 	
 	//Variable in which store the calculations results
 	private ArrayList<CalculatedData> calculatedData = null;
@@ -65,7 +65,7 @@ public class CalculationsController implements Runnable {
 		this.moLineForces = new LineForces();
 		this.mnPylonsForces = new PylonForces(mnLineForces, 0);
 		this.moPylonsForces = new PylonForces(moLineForces, 1);
-		this.safeyFactor = new SafetyFactor();
+		this.safetyFactor = new SafetyFactor();
 		
 		ParametersController.IntializeCurrentParemeters();
 	}
@@ -87,7 +87,7 @@ public class CalculationsController implements Runnable {
 		this.moLineForces = new LineForces();
 		this.mnPylonsForces = new PylonForces(mnLineForces, 0);
 		this.moPylonsForces = new PylonForces(moLineForces, 1);
-		this.safeyFactor = new SafetyFactor();
+		this.safetyFactor = new SafetyFactor();
 		
 //		ParametersController.IntializeCurrentParemeters();
 //		ParametersController.set(param);
@@ -113,12 +113,12 @@ public class CalculationsController implements Runnable {
 			clearCalculatedDataList();
 			
 			//Loding parameters
-//			ReadParameters();
+//			LoadParameters();
 			
 			//start calculations
 			Calculate10mins();
-//			Calculate1hour();
-//			Calculate1day();
+			Calculate1hour();
+			Calculate1day();
 		}
 		catch (Exception e)
 		{
@@ -146,7 +146,7 @@ public class CalculationsController implements Runnable {
 			 * from last timestamp to the last data available
 			 */
 			
-//			ReadRawData(this.last10minTimestamp);
+			ReadRawData(this.last10minTimestamp);
 			
 			do
 			{
@@ -170,7 +170,6 @@ public class CalculationsController implements Runnable {
 					CalculateLineForces();
 					CalculatePylonForces();
 					CalculateRiskFactor();
-					DetectMostStressedPylon();
 					StoreCalculatedValues();
 					WriteOnDB();
 				}
@@ -203,7 +202,7 @@ public class CalculationsController implements Runnable {
 			 * from last timestamp to the last data available
 			 */
 			
-			ReadRawData(this.last1hourTimestamp);
+//			ReadRawData(this.last1hourTimestamp);
 			
 			/*
 			 * Remember to do the validation of input 
@@ -233,7 +232,6 @@ public class CalculationsController implements Runnable {
 					CalculateLineForces();
 					CalculatePylonForces();
 					CalculateRiskFactor();
-					DetectMostStressedPylon();
 					StoreCalculatedValues();
 					WriteOnDB();
 				}
@@ -296,7 +294,6 @@ public class CalculationsController implements Runnable {
 					CalculateLineForces();
 					CalculatePylonForces();
 					CalculateRiskFactor();
-					DetectMostStressedPylon();
 					StoreCalculatedValues();
 					WriteOnDB();
 				}
@@ -322,7 +319,7 @@ public class CalculationsController implements Runnable {
 	/**
 	 * This method allows to read and load parameters
 	 */
-	private void ReadParameters()
+	private void LoadParameters()
 	{
 		ParametersController.IntializeCurrentParemeters();
 	}
@@ -554,44 +551,37 @@ public class CalculationsController implements Runnable {
 	 */
 	private void CalculateRiskFactor()
 	{
-		//TO-DO
+		ExecutorService pool = null;
+		
+		try {
+			do
+			{
+				pool = Executors.newFixedThreadPool(1);
+						
+				pool.submit(new RiskFactorTask(this.mnPylonsForces, this.moPylonsForces, this.safetyFactor));
+				
+				pool.shutdown();
+			}
+			while(!pool.awaitTermination(60, TimeUnit.SECONDS));
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
-	
-	/**
-	 * This method calculates the what is the most
-	 * stressed pylon
-	 */
-	private void DetectMostStressedPylon()
-	{
-		//TO-DO
-	}
-	
+		
 	/**
 	 * This method allow to store a whole row of 
 	 * calculated data into the correct tables.
 	 */
 	private void StoreCalculatedValues()
 	{
-		//TO-DO
-//		CalculatedData cd = new CalculatedData(this.instrumentsData.getAne1(), this.instrumentsData.getAne3(), this.instrumentsData.getAne2(), this.instrumentsData.getAne4(),
-//												this.instrumentsData.getIdro1(), this.instrumentsData.getIdro2(),
-//												this.instrumentsData.getSonar1(), this.instrumentsData.getSonar2(), this.instrumentsData.getSonar3(), this.instrumentsData.getSonar4(),
-//												this.instrumentsData.getSonar5(), this.instrumentsData.getSonar6(), this.instrumentsData.getSonar7(),
-//												this.safeyFactor.getSafetyFactor00(), this.safeyFactor.getStressed_pylon00().getPylonNumber(),
-//												this.safeyFactor.getSafetyFactor01(), this.safeyFactor.getStressed_pylon01().getPylonNumber(),
-//												this.safeyFactor.getSafetyFactor10(), this.safeyFactor.getStressed_pylon10().getPylonNumber(),
-//												this.safeyFactor.getSafetyFactor11(), this.safeyFactor.getStressed_pylon11().getPylonNumber(),
-//												this.instrumentsData.getTimestamp());
-//		
-//		calculatedData.add(cd);
-		
+		//TO-DO		
 		
 		/*
-		 * ################################################################
-		 * ################################################################
-		 * ################################################################
-		 * ################################################################
-		 * ################################################################
+		 * ##################################################################
+		 * ####															#####
+		 * ####						FOR DEBUGGING 						#####
+		 * ####															#####
+		 * ##################################################################
 		 * 
 		 */
 		
@@ -639,8 +629,8 @@ public class CalculationsController implements Runnable {
 		{
 			System.out.println("_________");
 			System.out.println("Combo number: "+c.getCombinationNumber());
-			System.out.println("T: "+c.isThereTraffic());
-			System.out.println("D: "+c.areThereDebris());
+			System.out.println("T: "+c.getTraffic());
+			System.out.println("D: "+c.getDebris());
 			System.out.println("N: "+c.getN());
 			System.out.println("Tx: "+c.getTx());
 			System.out.println("Ty: "+c.getTy());
@@ -657,8 +647,8 @@ public class CalculationsController implements Runnable {
 		{
 			System.out.println("_________");
 			System.out.println("Combo number: "+c.getCombinationNumber());
-			System.out.println("T: "+c.isThereTraffic());
-			System.out.println("D: "+c.areThereDebris());
+			System.out.println("T: "+c.getTraffic());
+			System.out.println("D: "+c.getDebris());
 			System.out.println("N: "+c.getN());
 			System.out.println("Tx: "+c.getTx());
 			System.out.println("Ty: "+c.getTy());
@@ -677,8 +667,8 @@ public class CalculationsController implements Runnable {
 		{
 			System.out.println("_________");
 			System.out.println("Combo number: "+c.getCombination().getCombinationNumber());
-			System.out.println("T: "+c.getCombination().isThereTraffic());
-			System.out.println("D: "+c.getCombination().areThereDebris());
+			System.out.println("T: "+c.getCombination().getTraffic());
+			System.out.println("D: "+c.getCombination().getDebris());
 			for(Pylon p : c.getPylonList())
 			{
 				System.out.println("\tpylon number: "+p.getPylonNumber());
@@ -699,8 +689,8 @@ public class CalculationsController implements Runnable {
 		{
 			System.out.println("_________");
 			System.out.println("Combo number: "+c.getCombination().getCombinationNumber());
-			System.out.println("T: "+c.getCombination().isThereTraffic());
-			System.out.println("D: "+c.getCombination().areThereDebris());
+			System.out.println("T: "+c.getCombination().getTraffic());
+			System.out.println("D: "+c.getCombination().getDebris());
 			for(Pylon p : c.getPylonList())
 			{
 				System.out.println("\tpylon number: "+p.getPylonNumber());
