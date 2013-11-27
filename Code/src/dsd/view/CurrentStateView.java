@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -26,35 +27,12 @@ public class CurrentStateView extends HttpServlet {
 			throws ServletException, IOException {
 		
 		Calendar calStart = Calendar.getInstance();
-		calStart.set(2008, 10, 10, 10, 10, 10);
+		calStart.set(2011, 2, 22, 15, 56, 0);//2011-03-22 15:56:00
+		
 		Calendar calEnd = Calendar.getInstance();
-		calEnd.set(2014, 10, 10, 10, 10, 10);
-		//List<RawData> rawDataList = RawDataController.GetAllForPeriod(calStart, calEnd);
+		calEnd.set(2011, 2, 22, 15, 56, 30);//2011-03-22 16:08:04
 		
-	//	eSonarType sonarType = new eSonarType(1);
-		//Create new list of raw data with hard coded values (for presentation only)
-		List<RawData> rawDataListHardcoded = RawDataController.GetAllForPeriod(calStart, calEnd);
-		
-		long rawDataID = 1;
-		float windSpeed = (float) 0.315;
-		float windDirection = 0;
-		float hydrometer = (float) 17.286;
-		float sonar = (float) 2.19;
-		eSonarType sonarType = eSonarType.CorrectData;
-		//long timestamp = 0;
-		Date timestampDate = new Timestamp(calStart.getTimeInMillis());
-		
-		for (int i = 1; i <= 10; i++) {
-			RawData rawData = new RawData();
-			rawData.setRawDataID(rawDataID);
-			rawData.setWindSpeed(windSpeed++);
-			rawData.setWindDirection(windDirection);
-			rawData.setHydrometer(hydrometer++);
-			rawData.setSonar(sonar++);
-			rawData.setSonarType(sonarType);
-			rawData.setTimestamp(timestampDate.getTime());
-			rawDataListHardcoded.add(rawData);
-		}
+		List<RawData> rawDataList = RawDataController.GetAllForPeriod(calStart, calEnd);
 		
 		JSONObject obj = null;
         try {
@@ -65,21 +43,12 @@ public class CurrentStateView extends HttpServlet {
             JSONArray listOfSonarValues = new JSONArray();
             JSONArray listOfHydrometerValues = new JSONArray();
             
-            /*
             for(int i =0; i< rawDataList.size(); i++ ){
             	
             	listOfTimeStamps.put(rawDataList.get(i).getTimestampDate().toString());
-            	listOfWindSpeed.put(i); //TODO: put the real wind speed values 
-            }
-            
-            */
-            
-            for(int i =0; i< rawDataListHardcoded.size(); i++ ){
-            	
-            	listOfTimeStamps.put(rawDataListHardcoded.get(i).getTimestampDate().toString());
-            	listOfWindSpeed.put(rawDataListHardcoded.get(i).getWindSpeed()); //TODO: put the real wind speed values 
-            	listOfSonarValues.put(rawDataListHardcoded.get(i).getSonar());
-            	listOfHydrometerValues.put(rawDataListHardcoded.get(i).getHydrometer());
+            	listOfWindSpeed.put(rawDataList.get(i).getWindSpeed()); //TODO: put the real wind speed values 
+            	listOfSonarValues.put(rawDataList.get(i).getSonar());
+            	listOfHydrometerValues.put(rawDataList.get(i).getHydrometer());
             }
             
             obj.put("Dates", listOfTimeStamps);
@@ -92,9 +61,6 @@ public class CurrentStateView extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
-		
-		
-		//RawData r = rawDataList.get(2);
         
 		req.setAttribute("rawDataList", obj);
 		
@@ -103,6 +69,7 @@ public class CurrentStateView extends HttpServlet {
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/tempGraph.jsp");
 		dispatcher.forward(req, resp);
 		//super.doGet(req, resp);
+		
 		 
 	}
 
