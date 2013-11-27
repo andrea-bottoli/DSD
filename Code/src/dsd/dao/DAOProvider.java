@@ -11,8 +11,6 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import org.apache.commons.lang3.StringUtils;
-
 public class DAOProvider
 {
 
@@ -98,18 +96,19 @@ public class DAOProvider
 	 * @return
 	 * @throws SQLException
 	 */
-	public static int DeleteRowSecure(String table, String where, Connection con, Object[] parameters) throws SQLException
+	public static int DeleteRowSecure(String table, String where, Connection con, Object[] parameters)
+			throws SQLException
 	{
 		try
 		{
 			PreparedStatement command = con.prepareStatement(String.format("delete from %s %s", table, (where
 					.trim().equals("") ? "" : "where " + where)));
-			
+
 			for (int i = 0; i < parameters.length; i++)
 			{
 				SetParameter(command, parameters[i], i + 1);
 			}
-			
+
 			return command.executeUpdate();
 		}
 		catch (Exception ex)
@@ -118,7 +117,6 @@ public class DAOProvider
 		}
 		return 0;
 	}
-
 
 	/**
 	 * the insert row function done in a secure way
@@ -145,14 +143,14 @@ public class DAOProvider
 				values += ",?";
 			}
 
-			PreparedStatement command = con.prepareStatement(String.format("insert into %s (%s) values %s",
+			PreparedStatement command = con.prepareStatement(String.format("insert into %s (%s) values (%s)",
 					table, fields, values));
-			
+
 			for (int i = 0; i < valueArray.length; i++)
 			{
 				SetParameter(command, valueArray[i], i + 1);
 			}
-			
+
 			command.executeUpdate();
 
 			command = con.prepareStatement(String.format("select Max(ID) from %s", table));
@@ -160,6 +158,48 @@ public class DAOProvider
 			rs.next();
 
 			return rs.getInt(1);
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		return 0;
+	}
+
+	public static int InsertRowsSecure(String table, String fields, Connection con, Object[][] valueArray)
+			throws SQLException
+	{
+		try
+		{
+			String values = "(";
+			if (valueArray[0].length > 0)
+			{
+				values += "?";
+			}
+			for (int i = 1; i < valueArray[0].length; i++)
+			{
+				values += ",?";
+			}
+			values += ")";
+			String rows = "";
+			for (int j = 0; j < valueArray.length; j++)
+			{
+				rows += " " + values;
+				if (j != valueArray.length - 1)
+					rows += " , ";
+			}
+
+			PreparedStatement command = con.prepareStatement(String.format("insert into %s (%s) values %s",
+					table, fields, rows));
+
+			for (int i = 0; i < valueArray.length; i++)
+			{
+				for (int j = 0; j < valueArray[i].length; j++)
+				{
+					SetParameter(command, valueArray[i][j], i * valueArray[i].length + j + 1);
+				}
+			}
+			command.executeUpdate();
 		}
 		catch (Exception ex)
 		{
@@ -180,23 +220,26 @@ public class DAOProvider
 	 * @return
 	 * @throws SQLException
 	 */
-	public static int UpdateRowSecure(String table, String[] updateColumns, String where, Connection con, Object[] valueArray, Object[] wherePartParameters) throws SQLException
+	public static int UpdateRowSecure(String table, String[] updateColumns, String where, Connection con,
+			Object[] valueArray, Object[] wherePartParameters) throws SQLException
 	{
 		try
 		{
 			if (updateColumns.length != valueArray.length || updateColumns.length == 0)
-				throw new IllegalArgumentException("The size of updateColumns and valueArray parameters should be the same!");
-			
+				throw new IllegalArgumentException(
+						"The size of updateColumns and valueArray parameters should be the same!");
+
 			String set = "";
 			for (int i = 0; i < valueArray.length; i++)
 			{
-				set += updateColumns[i] + " = ? ,";
+				set += updateColumns[i] + " = ?";
+				if (i != valueArray.length - 1)
+					set += ", ";
 			}
-			StringUtils.removeEnd(set, ",");
-			
+
 			PreparedStatement command = con.prepareStatement(String.format("update %s set %s %s", table, set,
-					(where.trim().equals("") ? "" : "where " + where)));
-			
+					(where.trim().equals("") ? "" : " where " + where)));
+
 			for (int i = 0; i < valueArray.length; i++)
 			{
 				SetParameter(command, valueArray[i], i + 1);
@@ -205,7 +248,7 @@ public class DAOProvider
 			{
 				SetParameter(command, wherePartParameters[i], valueArray.length + i + 1);
 			}
-			
+
 			return command.executeUpdate();
 		}
 		catch (Exception ex)
@@ -243,9 +286,18 @@ public class DAOProvider
 		{
 			command.setInt(parameterIndex, (Integer) object);
 		}
+		else if (object instanceof Boolean)
+		{
+			command.setBoolean(parameterIndex, (Boolean) object);
+		}
+		else if (object instanceof Float)
+		{
+			command.setFloat(parameterIndex, (Float) object);
+		}
 		else
 		{
-			throw new IllegalArgumentException("type needs to be inserted in Set parameter method of DAOProvider class");
+			throw new IllegalArgumentException(
+					"type needs to be inserted in Set parameter method of DAOProvider class");
 		}
 
 	}

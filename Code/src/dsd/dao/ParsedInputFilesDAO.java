@@ -1,6 +1,7 @@
 package dsd.dao;
 
 import java.sql.Connection;
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -19,16 +20,16 @@ public class ParsedInputFilesDAO
 		{
 			Connection con = DAOProvider.getDataSource().getConnection();
 			int counter = 0;
-			for (ParsedInputFile parameter : listOfParsedInputFile)
+			for (ParsedInputFile parsedInputFile : listOfParsedInputFile)
 			{
 				try
 				{
 					counter += DAOProvider.InsertRowSecure(tableName, StringUtils.join(tableFields, ','),
-							con, PrepareValuesForInsert(parameter));
+							con, PrepareValuesForInsert(parsedInputFile));
 				}
 				catch (Exception exc)
 				{
-
+					exc.printStackTrace();
 				}
 			}
 			con.close();
@@ -71,8 +72,12 @@ public class ParsedInputFilesDAO
 
 	private static Object[] PrepareValuesForInsert(ParsedInputFile dataTuple)
 	{
-		Object[] valueArray = new Object[1];
-		valueArray[0] = new Integer(0);
+		Object[] valueArray = new Object[5];
+		valueArray[0] = dataTuple.getName();
+		valueArray[1] = new Integer(dataTuple.getFileType().getCode());
+		valueArray[2] = dataTuple.getStoredPath();
+		valueArray[3] = new Integer(dataTuple.isSuccessfullyParsed() ? 1 : 0);
+		valueArray[4] = new Timestamp(dataTuple.getTimestamp());
 		return valueArray;
 	}
 }
