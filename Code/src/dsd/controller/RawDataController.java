@@ -1,11 +1,10 @@
 package dsd.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 
 import dsd.dao.RawDataDAO;
@@ -34,22 +33,37 @@ public class RawDataController
 		Calendar endDate = Calendar.getInstance();
 		startDate.setTimeInMillis(rawDataList.get(0).getTimestamp());
 		endDate.setTimeInMillis(rawDataList.get(rawDataList.size() - 1).getTimestamp());
-		List<RawData> fetchedRawDataList = GetAllForPeriod(startDate, endDate);
-		HashMap<Long, Long> dict = new HashMap<Long, Long>();
-		for (RawData dataTuple : fetchedRawDataList)
+		List<RawData> existingRawDataList = GetAllForPeriod(startDate, endDate);
+		Hashtable<Long, RawData> dictExisting = new Hashtable<Long, RawData>();
+		for (RawData dataTuple : existingRawDataList)
 		{
-			dict.put(dataTuple.getTimestamp(), dataTuple.getRawDataID());
+			dictExisting.put(dataTuple.getTimestamp(), dataTuple);
 		}
 
 		int counterUpdated = 0;
 		int counterInserted = 0;
 		List<RawData> listOfRawDataForInsertion = new ArrayList<RawData>();
+		List<RawData> listOfRawDataForUpdate = new ArrayList<RawData>();
 		for (RawData dataTuple : rawDataList)
 		{
-			if (dict.containsKey(dataTuple.getTimestamp()))
+			if (dictExisting.containsKey(dataTuple.getTimestamp()))
 			{
-				dataTuple.setRawDataID(dict.get(dataTuple.getTimestamp()));
-				RawDataDAO.UpdateRawData(Arrays.asList(dataTuple), fileType);
+				RawData existingDataTuple = dictExisting.get(dataTuple.getTimestamp());
+				dataTuple.setRawDataID(existingDataTuple.getRawDataID());
+				if (fileType.equals(eFileType.Analog))
+				{
+					dataTuple.setSonar(existingDataTuple.getSonar());
+					dataTuple.setSonarType(existingDataTuple.getSonarType());
+				}
+				else if (fileType.equals(eFileType.Sonar))
+				{
+					dataTuple.setWindSpeed(existingDataTuple.getWindSpeed());
+					dataTuple.setWindDirection(existingDataTuple.getWindDirection());
+					dataTuple.setHydrometer(existingDataTuple.getHydrometer());
+				}
+				else
+					throw new IllegalArgumentException("File type not recognized");
+				listOfRawDataForUpdate.add(dataTuple);
 				counterUpdated++;
 			}
 			else
@@ -58,7 +72,10 @@ public class RawDataController
 				counterInserted++;
 			}
 		}
-		RawDataDAO.InsertRawData(listOfRawDataForInsertion);
+		if (listOfRawDataForUpdate.size() > 0)
+			RawDataDAO.UpdateRawData(listOfRawDataForUpdate, fileType);
+		if (listOfRawDataForInsertion.size() > 0)
+			RawDataDAO.InsertRawData(listOfRawDataForInsertion);
 
 		System.out.println("Tuples updated: " + counterUpdated + " touples inserted: " + counterInserted);
 	}

@@ -11,6 +11,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class DAOProvider
 {
 
@@ -250,6 +252,58 @@ public class DAOProvider
 			}
 
 			return command.executeUpdate();
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		return 0;
+	}
+	
+	
+	public static int UpdateRowsSecure(String table, String[] fields, Connection con, Object[][] valueArray)
+			throws SQLException
+	{
+		try
+		{
+			String values = "(";
+			if (valueArray[0].length > 0)
+			{
+				values += "?";
+			}
+			for (int i = 1; i < valueArray[0].length; i++)
+			{
+				values += ",?";
+			}
+			values += ")";
+			String rows = "";
+			for (int j = 0; j < valueArray.length; j++)
+			{
+				rows += " " + values;
+				if (j != valueArray.length - 1)
+					rows += " , ";
+			}
+			String set = "";
+			// index starts from 1 cause index 0 should be ID column and this doesn't goes into "on duplicate key update" 
+			for (int i = 1; i < fields.length; i++)
+			{
+				set += fields[i] + " = values (" + fields[i] + ")";
+				if (i != fields.length - 1)
+					set += " , ";
+			}
+			String onDuplicateKey = "on duplicate key update " + set;
+
+			PreparedStatement command = con.prepareStatement(String.format("insert into %s (%s) values %s %s",
+					table, StringUtils.join(fields, ','), rows, onDuplicateKey));
+
+			for (int i = 0; i < valueArray.length; i++)
+			{
+				for (int j = 0; j < valueArray[i].length; j++)
+				{
+					SetParameter(command, valueArray[i][j], i * valueArray[i].length + j + 1);
+				}
+			}
+			command.executeUpdate();
 		}
 		catch (Exception ex)
 		{

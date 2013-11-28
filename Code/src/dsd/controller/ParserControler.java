@@ -40,12 +40,19 @@ public class ParserControler
 	public static final String pathSonar = "03. Ecoscandaglio\\";
 	public static final String pathAnalog = "04. Ane_Idro\\";
 
-	public static final List<String> listDirs2 = new ArrayList<String>(Arrays.asList(pathAnalog, pathMantova,
-			pathModena, pathSonar));
-	public static final List<String> listDirs = new ArrayList<String>(Arrays.asList(path2011, path2012
-	/*
-	 * , path2013 , path2014
-	 */));
+	public static final List<String> listDirs2 = new ArrayList<String>(Arrays.asList(/*
+																					 *pathAnalog
+																					 * ,
+																					 */ pathMantova
+																					  ,
+																					  pathModena
+																					  /*,
+																					 pathSonar*/));
+	public static final List<String> listDirs = new ArrayList<String>(Arrays.asList(path2011// ,
+																							// path2012
+			/*
+			 * , path2013 , path2014
+			 */));
 
 	public static void ParseFiles()
 	{
@@ -76,6 +83,11 @@ public class ParserControler
 	 */
 	public static void ParseInputFile(File file, eFileType fileType)
 	{
+		if (ParsedInputFilesController.IsAlreadyParsed(file.getName()))
+		{
+			System.out.println(file.getName() + " already parsed so it will be skipped!");
+			return;
+		}
 		List<RawData> rawDataList = new ArrayList<RawData>();
 		boolean successfullyParsed = false;
 		ParsedInputFile parsedInputFile = new ParsedInputFile();
@@ -113,7 +125,7 @@ public class ParserControler
 			}
 			else
 			{
-				System.out.println("File " + file.getName() + "returned ZERO data!");
+				System.out.println("File " + file.getName() + " returned ZERO data!");
 			}
 		}
 		System.out.println(file.getName() + " parsed = " + successfullyParsed);
@@ -166,6 +178,7 @@ public class ParserControler
 	private static boolean ParseSonarData(File file, List<RawData> rawDataList)
 	{
 		BufferedReader br = null;
+		int lineCounter = 0;
 		try
 		{
 			br = new BufferedReader(new FileReader(file.getPath()));
@@ -174,6 +187,7 @@ public class ParserControler
 			boolean timestampIsLastReadLine = true;
 			while ((line = br.readLine()) != null)
 			{
+				lineCounter++;
 				if (line.length() == 0)
 					continue;
 				boolean lineStartsWithWhitespace = Character.isWhitespace(line.charAt(0));
@@ -181,8 +195,12 @@ public class ParserControler
 				{
 					data.setTimestamp(TimeCalculations.LabViewTimestampGregToMiliSeconds(Long.parseLong(line
 							.trim())));
+					if (!(rawDataList.size() > 0 && rawDataList.get(rawDataList.size() - 1).getTimestamp() == data
+							.getTimestamp()))
+						rawDataList.add(data);
+					else
+						System.out.println(String.format("Touple on line: %s skipped because of same timestamp as the previous touple\n", lineCounter));
 					timestampIsLastReadLine = true;
-					rawDataList.add(data);
 					data = new RawData();
 				}
 
@@ -290,6 +308,7 @@ public class ParserControler
 		}
 		catch (Exception e)
 		{
+			System.out.println(String.format("Error on line: %s\n", lineCounter));
 			e.printStackTrace();
 		}
 		finally
@@ -312,6 +331,7 @@ public class ParserControler
 	private static boolean ParseAnalogData(File file, List<RawData> rawDataList)
 	{
 		BufferedReader br = null;
+		int lineCounter = 0;
 		try
 		{
 			br = new BufferedReader(new FileReader(file.getPath()));
@@ -336,13 +356,18 @@ public class ParserControler
 				data.setWindDirection((float) windDirection);
 				data.setHydrometer((float) hydrometer);
 				data.setTimestamp(TimeCalculations.LabViewTimestampGregToMiliSeconds(timestamp));
-				rawDataList.add(data);
-				data = new RawData();
+				
+				if (!(rawDataList.size() > 0 && rawDataList.get(rawDataList.size() - 1).getTimestamp() == data
+						.getTimestamp()))
+					rawDataList.add(data);
+				else
+					System.out.println(String.format("Touple on line: %s skipped because of same timestamp as the previous touple\n", lineCounter));
 			}
 			return true;
 		}
 		catch (Exception e)
 		{
+			System.out.println(String.format("Error on line: %s\n", lineCounter));
 			e.printStackTrace();
 		}
 		finally

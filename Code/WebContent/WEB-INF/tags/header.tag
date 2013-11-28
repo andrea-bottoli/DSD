@@ -13,15 +13,15 @@
 	
 	<div id="tabs" class="buttons">
 		<div class="button">
-			<span ><a href="http://localhost:8080/BridgeMonitoring/">Home</a></span>
+			<span ><a href="index.jsp">Home</a></span>
 		</div>
 		
 		<div class="button">
-			<span><a href="http://localhost:8080/BridgeMonitoring/CurrentStateView">Current State</a></span>
+			<span><a href="CurrentStateView">Current State</a></span>
 		</div>
 		
 		<div class="button">
-			<span ><a href="http://localhost:8080/BridgeMonitoring/TestParametersData">Parameters</a></span>
+			<span ><a href="TestParametersData">Parameters</a></span>
 		</div>
 	
 		<div class="button">

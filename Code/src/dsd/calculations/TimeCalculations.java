@@ -45,18 +45,19 @@ public class TimeCalculations
 
 	}
 
-	public static GregorianCalendar PictureTimeToGregCalendar(String timestamp)
+	public static Calendar PictureTimeToGregCalendar(String timestamp)
 	{
 		try
 		{
 			int year = Integer.parseInt(timestamp.substring(0, 2));
-			int month = Integer.parseInt(timestamp.substring(2, 4));
+			int month = Integer.parseInt(timestamp.substring(2, 4)) - 1;
 			int day = Integer.parseInt(timestamp.substring(4, 6));
 			int hour = Integer.parseInt(timestamp.substring(6, 8));
 			int minute = Integer.parseInt(timestamp.substring(8, 10));
 			int secound = Integer.parseInt(timestamp.substring(10, 12));
 
-			GregorianCalendar date = new GregorianCalendar(year, month, day, hour, minute, secound);
+			Calendar date = Calendar.getInstance();
+			date.set(year + 2000, month, day, hour, minute, secound);
 			return date;
 		}
 		catch (Exception e)
@@ -70,7 +71,7 @@ public class TimeCalculations
 
 	public static long PictureTimestampToGregToMiliSeconds(String timestamp)
 	{
-		return PictureTimeToGregCalendar(timestamp).getTime().getTime();
+		return PictureTimeToGregCalendar(timestamp).getTimeInMillis();
 	}
 
 }

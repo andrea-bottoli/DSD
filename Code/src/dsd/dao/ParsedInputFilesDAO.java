@@ -1,12 +1,16 @@
 package dsd.dao;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import dsd.model.ParsedInputFile;
+import dsd.model.enums.eFileType;
 
 public class ParsedInputFilesDAO
 {
@@ -48,18 +52,16 @@ public class ParsedInputFilesDAO
 		{
 			Connection con = DAOProvider.getDataSource().getConnection();
 			int counter = 0;
-			for (ParsedInputFile parameter : listOfParsedInputFile)
-			{
 				try
 				{
-					counter += DAOProvider.UpdateRowSecure(tableName, tableFields, "parameter", con,
-							PrepareValuesForInsert(parameter), null);
+					throw new NotImplementedException();
+//					counter += DAOProvider.UpdateRowSecure(tableName, tableFields, "parameter", con,
+//							PrepareValuesForInsert(parameter), null);
 				}
 				catch (Exception exc)
 				{
-
+					exc.printStackTrace();
 				}
-			}
 			con.close();
 			return counter;
 		}
@@ -70,6 +72,68 @@ public class ParsedInputFilesDAO
 		return 0;
 	}
 
+	public static boolean IsAlreadyParsed(String fileName)
+	{
+		boolean isAlreadyParsed = false;
+		try
+		{
+			Connection con = DAOProvider.getDataSource().getConnection();
+			try
+			{
+				Object[] parameters = new Object[1];
+				parameters[0] = fileName;
+				ResultSet results = DAOProvider.SelectTableSecure(tableName, " count(*) ", " name = ? ", "",
+						con, parameters);
+				while (results.next())
+				{
+					isAlreadyParsed = results.getInt(1) == 1 ? true : false;
+				}
+			}
+			catch (Exception exc)
+			{
+				exc.printStackTrace();
+			}
+			con.close();
+		}
+		catch (Exception exc)
+		{
+			exc.printStackTrace();
+		}
+		return isAlreadyParsed;
+	}
+	
+	public static String FetchStoredPath(eFileType fileType, Calendar date)
+	{
+		String storedPath = null;
+		try
+		{
+			Connection con = DAOProvider.getDataSource().getConnection();
+			try
+			{
+				Object[] parameters = new Object[3];
+				parameters[0] = new Integer(fileType.getCode());
+				parameters[1] = new Integer(fileType.getCode());
+				parameters[2] = new Timestamp(date.getTimeInMillis());
+				ResultSet results = DAOProvider.SelectTableSecure(tableName, " stored_path ", " type = ? and timestamp = (select max(timestamp) from parsed_input_files where type = ? and timestamp <= ?) ", "",
+						con, parameters);
+				while (results.next())
+				{
+					storedPath = results.getString(1);
+				}
+			}
+			catch (Exception exc)
+			{
+				exc.printStackTrace();
+			}
+			con.close();
+		}
+		catch (Exception exc)
+		{
+			exc.printStackTrace();
+		}
+		return storedPath;
+	}
+	
 	private static Object[] PrepareValuesForInsert(ParsedInputFile dataTuple)
 	{
 		Object[] valueArray = new Object[5];

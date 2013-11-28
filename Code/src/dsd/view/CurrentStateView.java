@@ -1,10 +1,7 @@
 package dsd.view;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -16,9 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import dsd.controller.ParsedInputFilesController;
 import dsd.controller.RawDataController;
 import dsd.model.RawData;
-import dsd.model.enums.eSonarType;
+import dsd.model.enums.eFileType;
 
 public class CurrentStateView extends HttpServlet {
 
@@ -63,8 +61,8 @@ public class CurrentStateView extends HttpServlet {
         }
         
 		req.setAttribute("rawDataList", obj);
-		
-		
+		req.setAttribute("modenaPath", ParsedInputFilesController.FetchStoredPath(eFileType.Modena, calEnd));
+		req.setAttribute("mantovaPath", ParsedInputFilesController.FetchStoredPath(eFileType.Mantova, calEnd));
 		
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/tempGraph.jsp");
 		dispatcher.forward(req, resp);

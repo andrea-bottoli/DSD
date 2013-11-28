@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <!DOCTYPE html>
 
@@ -8,8 +7,9 @@
 	<body>
 		<div class="actualValues">
 			<h3>Actual Values</h3>
-			<hr>
-			<div class="leftDiv">
+			<hr />
+			<br/>
+			<div>
 				<p>
 					Anemometer: <b>0.315 m/s</b>
 				</p>
@@ -20,12 +20,11 @@
 					Hydrometer: <b>17.28625 m</b>
 				</p>
 			</div>
-
-			<div class="rightDiv">
-				<img class=sensorPics src="SiteImages/BridgeGE.png"
-					alt="Real-time bridge monitoring logo" /> <img class=sensorPics
-					src="SiteImages/BridgeGE2.png"
-					alt="Real-time bridge monitoring logo" />
+			<hr />
+			<br/>
+			<div>
+				<img class=sensorPics src="${requestScope.mantovaPath}" alt="Mantova camera picture of Bridge Borgoforte" />
+				<img class=sensorPics src="${requestScope.modenaPath}" alt="Modena camera picture of Bridge Borgoforte" />
 			</div>
 			<div class="clear_float"></div>
 
@@ -49,9 +48,11 @@
 						var array = list.Dates;
 						var dataSet = list.ValuesOfWindSpeed;
 
-						var buyerData = {
+						var buyerData =
+						{
 							labels : array,
-							datasets : [ {
+							datasets : [
+							{
 								//fillColor : "rgba(172,194,132,0.4)",
 								fillColor : "rgba(61, 118, 65, 1)",
 								//strokeColor : "#ACC26D",
@@ -59,7 +60,7 @@
 								pointColor : "#fff",
 								pointStrokeColor : "#9DB86D",
 								data : dataSet
-							} ]
+							}]
 						};
 						new Chart(buyers).Line(buyerData);
 					</script>
@@ -79,9 +80,11 @@
 
 						var sonarValues = list.ValuesOfSonar;
 
-						var sonarData = {
+						var sonarData =
+						{
 							labels : array,
-							datasets : [ {
+							datasets : [
+							{
 								//fillColor : "rgba(172,194,132,0.4)",
 								fillColor : "rgba(61, 118, 65, 1)",
 								//strokeColor : "#ACC26D",
@@ -89,7 +92,7 @@
 								pointColor : "#fff",
 								pointStrokeColor : "#9DB86D",
 								data : sonarValues
-							} ]
+							}]
 						};
 						new Chart(sonar).Line(sonarData);
 					</script>
@@ -110,9 +113,11 @@
 
 						var hydrometerValues = list.ValuesOfHydrometer;
 
-						var hydrometerData = {
+						var hydrometerData =
+						{
 							labels : array,
-							datasets : [ {
+							datasets : [
+							{
 								//fillColor : "rgba(172,194,132,0.4)",
 								fillColor : "rgba(61, 118, 65, 1)",
 								//strokeColor : "#ACC26D",
@@ -120,7 +125,7 @@
 								pointColor : "#fff",
 								pointStrokeColor : "#9DB86D",
 								data : hydrometerValues
-							} ]
+							}]
 						};
 						new Chart(hydrometer).Line(hydrometerData);
 					</script>

@@ -17,7 +17,7 @@ public class TestParser extends HttpServlet
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
 			IOException
 	{
-		//ParserControler.ParseFiles();
+		ParserControler.ParseFiles();
 	}
 
 	/**
