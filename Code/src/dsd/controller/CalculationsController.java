@@ -99,6 +99,10 @@ public class CalculationsController implements Runnable {
 		this.mnPylonsForces = new PylonForces(mnLineForces, 0);
 		this.moPylonsForces = new PylonForces(moLineForces, 1);
 		this.safetyFactor = new SafetyFactor();
+		this.worstCase00 = new WorstCase(Boolean.FALSE, Boolean.FALSE);
+		this.worstCase01 = new WorstCase(Boolean.FALSE, Boolean.TRUE);
+		this.worstCase10 = new WorstCase(Boolean.TRUE, Boolean.FALSE);
+		this.worstCase11 = new WorstCase(Boolean.TRUE, Boolean.TRUE);
 		
 //		ParametersController.IntializeCurrentParemeters();
 //		ParametersController.set(param);
@@ -176,7 +180,7 @@ public class CalculationsController implements Runnable {
 					/*
 					 * Start calculations for one line of the DB
 					 */
-					CalculateMeanValues(localRawData, localRawData.size());
+					CalculateMeanValues(localRawData);
 					CalculatePlankForces();
 					CalculateLineForces();
 					CalculatePylonForces();
@@ -238,7 +242,7 @@ public class CalculationsController implements Runnable {
 					/*
 					 * Start calculations for one line of the DB
 					 */
-					CalculateMeanValues(localRawData, localRawData.size());
+					CalculateMeanValues(localRawData);
 					CalculatePlankForces();
 					CalculateLineForces();
 					CalculatePylonForces();
@@ -300,7 +304,7 @@ public class CalculationsController implements Runnable {
 					/*
 					 * Start calculations for one line of the DB
 					 */
-					CalculateMeanValues(localRawData, localRawData.size());
+					CalculateMeanValues(localRawData);
 					CalculatePlankForces();
 					CalculateLineForces();
 					CalculatePylonForces();
@@ -354,114 +358,29 @@ public class CalculationsController implements Runnable {
 	 * SONAR5, SONAR6 and SONAR7. For sonar values, there are also some
 	 * statistics that have to be calculated.
 	 */
-	private void CalculateMeanValues(ArrayList<RawData> localRawData, int sampleSize)
+	private void CalculateMeanValues(ArrayList<RawData> localRawData)
 	{
-		float sumWindSpeed,sumWindDirection, sumWaterLevel, sumWaterVariance, sumRiverBottomLevel, sumRiverBottomLevelVariance;
-		float meanWindSpeed, maxWindSpeed, meanWindDirection,maxWindDirection;
-		float meanWaterLevel, varianceWaterLevel;
-		float meanRiverBottomLevel, varianceRiverBottomLevel, percUtilizedData12OverWholeSample;
-		float percWrongData3OverWholeSample, percOutWaterData4OverWholeSample, percErrorData5OverWholeSample, percUncertainData2Over12Sample;
-		float numbCertainValue, numbUncertainValue, numbWrongValue, numbOutOfWaterValue, numbErrorValue;
+		//THINK ABOUT DO THIS WITH THREADS !!!!
+		ExecutorService pool = null;
 		
-		maxWindSpeed=0;
-		maxWindDirection=0;
-		sumWindSpeed=0;
-		sumWindDirection=0;
-		sumWaterLevel=0;
-		sumWaterVariance=0;
-		sumRiverBottomLevel=0;
-		sumRiverBottomLevelVariance=0;
-		numbCertainValue=0;
-		numbUncertainValue=0;
-		numbWrongValue=0;
-		numbOutOfWaterValue=0;
-		numbErrorValue=0;
-		
-		for(RawData rawData : localRawData)
-		{
-			
-			//Anemometer operations
-			sumWindSpeed = sumWindSpeed + rawData.getWindSpeed();
-			sumWindDirection = sumWindDirection + rawData.getWindDirection();
-			
-			if(rawData.getWindSpeed()>maxWindSpeed)
+		try {
+			do
 			{
-				maxWindSpeed=rawData.getWindSpeed();
-				maxWindDirection=rawData.getWindDirection();
+				pool = Executors.newFixedThreadPool(3);
+						
+				//WIND PUSH
+				pool.submit(new InstrumentsAnemometerDataTask(localRawData, this.instrumentsData));
+				//WATER PUSH
+				pool.submit(new InstrumentsHydroDataTask(localRawData, this.instrumentsData));
+				//WEIGHT PRESSURE
+				pool.submit(new InstrumentsSonarDataTask(localRawData, this.instrumentsData));
+				
+				pool.shutdown();
 			}
-			
-			//Hydrometer operations
-			sumWaterLevel = sumWaterLevel + rawData.getHydrometer();
-			
-			//Sonar operations
-			if(rawData.getSonarType().equals(eSonarType.CorrectData))
-			{
-				sumRiverBottomLevel = sumRiverBottomLevel + rawData.getSonar();
-				numbCertainValue++;
-			}else if(rawData.getSonarType().equals(eSonarType.UncertainData))
-			{
-				sumRiverBottomLevel = sumRiverBottomLevel + rawData.getSonar();
-				numbUncertainValue++;
-			}else if(rawData.getSonarType().equals(eSonarType.WrongData))
-			{
-				numbWrongValue++;
-			}else if(rawData.getSonarType().equals(eSonarType.SonarOutOfWaterData))
-			{
-				numbOutOfWaterValue++;
-			}else if(rawData.getSonarType().equals(eSonarType.ErrorData))
-			{
-				numbErrorValue++;
-			}
+			while(!pool.awaitTermination(60, TimeUnit.SECONDS));
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
-		
-		//calculation of mean values for all instruments plus sonar statistics
-		//Anemometer
-		meanWindSpeed = sumWindSpeed/sampleSize;
-		meanWindDirection = sumWindDirection/sampleSize;
-		
-		//Hydrometer
-		meanWaterLevel = sumWaterLevel/sampleSize;
-		
-		//sonar
-		meanRiverBottomLevel = sumRiverBottomLevel/(numbCertainValue+numbUncertainValue);
-		percUtilizedData12OverWholeSample = (numbCertainValue+numbUncertainValue)/sampleSize;
-		percWrongData3OverWholeSample = numbWrongValue/sampleSize;
-		percOutWaterData4OverWholeSample = numbOutOfWaterValue/sampleSize;
-		percErrorData5OverWholeSample = numbErrorValue/sampleSize;
-		percUncertainData2Over12Sample = numbUncertainValue/(numbCertainValue + numbUncertainValue);
-		
-		//Calculation of variances
-		for(RawData rawData : localRawData)
-		{
-			sumWaterVariance += Math.pow((meanWaterLevel-rawData.getHydrometer()), 2);
-			if(rawData.getSonarType() == eSonarType.CorrectData || rawData.getSonarType() == eSonarType.UncertainData)
-			{
-				sumRiverBottomLevelVariance += Math.pow((meanRiverBottomLevel-rawData.getSonar()), 2);
-			}
-		}
-		
-		varianceWaterLevel = sumWaterVariance/sampleSize;
-		varianceRiverBottomLevel = sumRiverBottomLevelVariance/(numbCertainValue+numbUncertainValue);
-		
-		//Results are saved into class variables
-		//Anemometer
-		this.instrumentsData.setAne1(meanWindSpeed);
-		this.instrumentsData.setAne2(maxWindSpeed);
-		this.instrumentsData.setAne3(meanWindDirection);
-		this.instrumentsData.setAne4(maxWindDirection);
-		
-		//Hydrometer
-		this.instrumentsData.setIdro1(meanWaterLevel);
-		this.instrumentsData.setIdro2(varianceWaterLevel);
-		
-		//Sonar
-		this.instrumentsData.setSonar1(meanRiverBottomLevel);
-		this.instrumentsData.setSonar2(varianceRiverBottomLevel);
-		this.instrumentsData.setSonar3(percUtilizedData12OverWholeSample);
-		this.instrumentsData.setSonar4(percWrongData3OverWholeSample);
-		this.instrumentsData.setSonar5(percOutWaterData4OverWholeSample);
-		this.instrumentsData.setSonar6(percErrorData5OverWholeSample);
-		this.instrumentsData.setSonar7(percUncertainData2Over12Sample);
 	}
 	
 	/**

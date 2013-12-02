@@ -1,6 +1,39 @@
 package dsd.calculations;
 
+import java.util.List;
+
 public class MathEngine {
+	
+	/*
+	 * ##########################################################
+	 * ##########################################################
+	 * #####												#####
+	 * #####			Instruments Data					#####
+	 * #####												#####
+	 * ##########################################################
+	 * ##########################################################
+	 */
+	/**
+	 * @param list of values on which calculate the mean value
+	 * @return the mean value of the list of values
+	 */
+	public static float meanValue(List<Float> list)
+	{
+		return StatisticsFormulas.meanValue(list);
+	}
+	
+	/**
+	 * @param list of values of which calculate the variance
+	 * @return the variance of the list of values
+	 */
+	public static float variance(List<Float> list)
+	{
+		return StatisticsFormulas.variance(list);
+	}
+	
+	
+	
+	
 	
 	/*
 	 * ##########################################################
