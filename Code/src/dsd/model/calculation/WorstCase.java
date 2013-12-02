@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 public class WorstCase {
 	
+	private boolean traffic;
+	private boolean debris;
+	
 	private WorstPylonCase worstPylon1;
 	private WorstPylonCase worstPylon2;
 	private WorstPylonCase worstPylon3;
@@ -13,8 +16,11 @@ public class WorstCase {
 	
 	private ArrayList<WorstPylonCase> worstList;
 	
-	public WorstCase()
+	public WorstCase(boolean traffic, boolean debris)
 	{
+		this.traffic = traffic;
+		this.debris = debris;
+		
 		this.worstPylon1 = new WorstPylonCase(1);
 		this.worstPylon2 = new WorstPylonCase(2);
 		this.worstPylon3 = new WorstPylonCase(3);
@@ -29,6 +35,20 @@ public class WorstCase {
 		this.worstList.add(worstPylon4);
 		this.worstList.add(worstPylon5);
 		this.worstList.add(worstPylon6);
+	}
+		
+	/**
+	 * @return the traffic
+	 */
+	public boolean getTraffic() {
+		return this.traffic;
+	}
+	
+	/**
+	 * @return the debris
+	 */
+	public boolean getDebris() {
+		return this.debris;
 	}
 
 	/**

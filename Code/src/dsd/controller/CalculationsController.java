@@ -35,6 +35,11 @@ public class CalculationsController implements Runnable {
 	private PylonForces moPylonsForces = null;
 	private SafetyFactor safetyFactor = null;
 	
+	private WorstCase worstCase00 = null;
+	private WorstCase worstCase01 = null;
+	private WorstCase worstCase10 = null;
+	private WorstCase worstCase11 = null;
+	
 	//Variable in which store the calculations results
 	private ArrayList<CalculatedData> calculatedData = null;
 	
@@ -66,12 +71,18 @@ public class CalculationsController implements Runnable {
 		this.mnPylonsForces = new PylonForces(mnLineForces, 0);
 		this.moPylonsForces = new PylonForces(moLineForces, 1);
 		this.safetyFactor = new SafetyFactor();
+		this.worstCase00 = new WorstCase(Boolean.FALSE, Boolean.FALSE);
+		this.worstCase01 = new WorstCase(Boolean.FALSE, Boolean.TRUE);
+		this.worstCase10 = new WorstCase(Boolean.TRUE, Boolean.FALSE);
+		this.worstCase11 = new WorstCase(Boolean.TRUE, Boolean.TRUE);
 		
 		ParametersController.IntializeCurrentParemeters();
 	}
 	
 	/*
+	 * ######################################################
 	 * ITS ONLY FOR DEBUGGING AND INTERNAL TEST
+	 * #####################################################
 	 */
 	public CalculationsController(ArrayList<RawData> lista, ArrayList<Parameter> param)
 	{
