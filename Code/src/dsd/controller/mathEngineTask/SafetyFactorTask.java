@@ -8,7 +8,7 @@ import dsd.model.calculation.PylonCombination;
 import dsd.model.calculation.PylonForces;
 import dsd.model.calculation.SafetyFactor;
 
-public class RiskFactorTask implements Runnable{
+public class SafetyFactorTask implements Runnable{
 
 	private PylonForces mnPylonsForces;
 	private PylonForces moPylonsForces;
@@ -22,7 +22,7 @@ public class RiskFactorTask implements Runnable{
 	private int stressedPylon;
 	
 
-	public RiskFactorTask(PylonForces mnPylonsForces, PylonForces moPylonsForces,	SafetyFactor safetyFactor) {
+	public SafetyFactorTask(PylonForces mnPylonsForces, PylonForces moPylonsForces,	SafetyFactor safetyFactor) {
 		this.mnPylonsForces = mnPylonsForces;
 		this.moPylonsForces = moPylonsForces;
 		this.safetyFactor = safetyFactor;

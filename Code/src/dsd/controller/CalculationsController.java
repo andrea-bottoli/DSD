@@ -13,7 +13,6 @@ import dsd.model.CalculatedData;
 import dsd.model.Parameter;
 import dsd.model.RawData;
 import dsd.model.calculation.*;
-import dsd.model.enums.eSonarType;
 
 public class CalculationsController implements Runnable {
 	
@@ -488,7 +487,7 @@ public class CalculationsController implements Runnable {
 			{
 				pool = Executors.newFixedThreadPool(1);
 						
-				pool.submit(new RiskFactorTask(this.mnPylonsForces, this.moPylonsForces, this.safetyFactor));
+				pool.submit(new SafetyFactorTask(this.mnPylonsForces, this.moPylonsForces, this.safetyFactor));
 				
 				pool.shutdown();
 			}
