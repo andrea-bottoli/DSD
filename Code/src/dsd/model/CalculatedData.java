@@ -5,7 +5,6 @@ import java.util.Date;
 
 public class CalculatedData {
 	
-	private long calcualtedDataID;
 	private float windSpeed;
 	private float windDirection;
 	private float windSpeedMax;
@@ -20,13 +19,11 @@ public class CalculatedData {
 	private float sonarError;
 	private float sonarUncertain;
 	private float safety_factor_00;
-	private int stressed_pylone_00;
 	private float safety_factor_01;
-	private int stressed_pylone_01;
 	private float safety_factor_10;
-	private int stressed_pylone_10;
 	private float safety_factor_11;
-	private int stressed_pylone_11;
+	private float water_speed;
+	private float water_flow_rate;
 	private long timestamp;
 	private Date timestampDate;
 	
@@ -40,10 +37,13 @@ public class CalculatedData {
 							float hydrometerVariance, float sonar, float sonarVariance,
 							float sonarPercCorrect, float sonarPercWrong,
 							float sonarPercOutOfWater, float sonarError, float sonarUncertain,
-							float safety_factor_00, int stressed_pylone_00,
-							float safety_factor_01, int stressed_pylone_01,
-							float safety_factor_10, int stressed_pylone_10,
-							float safety_factor_11, int stressed_pylone_11, long timestamp) {
+							float safety_factor_00,
+							float safety_factor_01,
+							float safety_factor_10,
+							float safety_factor_11,
+							float water_speed,
+							float water_flow_rate,
+							long timestamp) {
 		super();
 		this.windSpeed = windSpeed;
 		this.windDirection = windDirection;
@@ -59,13 +59,11 @@ public class CalculatedData {
 		this.sonarError = sonarError;
 		this.sonarUncertain = sonarUncertain;
 		this.safety_factor_00 = safety_factor_00;
-		this.stressed_pylone_00 = stressed_pylone_00;
 		this.safety_factor_01 = safety_factor_01;
-		this.stressed_pylone_01 = stressed_pylone_01;
 		this.safety_factor_10 = safety_factor_10;
-		this.stressed_pylone_10 = stressed_pylone_10;
 		this.safety_factor_11 = safety_factor_11;
-		this.stressed_pylone_11 = stressed_pylone_11;
+		this.water_speed = water_speed;
+		this.water_flow_rate = water_flow_rate;
 		this.timestamp = timestamp;
 	}
 
@@ -266,20 +264,6 @@ public class CalculatedData {
 	}
 
 	/**
-	 * @return the stressed_pylone_00
-	 */
-	public int getStressed_pylone_00() {
-		return stressed_pylone_00;
-	}
-
-	/**
-	 * @param stressed_pylone_00 the stressed_pylone_00 to set
-	 */
-	public void setStressed_pylone_00(int stressed_pylone_00) {
-		this.stressed_pylone_00 = stressed_pylone_00;
-	}
-
-	/**
 	 * @return the safety_factor_01
 	 */
 	public float getSafety_factor_01() {
@@ -291,20 +275,6 @@ public class CalculatedData {
 	 */
 	public void setSafety_factor_01(float safety_factor_01) {
 		this.safety_factor_01 = safety_factor_01;
-	}
-
-	/**
-	 * @return the stressed_pylone_01
-	 */
-	public int getStressed_pylone_01() {
-		return stressed_pylone_01;
-	}
-
-	/**
-	 * @param stressed_pylone_01 the stressed_pylone_01 to set
-	 */
-	public void setStressed_pylone_01(int stressed_pylone_01) {
-		this.stressed_pylone_01 = stressed_pylone_01;
 	}
 
 	/**
@@ -322,20 +292,6 @@ public class CalculatedData {
 	}
 
 	/**
-	 * @return the stressed_pylone_10
-	 */
-	public int getStressed_pylone_10() {
-		return stressed_pylone_10;
-	}
-
-	/**
-	 * @param stressed_pylone_10 the stressed_pylone_10 to set
-	 */
-	public void setStressed_pylone_10(int stressed_pylone_10) {
-		this.stressed_pylone_10 = stressed_pylone_10;
-	}
-
-	/**
 	 * @return the safety_factor_11
 	 */
 	public float getSafety_factor_11() {
@@ -348,19 +304,33 @@ public class CalculatedData {
 	public void setSafety_factor_11(float safety_factor_11) {
 		this.safety_factor_11 = safety_factor_11;
 	}
-
+	
 	/**
-	 * @return the stressed_pylone_11
+	 * @return the water_speed
 	 */
-	public int getStressed_pylone_11() {
-		return stressed_pylone_11;
+	public float getWater_speed() {
+		return water_speed;
 	}
 
 	/**
-	 * @param stressed_pylone_11 the stressed_pylone_11 to set
+	 * @param water_speed the water_speed to set
 	 */
-	public void setStressed_pylone_11(int stressed_pylone_11) {
-		this.stressed_pylone_11 = stressed_pylone_11;
+	public void setWater_speed(float water_speed) {
+		this.water_speed = water_speed;
+	}
+
+	/**
+	 * @return the water_flow_rate
+	 */
+	public float getWater_flow_rate() {
+		return water_flow_rate;
+	}
+
+	/**
+	 * @param water_flow_rate the water_flow_rate to set
+	 */
+	public void setWater_flow_rate(float water_flow_rate) {
+		this.water_flow_rate = water_flow_rate;
 	}
 
 	/**
