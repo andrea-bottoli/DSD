@@ -183,7 +183,8 @@ public class CalculationsController implements Runnable {
 					CalculatePlankForces();
 					CalculateLineForces();
 					CalculatePylonForces();
-					CalculateRiskFactor();
+					CalculateWorstCases();
+					CalculateSafetyFactor();
 					StoreCalculatedValues();
 					WriteOnDB();
 				}
@@ -245,7 +246,8 @@ public class CalculationsController implements Runnable {
 					CalculatePlankForces();
 					CalculateLineForces();
 					CalculatePylonForces();
-					CalculateRiskFactor();
+					CalculateWorstCases();
+					CalculateSafetyFactor();
 					StoreCalculatedValues();
 					WriteOnDB();
 				}
@@ -307,7 +309,8 @@ public class CalculationsController implements Runnable {
 					CalculatePlankForces();
 					CalculateLineForces();
 					CalculatePylonForces();
-					CalculateRiskFactor();
+					CalculateWorstCases();
+					CalculateSafetyFactor();
 					StoreCalculatedValues();
 					WriteOnDB();
 				}
@@ -475,10 +478,42 @@ public class CalculationsController implements Runnable {
 		}
 	}
 	
+	
+	
+	/**
+	 * This method calculates the worst cases for each pylon
+	 * in each type of load combination.
+	 */
+	private void CalculateWorstCases()
+	{
+		ExecutorService pool = null;
+		
+		try {
+			do
+			{
+				pool = Executors.newFixedThreadPool(8);
+						
+				pool.submit(new WorstCasesTask(this.mnPylonsForces, this.worstCase00));
+				pool.submit(new WorstCasesTask(this.moPylonsForces, this.worstCase00));
+				pool.submit(new WorstCasesTask(this.mnPylonsForces, this.worstCase01));
+				pool.submit(new WorstCasesTask(this.moPylonsForces, this.worstCase01));
+				pool.submit(new WorstCasesTask(this.mnPylonsForces, this.worstCase10));
+				pool.submit(new WorstCasesTask(this.moPylonsForces, this.worstCase10));
+				pool.submit(new WorstCasesTask(this.mnPylonsForces, this.worstCase11));
+				pool.submit(new WorstCasesTask(this.moPylonsForces, this.worstCase11));
+				
+				pool.shutdown();
+			}
+			while(!pool.awaitTermination(60, TimeUnit.SECONDS));
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * This method calculates the value of the risk factor
 	 */
-	private void CalculateRiskFactor()
+	private void CalculateSafetyFactor()
 	{
 		ExecutorService pool = null;
 		
@@ -487,7 +522,7 @@ public class CalculationsController implements Runnable {
 			{
 				pool = Executors.newFixedThreadPool(1);
 						
-				pool.submit(new SafetyFactorTask(this.mnPylonsForces, this.moPylonsForces, this.safetyFactor));
+				pool.submit(new SafetyFactorTask(this.worstCase00, this.worstCase01, this.worstCase10, this.worstCase11, this.safetyFactor));
 				
 				pool.shutdown();
 			}

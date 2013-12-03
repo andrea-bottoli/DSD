@@ -135,4 +135,23 @@ public class PylonForces
 		return pylonComboList;
 	}
 	
+	
+	/**
+	 * @return the pylonComboList with that specific set up of traffic and debris
+	 */
+	public ArrayList<PylonCombination> getPylonComboList(boolean traffic, boolean debris)
+	{
+		ArrayList<PylonCombination> list = new ArrayList<PylonCombination>();
+		
+		for(PylonCombination p : this.pylonComboList)
+		{
+			if((p.getCombination().getTraffic() == traffic) && (p.getCombination().getDebris() == debris))
+			{
+				list.add(p);
+			}
+		}
+		
+		return list;
+	}
+	
 }

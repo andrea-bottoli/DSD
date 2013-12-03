@@ -63,6 +63,7 @@ public class WorstCase {
 	 */
 	public void setPylon1(Pylon pylon){
 		this.worstPylon1.setPylon(pylon);
+		setPylonListInternal(worstPylon1, getPosition(this.worstPylon1.getPylonNumber()));
 	}
 	
 	/**
@@ -70,6 +71,7 @@ public class WorstCase {
 	 */
 	public void setPylon2(Pylon pylon){
 		this.worstPylon2.setPylon(pylon);
+		setPylonListInternal(worstPylon2, getPosition(this.worstPylon2.getPylonNumber()));
 	}
 	
 	/**
@@ -77,6 +79,7 @@ public class WorstCase {
 	 */
 	public void setPylon3(Pylon pylon){
 		this.worstPylon3.setPylon(pylon);
+		setPylonListInternal(worstPylon3, getPosition(this.worstPylon3.getPylonNumber()));
 	}
 	
 	/**
@@ -84,6 +87,7 @@ public class WorstCase {
 	 */
 	public void setPylon4(Pylon pylon){
 		this.worstPylon4.setPylon(pylon);
+		setPylonListInternal(worstPylon4, getPosition(this.worstPylon4.getPylonNumber()));
 	}
 	
 	/**
@@ -91,6 +95,7 @@ public class WorstCase {
 	 */
 	public void setPylon5(Pylon pylon){
 		this.worstPylon5.setPylon(pylon);
+		setPylonListInternal(worstPylon5, getPosition(this.worstPylon5.getPylonNumber()));
 	}
 	
 	/**
@@ -98,6 +103,7 @@ public class WorstCase {
 	 */
 	public void setPylon6(Pylon pylon){
 		this.worstPylon6.setPylon(pylon);
+		setPylonListInternal(worstPylon6, getPosition(this.worstPylon6.getPylonNumber()));
 	}
 	
 	
@@ -170,7 +176,43 @@ public class WorstCase {
 	{
 		this.worstList.get(index).setComboNumber(comboNumber);
 	}
-		
+	
+	
+	/**
+	 * @param pylon is the pylon to be saved,
+	 * @param index is the index into the list
+	 * @param comboNumber, the combination number to be setted
+	 */
+	private void setPylonInternal(Pylon pylon)
+	{
+		switch(pylon.getPylonNumber())
+		{
+		case 1:
+			this.setPylon1(pylon);
+			break;
+		case 2:
+			this.setPylon2(pylon);
+			break;
+		case 3:
+			this.setPylon3(pylon);
+			break;
+		case 4:
+			this.setPylon4(pylon);
+			break;
+		case 5:
+			this.setPylon5(pylon);
+			break;
+		case 6:
+			this.setPylon6(pylon);
+			break;
+		}
+	}
+	
+	private void setPylonListInternal(WorstPylonCase worstPylonCase, int index)
+	{
+		worstList.set(index, worstPylonCase);
+	}
+	
 	/*
 	 * END PRIVATE GETTERS & SETTERS
 	 */
@@ -706,5 +748,17 @@ public class WorstCase {
 		if(exist(pylonNumber)){
 			setPylonComboNumberInternal(comboNumber, getPosition(pylonNumber));
 		}
-	}	
+	}
+	
+	
+	/**
+	 * @param pylon is the pylon to be saved,
+	 * @param comboNumber, the combination number to be setted
+	 */
+	public void setPylon(Pylon pylon)
+	{
+		if(exist(pylon.getPylonNumber())){
+			setPylonInternal(pylon);
+		}
+	}
 }

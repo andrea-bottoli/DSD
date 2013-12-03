@@ -7,36 +7,29 @@ import dsd.model.calculation.Pylon;
 import dsd.model.calculation.PylonCombination;
 import dsd.model.calculation.PylonForces;
 import dsd.model.calculation.SafetyFactor;
+import dsd.model.calculation.WorstCase;
 
 public class SafetyFactorTask implements Runnable{
 
-	private PylonForces mnPylonsForces;
-	private PylonForces moPylonsForces;
+	private WorstCase worstCase00;
+	private WorstCase worstCase01;
+	private WorstCase worstCase10;
+	private WorstCase worstCase11;
 	private SafetyFactor safetyFactor;
 	
-	private ListIterator<PylonCombination> mnIterator;
-	private ListIterator<PylonCombination> moIterator;
-	
-	private float maxN;
-	private float maxM;
-	private int stressedPylon;
-	
 
-	public SafetyFactorTask(PylonForces mnPylonsForces, PylonForces moPylonsForces,	SafetyFactor safetyFactor) {
-		this.mnPylonsForces = mnPylonsForces;
-		this.moPylonsForces = moPylonsForces;
+	public SafetyFactorTask(WorstCase worstCase00, WorstCase worstCase01, WorstCase worstCase10, WorstCase worstCase11,	SafetyFactor safetyFactor) {
+		this.worstCase00 = worstCase00;
+		this.worstCase01 = worstCase01;
+		this.worstCase10 = worstCase10;
+		this.worstCase11 = worstCase11;
 		this.safetyFactor = safetyFactor;
-		this.maxN = 0;
-		this.maxM = 0;
-		this.stressedPylon = 0;
-		
-		this.mnIterator = this.mnPylonsForces.getPylonComboList().listIterator();
-		this.moIterator = this.moPylonsForces.getPylonComboList().listIterator();
+
 	}
 
 	@Override
 	public void run() {
-		RiskFactor();
+		SafetyFactor();
 	}
 	
 	/**
@@ -44,12 +37,10 @@ public class SafetyFactorTask implements Runnable{
 	 */
 	private void cleanVariables()
 	{
-		this.maxN = 0;
-		this.maxM = 0;
-		this.stressedPylon = 0;
+		
 	}
 	
-	private void RiskFactor(){
+	private void SafetyFactor(){
 		Boolean t;
 		Boolean d;
 		
@@ -87,58 +78,26 @@ public class SafetyFactorTask implements Runnable{
 	 */
 	private void CalculatedRiskFactor(Boolean traffic, Boolean debris) {
 		
-		PylonCombination pcMn, pcMo;
-		ArrayList<Pylon> pylonList = new ArrayList<Pylon>();
 		
-		iteratorsAtTheBeginnig();
 		
-		while(this.mnIterator.hasNext() && this.moIterator.hasNext())
-		{
-			pcMn = this.mnIterator.next();
-			pcMo = this.moIterator.next();
-			
-			if((pcMn.getCombination().getTraffic() == traffic) && (pcMn.getCombination().getDebris() == debris) &&
-				(pcMo.getCombination().getTraffic() == traffic) && (pcMo.getCombination().getDebris() == debris) &&
-				(pcMn.getCombination().getCombinationNumber() == pcMn.getCombination().getCombinationNumber()))
-			{
-				pylonList.add(pcMn.getPylon3());
-				pylonList.add(pcMo.getPylon3());
-				pylonList.add(pcMn.getPylon2());
-				pylonList.add(pcMo.getPylon2());
-				pylonList.add(pcMn.getPylon1());
-				pylonList.add(pcMo.getPylon1());
-				
-				for(Pylon p : pylonList)
-				{
-					//TO-DO
-					/*
-					 * EVALUTAIONS OF THE RISK FACTOR
-					 * AND
-					 * DETERMINES THE MORE STRESSED PYLON
-					 */
-				}
-				
-				pylonList.clear();
-			}
-			
-		}
+		
 		
 		
 	}
 	
-	private void iteratorsAtTheBeginnig(){
-		while(this.mnIterator.hasPrevious() || this.moIterator.hasPrevious())
-		{
-			if(this.mnIterator.hasPrevious())
-			{
-				this.mnIterator.previous();
-			}
-			
-			if(this.moIterator.hasPrevious())
-			{
-				this.moIterator.previous();
-			}
-		}
-	}
+//	private void iteratorsAtTheBeginnig(){
+//		while(this.mnIterator.hasPrevious() || this.moIterator.hasPrevious())
+//		{
+//			if(this.mnIterator.hasPrevious())
+//			{
+//				this.mnIterator.previous();
+//			}
+//			
+//			if(this.moIterator.hasPrevious())
+//			{
+//				this.moIterator.previous();
+//			}
+//		}
+//	}
 
 }
