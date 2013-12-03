@@ -1,6 +1,6 @@
 package dsd.calculations;
 
-public class Weight {
+public class WeightFormulas {
 	
 	/*
 	 * ##########################################################

@@ -352,7 +352,7 @@ public class MathEngine {
 		
 		try
 		{
-			stackW = Weight.StackWeight(lPpu, lPtp, lPb, lPpy, lHbeam, lSonar1);
+			stackW = WeightFormulas.StackWeight(lPpu, lPtp, lPb, lPpy, lHbeam, lSonar1);
 		}catch(Exception e)
 		{
 			e.printStackTrace();
