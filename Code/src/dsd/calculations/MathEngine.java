@@ -1,5 +1,7 @@
 package dsd.calculations;
 
+import java.awt.geom.Point2D.Double;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MathEngine {
@@ -544,5 +546,149 @@ public class MathEngine {
 		contributionTx = PylonForcesFormulas.ForceMyContributionTx(tx, l);
 		
 		return contributionTx;
+	}
+	
+	
+	
+	
+	//§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§
+	
+		/*
+		 * ##########################################################
+		 * ##########################################################
+		 * #####												#####
+		 * #####				Algebraic Formulas				#####
+		 * #####												#####
+		 * ##########################################################
+		 * ##########################################################
+		 */
+	
+	/**
+	 * This method calculates the roots of a polynomial function of degree 3
+	 *  in the following form:
+	 * 
+	 * 			a*x^3 + b*x^2 + c*x^1 + d*x^0
+	 * 
+	 * The method return all the three roots of the function, real and imaginary.
+	 * 
+	 * @param a the coefficient of the term of degree 3
+	 * @param b the coefficient of the term of degree 2
+	 * @param c the coefficient of the term of degree 1
+	 * @param d the coefficient of the term of degree 0
+	 * @return the list of three roots of the 3rd degree function
+	 */
+	private static List<Double> rootsOf3rdDegreeFunction(double a, double b, double c, double d)
+	{
+		return AlgebraicFunctions.rootsOf3rdDegreeFunction(a, b, c, d);
+	}
+	
+	/**
+	 * This method calculates the roots of a polynomial function of degree 3
+	 *  in the following form:
+	 * 
+	 * 			a*x^3 + b*x^2 + c*x^1 + d*x^0
+	 * 
+	 * and return only the real roots of the functions. If there aren't return null.
+	 * 
+	 * @param a the coefficient of the term of degree 3
+	 * @param b the coefficient of the term of degree 2
+	 * @param c the coefficient of the term of degree 1
+	 * @param d known term
+	 * @return the list of three roots of the 3rd degree function
+	 */
+	private static List<Double> realRootsOf3rdDegreeFunction(double a, double b, double c, double d)
+	{
+		ArrayList<Double> rootsList = new ArrayList<Double>();
+		
+		for(Double r : rootsOf3rdDegreeFunction(a, b, c, d)){
+			if(r.getY() == 0){
+				rootsList.add(r);
+			}
+		}
+		return rootsList;
+	}
+	
+	
+	/**
+	 * @param a the coefficient of the term of degree 3
+	 * @param b the coefficient of the term of degree 2
+	 * @param c the coefficient of the term of degree 1
+	 * @param d known term
+	 * @param m_force the M force of the pylon
+	 * @param n_force the N force of the pylon
+	 * @param q the known term of the straight line passing through the origin and the point (n_force,m_force)
+	 * @return the coordinates of the intersection point nearest the pylon point (n_force,m_force)
+	 */
+	public static Double realIntersectionBetweenCubicAndLinearFunctions(double a, double b, double c, double d, double m_force, double n_force, double q)
+	{	
+		double s,m,d1,d2;
+		Double intersection = new Double();
+		ArrayList<Double> rootsList = new ArrayList<Double>();
+		
+		if(m_force >= 0){
+			s=1;
+		}else{
+			s=-1;
+		}
+		
+		if(n_force == 0){
+			rootsList.add(new Double(0,s*d));
+		}else{
+			m = m_force/n_force;
+			rootsList.addAll(realRootsOf3rdDegreeFunction(s*a, s*b, s*c-m, s*d-q));
+		}
+		
+		intersection.setLocation(rootsList.get(0).getX(),0);
+		
+		for(Double r : rootsList){
+			d1 = AlgebraicFunctions.getDistanceBetweenTwo1DPoints(n_force, intersection.getX());
+			d2 = AlgebraicFunctions.getDistanceBetweenTwo1DPoints(n_force, r.getX());
+			
+			if((r.getX() >= 0) && (n_force >= 0) &&	(d2 < d1)){
+				intersection.setLocation(r.getX(), 0);
+			}else if((r.getX() < 0) && (n_force < 0) &&	(d2 < d1)){
+				intersection.setLocation(r.getX(), 0);
+			}
+		}
+		
+		intersection.setLocation(intersection.getX(), AlgebraicFunctions.get3rdDegreePolynomialFunctionValue(a, b, c, d, intersection.getX()));
+		
+		return intersection;
+	}
+	
+	
+	
+	/**
+	 * @param p1 first point
+	 * @param p2 second point
+	 * @return the distance between the two points in two dimensions
+	 */
+	public static double getDistanceBetweenTwo2DPoints(Double p1, Double p2){
+		return AlgebraicFunctions.getDistanceBetweenTwo2DPoints(p1, p2);
+	}
+	
+	
+	//§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§
+	
+			/*
+			 * ##########################################################
+			 * ##########################################################
+			 * #####												#####
+			 * #####				M-N Domain Formulas				#####
+			 * #####												#####
+			 * ##########################################################
+			 * ##########################################################
+			 */
+	
+	
+	/**
+	 * @param o the base point; the cartesian axes origin
+	 * @param a the pylon point
+	 * @param b the intersection point with the domain
+	 * @return the value of the safety factor
+	 */
+	public static double safetyFactor(Double o, Double a, Double b)
+	{	
+		return SafetyFactorFormulas.safetyFactor(o, a, b);		
 	}
 }

@@ -127,7 +127,7 @@ public class CalculationsController implements Runnable {
 			clearCalculatedDataList();
 			
 			//Loding parameters
-//			LoadParameters();
+			LoadParameters();
 			
 			//start calculations
 			Calculate10mins();
@@ -520,9 +520,12 @@ public class CalculationsController implements Runnable {
 		try {
 			do
 			{
-				pool = Executors.newFixedThreadPool(1);
+				pool = Executors.newFixedThreadPool(4);
 						
-				pool.submit(new SafetyFactorTask(this.worstCase00, this.worstCase01, this.worstCase10, this.worstCase11, this.safetyFactor));
+				pool.submit(new SafetyFactorTask(this.worstCase00, this.safetyFactor));
+				pool.submit(new SafetyFactorTask(this.worstCase01, this.safetyFactor));
+				pool.submit(new SafetyFactorTask(this.worstCase10, this.safetyFactor));
+				pool.submit(new SafetyFactorTask(this.worstCase11, this.safetyFactor));
 				
 				pool.shutdown();
 			}

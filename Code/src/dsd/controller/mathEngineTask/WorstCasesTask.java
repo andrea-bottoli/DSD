@@ -1,6 +1,9 @@
 package dsd.controller.mathEngineTask;
 
+import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
+
+import dsd.calculations.MathEngine;
 import dsd.model.calculation.Pylon;
 import dsd.model.calculation.PylonCombination;
 import dsd.model.calculation.PylonForces;
@@ -16,6 +19,15 @@ public class WorstCasesTask implements Runnable{
 	private ArrayList<Pylon> pylonList;
 	private ArrayList<Float> minList;
 	private ArrayList<Integer> comboNumberList;
+	
+	/*
+	 * Coefficients of the cubic function of the M-N domain
+	 */
+	final double mnDomainFunctionA = 1.84 * Math.pow(10, -10);
+	final double mnDomainFunctionB = -2.87 * Math.pow(10, -5);
+	final double mnDomainFunctionC = 5.93 * Math.pow(10, -1);
+	final double mnDomainFunctionD = 1.33 * Math.pow(10, 3);
+	
 	
 	
 	
@@ -64,14 +76,7 @@ public class WorstCasesTask implements Runnable{
 			
 			for(Pylon p : pc.getPylonList())
 			{
-				/*
-				 * ##########################################
-				 * #										#
-				 * #	CALCULATE THE SAFETY FACTOR			#
-				 * #		INTO THE M-N DOMAIN !!!			#
-				 * #										#
-				 * ##########################################
-				 */
+				p.setSafetyFactor(this.calculateSingleSafetyFactor(p));
 				
 				if(p.getSafetyFactor() < this.minList.get(index))
 				{
@@ -89,6 +94,26 @@ public class WorstCasesTask implements Runnable{
 	
 	
 	
+	/**
+	 * @param p the pylon of which calculate the safety factor
+	 * @return the safety factor for the specific pylon p in input
+	 */
+	private float calculateSingleSafetyFactor(Pylon p)
+	{
+		Double o = new Double(0,0); 
+		Double a = new Double(p.getN(), p.getM());
+		Double b;
+		
+		b = MathEngine.realIntersectionBetweenCubicAndLinearFunctions(mnDomainFunctionA, mnDomainFunctionB, mnDomainFunctionC, mnDomainFunctionD, p.getM(), p.getN(), 0);
+		
+		return ((float)MathEngine.safetyFactor(o, a, b));
+	}
+	
+	
+	
+	/**
+	 * this method save the values into the correct variable
+	 */
 	private void saveValues()
 	{
 		int index = 0;
@@ -96,7 +121,7 @@ public class WorstCasesTask implements Runnable{
 		for(Pylon p : this.pylonList)
 		{
 			this.worstCase.setPylon(p);
-			this.worstCase.setSafetyFactor(this.minList.get(index), p.getPylonNumber());
+			this.worstCase.setSafetyFactor(p.getSafetyFactor(), p.getPylonNumber());
 			this.worstCase.setPylonComboNumber(this.comboNumberList.get(index), p.getPylonNumber());
 			
 			index++;
