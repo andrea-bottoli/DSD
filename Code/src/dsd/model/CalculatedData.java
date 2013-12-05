@@ -16,14 +16,14 @@ public class CalculatedData {
 	private float sonarPercCorrect;
 	private float sonarPercWrong;
 	private float sonarPercOutOfWater;
-	private float sonarError;
-	private float sonarUncertain;
-	private float safety_factor_00;
-	private float safety_factor_01;
-	private float safety_factor_10;
-	private float safety_factor_11;
-	private float water_speed;
-	private float water_flow_rate;
+	private float sonarPercError;
+	private float sonarPercUncertain;
+	private float safetyFactor00;
+	private float safetyFactor01;
+	private float safetyFactor10;
+	private float safetyFactor11;
+	private float waterSpeed;
+	private float waterFlowRate;
 	private long timestamp;
 	private Date timestampDate;
 	
@@ -36,13 +36,13 @@ public class CalculatedData {
 							float windSpeedMax, float windDirectionMax, float hydrometer,
 							float hydrometerVariance, float sonar, float sonarVariance,
 							float sonarPercCorrect, float sonarPercWrong,
-							float sonarPercOutOfWater, float sonarError, float sonarUncertain,
-							float safety_factor_00,
-							float safety_factor_01,
-							float safety_factor_10,
-							float safety_factor_11,
-							float water_speed,
-							float water_flow_rate,
+							float sonarPercOutOfWater, float sonarPercError, float sonarPercUncertain,
+							float safetyFactor00,
+							float safetyFactor01,
+							float safetyFactor10,
+							float safetyFactor11,
+							float waterSpeed,
+							float waterFlowRate,
 							long timestamp) {
 		super();
 		this.windSpeed = windSpeed;
@@ -56,14 +56,14 @@ public class CalculatedData {
 		this.sonarPercCorrect = sonarPercCorrect;
 		this.sonarPercWrong = sonarPercWrong;
 		this.sonarPercOutOfWater = sonarPercOutOfWater;
-		this.sonarError = sonarError;
-		this.sonarUncertain = sonarUncertain;
-		this.safety_factor_00 = safety_factor_00;
-		this.safety_factor_01 = safety_factor_01;
-		this.safety_factor_10 = safety_factor_10;
-		this.safety_factor_11 = safety_factor_11;
-		this.water_speed = water_speed;
-		this.water_flow_rate = water_flow_rate;
+		this.sonarPercError = sonarPercError;
+		this.sonarPercUncertain = sonarPercUncertain;
+		this.safetyFactor00 = safetyFactor00;
+		this.safetyFactor01 = safetyFactor01;
+		this.safetyFactor10 = safetyFactor10;
+		this.safetyFactor11 = safetyFactor11;
+		this.waterSpeed = waterSpeed;
+		this.waterFlowRate = waterFlowRate;
 		this.timestamp = timestamp;
 	}
 
@@ -224,113 +224,113 @@ public class CalculatedData {
 	/**
 	 * @return the sonarError
 	 */
-	public float getSonarError() {
-		return sonarError;
+	public float getSonarPercError() {
+		return sonarPercError;
 	}
 
 	/**
 	 * @param sonarError the sonarError to set
 	 */
-	public void setSonarError(float sonarError) {
-		this.sonarError = sonarError;
+	public void setSonarPercError(float sonarPercError) {
+		this.sonarPercError = sonarPercError;
 	}
 
 	/**
 	 * @return the sonarUncertain
 	 */
-	public float getSonarUncertain() {
-		return sonarUncertain;
+	public float getSonarPercUncertain() {
+		return sonarPercUncertain;
 	}
 
 	/**
 	 * @param sonarUncertain the sonarUncertain to set
 	 */
-	public void setSonarUncertain(float sonarUncertain) {
-		this.sonarUncertain = sonarUncertain;
+	public void setSonarPercUncertain(float sonarPercUncertain) {
+		this.sonarPercUncertain = sonarPercUncertain;
 	}
 
 	/**
-	 * @return the safety_factor_00
+	 * @return the safetyFactor00
 	 */
-	public float getSafety_factor_00() {
-		return safety_factor_00;
+	public float getSafetyFactor00() {
+		return safetyFactor00;
 	}
 
 	/**
-	 * @param safety_factor_00 the safety_factor_00 to set
+	 * @param safetyFactor00 the safetyFactor00 to set
 	 */
-	public void setSafety_factor_00(float safety_factor_00) {
-		this.safety_factor_00 = safety_factor_00;
+	public void setSafetyFactor00(float safetyFactor00) {
+		this.safetyFactor00 = safetyFactor00;
 	}
 
 	/**
-	 * @return the safety_factor_01
+	 * @return the safetyFactor01
 	 */
-	public float getSafety_factor_01() {
-		return safety_factor_01;
+	public float getSafetyFactor01() {
+		return safetyFactor01;
 	}
 
 	/**
-	 * @param safety_factor_01 the safety_factor_01 to set
+	 * @param safetyFactor01 the safetyFactor01 to set
 	 */
-	public void setSafety_factor_01(float safety_factor_01) {
-		this.safety_factor_01 = safety_factor_01;
+	public void setSafetyFactor01(float safetyFactor01) {
+		this.safetyFactor01 = safetyFactor01;
 	}
 
 	/**
-	 * @return the safety_factor_10
+	 * @return the safetyFactor10
 	 */
-	public float getSafety_factor_10() {
-		return safety_factor_10;
+	public float getSafetyFactor10() {
+		return safetyFactor10;
 	}
 
 	/**
-	 * @param safety_factor_10 the safety_factor_10 to set
+	 * @param safetyFactor10 the safetyFactor10 to set
 	 */
-	public void setSafety_factor_10(float safety_factor_10) {
-		this.safety_factor_10 = safety_factor_10;
+	public void setSafetyFactor10(float safetyFactor10) {
+		this.safetyFactor10 = safetyFactor10;
 	}
 
 	/**
-	 * @return the safety_factor_11
+	 * @return the safetyFactor11
 	 */
-	public float getSafety_factor_11() {
-		return safety_factor_11;
+	public float getSafetyFactor11() {
+		return safetyFactor11;
 	}
 
 	/**
-	 * @param safety_factor_11 the safety_factor_11 to set
+	 * @param safetyFactor11 the safetyFactor11 to set
 	 */
-	public void setSafety_factor_11(float safety_factor_11) {
-		this.safety_factor_11 = safety_factor_11;
+	public void setSafetyFactor11(float safetyFactor11) {
+		this.safetyFactor11 = safetyFactor11;
 	}
 	
 	/**
-	 * @return the water_speed
+	 * @return the waterSpeed
 	 */
-	public float getWater_speed() {
-		return water_speed;
+	public float getWaterSpeed() {
+		return waterSpeed;
 	}
 
 	/**
-	 * @param water_speed the water_speed to set
+	 * @param waterSpeed the waterSpeed to set
 	 */
-	public void setWater_speed(float water_speed) {
-		this.water_speed = water_speed;
+	public void setWaterSpeed(float waterSpeed) {
+		this.waterSpeed = waterSpeed;
 	}
 
 	/**
-	 * @return the water_flow_rate
+	 * @return the waterFlowRate
 	 */
-	public float getWater_flow_rate() {
-		return water_flow_rate;
+	public float getWaterFlowRate() {
+		return waterFlowRate;
 	}
 
 	/**
-	 * @param water_flow_rate the water_flow_rate to set
+	 * @param waterFlowRate the waterFlowRate to set
 	 */
-	public void setWater_flow_rate(float water_flow_rate) {
-		this.water_flow_rate = water_flow_rate;
+	public void setWaterFlowRate(float waterFlowRate) {
+		this.waterFlowRate = waterFlowRate;
 	}
 
 	/**

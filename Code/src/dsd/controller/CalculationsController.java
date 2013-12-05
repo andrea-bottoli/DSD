@@ -541,8 +541,6 @@ public class CalculationsController implements Runnable {
 	 */
 	private void StoreCalculatedValues()
 	{
-		//TO-DO		
-		
 		/*
 		 * ##################################################################
 		 * ####															#####
@@ -670,6 +668,120 @@ public class CalculationsController implements Runnable {
 			System.out.println("_________");
 			System.out.println("\n");
 		}
+		
+		System.out.println("------------------------------WORST CASES------------------------------");
+		System.out.println("\n###############");
+		System.out.println("## Worst Case 00");
+		System.out.println("###############");
+		for(WorstPylonCase wpc : worstCase00.getWorstList())
+		{
+			System.out.println("_________");
+			System.out.println("P_Number: "+wpc.getPylonNumber());
+			System.out.println("N: "+wpc.getN());
+			System.out.println("M: "+wpc.getM());
+			System.out.println("combo number: "+wpc.getComboNumber());
+			System.out.println("_________");
+			System.out.println("\n");
+		}
+		
+		System.out.println("\n###############");
+		System.out.println("## Worst Case 01");
+		System.out.println("###############");
+		for(WorstPylonCase wpc : worstCase00.getWorstList())
+		{
+			System.out.println("_________");
+			System.out.println("P_Number: "+wpc.getPylonNumber());
+			System.out.println("N: "+wpc.getN());
+			System.out.println("M: "+wpc.getM());
+			System.out.println("combo number: "+wpc.getComboNumber());
+			System.out.println("_________");
+			System.out.println("\n");
+		}
+		
+		System.out.println("\n###############");
+		System.out.println("## Worst Case 10");
+		System.out.println("###############");
+		for(WorstPylonCase wpc : worstCase00.getWorstList())
+		{
+			System.out.println("_________");
+			System.out.println("P_Number: "+wpc.getPylonNumber());
+			System.out.println("N: "+wpc.getN());
+			System.out.println("M: "+wpc.getM());
+			System.out.println("combo number: "+wpc.getComboNumber());
+			System.out.println("_________");
+			System.out.println("\n");
+		}
+		
+		System.out.println("\n###############");
+		System.out.println("## Worst Case 11");
+		System.out.println("###############");
+		for(WorstPylonCase wpc : worstCase00.getWorstList())
+		{
+			System.out.println("_________");
+			System.out.println("P_Number: "+wpc.getPylonNumber());
+			System.out.println("N: "+wpc.getN());
+			System.out.println("M: "+wpc.getM());
+			System.out.println("combo number: "+wpc.getComboNumber());
+			System.out.println("_________");
+			System.out.println("\n");
+		}
+		
+		
+		System.out.println("------------------------------SAFETY FACTOR------------------------------");
+		System.out.println("\n###############");
+		System.out.println("## SAFETY FACTOR 00  ->" + safetyFactor.getSafetyFactorCombo00().getValue());
+		System.out.println("## SAFETY FACTOR 01  ->" + safetyFactor.getSafetyFactorCombo01().getValue());
+		System.out.println("## SAFETY FACTOR 10  ->" + safetyFactor.getSafetyFactorCombo10().getValue());
+		System.out.println("## SAFETY FACTOR 11  ->" + safetyFactor.getSafetyFactorCombo11().getValue());
+		
+		/*
+		 * ##################################################################
+		 * ####															#####
+		 * ####						END DEBUGGING 						#####
+		 * ####															#####
+		 * ##################################################################
+		 * 
+		 */
+		
+		
+		CalculatedData cd = new CalculatedData();
+		
+		/*
+		 * Store temp values of temp variables into the CaclulatdData variable
+		 */
+		//SETTED ANEMOMETER
+		cd.setWindSpeed(this.instrumentsData.getAne1());
+		cd.setWindSpeedMax(this.instrumentsData.getAne2());
+		cd.setWindDirection(this.instrumentsData.getAne3());
+		cd.setWindDirectionMax(this.instrumentsData.getAne4());
+		
+		//SETTED HYDROMETER
+		cd.setHydrometer(this.instrumentsData.getIdro1());
+		cd.setHydrometerVariance(this.instrumentsData.getIdro2());
+		cd.setWaterSpeed(this.plankForces.getWaterSpeed());
+		cd.setWaterFlowRate(this.plankForces.getFlowRate());
+		
+		//SETTED SONAR
+		cd.setSonar(this.instrumentsData.getSonar1());
+		cd.setSonarVariance(this.instrumentsData.getSonar2());
+		cd.setSonarPercCorrect(this.instrumentsData.getSonar3());
+		cd.setSonarPercWrong(this.instrumentsData.getSonar4());
+		cd.setSonarPercOutOfWater(this.instrumentsData.getSonar5());
+		cd.setSonarPercError(this.instrumentsData.getSonar6());
+		cd.setSonarPercUncertain(this.instrumentsData.getSonar7());
+		
+		//SETTED SAFETY FACTOR
+		cd.setSafetyFactor00(this.safetyFactor.getSafetyFactorCombo00().getValue());
+		cd.setSafetyFactor01(this.safetyFactor.getSafetyFactorCombo01().getValue());
+		cd.setSafetyFactor10(this.safetyFactor.getSafetyFactorCombo10().getValue());
+		cd.setSafetyFactor11(this.safetyFactor.getSafetyFactorCombo11().getValue());
+		
+		//SETTED TIMESTAMP
+		cd.setTimestamp(this.instrumentsData.getTimestamp());
+		
+		
+		
+		this.calculatedData.add(cd);		
 	}
 	
 	
@@ -679,7 +791,7 @@ public class CalculationsController implements Runnable {
 	 */
 	private void WriteOnDB()
 	{
-		// TO-DO
+		// TODO
 	}
 	
 	
