@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class CalculatedData {
 	
+	private long calulcatedDataID;
 	private float windSpeed;
 	private float windDirection;
 	private float windSpeedMax;
@@ -65,6 +66,22 @@ public class CalculatedData {
 		this.waterSpeed = waterSpeed;
 		this.waterFlowRate = waterFlowRate;
 		this.timestamp = timestamp;
+	}
+
+	/**
+	 * @return the calulcatedData ID
+	 */
+	public long getCalulcatedDataID()
+	{
+		return calulcatedDataID;
+	}
+
+	/**
+	 * @param calulcatedDataID the calulcatedData ID to set
+	 */
+	public void setCalulcatedDataID(long calulcatedDataID)
+	{
+		this.calulcatedDataID = calulcatedDataID;
 	}
 
 	/**
