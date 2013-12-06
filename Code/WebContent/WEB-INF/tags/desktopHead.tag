@@ -4,6 +4,9 @@
 <head>
 	<script type="text/javascript" src="JS/bridgemonitoring.js"></script>
 	<script type="text/javascript" src="JS/Chart.js"></script>
+	<script type="text/javascript" src="JS/amCharts/amcharts.js"></script>
+		<script type="text/javascript" src="JS/amCharts/serial.js"></script>
+	
 	<link rel="stylesheet" type="text/css" href="CSS/desktop_test.css">
 	<jsp:invoke fragment="headerExtension" />	
 </head>
