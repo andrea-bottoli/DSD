@@ -2,6 +2,7 @@ package dsd.view;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -25,10 +26,12 @@ public class CurrentStateView extends HttpServlet {
 			throws ServletException, IOException {
 		
 		Calendar calStart = Calendar.getInstance();
-		calStart.set(2011, 2, 22, 15, 56, 0);//2011-03-22 15:56:00
+		calStart.set(2011, 2, 22, 16, 46, 0);//2011-03-22 15:56:00
 		
 		Calendar calEnd = Calendar.getInstance();
-		calEnd.set(2011, 2, 22, 15, 56, 30);//2011-03-22 16:08:04
+		calEnd.set(2011, 2, 22, 16, 56, 30);//2011-03-22 16:08:04
+		
+		
 		
 		List<RawData> rawDataList = RawDataController.GetAllForPeriod(calStart, calEnd);
 		
@@ -43,12 +46,12 @@ public class CurrentStateView extends HttpServlet {
             
             for(int i =0; i< rawDataList.size(); i++ ){
             	
-            	listOfTimeStamps.put(rawDataList.get(i).getTimestampDate().toString());
+            	listOfTimeStamps.put(rawDataList.get(i).getTimestampDate().getTime());
             	listOfWindSpeed.put(rawDataList.get(i).getWindSpeed()); //TODO: put the real wind speed values 
             	listOfSonarValues.put(rawDataList.get(i).getSonar());
             	listOfHydrometerValues.put(rawDataList.get(i).getHydrometer());
             }
-            
+           
             obj.put("Dates", listOfTimeStamps);
             obj.put("ValuesOfWindSpeed", listOfWindSpeed);
             obj.put("ValuesOfSonar", listOfSonarValues);
