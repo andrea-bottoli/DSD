@@ -25,7 +25,7 @@
 		</div>
 	
 		<div class="button">
-			<span><a href="#">History Diagrams</a></span>
+			<span><a href="HistoryView">History Diagrams</a></span>
 		</div>
 	<!-- 	
 		<div class="button">
