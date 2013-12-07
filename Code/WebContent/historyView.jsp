@@ -2,11 +2,80 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <!DOCTYPE html>
 
+
+
 <t:desktopPage>
+
+	 
+<link rel="stylesheet" type="text/css" href="JS/calendarTextField/tcal.css" />
+<script type="text/javascript" src="JS/calendarTextField/tcal.js"></script>
+			
 <body>
 Welcome to the history view! :)
 	
-		<div id="chartdiv" style="width: 640 px; height: 400px;"></div>
+	<div class="dateRange">
+		<form name="dateRange" action="#" method="get">
+			Start date: 
+			<input type="text" name="startDate" class="tcal" value="" />
+			End date: 
+			<input type="text" name="endDate" class="tcal" value="" />
+			<input type="submit" value="Show">
+		</form>
+	</div>
+	
+	<div class="specificDate">
+		<form name="specificDate" action="#" method="get">
+			Specific date: 
+			<input type="text" name="specificDate" class="tcal" value="" />
+			<input type="submit" value="Show">
+		</form>
+	</div>
+	
+	<div class="specificMonth">
+		<form name="specificMonth" action="#" method="get">
+			Specific month: 
+			<select>
+	  			<option value="January">January</option>
+	  			<option value="February">February</option>
+	  			<option value="March">March</option>
+	 			<option value="April">April</option>
+	 			<option value="May">May</option>
+	  			<option value="June">June</option>
+	  			<option value="July">July</option>
+	 			<option value="August">August</option>
+	 			<option value="September">September</option>
+	  			<option value="October">October</option>
+	  			<option value="November">November</option>
+	 			<option value="December">December</option>
+			</select>
+			<select name="day" >
+				 <option value="2011">2011</option>
+	  			<option value="2012">2012</option>
+			</select>
+			<input type="submit" value="Show">
+		</form>
+	</div>
+	
+	<script type="text/javascript">
+	/* will read the years...
+		function populateList() {
+		for(var i=1; i<=31; i++){
+		    document.specificMonth.day.options[i-1]=new Option(i, i);
+		    }
+		}
+		
+		window.onload=populateList;
+		*/
+	</script>
+	
+	<div class="specificDate">
+		<form name="specificDate" action="#" method="get">
+			Current month till now 
+			<input type="submit" value="Show">
+		</form>
+	</div>
+	
+	<div id="chartdiv" style="width: 600 px; height: 400px;"></div>
 		
 		<script type="text/javascript">
 		var chart;
@@ -19,6 +88,7 @@ Welcome to the history view! :)
 		    
 		    // SERIAL CHART    
 		    chart = new AmCharts.AmSerialChart();
+		    chart.dataDateFormat = "YYYY-MM-DD hh:mm:ss";
 		    chart.pathToImages = "http://www.amcharts.com/lib/3/images/";
 		    chart.dataProvider = chartData;
 		    chart.categoryField = "date";
@@ -30,7 +100,7 @@ Welcome to the history view! :)
 		    // category
 		    var categoryAxis = chart.categoryAxis;
 		    categoryAxis.parseDates = true; // as our data is date-based, we set parseDates to true
-		    categoryAxis.minPeriod = "DD"; // our data is daily, so we set minPeriod to DD
+		    categoryAxis.minPeriod = "ss"; // our data is daily, so we set minPeriod to DD
 		    categoryAxis.dashLength = 1;
 		    categoryAxis.gridAlpha = 0.15;
 		    categoryAxis.minorGridEnabled = true;
@@ -76,8 +146,24 @@ Welcome to the history view! :)
 
 		// generate some random data, quite different range
 		function generateChartData() {
-		    var firstDate = new Date();
-		    firstDate.setDate(firstDate.getDate() - 500);
+		 		    
+		    var list = eval('(' + '${rawDataList}' + ')');
+
+			var array = list.Dates;
+			var dataSet = list.ValuesOfWindSpeed;
+			
+			for (var i = 0; i < array.length; i++) {
+				var newDate = new Date(array[i]);
+				
+		        chartData.push({
+		            date: newDate,
+		            visits: dataSet[i]
+		        });
+			}
+		}
+		/*
+		// generate some random data, quite different range
+		function generateChartData() {
 		    
 		    for (var i = 0; i < 500; i++) {
 		        // we create date objects here. In your data, you can have date strings 
@@ -95,6 +181,8 @@ Welcome to the history view! :)
 		    }
 		}
 
+		*/
+
 		// this method is called when chart is first inited as we listen for "dataUpdated" event
 		function zoomChart() {
 		    // different zoom methods can be used - zoomToIndexes, zoomToDates, zoomToCategoryValues
@@ -111,9 +199,10 @@ Welcome to the history view! :)
 		        chartCursor.pan = true;
 		    }
 		    chart.validateNow();
-		}  
+		}   
 		
 		</script>
+
 		
 
 </body>

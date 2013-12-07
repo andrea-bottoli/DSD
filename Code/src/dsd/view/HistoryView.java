@@ -1,6 +1,8 @@
 package dsd.view;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
@@ -37,15 +39,36 @@ public class HistoryView extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+		List<RawData> rawDataList = null;
 		Calendar calStart = Calendar.getInstance();
-		calStart.set(2011, 2, 22, 15, 56, 0);//2011-03-22 15:56:00
-		
 		Calendar calEnd = Calendar.getInstance();
-		calEnd.set(2011, 2, 22, 15, 56, 30);//2011-03-22 16:08:04
 		
-		List<RawData> rawDataList = RawDataController.GetAllForPeriod(calStart, calEnd);
+		String startDate = request.getParameter("startDate");
+		String endDate = request.getParameter("endDate");
+	//	System.out.print(startDate);
+		if (startDate != null && endDate != null){
+			
+		calStart.set(Calendar.YEAR, Integer.parseInt(startDate.substring(6,10)));
+		calStart.set(Calendar.MONTH, Integer.parseInt(startDate.substring(0,2)));
+		calStart.set(Calendar.DAY_OF_MONTH, Integer.parseInt(startDate.substring(3,5)));
+		 
+		 calEnd.set(Calendar.YEAR, Integer.parseInt(endDate.substring(6,10)));
+		 calEnd.set(Calendar.MONTH, Integer.parseInt(endDate.substring(0,2)));
+		 calEnd.set(Calendar.DAY_OF_MONTH, Integer.parseInt(endDate.substring(3,5)));
+		 
+		rawDataList = RawDataController.GetAllForPeriod(calStart, calEnd);
+		   
+		} else {
+		   
+			
+			calStart.set(2011, 2, 22, 16, 00, 0);//2011-03-22 15:00:00
+			
+			
+			calEnd.set(2011, 2, 22, 16, 56, 30);//2011-03-22 16:00:30
 		
+			
+			rawDataList = RawDataController.GetAllForPeriod(calStart, calEnd);
+		}
 		JSONObject obj = null;
         try {
 
@@ -57,8 +80,8 @@ public class HistoryView extends HttpServlet {
             
             for(int i =0; i< rawDataList.size(); i++ ){
             	
-            	listOfTimeStamps.put(rawDataList.get(i).getTimestampDate().toString());
-            	listOfWindSpeed.put(rawDataList.get(i).getWindSpeed()); //TODO: put the real wind speed values 
+            	listOfTimeStamps.put(rawDataList.get(i).getTimestampDate().getTime());
+            	listOfWindSpeed.put(rawDataList.get(i).getWindSpeed()); 
             	listOfSonarValues.put(rawDataList.get(i).getSonar());
             	listOfHydrometerValues.put(rawDataList.get(i).getHydrometer());
             }
@@ -67,8 +90,6 @@ public class HistoryView extends HttpServlet {
             obj.put("ValuesOfWindSpeed", listOfWindSpeed);
             obj.put("ValuesOfSonar", listOfSonarValues);
             obj.put("ValuesOfHydrometer", listOfHydrometerValues);
-
-            obj.put("key", "Dzana");
             
         } catch (Exception e) {
             e.printStackTrace();
