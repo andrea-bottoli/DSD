@@ -121,6 +121,12 @@ padding: 200px 20px 130px;
 	
 }
 
+.GraphChart{
+	width: 600 px;
+	height: 400px;
+	
+}
+
 .sensorPics{
 	width:400px;
 	margin-left: 100px;
@@ -132,10 +138,22 @@ padding: 200px 20px 130px;
 	margin-top: 10px;	
 }
 
-.graph{
+.graphleft{
 	margin-top: 10px;
 
+	max-width: 600px;
+	width: 540 px;
+	height: 400px;
 	}
+	
+.graphright{
+	margin-top: 10px;
+	
+	max-width: 600px;
+	width: 540 px;
+	height: 400px;
+	}
+	
 
 /* -----------footer--------------------------- */
 

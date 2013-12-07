@@ -101,19 +101,6 @@ img.header {
 	padding: 30px;
 }
 
-#windSpeedGraph 
-{
-	float:left;
-	width: 33%;
-}
-
-#sonarGraph 
-{
-	float:left;
-	width:33%;
-}
-
-
 .button a:HOVER {
 	background-color: #22BB55;
 	font-weight: bold; 
