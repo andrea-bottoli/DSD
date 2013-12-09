@@ -407,7 +407,7 @@ public class MathEngine {
 	 * @param l2: distance between inferior beam and the joint.
 	 * @return The contribution of Ty force at the Axial load N on a single pylon
 	 */
-	public static double ForceNcontributionTy(float ty, float d, float h1, float l2) {
+	public static float ForceNcontributionTy(float ty, float d, float h1, float l2) {
 		double contributionTy;
 		
 		contributionTy = PylonForcesFormulas.ForceNcontributionTy((double)ty, (double)d, (double)h1, (double)l2);
