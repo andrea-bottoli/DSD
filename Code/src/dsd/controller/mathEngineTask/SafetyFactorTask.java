@@ -1,7 +1,7 @@
 package dsd.controller.mathEngineTask;
 
+import dsd.model.WorstCase;
 import dsd.model.calculation.SafetyFactor;
-import dsd.model.calculation.WorstCase;
 import dsd.model.calculation.WorstPylonCase;
 
 public class SafetyFactorTask implements Runnable{
