@@ -38,7 +38,7 @@ public class AlgebraicFunctions {
 	 * @param c the known term
 	 * @return the list of three roots of the 1rd degree function
 	 */
-	protected static Double rootsOfCanonical1rdDegreeFunction(double a, double b, double c)
+	public static Double rootsOfCanonical1rdDegreeFunction(double a, double b, double c)
 	{	
 		if(a == 0){
 			return rootsOf1rdDegreeFunction(b, c);
@@ -63,7 +63,7 @@ public class AlgebraicFunctions {
 	 * @param q the coefficient of the term of degree 0
 	 * @return the list of three roots of the 1rd degree function
 	 */
-	protected static Double rootsOf1rdDegreeFunction(double m, double q)
+	public static Double rootsOf1rdDegreeFunction(double m, double q)
 	{
 		Double root = new Double();
 		
@@ -100,7 +100,7 @@ public class AlgebraicFunctions {
 	 * @param c the coefficient of the term of degree 0
 	 * @return the list of three roots of the 2rd degree function
 	 */
-	protected static List<Double> rootsOf2rdDegreeFunction(double a, double b, double c)
+	public static List<Double> rootsOf2rdDegreeFunction(double a, double b, double c)
 	{
 		ArrayList<Double> rootsList = new ArrayList<Double>();
 		Double r = new Double();
@@ -215,7 +215,7 @@ public class AlgebraicFunctions {
 	 * @param d the coefficient of the term of degree 0
 	 * @return the list of three roots of the 3rd degree function
 	 */
-	protected static List<Double> rootsOf3rdDegreeFunction(double a, double b, double c, double d)
+	public static List<Double> rootsOf3rdDegreeFunction(double a, double b, double c, double d)
 	{
 		ArrayList<Double> rootsList = new ArrayList<Double>();
 		double determ, term1, term2;
@@ -385,11 +385,9 @@ public class AlgebraicFunctions {
 	
 	
 	
-	
-	
-	
-	
-	
+	/*
+	 * EVALUATION OF A FUNCTION IN A GIVEN INPUT POINT
+	 */	
 	/**
 	 * @param a coefficient of term of degree 3
 	 * @param b coefficient of term of degree 2
@@ -398,7 +396,7 @@ public class AlgebraicFunctions {
 	 * @param x value of x to be evaluated
 	 * @return the value of the function for the x value
 	 */
-	protected static double get3rdDegreePolynomialFunctionValue(double a, double b, double c, double d, double x)
+	public static double get3rdDegreePolynomialFunctionValue(double a, double b, double c, double d, double x)
 	{
 		if(a == 0){
 			/*
@@ -419,7 +417,7 @@ public class AlgebraicFunctions {
 	 * @param x value of x to be evaluated
 	 * @return the value of the function for the x value
 	 */
-	protected static double get2ndDegreePolynomialFunctionValue(double a, double b, double c, double x)
+	public static double get2ndDegreePolynomialFunctionValue(double a, double b, double c, double x)
 	{
 		if(a == 0){
 			/*
@@ -438,7 +436,7 @@ public class AlgebraicFunctions {
 	 * @param x value of x to be evaluated
 	 * @return the value of the function for the x value
 	 */
-	protected static double get1stDegreePolynomialFunctionValue(double m, double q, double x)
+	public static double get1stDegreePolynomialFunctionValue(double m, double q, double x)
 	{
 		return (m*x + q);
 	}
@@ -449,7 +447,7 @@ public class AlgebraicFunctions {
 	 * @param p2 second point
 	 * @return the distance between the two points in one dimension
 	 */
-	protected static double getDistanceBetweenTwo1DPoints(double p1, double p2){
+	public static double getDistanceBetweenTwo1DPoints(double p1, double p2){
 		return (Math.abs(p1-p2));
 	}
 	
@@ -459,7 +457,7 @@ public class AlgebraicFunctions {
 	 * @param p2 second point
 	 * @return the distance between the two points in two dimensions
 	 */
-	protected static double getDistanceBetweenTwo2DPoints(Double p1, Double p2){
+	public static double getDistanceBetweenTwo2DPoints(Double p1, Double p2){
 		return (Math.sqrt(Math.pow(getDistanceBetweenTwo1DPoints(p1.getX(),p2.getX()), 2) + Math.pow(getDistanceBetweenTwo1DPoints(p1.getY(),p2.getY()), 2)));
 	}
 }

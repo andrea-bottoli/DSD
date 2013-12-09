@@ -79,14 +79,22 @@ public class PlankWaterForcesTask implements Runnable{
 		}
 		plankForces.setHs(lHs);
 		
-		lBs = ParametersController.getParameter(eParameter.DistanceBetweenTwoLineOfPylon).getValue();
+		/*
+		 * D = 0;
+		 * Bs = 2*Dpylon
+		 */
+		lBs = 2*ParametersController.getParameter(eParameter.DiameterOfThePylon).getValue();
 		plankForces.setBsWithOutDebris(lBs);
 		lAs = lBs*lHs;
 		lSwater = MathEngine.HydrodynamicThrustWithOutDebris(ParametersController.getParameter(eParameter.DragPlankingCoefficientDequals0).getValue(),
 																ParametersController.getParameter(eParameter.WaterDensity).getValue(), lAs, lWaterSpeed);
 		plankForces.setHydrodynamicThrustWithOutDebris(lSwater);
 		
-		lBs = 2*ParametersController.getParameter(eParameter.DiameterOfThePylon).getValue();
+		/*
+		 * D = 1;
+		 * Bs = Cspan
+		 */
+		lBs = ParametersController.getParameter(eParameter.DistanceBetweenTwoLineOfPylon).getValue();
 		plankForces.setBsWithDebris(lBs);
 		lAs = lBs*lHs;
 		lSwater = MathEngine.HydrodynamicThrustWithDebris(ParametersController.getParameter(eParameter.DragPlankingCoefficientDequals1).getValue(),

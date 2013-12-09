@@ -577,7 +577,7 @@ public class MathEngine {
 	 * @param d the coefficient of the term of degree 0
 	 * @return the list of three roots of the 3rd degree function
 	 */
-	private static List<Double> rootsOf3rdDegreeFunction(double a, double b, double c, double d)
+	public static List<Double> rootsOf3rdDegreeFunction(double a, double b, double c, double d)
 	{
 		return AlgebraicFunctions.rootsOf3rdDegreeFunction(a, b, c, d);
 	}
@@ -596,7 +596,7 @@ public class MathEngine {
 	 * @param d known term
 	 * @return the list of three roots of the 3rd degree function
 	 */
-	private static List<Double> realRootsOf3rdDegreeFunction(double a, double b, double c, double d)
+	public static List<Double> realRootsOf3rdDegreeFunction(double a, double b, double c, double d)
 	{
 		ArrayList<Double> rootsList = new ArrayList<Double>();
 		
