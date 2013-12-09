@@ -49,13 +49,14 @@ public class HistoryView extends HttpServlet {
 		if (startDate != null && endDate != null){
 			
 		calStart.set(Calendar.YEAR, Integer.parseInt(startDate.substring(6,10)));
-		calStart.set(Calendar.MONTH, Integer.parseInt(startDate.substring(0,2)));
+		calStart.set(Calendar.MONTH, Integer.parseInt(startDate.substring(0,2))-1);
 		calStart.set(Calendar.DAY_OF_MONTH, Integer.parseInt(startDate.substring(3,5)));
 		 
 		 calEnd.set(Calendar.YEAR, Integer.parseInt(endDate.substring(6,10)));
-		 calEnd.set(Calendar.MONTH, Integer.parseInt(endDate.substring(0,2)));
+		 calEnd.set(Calendar.MONTH, Integer.parseInt(endDate.substring(0,2))-1);
 		 calEnd.set(Calendar.DAY_OF_MONTH, Integer.parseInt(endDate.substring(3,5)));
-		 
+		 System.out.println(calStart);
+		 System.out.println(calEnd);
 		rawDataList = RawDataController.GetAllForPeriod(calStart, calEnd);
 		   
 		} else {
