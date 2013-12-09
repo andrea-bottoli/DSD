@@ -65,7 +65,7 @@ public class InputConversion {
 	 * @param waterDistanceToBeConverted: the distance between the hydrometer and water in [mmA]
 	 * @return The distance between hydrometer and water in [m]
 	 */
-	private static double waterDistanceConversion(double waterDistanceToBeConverted)
+	public static double waterDistanceConversion(double waterDistanceToBeConverted)
 	{
 		double waterDistance = 0;
 		waterDistance = 20 + (((waterDistanceToBeConverted * 1000) - 4) * (-1.25));
