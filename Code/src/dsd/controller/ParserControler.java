@@ -40,16 +40,10 @@ public class ParserControler
 	public static final String pathSonar = "03. Ecoscandaglio\\";
 	public static final String pathAnalog = "04. Ane_Idro\\";
 
-	public static final List<String> listDirs2 = new ArrayList<String>(Arrays.asList(/*
-																					 *pathAnalog
-																					 * ,
-																					 */ pathMantova
-																					  ,
-																					  pathModena
-																					  /*,
-																					 pathSonar*/));
-	public static final List<String> listDirs = new ArrayList<String>(Arrays.asList(path2011// ,
-																							// path2012
+	public static final List<String> listDirs2 = new ArrayList<String>(Arrays.asList(pathAnalog, pathMantova,
+			pathModena, pathSonar));
+	public static final List<String> listDirs = new ArrayList<String>(Arrays.asList(/*path2011 ,*/
+																							 path2012
 			/*
 			 * , path2013 , path2014
 			 */));
@@ -199,7 +193,10 @@ public class ParserControler
 							.getTimestamp()))
 						rawDataList.add(data);
 					else
-						System.out.println(String.format("Touple on line: %s skipped because of same timestamp as the previous touple\n", lineCounter));
+						System.out
+								.println(String
+										.format("Touple on line: %s skipped because of same timestamp as the previous touple\n",
+												lineCounter));
 					timestampIsLastReadLine = true;
 					data = new RawData();
 				}
@@ -356,12 +353,14 @@ public class ParserControler
 				data.setWindDirection((float) windDirection);
 				data.setHydrometer((float) hydrometer);
 				data.setTimestamp(TimeCalculations.LabViewTimestampGregToMiliSeconds(timestamp));
-				
+
 				if (!(rawDataList.size() > 0 && rawDataList.get(rawDataList.size() - 1).getTimestamp() == data
 						.getTimestamp()))
 					rawDataList.add(data);
 				else
-					System.out.println(String.format("Touple on line: %s skipped because of same timestamp as the previous touple\n", lineCounter));
+					System.out.println(String.format(
+							"Touple on line: %s skipped because of same timestamp as the previous touple\n",
+							lineCounter));
 			}
 			return true;
 		}

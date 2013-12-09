@@ -74,12 +74,13 @@ public class DAOProvider
 					table, (where.trim().equals("") ? "" : "where " + where), (order.trim().equals("")
 							? ""
 							: "order by " + order)));
-
-			for (int i = 0; i < parameters.length; i++)
+			if (parameters != null)
 			{
-				SetParameter(command, parameters[i], i + 1);
+				for (int i = 0; i < parameters.length; i++)
+				{
+					SetParameter(command, parameters[i], i + 1);
+				}
 			}
-
 			resultSet = command.executeQuery();
 		}
 		catch (Exception ex)
@@ -259,8 +260,7 @@ public class DAOProvider
 		}
 		return 0;
 	}
-	
-	
+
 	public static int UpdateRowsSecure(String table, String[] fields, Connection con, Object[][] valueArray)
 			throws SQLException
 	{
@@ -284,7 +284,8 @@ public class DAOProvider
 					rows += " , ";
 			}
 			String set = "";
-			// index starts from 1 cause index 0 should be ID column and this doesn't goes into "on duplicate key update" 
+			// index starts from 1 cause index 0 should be ID column and this
+			// doesn't goes into "on duplicate key update"
 			for (int i = 1; i < fields.length; i++)
 			{
 				set += fields[i] + " = values (" + fields[i] + ")";
@@ -293,8 +294,9 @@ public class DAOProvider
 			}
 			String onDuplicateKey = "on duplicate key update " + set;
 
-			PreparedStatement command = con.prepareStatement(String.format("insert into %s (%s) values %s %s",
-					table, StringUtils.join(fields, ','), rows, onDuplicateKey));
+			PreparedStatement command = con.prepareStatement(String.format(
+					"insert into %s (%s) values %s %s", table, StringUtils.join(fields, ','), rows,
+					onDuplicateKey));
 
 			for (int i = 0; i < valueArray.length; i++)
 			{

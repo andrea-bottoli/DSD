@@ -1,11 +1,11 @@
 package dsd.model.enums;
 
-public enum eDataType
+public enum eCalculatedDataType
 {
 	TenMinutes(1), OneHour(2), OneDay(3);
 
 	private int code;
-	private eDataType(int c)
+	private eCalculatedDataType(int c)
 	{
 		code = c;
 	}
