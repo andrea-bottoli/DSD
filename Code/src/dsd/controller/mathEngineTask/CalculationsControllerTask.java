@@ -24,7 +24,7 @@ import dsd.model.calculation.PylonCombination;
 import dsd.model.calculation.PylonForces;
 import dsd.model.calculation.SafetyFactor;
 import dsd.model.calculation.WorstPylonCase;
-import dsd.model.enums.eDataType;
+import dsd.model.enums.eCalculatedDataType;
 
 public class CalculationsControllerTask implements Runnable{
 
@@ -63,7 +63,7 @@ public class CalculationsControllerTask implements Runnable{
 	private int sampleSize;
 	
 	//Varaible that represent the type of data that have to be calculate
-	private eDataType dataType;
+	private eCalculatedDataType dataType;
 	
 	/*
 	 * Variable that tracks the timestamps to know till where the system
@@ -73,7 +73,7 @@ public class CalculationsControllerTask implements Runnable{
 
 	
 	//Constructor
-	public CalculationsControllerTask(CalculationsController calculationsController, eDataType dataType, long flag)
+	public CalculationsControllerTask(CalculationsController calculationsController, eCalculatedDataType dataType, long flag)
 	{
 		this.calculationsController = calculationsController;
 		this.sampleSize = 0;

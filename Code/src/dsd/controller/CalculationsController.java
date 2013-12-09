@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 import dsd.controller.mathEngineTask.CalculationsControllerTask;
 import dsd.model.CalculatedData;
 import dsd.model.WorstCase;
-import dsd.model.enums.eDataType;
+import dsd.model.enums.eCalculatedDataType;
 
 public class CalculationsController implements Runnable {
 	
@@ -29,6 +29,7 @@ public class CalculationsController implements Runnable {
 	private ArrayList<CalculatedData> resultsList1hour = null;
 	private ArrayList<CalculatedData> resultsList1day = null;
 	
+	@SuppressWarnings("unused")
 	private ArrayList<WorstCase> worstCaseList = null;
 	
 	//Constructor
@@ -69,11 +70,11 @@ public class CalculationsController implements Runnable {
 				pool = Executors.newFixedThreadPool(3);
 				
 				//10min calculation task
-				pool.submit(new CalculationsControllerTask(this, eDataType.TenMinutes ,this.last10minTimestamp));
+				pool.submit(new CalculationsControllerTask(this, eCalculatedDataType.TenMinutes ,this.last10minTimestamp));
 				//10min calculation task
-				pool.submit(new CalculationsControllerTask(this, eDataType.OneHour ,this.last1hourTimestamp));
+				pool.submit(new CalculationsControllerTask(this, eCalculatedDataType.OneHour ,this.last1hourTimestamp));
 				//10min calculation task
-				pool.submit(new CalculationsControllerTask(this, eDataType.OneDay ,this.last1dayTimestamp));
+				pool.submit(new CalculationsControllerTask(this, eCalculatedDataType.OneDay ,this.last1dayTimestamp));
 				
 				pool.shutdown();
 				
@@ -94,7 +95,7 @@ public class CalculationsController implements Runnable {
 	/**
 	 * Store the results of calculations
 	 */
-	public void StoreResults(ArrayList<CalculatedData> resultsList, ArrayList<WorstCase> worstCaseList, eDataType dataType)
+	public void StoreResults(ArrayList<CalculatedData> resultsList, ArrayList<WorstCase> worstCaseList, eCalculatedDataType dataType)
 	{
 		switch (dataType)
 		{
@@ -115,12 +116,12 @@ public class CalculationsController implements Runnable {
 	
 	private void WriteOnDB()
 	{
-		CalculatedDataController.InsertCalculatedData(this.resultsList10min, eDataType.TenMinutes);
+		CalculatedDataController.InsertCalculatedData(this.resultsList10min, eCalculatedDataType.TenMinutes);
 		/*
 		 * TODO storing of worst case list
 		 */
-		CalculatedDataController.InsertCalculatedData(this.resultsList1hour, eDataType.OneHour);
-		CalculatedDataController.InsertCalculatedData(this.resultsList1day, eDataType.OneDay);
+		CalculatedDataController.InsertCalculatedData(this.resultsList1hour, eCalculatedDataType.OneHour);
+		CalculatedDataController.InsertCalculatedData(this.resultsList1day, eCalculatedDataType.OneDay);
 	}
 
 	

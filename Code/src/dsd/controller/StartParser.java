@@ -18,7 +18,7 @@ public class StartParser
 	private static GregorianCalendar imageCalendar = new GregorianCalendar(1800, 01, 01);
 	private static boolean calculations = Boolean.FALSE;
 	private static boolean exit = Boolean.FALSE;
-	private static CalculationsController calculationController = new CalculationsController();
+	private static CalculationsController calculationController = null;
 
 	public static void CheckAndStart()
 	{

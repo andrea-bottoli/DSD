@@ -66,6 +66,7 @@ public class UserAccessDAO {
 
 	}
 
+	@SuppressWarnings("unused")
 	public static boolean checkPassword(String username, String password) {
 		String cryptedPassword = CryptFunktions.MD5(password);
 		Object[] param = { username };
