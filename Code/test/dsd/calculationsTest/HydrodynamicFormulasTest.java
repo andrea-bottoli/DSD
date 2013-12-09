@@ -1,4 +1,6 @@
-package dsd.calculations;
+package dsd.calculationsTest;
+
+import dsd.calculations.HydrodynamicFormulas;
 
 import static org.junit.Assert.*;
 

@@ -26,7 +26,7 @@ public class HydrodynamicFormulas {
 	 * @param c: parameters to calculate water flow rate
 	 * @return The water flow rate
 	 */
-	protected static double FlowRate(double a, double Idro1, double b, double c) {
+	public static double FlowRate(double a, double Idro1, double b, double c) {
 
 		double Q = 0;
 		
@@ -54,7 +54,7 @@ public class HydrodynamicFormulas {
 	 * @param c: parameters to calculate water speed
 	 * @return The water speed
 	 */
-	protected static double WaterSpeed(double aA, double aIdro1, double aB, double aC) {
+	public static double WaterSpeed(double aA, double aIdro1, double aB, double aC) {
 
 		double Vwater = 0;
 		
@@ -80,7 +80,7 @@ public class HydrodynamicFormulas {
 	 * @param Hs: stack height under water
 	 * @return The stack area on which the water can push
 	 */
-	protected static double StackArea(double Bs, double Hs) {
+	public static double StackArea(double Bs, double Hs) {
 
 		double StackArea = 0;
 		
@@ -110,7 +110,7 @@ public class HydrodynamicFormulas {
 	 * @param Vwater: water speed
 	 * @return The value of the force of water push
 	 */
-	protected static double HysrodynamicThrust(double Cd, double RhoWater, double As, double BetaA, double Vwater) {
+	public static double HysrodynamicThrust(double Cd, double RhoWater, double As, double BetaA, double Vwater) {
 
 		double Swater = 0;
 		
