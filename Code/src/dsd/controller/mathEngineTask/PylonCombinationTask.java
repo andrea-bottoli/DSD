@@ -162,7 +162,7 @@ public class PylonCombinationTask implements Runnable {
 		 * ##	Ty	##
 		 * ###########
 		 */
-		x = (float)MathEngine.ForceNcontributionTy(c.getTy(), ParametersController.getParameter(eParameter.WidthOfTheChassis).getValue(),
+		x = MathEngine.ForceNcontributionTy(c.getTy(), ParametersController.getParameter(eParameter.WidthOfTheChassis).getValue(),
 											ParametersController.getParameter(eParameter.DistanceBetweenThePulvinoAndTheInferiorBeam).getValue(), this.l2);
 		
 		//Pylon1
