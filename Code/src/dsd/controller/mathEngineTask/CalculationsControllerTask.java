@@ -147,7 +147,7 @@ public class CalculationsControllerTask implements Runnable{
 			//clear the list that will contains the outputs
 			clearCalculatedDataList();
 			
-			//Loding parameters
+			//Loading parameters
 			LoadParameters();
 			
 			//start calculations
@@ -204,10 +204,11 @@ public class CalculationsControllerTask implements Runnable{
 					CalculateWorstCases();
 					CalculateSafetyFactor();
 					StoreCalculatedValues();
-					StoreResults();
 				}
 			}
 			while (globalIterator.hasNext());
+			
+			StoreResults();
 		}
 		catch (Exception e)
 		{
@@ -686,7 +687,7 @@ public class CalculationsControllerTask implements Runnable{
 	 */
 	private void StoreResults()
 	{
-		this.calculationsController.StoreResults(this.calculatedData, this.worstCaseList, this.dataType);
+		this.calculationsController.StoreResults(this.calculatedData, this.worstCaseList, this.lastTimestamp, this.dataType);
 	}
 	
 	

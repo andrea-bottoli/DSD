@@ -20,7 +20,22 @@ public class StartParser
 	private static boolean exit = Boolean.FALSE;
 	private static CalculationsController calculationController = new CalculationsController(0, 0, 0);
 
-
+	/**
+	 * This method allows to set the timestamps for the 10min data, 1hour data and 1day data
+	 * into the calculation controller main task.
+	 * 
+	 * @param timeStamp10min the timestamp for 10 minutes data
+	 * @param timeStamp1hour the timestamp for 1 hour data
+	 * @param timeStamp1day the timestamp for 1 day data
+	 */
+	public static void setTimeStamps(long timeStamp10min, long timeStamp1hour, long timeStamp1day)
+	{
+		calculationController.setTimeStamps(timeStamp10min, timeStamp1hour, timeStamp1day);
+	}
+	/**
+	 * This method Check if there are new files to be parsed, then start the parsing process and at the
+	 * end start the calculation process.
+	 */
 	public static void CheckAndStart()
 	{
 		System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
@@ -32,6 +47,9 @@ public class StartParser
 		System.out.println("survived to calculations");
 	}
 
+	/**
+	 * This method Check if there are new files to be parsed
+	 */
 	private static void checkForNewData()
 	{
 		try
@@ -54,8 +72,7 @@ public class StartParser
 
 				while ((i < Math.min(analogFileList.size(), sonarFileList.size())) && (exit != Boolean.TRUE))
 				{
-					System.out.println("\ti:" + i + "\nexit:" + exit + "\nmin: "
-							+ Math.min(analogFileList.size(), sonarFileList.size()));
+					System.out.println("\ti:" + i + "\nexit:" + exit + "\nmin: "+ Math.min(analogFileList.size(), sonarFileList.size()));
 					analogFileName = analogFileList.get(i).getName();
 					sonarFileName = sonarFileList.get(i).getName();
 
@@ -67,10 +84,8 @@ public class StartParser
 						analogFileToBeParsed.add(analogFileList.get(i));
 						sonarFileToBeParsed.add(sonarFileList.get(i));
 						i++;
-						analogCalendar = TimeCalculations.LabViewTimestampsToGregCalendar(Long
-								.parseLong(analogTimestamp));
-						sonarCalendar = TimeCalculations.LabViewTimestampsToGregCalendar(Long
-								.parseLong(sonarTimestamp));
+						analogCalendar = TimeCalculations.LabViewTimestampsToGregCalendar(Long.parseLong(analogTimestamp));
+						sonarCalendar = TimeCalculations.LabViewTimestampsToGregCalendar(Long.parseLong(sonarTimestamp));
 						calculations = Boolean.TRUE;
 						System.out.println("\tin if true    i:" + i);
 					}
@@ -97,7 +112,10 @@ public class StartParser
 			ex.printStackTrace();
 		}
 	}
-
+	
+	/**
+	 * This method start the parsing process
+	 */
 	private static void startParsing()
 	{
 
@@ -107,7 +125,10 @@ public class StartParser
 			ParserControler.ParseInputFile(sonarFileToBeParsed.get(i), eFileType.Sonar);
 		}
 	}
-
+	
+	/**
+	 * This method start the calculation process
+	 */
 	private static void startCalculations()
 	{
 		Thread thread;
