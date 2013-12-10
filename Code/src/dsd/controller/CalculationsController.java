@@ -17,6 +17,8 @@ public class CalculationsController implements Runnable {
 	/*
 	 * Variable that tracks the timestamps to know till where the system
 	 * has analyzed the data for each source
+	 * 
+	 * The timestamps are based on Date.Milliseconds()
 	 */
 	private long last10minTimestamp;
 	private long last1hourTimestamp;
@@ -134,6 +136,9 @@ public class CalculationsController implements Runnable {
 		}
 	}
 	
+	/**
+	 * This method store on the db the information for all the three grouped data tables
+	 */
 	private void WriteOnDB()
 	{
 		CalculatedDataController.InsertCalculatedData(this.resultsList10min, eCalculatedDataType.TenMinutes);

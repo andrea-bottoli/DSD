@@ -18,6 +18,21 @@
 	
 	<schedule>
 		<job>
+			<name>LoadFlagJob</name>
+			<description>This Job load flags form database</description>
+			<job-class>dsd.jobs.LoadFlagJob</job-class>
+		</job>
+		<trigger>
+			<simple>
+				<name>LoadFlagTrigger</name>
+				<job-name>LoadFlagJob</job-name>
+			</simple>
+		</trigger>
+	</schedule>
+	
+	
+	<schedule>
+		<job>
 			<name>ParserJob</name>
 			<description>This Job check/run the parser</description>
 			<job-class>dsd.jobs.ParserJob</job-class>
@@ -27,7 +42,7 @@
 				<name>ParserTrigger</name>
 				<job-name>ParserJob</job-name>
 				<repeat-count>-1</repeat-count> <!-- repeat indefinitely  -->
-				<repeat-interval>6000000</repeat-interval>  <!--  every 60 seconds -->
+				<repeat-interval>60000</repeat-interval>  <!--  every 60 seconds -->
 			</simple>
 		</trigger>
 	</schedule>

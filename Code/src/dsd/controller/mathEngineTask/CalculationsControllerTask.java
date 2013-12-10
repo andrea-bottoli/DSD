@@ -1,13 +1,13 @@
 package dsd.controller.mathEngineTask;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.ListIterator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import dsd.calculations.TimeCalculations;
 import dsd.controller.CalculationsController;
 import dsd.controller.ParametersController;
 import dsd.controller.RawDataController;
@@ -178,7 +178,7 @@ public class CalculationsControllerTask implements Runnable{
 			 * from last timestamp to the last data available
 			 */
 			
-			ReadRawData(this.lastTimestamp);
+			ReadRawData();
 			
 			do
 			{
@@ -244,9 +244,13 @@ public class CalculationsControllerTask implements Runnable{
 	 * for any time interval
 	 * @param lastRawDataTimestamp2 
 	 */
-	private void ReadRawData(long lastRawDataTimestamp)
+	private void ReadRawData()
 	{
-		this.rawData = RawDataController.GetAllForPeriod(TimeCalculations.LabViewTimestampsToGregCalendar(lastRawDataTimestamp), new GregorianCalendar());
+		GregorianCalendar startDate = new GregorianCalendar();
+		
+		startDate.setTime(new Date(this.lastTimestamp));
+		
+		this.rawData = RawDataController.GetAllForPeriod(startDate, new GregorianCalendar());
 	}
 	
 	/**
