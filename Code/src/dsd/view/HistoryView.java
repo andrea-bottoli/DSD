@@ -1,8 +1,6 @@
 package dsd.view;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
@@ -39,36 +37,34 @@ public class HistoryView extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		String errorMessage = "";
 		List<RawData> rawDataList = null;
 		Calendar calStart = Calendar.getInstance();
 		Calendar calEnd = Calendar.getInstance();
-		
-		String startDate = request.getParameter("startDate");
-		String endDate = request.getParameter("endDate");
-	//	System.out.print(startDate);
-		if (startDate != null && endDate != null){
+
+		if (request.getParameter("showRange") != null){
+			String startDate = request.getParameter("from");
+			String endDate = request.getParameter("to");
 			
-		calStart.set(Calendar.YEAR, Integer.parseInt(startDate.substring(6,10)));
-		calStart.set(Calendar.MONTH, Integer.parseInt(startDate.substring(0,2)));
-		calStart.set(Calendar.DAY_OF_MONTH, Integer.parseInt(startDate.substring(3,5)));
-		 
-		 calEnd.set(Calendar.YEAR, Integer.parseInt(endDate.substring(6,10)));
-		 calEnd.set(Calendar.MONTH, Integer.parseInt(endDate.substring(0,2)));
-		 calEnd.set(Calendar.DAY_OF_MONTH, Integer.parseInt(endDate.substring(3,5)));
-		 
-		rawDataList = RawDataController.GetAllForPeriod(calStart, calEnd);
+			calStart.set(Calendar.YEAR, Integer.parseInt(startDate.substring(6,10)));
+			calStart.set(Calendar.MONTH, Integer.parseInt(startDate.substring(0,2))-1);
+			calStart.set(Calendar.DAY_OF_MONTH, Integer.parseInt(startDate.substring(3,5)));
+			 
+			 calEnd.set(Calendar.YEAR, Integer.parseInt(endDate.substring(6,10)));
+			 calEnd.set(Calendar.MONTH, Integer.parseInt(endDate.substring(0,2))-1);
+			 calEnd.set(Calendar.DAY_OF_MONTH, Integer.parseInt(endDate.substring(3,5)));
+
 		   
 		} else {
-		   
-			
+		   	
 			calStart.set(2011, 2, 22, 16, 00, 0);//2011-03-22 15:00:00
 			
-			
 			calEnd.set(2011, 2, 22, 16, 56, 30);//2011-03-22 16:00:30
-		
 			
-			rawDataList = RawDataController.GetAllForPeriod(calStart, calEnd);
 		}
+
+		rawDataList = RawDataController.GetAllForPeriod(calStart, calEnd);
+		
 		JSONObject obj = null;
         try {
 
@@ -101,8 +97,6 @@ public class HistoryView extends HttpServlet {
 		
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/historyView.jsp");
 		dispatcher.forward(request, response);
-		
-		
 		
 	}
 

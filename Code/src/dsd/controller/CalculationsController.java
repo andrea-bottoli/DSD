@@ -1,478 +1,109 @@
 package dsd.controller;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.ListIterator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import dsd.calculations.TimeCalculations;
-import dsd.controller.mathEngineTask.*;
+import dsd.controller.mathEngineTask.CalculationsControllerTask;
 import dsd.model.CalculatedData;
-import dsd.model.Parameter;
-import dsd.model.RawData;
-import dsd.model.calculation.*;
+import dsd.model.WorstCase;
+import dsd.model.enums.eCalculatedDataType;
 
 public class CalculationsController implements Runnable {
 	
 	//Variables to be instantiated
 	
-	//Variables to store data into data base
-	private CalculatedDataController calculatedDataController = null;	// --> Has to be instanced or is a input ??
-	
-	//Variables from technical instruments
-	private InstrumentsData instrumentsData =null;
-	
-	//Variable for each kind of forces
-	private PlankForces plankForces = null;
-	private LineForcesMatrix mnLineMatrix = null;
-	private LineForcesMatrix moLineMatrix = null;
-	private LineForces mnLineForces = null;
-	private LineForces moLineForces = null;
-	private PylonForces mnPylonsForces = null;
-	private PylonForces moPylonsForces = null;
-	private SafetyFactor safetyFactor = null;
-	
-	private WorstCase worstCase00 = null;
-	private WorstCase worstCase01 = null;
-	private WorstCase worstCase10 = null;
-	private WorstCase worstCase11 = null;
-	
-	//Variable in which store the calculations results
-	private ArrayList<CalculatedData> calculatedData = null;
-	
-	//Variables to store grouped data after reading/loading from DB
-	private ArrayList<RawData> rawData = null;
-	
 	/*
 	 * Variable that tracks the timestamps to know till where the system
 	 * has analyzed the data for each source
+	 * 
+	 * The timestamps are based on Date.Milliseconds()
 	 */
 	private long last10minTimestamp;
 	private long last1hourTimestamp;
 	private long last1dayTimestamp;
-
+	
+	private long tempLast10minTimestamp;
+	private long tempLast1hourTimestamp;
+	private long tempLast1dayTimestamp;
+	
+	/*
+	 * Variables to store the results of calcualtions
+	 */
+	private ArrayList<CalculatedData> resultsList10min = null;
+	private ArrayList<CalculatedData> resultsList1hour = null;
+	private ArrayList<CalculatedData> resultsList1day = null;
+	
+	private ArrayList<WorstCase> worstCaseList = null;
 	
 	//Constructor
-	public CalculationsController()
+	public CalculationsController(long  last10minTimestamp, long last1hourTimestamp, long last1dayTimestamp)
 	{
-		this.last10minTimestamp = 0;
-		this.last1hourTimestamp = 0;
-		this.last1dayTimestamp = 0;		
-		this.calculatedData = new ArrayList<CalculatedData>();
-		this.instrumentsData = new InstrumentsData();
-		this.plankForces = new PlankForces();
-		this.mnLineMatrix = new LineForcesMatrix();
-		this.moLineMatrix = new LineForcesMatrix();
-		this.mnLineForces = new LineForces();
-		this.moLineForces = new LineForces();
-		this.mnPylonsForces = new PylonForces(mnLineForces, 0);
-		this.moPylonsForces = new PylonForces(moLineForces, 1);
-		this.safetyFactor = new SafetyFactor();
-		this.worstCase00 = new WorstCase(Boolean.FALSE, Boolean.FALSE);
-		this.worstCase01 = new WorstCase(Boolean.FALSE, Boolean.TRUE);
-		this.worstCase10 = new WorstCase(Boolean.TRUE, Boolean.FALSE);
-		this.worstCase11 = new WorstCase(Boolean.TRUE, Boolean.TRUE);
-		
+		this.setTimeStamps(last10minTimestamp, last1hourTimestamp, last1dayTimestamp);	
+				
 		ParametersController.IntializeCurrentParemeters();
 	}
 	
-	/*
-	 * ######################################################
-	 * ITS ONLY FOR DEBUGGING AND INTERNAL TEST
-	 * #####################################################
+	
+	/**
+	 * This method allows to set the timestamps for the 10min data, 1hour data and 1day data.
+	 * 
+	 * @param timeStamp10min the timestamp for 10 minutes data
+	 * @param timeStamp1hour the timestamp for 1 hour data
+	 * @param timeStamp1day the timestamp for 1 day data
 	 */
-	public CalculationsController(ArrayList<RawData> lista, ArrayList<Parameter> param)
+	public void setTimeStamps(long timeStamp10min, long timeStamp1hour, long timeStamp1day)
 	{
-		this.last10minTimestamp = 0;
-		this.last1hourTimestamp = 0;
-		this.last1dayTimestamp = 0;		
-		this.calculatedData = new ArrayList<CalculatedData>();
-		this.instrumentsData = new InstrumentsData();
-		this.plankForces = new PlankForces();
-		this.mnLineMatrix = new LineForcesMatrix();
-		this.moLineMatrix = new LineForcesMatrix();
-		this.mnLineForces = new LineForces();
-		this.moLineForces = new LineForces();
-		this.mnPylonsForces = new PylonForces(mnLineForces, 0);
-		this.moPylonsForces = new PylonForces(moLineForces, 1);
-		this.safetyFactor = new SafetyFactor();
-		this.worstCase00 = new WorstCase(Boolean.FALSE, Boolean.FALSE);
-		this.worstCase01 = new WorstCase(Boolean.FALSE, Boolean.TRUE);
-		this.worstCase10 = new WorstCase(Boolean.TRUE, Boolean.FALSE);
-		this.worstCase11 = new WorstCase(Boolean.TRUE, Boolean.TRUE);
-		
-//		ParametersController.IntializeCurrentParemeters();
-//		ParametersController.set(param);
-		this.rawData = lista;
+		this.last10minTimestamp = timeStamp10min;
+		this.last1hourTimestamp = timeStamp1hour;
+		this.last1dayTimestamp = timeStamp1day;
 	}
+	
+	
 	
 	@Override
 	public void run() {
-		StartCalculations();		
+		StartCalculations();
 	}
 	
 	
 	/**
-	 * This method starts the whole elaborations on all
-	 * the tables that represent the grouped data
-	 * (10min, 1hour, 1day)
-	 */
-	public void StartCalculations()
-	{
-		try
-		{
-			//clear the list that will contains the outputs
-			clearCalculatedDataList();
-			
-			//Loding parameters
-			LoadParameters();
-			
-			//start calculations
-			Calculate10mins();
-			Calculate1hour();
-			Calculate1day();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * This method manages all the elaborations to calculate the 10minuts
-	 * values from the RawData values.
-	 */
-	private void Calculate10mins()
-	{
-		//Local variables
-		int sizeSample = 600;
-		RawData	rd = null;
-		ArrayList<RawData> localRawData = new ArrayList<RawData>();
-		ListIterator<RawData> globalIterator = this.rawData.listIterator();
-		
-		try
-		{
-			
-			/*
-			 * Think about managing requests lack of time
-			 * from last timestamp to the last data available
-			 */
-			
-			ReadRawData(this.last10minTimestamp);
-			
-			do
-			{
-				localRawData.clear();
-				
-				for(int i = 0; i < sizeSample; i++)
-				{
-					rd = globalIterator.next();
-					localRawData.add(rd);
-				}
-				
-				if(checkSampleSize(localRawData,sizeSample))
-				{
-					this.last10minTimestamp = rd.getTimestamp();
-					this.instrumentsData.setTimestamp(this.last10minTimestamp);
-					/*
-					 * Start calculations for one line of the DB
-					 */
-					CalculateMeanValues(localRawData);
-					CalculatePlankForces();
-					CalculateLineForces();
-					CalculatePylonForces();
-					CalculateWorstCases();
-					CalculateSafetyFactor();
-					StoreCalculatedValues();
-					WriteOnDB();
-				}
-			}
-			while (globalIterator.hasNext());
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * This method manages all the elaborations to calculate the
-	 * 1hour values from the 10min values.
-	 */
-	private void Calculate1hour()
-	{
-		//Local variables
-		int sizeSample = 3600;
-		RawData	rd = null;
-		ArrayList<RawData> localRawData = new ArrayList<RawData>();
-		ListIterator<RawData> globalIterator = this.rawData.listIterator();
-		
-		try
-		{
-			
-			/*
-			 * Think about managing requests lack of time
-			 * from last timestamp to the last data available
-			 */
-			
-//			ReadRawData(this.last1hourTimestamp);
-			
-			/*
-			 * Remember to do the validation of input 
-			 * prepare the index for the cycles
-			 * and prepare the lists of data
-			 */
-			
-			do
-			{
-				localRawData.clear();
-				
-				for(int i = 0; i < sizeSample; i++)
-				{
-					rd = globalIterator.next();
-					localRawData.add(rd);
-				}
-				
-				if(checkSampleSize(localRawData,sizeSample))
-				{
-					this.last1hourTimestamp = rd.getTimestamp();
-					this.instrumentsData.setTimestamp(this.last1hourTimestamp);
-					/*
-					 * Start calculations for one line of the DB
-					 */
-					CalculateMeanValues(localRawData);
-					CalculatePlankForces();
-					CalculateLineForces();
-					CalculatePylonForces();
-					CalculateWorstCases();
-					CalculateSafetyFactor();
-					StoreCalculatedValues();
-					WriteOnDB();
-				}
-			}
-			while (globalIterator.hasNext());
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * This method manages all the elaborations to calculate the
-	 * 1day values from the 1hour values.
-	 */
-	private void Calculate1day()
-	{
-		//Local Variables
-		int sizeSample = 86400;
-		RawData	rd = null;
-		ArrayList<RawData> localRawData = new ArrayList<RawData>();
-		ListIterator<RawData> globalIterator = this.rawData.listIterator();
-		
-		try
-		{
-			
-			/*
-			 * Think about managing requests lack of time
-			 * from last timestamp to the last data available
-			 */
-			
-			ReadRawData(this.last1dayTimestamp);
-			
-			/*
-			 * Remember to do the validation of input 
-			 * prepare the index for the cycles
-			 * and prepare the lists of data
-			 */
-			
-			do
-			{
-				localRawData.clear();
-				
-				for(int i = 0; i < sizeSample; i++)
-				{
-					rd = globalIterator.next();
-					localRawData.add(rd);
-				}
-				
-				if(checkSampleSize(localRawData,sizeSample))
-				{
-					this.last1dayTimestamp = rd.getTimestamp();
-					this.instrumentsData.setTimestamp(this.last1dayTimestamp);
-					/*
-					 * Start calculations for one line of the DB
-					 */
-					CalculateMeanValues(localRawData);
-					CalculatePlankForces();
-					CalculateLineForces();
-					CalculatePylonForces();
-					CalculateWorstCases();
-					CalculateSafetyFactor();
-					StoreCalculatedValues();
-					WriteOnDB();
-				}
-			}
-			while (globalIterator.hasNext());
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	private boolean checkSampleSize(ArrayList<RawData> localRawData, int size)
-	{
-		if(localRawData.size()==size)
-		{
-			return true;
-		}else{
-			return false;
-		}
-	}
-	
-	/**
-	 * This method allows to read and load parameters
-	 */
-	private void LoadParameters()
-	{
-		ParametersController.IntializeCurrentParemeters();
-	}
-	
-	/**
-	 * This method allows to read and load the RawData
-	 * for any time interval
-	 * @param lastRawDataTimestamp2 
-	 */
-	private void ReadRawData(long lastRawDataTimestamp)
-	{
-		this.rawData = RawDataController.GetAllForPeriod(TimeCalculations.LabViewTimestampsToGregCalendar(lastRawDataTimestamp), new GregorianCalendar());
-	}
-	
-	/**
-	 * @param localRawData: is the list of value on which has to be performed the operation to calculate the mean values.
-	 * @param size: size of the list of data
+	 * This method start the threads in charge to calculate in parallel
+	 * the values of 10min, 1hour and 1day.
 	 * 
-	 * This method calculates the mean values of the specific attributes
-	 * ANE1, ANE2, ANE3, ANE4, IDRO1, IDRO2, SONAR1, SONAR2, SONAR3, SONAR4,
-	 * SONAR5, SONAR6 and SONAR7. For sonar values, there are also some
-	 * statistics that have to be calculated.
+	 * Wait the finish of all the three threads.
 	 */
-	private void CalculateMeanValues(ArrayList<RawData> localRawData)
-	{
-		//THINK ABOUT DO THIS WITH THREADS !!!!
-		ExecutorService pool = null;
-		
-		try {
-			do
-			{
-				pool = Executors.newFixedThreadPool(3);
-						
-				//WIND PUSH
-				pool.submit(new InstrumentsAnemometerDataTask(localRawData, this.instrumentsData));
-				//WATER PUSH
-				pool.submit(new InstrumentsHydroDataTask(localRawData, this.instrumentsData));
-				//WEIGHT PRESSURE
-				pool.submit(new InstrumentsSonarDataTask(localRawData, this.instrumentsData));
-				
-				pool.shutdown();
-			}
-			while(!pool.awaitTermination(60, TimeUnit.SECONDS));
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * This method calculates the values of the forces that
-	 * are acting on the plank.
-	 */
-	private void CalculatePlankForces()
-	{		
-		//THINK ABOUT DO THIS WITH THREADS !!!!
-		ExecutorService pool = null;
-		
-		try {
-			do
-			{
-				pool = Executors.newFixedThreadPool(3);
-						
-				//WIND PUSH
-				pool.submit(new PlankWindForcesTask(this.instrumentsData, this.plankForces));
-				//WATER PUSH
-				pool.submit(new PlankWaterForcesTask(this.instrumentsData, this.plankForces));
-				//WEIGHT PRESSURE
-				pool.submit(new PlankWeightForcesTask(this.instrumentsData, this.plankForces));
-				
-				pool.shutdown();
-			}
-			while(!pool.awaitTermination(60, TimeUnit.SECONDS));
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * This method calculates the values of the forces that
-	 * are acting on the single line of pylons.
-	 * 
-	 * Execute the task to caluclate the LineForcesMatrix and LineForces
-	 * for each line of pylons.
-	 */
-	private void CalculateLineForces()
-	{	
-		//POOL1 for MANTOVA LINE
-		ExecutorService pool1 = null;
-		//POOL2 for MODENA LINE
-		ExecutorService pool2 = null;
-		
-		try {
-			do
-			{
-				pool1 = Executors.newFixedThreadPool(1);
-				pool2 = Executors.newFixedThreadPool(1);
-				
-				//Start the Calculations and filling the matrix for each line
-				pool1.submit(new MatrixFillTask(this.instrumentsData, this.plankForces, this.mnLineMatrix, 0));
-				pool2.submit(new MatrixFillTask(this.instrumentsData, this.plankForces, this.moLineMatrix, 1));
-				
-				//Start the calculations of the all combinations for each line
-				pool1.submit(new LineCombinationsTask(this.plankForces, this.mnLineMatrix, this.mnLineForces));
-				pool2.submit(new LineCombinationsTask(this.plankForces, this.moLineMatrix, this.moLineForces));
-				
-				pool1.shutdown();
-				pool2.shutdown();
-			}
-			while(!(pool1.awaitTermination(60, TimeUnit.SECONDS) && pool2.awaitTermination(60, TimeUnit.SECONDS)));
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * This method calculates the values of the forces that
-	 * are acting on a single pylon.
-	 */
-	private void CalculatePylonForces()
+	private void StartCalculations()
 	{
 		ExecutorService pool = null;
+		int trigger = 0;
+		boolean exit = false;
 		
 		try
 		{
 			do
 			{
-				pool = Executors.newFixedThreadPool(2);
+				trigger++;
 				
-				//Mantova pylons
-				pool.submit(new PylonCombinationTask(this.instrumentsData, this.mnLineForces, this.mnPylonsForces));
-				//Modena pylons
-				pool.submit(new PylonCombinationTask(this.instrumentsData, this.moLineForces, this.moPylonsForces));
+				pool = Executors.newFixedThreadPool(3);
+				
+				//10min calculation task
+				pool.submit(new CalculationsControllerTask(this, eCalculatedDataType.TenMinutes ,this.last10minTimestamp));
+				//10min calculation task
+				pool.submit(new CalculationsControllerTask(this, eCalculatedDataType.OneHour ,this.last1hourTimestamp));
+				//10min calculation task
+				pool.submit(new CalculationsControllerTask(this, eCalculatedDataType.OneDay ,this.last1dayTimestamp));
 				
 				pool.shutdown();
+				
+				exit = pool.awaitTermination(10, TimeUnit.MINUTES);
 			}
-			while(!pool.awaitTermination(120, TimeUnit.SECONDS));
+			while(!exit && trigger<3);
+			
+			if(exit){
+				this.WriteOnDB();
+			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -481,328 +112,51 @@ public class CalculationsController implements Runnable {
 	
 	
 	/**
-	 * This method calculates the worst cases for each pylon
-	 * in each type of load combination.
+	 * Store the results of calculations
 	 */
-	private void CalculateWorstCases()
+	public void StoreResults(ArrayList<CalculatedData> resultsList, ArrayList<WorstCase> worstCaseList, long timeStamp, eCalculatedDataType dataType)
 	{
-		ExecutorService pool = null;
+		switch (dataType)
+		{
+		case TenMinutes:
+			this.resultsList10min = resultsList;
+			this.worstCaseList = worstCaseList;
+			this.tempLast10minTimestamp = timeStamp;
+			break;
 		
-		try {
-			do
-			{
-				pool = Executors.newFixedThreadPool(8);
-						
-				pool.submit(new WorstCasesTask(this.mnPylonsForces, this.worstCase00));
-				pool.submit(new WorstCasesTask(this.moPylonsForces, this.worstCase00));
-				pool.submit(new WorstCasesTask(this.mnPylonsForces, this.worstCase01));
-				pool.submit(new WorstCasesTask(this.moPylonsForces, this.worstCase01));
-				pool.submit(new WorstCasesTask(this.mnPylonsForces, this.worstCase10));
-				pool.submit(new WorstCasesTask(this.moPylonsForces, this.worstCase10));
-				pool.submit(new WorstCasesTask(this.mnPylonsForces, this.worstCase11));
-				pool.submit(new WorstCasesTask(this.moPylonsForces, this.worstCase11));
-				
-				pool.shutdown();
-			}
-			while(!pool.awaitTermination(60, TimeUnit.SECONDS));
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		case OneHour:
+			this.resultsList1hour = resultsList;
+			this.tempLast1hourTimestamp = timeStamp;
+			break;
+			
+		case OneDay:
+			this.resultsList1day = resultsList;
+			this.tempLast1dayTimestamp = timeStamp;
+			break;
 		}
 	}
 	
 	/**
-	 * This method calculates the value of the risk factor
-	 */
-	private void CalculateSafetyFactor()
-	{
-		ExecutorService pool = null;
-		
-		try {
-			do
-			{
-				pool = Executors.newFixedThreadPool(4);
-						
-				pool.submit(new SafetyFactorTask(this.worstCase00, this.safetyFactor));
-				pool.submit(new SafetyFactorTask(this.worstCase01, this.safetyFactor));
-				pool.submit(new SafetyFactorTask(this.worstCase10, this.safetyFactor));
-				pool.submit(new SafetyFactorTask(this.worstCase11, this.safetyFactor));
-				
-				pool.shutdown();
-			}
-			while(!pool.awaitTermination(60, TimeUnit.SECONDS));
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-		
-	/**
-	 * This method allow to store a whole row of 
-	 * calculated data into the correct tables.
-	 */
-	private void StoreCalculatedValues()
-	{
-		/*
-		 * ##################################################################
-		 * ####															#####
-		 * ####						FOR DEBUGGING 						#####
-		 * ####															#####
-		 * ##################################################################
-		 * 
-		 */
-		
-		/*
-		 * TEMP CODE TO DEBUG THE RESULTS OF EACH CALCULATIONS
-		 */
-		//INSTUMENTS DATA
-		System.out.println("------------------------------INSTRUMENTS DATA------------------------------");
-		System.out.println("ANE1\tANE2\tANE3\tANE4\t\t"
-						+ "IDRO1\tIDRO2\t\t"
-						+ "SONAR1\tSONAR2\tSONAR3\tSONAR4\tSONAR5\tSONAR6\tSONAR7");
-		System.out.println(instrumentsData.getAne1()+"\t"+ instrumentsData.getAne2() +"\t"+instrumentsData.getAne3()+"\t"+instrumentsData.getAne4()+"\t\t"
-				+ instrumentsData.getIdro1()+"\t"+instrumentsData.getIdro2()+"\t\t"
-				+ instrumentsData.getSonar1()+"\t"+instrumentsData.getSonar2()+"\t"+instrumentsData.getSonar3()+"\t"+instrumentsData.getSonar4()+"\t"
-				+ instrumentsData.getSonar5()+"\t"+instrumentsData.getSonar6()+"\t"+instrumentsData.getSonar7());
-		System.out.println("\n\n");
-		
-		//PLANK FORCES
-		System.out.println("------------------------------PLANK FORCES------------------------------");
-		System.out.println("\n# WIND");
-		System.out.println("1)Svplank: "+plankForces.getWindPushOnPlank());
-		System.out.println("2)SvA1: "+plankForces.getWindPushOnA1TrafficCombination());
-		System.out.println("3)SvA2: "+plankForces.getWindPushOnA2TrafficCombination());
-		System.out.println("4)SvA3: "+plankForces.getWindPushOnA3TrafficCombination());
-		System.out.println("\n# WATER");
-		System.out.println("1)Q: "+plankForces.getFlowRate());
-		System.out.println("2)V: "+plankForces.getWaterSpeed());
-		System.out.println("3)Svd0: "+plankForces.getHydrodynamicThrustWithOutDebris());
-		System.out.println("4)Svd1: "+plankForces.getHydrodynamicThrustWithDebris());
-		System.out.println("5)hs: "+plankForces.getHs());
-		System.out.println("6)Bsd0: "+plankForces.getBsWithoutDebris());
-		System.out.println("7)Bsd0: "+plankForces.getBsWithDebris());
-		System.out.println("\n# WEIGHT");
-		System.out.println("1)Pplank: "+plankForces.getPlankWeight());
-		System.out.println("2)Pstack: "+plankForces.getStackWeight());
-		System.out.println("3)Pstruct: "+plankForces.getStructureWeight());
-		System.out.println("\n\n");
-		
-		//LINE FORCES
-		System.out.println("------------------------------LINE FORCES------------------------------");
-		System.out.println("\n###############");
-		System.out.println("## MANTOVA line");
-		System.out.println("###############");
-		for(Combination c : mnLineForces.getComboList())
-		{
-			System.out.println("_________");
-			System.out.println("Combo number: "+c.getCombinationNumber());
-			System.out.println("T: "+c.getTraffic());
-			System.out.println("D: "+c.getDebris());
-			System.out.println("N: "+c.getN());
-			System.out.println("Tx: "+c.getTx());
-			System.out.println("Ty: "+c.getTy());
-			System.out.println("qy: "+c.getQy());
-			System.out.println("Mx: "+c.getMx());
-			System.out.println("_________");
-			System.out.println("\n");
-		}
-		
-		System.out.println("\n###############");
-		System.out.println("## MODENA line");
-		System.out.println("###############");
-		for(Combination c : mnLineForces.getComboList())
-		{
-			System.out.println("_________");
-			System.out.println("Combo number: "+c.getCombinationNumber());
-			System.out.println("T: "+c.getTraffic());
-			System.out.println("D: "+c.getDebris());
-			System.out.println("N: "+c.getN());
-			System.out.println("Tx: "+c.getTx());
-			System.out.println("Ty: "+c.getTy());
-			System.out.println("qy: "+c.getQy());
-			System.out.println("Mx: "+c.getMx());
-			System.out.println("_________");
-			System.out.println("\n");
-		}
-		
-		
-		System.out.println("------------------------------PYLON FORCES------------------------------");
-		System.out.println("\n###############");
-		System.out.println("## MANTOVA line");
-		System.out.println("###############");
-		for(PylonCombination c : mnPylonsForces.getPylonComboList())
-		{
-			System.out.println("_________");
-			System.out.println("Combo number: "+c.getCombination().getCombinationNumber());
-			System.out.println("T: "+c.getCombination().getTraffic());
-			System.out.println("D: "+c.getCombination().getDebris());
-			for(Pylon p : c.getPylonList())
-			{
-				System.out.println("\tpylon number: "+p.getPylonNumber());
-				System.out.println("\tN: "+p.getN());
-				System.out.println("\tTx: "+p.getTx());
-				System.out.println("\tTy: "+p.getTy());
-				System.out.println("\tMx: "+p.getMx());
-				System.out.println("\tMy: "+p.getMy());
-			}
-			System.out.println("_________");
-			System.out.println("\n");
-		}
-		
-		System.out.println("\n###############");
-		System.out.println("## MODENA line");
-		System.out.println("###############");
-		for(PylonCombination c : mnPylonsForces.getPylonComboList())
-		{
-			System.out.println("_________");
-			System.out.println("Combo number: "+c.getCombination().getCombinationNumber());
-			System.out.println("T: "+c.getCombination().getTraffic());
-			System.out.println("D: "+c.getCombination().getDebris());
-			for(Pylon p : c.getPylonList())
-			{
-				System.out.println("\tpylon number: "+p.getPylonNumber());
-				System.out.println("\tN: "+p.getN());
-				System.out.println("\tTx: "+p.getTx());
-				System.out.println("\tTy: "+p.getTy());
-				System.out.println("\tMx: "+p.getMx());
-				System.out.println("\tMy: "+p.getMy());
-			}
-			System.out.println("_________");
-			System.out.println("\n");
-		}
-		
-		System.out.println("------------------------------WORST CASES------------------------------");
-		System.out.println("\n###############");
-		System.out.println("## Worst Case 00");
-		System.out.println("###############");
-		for(WorstPylonCase wpc : worstCase00.getWorstList())
-		{
-			System.out.println("_________");
-			System.out.println("P_Number: "+wpc.getPylonNumber());
-			System.out.println("N: "+wpc.getN());
-			System.out.println("M: "+wpc.getM());
-			System.out.println("combo number: "+wpc.getComboNumber());
-			System.out.println("_________");
-			System.out.println("\n");
-		}
-		
-		System.out.println("\n###############");
-		System.out.println("## Worst Case 01");
-		System.out.println("###############");
-		for(WorstPylonCase wpc : worstCase00.getWorstList())
-		{
-			System.out.println("_________");
-			System.out.println("P_Number: "+wpc.getPylonNumber());
-			System.out.println("N: "+wpc.getN());
-			System.out.println("M: "+wpc.getM());
-			System.out.println("combo number: "+wpc.getComboNumber());
-			System.out.println("_________");
-			System.out.println("\n");
-		}
-		
-		System.out.println("\n###############");
-		System.out.println("## Worst Case 10");
-		System.out.println("###############");
-		for(WorstPylonCase wpc : worstCase00.getWorstList())
-		{
-			System.out.println("_________");
-			System.out.println("P_Number: "+wpc.getPylonNumber());
-			System.out.println("N: "+wpc.getN());
-			System.out.println("M: "+wpc.getM());
-			System.out.println("combo number: "+wpc.getComboNumber());
-			System.out.println("_________");
-			System.out.println("\n");
-		}
-		
-		System.out.println("\n###############");
-		System.out.println("## Worst Case 11");
-		System.out.println("###############");
-		for(WorstPylonCase wpc : worstCase00.getWorstList())
-		{
-			System.out.println("_________");
-			System.out.println("P_Number: "+wpc.getPylonNumber());
-			System.out.println("N: "+wpc.getN());
-			System.out.println("M: "+wpc.getM());
-			System.out.println("combo number: "+wpc.getComboNumber());
-			System.out.println("_________");
-			System.out.println("\n");
-		}
-		
-		
-		System.out.println("------------------------------SAFETY FACTOR------------------------------");
-		System.out.println("\n###############");
-		System.out.println("## SAFETY FACTOR 00  ->" + safetyFactor.getSafetyFactorCombo00().getValue());
-		System.out.println("## SAFETY FACTOR 01  ->" + safetyFactor.getSafetyFactorCombo01().getValue());
-		System.out.println("## SAFETY FACTOR 10  ->" + safetyFactor.getSafetyFactorCombo10().getValue());
-		System.out.println("## SAFETY FACTOR 11  ->" + safetyFactor.getSafetyFactorCombo11().getValue());
-		
-		/*
-		 * ##################################################################
-		 * ####															#####
-		 * ####						END DEBUGGING 						#####
-		 * ####															#####
-		 * ##################################################################
-		 * 
-		 */
-		
-		
-		CalculatedData cd = new CalculatedData();
-		
-		/*
-		 * Store temp values of temp variables into the CaclulatdData variable
-		 */
-		//SETTED ANEMOMETER
-		cd.setWindSpeed(this.instrumentsData.getAne1());
-		cd.setWindSpeedMax(this.instrumentsData.getAne2());
-		cd.setWindDirection(this.instrumentsData.getAne3());
-		cd.setWindDirectionMax(this.instrumentsData.getAne4());
-		
-		//SETTED HYDROMETER
-		cd.setHydrometer(this.instrumentsData.getIdro1());
-		cd.setHydrometerVariance(this.instrumentsData.getIdro2());
-		cd.setWaterSpeed(this.plankForces.getWaterSpeed());
-		cd.setWaterFlowRate(this.plankForces.getFlowRate());
-		
-		//SETTED SONAR
-		cd.setSonar(this.instrumentsData.getSonar1());
-		cd.setSonarVariance(this.instrumentsData.getSonar2());
-		cd.setSonarPercCorrect(this.instrumentsData.getSonar3());
-		cd.setSonarPercWrong(this.instrumentsData.getSonar4());
-		cd.setSonarPercOutOfWater(this.instrumentsData.getSonar5());
-		cd.setSonarPercError(this.instrumentsData.getSonar6());
-		cd.setSonarPercUncertain(this.instrumentsData.getSonar7());
-		
-		//SETTED SAFETY FACTOR
-		cd.setSafetyFactor00(this.safetyFactor.getSafetyFactorCombo00().getValue());
-		cd.setSafetyFactor01(this.safetyFactor.getSafetyFactorCombo01().getValue());
-		cd.setSafetyFactor10(this.safetyFactor.getSafetyFactorCombo10().getValue());
-		cd.setSafetyFactor11(this.safetyFactor.getSafetyFactorCombo11().getValue());
-		
-		//SETTED TIMESTAMP
-		cd.setTimestamp(this.instrumentsData.getTimestamp());
-		
-		
-		
-		this.calculatedData.add(cd);		
-	}
-	
-	
-	
-	/**
-	 * Write the results of calculations into the DB
+	 * This method store on the db the information for all the three grouped data tables
 	 */
 	private void WriteOnDB()
 	{
-		// TODO
+		CalculatedDataController.InsertCalculatedData(this.resultsList10min, eCalculatedDataType.TenMinutes);
+		/*
+		 * TODO storing of worst case list
+		 */
+		CalculatedDataController.InsertCalculatedData(this.resultsList1hour, eCalculatedDataType.OneHour);
+		CalculatedDataController.InsertCalculatedData(this.resultsList1day, eCalculatedDataType.OneDay);
+		
+		this.last10minTimestamp = this.tempLast10minTimestamp;
+		this.last1hourTimestamp = this.tempLast1hourTimestamp;
+		this.last1dayTimestamp = this.tempLast1dayTimestamp;
 	}
-	
+
 	
 	/**
-	 * This method clears the list of calculated data
+	 * Method to reset the flags
 	 */
-	private void clearCalculatedDataList()
-	{
-		calculatedData.clear();
-	}
-	
 	public void resetFlags()
 	{
 		this.last10minTimestamp = 0;

@@ -10,7 +10,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import dsd.model.CalculatedData;
-import dsd.model.enums.eDataType;
+import dsd.model.enums.eCalculatedDataType;
 
 public class CalculatedDataDAO
 {
@@ -23,7 +23,7 @@ public class CalculatedDataDAO
 			"sonar_variance", "sonar_perc_correct", "sonar_perc_wrong", "sonar_perc_outOfWater", "sonar_perc_error", "sonar_perc_uncertain", "safety_factor_00", 
 			"safety_factor_01", "safety_factor_10", "safety_factor_11", "water_speed", "water_flow_rate", "timestamp"};
 
-	public static int InsertRawData(List<CalculatedData> listOfData, eDataType dataType)
+	public static int InsertCalculatedData(List<CalculatedData> listOfData, eCalculatedDataType dataType)
 	{
 		try
 		{
@@ -49,7 +49,7 @@ public class CalculatedDataDAO
 		return 0;
 	}
 
-	public static int UpdateRawData(List<CalculatedData> listOfData, eDataType dataType)
+	public static int UpdateCalculatedData(List<CalculatedData> listOfData, eCalculatedDataType dataType)
 	{
 		try
 		{
@@ -73,7 +73,7 @@ public class CalculatedDataDAO
 		return 0;
 	}
 
-	public static ArrayList<CalculatedData> GetAllForPeriod(Calendar startDate, Calendar endDate, eDataType dataType)
+	public static ArrayList<CalculatedData> GetAllForPeriod(Calendar startDate, Calendar endDate, eCalculatedDataType dataType)
 	{
 		try
 		{
@@ -215,7 +215,7 @@ public class CalculatedDataDAO
 		return columnsArray;
 	}
 	
-	private static String GetTableNameForDataType(eDataType dataType)
+	private static String GetTableNameForDataType(eCalculatedDataType dataType)
 	{
 		switch (dataType)
 		{

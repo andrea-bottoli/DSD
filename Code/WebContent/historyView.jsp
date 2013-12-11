@@ -1,31 +1,78 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+
 <!DOCTYPE html>
-
-
 
 <t:desktopPage>
 
 	 
-<link rel="stylesheet" type="text/css" href="JS/calendarTextField/tcal.css" />
-<script type="text/javascript" src="JS/calendarTextField/tcal.js"></script>
+	<link rel="stylesheet" href="JS/jQueryUI/themes/base/jquery.ui.all.css">
+	<script src="JS/jQueryUI/jquery-1.9.1.js"></script>
+	<script src="JS/jQueryUI/ui/jquery.ui.core.js"></script>
+	<script src="JS/jQueryUI/ui/jquery.ui.widget.js"></script>
+	<script src="JS/jQueryUI/ui/jquery.ui.datepicker.js"></script>
+	
+	<script type="text/javascript" src="JS/validations.js"></script>
+	
+	<link rel="stylesheet" href="JS/jQueryUI/demos.css">
+
 			
 <body>
 Welcome to the history view! :)
+
+
+<script>
+//this script is temporarly here
+
+$(function() {
+	var min = new Date(2011, 3 - 1, 22);
+	var max = new Date(2012, 12 - 1, 04);
+	$( "#from" ).datepicker({
+		defaultDate: "+1w",//TODO: what is default? last month?
+		minDate: min,
+	//	minDate: -20, //TODO: update min date with our minDate from db
+		maxDate: max,  //TODO: update max date with our minDate from db
+		changeMonth: true,
+		numberOfMonths: 2,
+		//possible to change both month and year
+		changeMonth: true,
+		changeYear: true,
+		onClose: function( selectedDate ) {
+			$( "#to" ).datepicker( "option", "minDate", selectedDate );
+		}
+	});
+
+	$( "#to" ).datepicker({
+		defaultDate: "+1w",
+		minDate: min, //min is 
+		maxDate: max,
+	//	maxDate: "+1M +10D",  //TODO: update max date with our maxDate from db
+		changeMonth: true,
+		numberOfMonths: 2,
+		//possible to change both month and year
+		changeMonth: true, 
+		changeYear: true,
+		onClose: function( selectedDate ) {
+			$( "#from" ).datepicker( "option", "maxDate", selectedDate );
+		}
+	});
+});
+</script>
 	
 	<div class="dateRange">
-		<form name="dateRange" action="#" method="get">
-			Start date: 
-			<input type="text" name="startDate" class="tcal" value="" />
-			End date: 
-			<input type="text" name="endDate" class="tcal" value="" />
-			<input type="submit" value="Show">
+		<form name="dateRange" action="HistoryView" onsubmit="return validateRange()" method="get" >
+			<label for="from">Start date: </label>
+			<input type="text" id="from" name="from"/>
+			<label for="to">End date: </label>
+			<input type="text" id="to" name="to"/>
+			<input type="submit" name="showRange" value="Show">
+			***This part is being implemented. Try it out :)
 		</form>
 	</div>
 	
 	<div class="specificDate">
 		<form name="specificDate" action="#" method="get">
-			Specific date: 
+			<br>Specific date: 
 			<input type="text" name="specificDate" class="tcal" value="" />
 			<input type="submit" value="Show">
 		</form>

@@ -102,6 +102,33 @@ public class WorstPylonCase{
 		return this.pylon.getM();
 	}
 	
+	/**
+	 * @return the Mx force acting on the pylon
+	 */
+	public float getMx() {
+		return this.pylon.getMx();
+	}
+	
+	/**
+	 * @return the My force acting on the pylon
+	 */
+	public float getMy() {
+		return this.pylon.getMy();
+	}
+	
+	/**
+	 * @return the Tx force acting on the pylon
+	 */
+	public float getTx() {
+		return this.pylon.getTx();
+	}
+	
+	/**
+	 * @return the Ty force acting on the pylon
+	 */
+	public float getTy() {
+		return this.pylon.getTy();
+	}
 	
 	public int getPosition()
 	{

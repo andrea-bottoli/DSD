@@ -9,6 +9,7 @@ public class MathEngine {
 	/*
 	 * ##########################################################
 	 * ##########################################################
+	 * ##########################################################
 	 * #####												#####
 	 * #####			Instruments Data					#####
 	 * #####												#####
@@ -385,9 +386,9 @@ public class MathEngine {
 	 * @return the value of axial force N due to the stack waight on the single pylon
 	 */
 	public static float ForceNcontributionPP(float stackWeight) {
-		float contributionPP;
-		contributionPP = PylonForcesFormulas.ForceNcontributionPP(stackWeight);
-		return contributionPP;
+		double contributionPP;
+		contributionPP = PylonForcesFormulas.ForceNcontributionPP((double)stackWeight);
+		return (float)contributionPP;
 	}
 	
 	/**
@@ -395,9 +396,9 @@ public class MathEngine {
 	 * @return the value of axial force N due to the external load on the single pylon
 	 */
 	public static float ForceNcontributionN(float n) {
-		float contributionN;
-		contributionN = PylonForcesFormulas.ForceNcontributionN(n);
-		return contributionN;
+		double contributionN;
+		contributionN = PylonForcesFormulas.ForceNcontributionN((double)n);
+		return (float)contributionN;
 	}
 	
 	/**
@@ -408,11 +409,11 @@ public class MathEngine {
 	 * @return The contribution of Ty force at the Axial load N on a single pylon
 	 */
 	public static float ForceNcontributionTy(float ty, float d, float h1, float l2) {
-		float contributionTy;
+		double contributionTy;
 		
-		contributionTy = PylonForcesFormulas.ForceNcontributionTy(ty, d, h1, l2);
+		contributionTy = PylonForcesFormulas.ForceNcontributionTy((double)ty, (double)d, (double)h1, (double)l2);
 		
-		return contributionTy;
+		return (float)contributionTy;
 	}
 	
 	
@@ -421,11 +422,11 @@ public class MathEngine {
 	 * @return The contribution of bending moment Mx to the axial load N on a single pylon
 	 */
 	public static float ForceNcontributionMx(float mx) {
-		float contributionMx;
+		double contributionMx;
 		
-		contributionMx = PylonForcesFormulas.ForceNcontributionMx(mx);
+		contributionMx = PylonForcesFormulas.ForceNcontributionMx((double)mx);
 		
-		return contributionMx;
+		return (float)contributionMx;
 	}
 	
 	/**
@@ -436,11 +437,11 @@ public class MathEngine {
 	 * @return The contribution of water at the axial load N on a single pylon
 	 */
 	public static float ForceNcontributionQyCaseA(float H1, float d, float h1, float l2) {
-		float contributionQy;
+		double contributionQy;
 		
-		contributionQy = PylonForcesFormulas.ForceNcontributionQy(H1, d, h1, l2);
+		contributionQy = PylonForcesFormulas.ForceNcontributionQy((double)H1, (double)d, (double)h1, (double)l2);
 		
-		return contributionQy;
+		return (float)contributionQy;
 	}
 	
 	/**
@@ -450,11 +451,11 @@ public class MathEngine {
 	 * @return The contribution of water at the axial load N on a single pylon
 	 */
 	public static float ForceNcontributionQyCaseB(float H1, float d, float l2) {
-		float contributionQy;
+		double contributionQy;
 		
-		contributionQy = PylonForcesFormulas.ForceNcontributionQy(H1, d, 0, l2);
+		contributionQy = PylonForcesFormulas.ForceNcontributionQy((double)H1, (double)d, (double)0, (double)l2);
 		
-		return contributionQy;
+		return (float)contributionQy;
 	}
 	
 	
@@ -468,11 +469,11 @@ public class MathEngine {
 	 * @return The contribution at the Tx force on each pylon
 	 */
 	public static float ForceTxContributionTx(float tx){
-		float contributionTx;
+		double contributionTx;
 		
-		contributionTx = PylonForcesFormulas.ForceTxContributionTx(tx);
+		contributionTx = PylonForcesFormulas.ForceTxContributionTx((double)tx);
 		
-		return contributionTx;
+		return (float)contributionTx;
 	}
 	
 	
@@ -486,11 +487,11 @@ public class MathEngine {
 	 * @return The contribution at the Ty force on each pylon
 	 */
 	public static float ForceTyContributionTy(float ty){
-		float contributionTy;
+		double contributionTy;
 		
-		contributionTy = PylonForcesFormulas.ForceTyContributionTy(ty);
+		contributionTy = PylonForcesFormulas.ForceTyContributionTy((double)ty);
 		
-		return contributionTy;
+		return (float)contributionTy;
 	}
 	
 	/**
@@ -498,11 +499,11 @@ public class MathEngine {
 	 * @return The contribution at the Qy force on each pylon
 	 */
 	public static float ForceTyContributionQy(float H){
-		float contributionQy;
+		double contributionQy;
 		
-		contributionQy = PylonForcesFormulas.ForceTyContributionQy(H);
+		contributionQy = PylonForcesFormulas.ForceTyContributionQy((double)H);
 		
-		return contributionQy;
+		return (float)contributionQy;
 	}
 	
 	/* ###########################
@@ -515,19 +516,19 @@ public class MathEngine {
 	 * @return The contribution at the Ty force on each pylon
 	 */
 	public static float ForceMxContributionTy(float ty, float l2){
-		float contributionTy;
+		double contributionTy;
 		
-		contributionTy = PylonForcesFormulas.ForceMxContributionTy(ty, l2);
+		contributionTy = PylonForcesFormulas.ForceMxContributionTy((double)ty, (double)l2);
 		
-		return contributionTy;
+		return (float)contributionTy;
 	}
 	
 	public static float ForceMxContributionQy(float H1, float l2){
-		float contributionQy;
+		double contributionQy;
 		
-		contributionQy = PylonForcesFormulas.ForceMxContributionQy(H1, l2);
+		contributionQy = PylonForcesFormulas.ForceMxContributionQy((double)H1, (double)l2);
 		
-		return contributionQy;
+		return (float)contributionQy;
 	}
 	
 	
@@ -541,11 +542,11 @@ public class MathEngine {
 	 * @return The contribution at the Tx force on each pylon
 	 */
 	public static float ForceMyContributionTx(float tx, float l){
-		float contributionTx;
+		double contributionTx;
 		
-		contributionTx = PylonForcesFormulas.ForceMyContributionTx(tx, l);
+		contributionTx = PylonForcesFormulas.ForceMyContributionTx((double)tx, (double)l);
 		
-		return contributionTx;
+		return (float)contributionTx;
 	}
 	
 	
@@ -577,7 +578,7 @@ public class MathEngine {
 	 * @param d the coefficient of the term of degree 0
 	 * @return the list of three roots of the 3rd degree function
 	 */
-	private static List<Double> rootsOf3rdDegreeFunction(double a, double b, double c, double d)
+	public static List<Double> rootsOf3rdDegreeFunction(double a, double b, double c, double d)
 	{
 		return AlgebraicFunctions.rootsOf3rdDegreeFunction(a, b, c, d);
 	}
@@ -596,7 +597,7 @@ public class MathEngine {
 	 * @param d known term
 	 * @return the list of three roots of the 3rd degree function
 	 */
-	private static List<Double> realRootsOf3rdDegreeFunction(double a, double b, double c, double d)
+	public static List<Double> realRootsOf3rdDegreeFunction(double a, double b, double c, double d)
 	{
 		ArrayList<Double> rootsList = new ArrayList<Double>();
 		

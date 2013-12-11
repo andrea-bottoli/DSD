@@ -4,7 +4,8 @@
   <package id="1" language="java" name="dsd.controller" project="BridgeMonitoring" 
     file="/BridgeMonitoring/src/dsd/controller" binary="false" corner="BOTTOM_RIGHT">    
     <position height="1361" width="1244" x="151" y="-33"/>    
-    <display autosize="false" stereotype="true" accessors="true"/>  
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true"/>  
   </package>  
   <class id="2" language="java" name="dsd.controller.ParsedInputFilesController" project="BridgeMonitoring" 
     file="/BridgeMonitoring/src/dsd/controller/ParsedInputFilesController.java" binary="false" corner="BOTTOM_RIGHT">    
@@ -87,8 +88,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="11" language="java" name="dsd.controller.StartParser" project="BridgeMonitoring" 
-    file="/BridgeMonitoring/src/dsd/controller/StartParser.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="11" language="java" name="dsd.controller.JobController" project="BridgeMonitoring" 
+    file="/BridgeMonitoring/src/dsd/controller/JobController.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="800" y="192"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      

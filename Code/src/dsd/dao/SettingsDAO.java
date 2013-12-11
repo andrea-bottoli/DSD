@@ -1,5 +1,6 @@
 package dsd.dao;
 
-public class SettingsDAO {
-
+public class SettingsDAO
+{
+	
 }
