@@ -38,9 +38,15 @@
 		<div class="graphs">
 			<h3>Last 24 hours trend:</h3>
 			<hr>
-			<p>Wind speed graph:</p>
-			<div id="windSpeedGraph" class ="graphleft" ></div>
-					
+			
+			<div id="wrapper">
+			
+				<div id="first" >
+				
+					<p class="graph_name">Wind speed graph:</p>	
+						
+					<div id="Wind_speed_graph" class="all_graphs" ></div>
+							
 					<script type="text/javascript">
 					var chart;
 					var chartData = [];
@@ -106,7 +112,7 @@
 					    chart.addChartScrollbar(chartScrollbar);
 					    
 					    // WRITE
-					    chart.write("windSpeedGraph");
+					    chart.write("Wind_speed_graph");
 					});
 
 					// generate some random data, quite different range
@@ -150,11 +156,14 @@
 					    chart.validateNow();
 					}  
 					</script>
+				</div>
 				
-
-				<p>Sonar Graph:</p>
-				<div id="sonarGraph" class="graphleft"></div>
+				
+				<div id="second">
 		
+					<p class="graph_name">Sonar Graph:</p>
+					<div id="Sonar_graph" class="all_graphs" ></div>
+					
 					<script type="text/javascript">
 					var chart;
 					var chartData = [];
@@ -220,7 +229,7 @@
 					    chart.addChartScrollbar(chartScrollbar);
 					    
 					    // WRITE
-					    chart.write("sonarGraph");
+					    chart.write("Sonar_graph");
 					});
 
 					// generate some random data, quite different range
@@ -264,10 +273,14 @@
 					    chart.validateNow();
 					}  
 					</script>
-
-		
-			<p>Hydrometer Graph:</p>
-			<div id="hydrometerGraph" class="graphright"></div>
+				</div>
+			
+			
+				<div id="thirth" >
+				
+					<p class="graph_name">Hydrometer Graph:</p>
+					<div id="Hydrometer_graph" class="all_graphs" ></div>
+				
 					<script type="text/javascript">
 					var chart;
 					var chartData = [];
@@ -333,7 +346,7 @@
 					    chart.addChartScrollbar(chartScrollbar);
 					    
 					    // WRITE
-					    chart.write("hydrometerGraph");
+					    chart.write("Hydrometer_graph");
 					});
 
 					// generate some random data, quite different range
@@ -377,11 +390,16 @@
 					    chart.validateNow();
 					}  
 					</script>
+
 				</div>
+			
+			</div>
+		
+			
 			</div>
 			 
 			<div class="clear_float"></div>
-		</div>
+		
 
 	</body>
 

@@ -26,10 +26,10 @@ public class CurrentStateView extends HttpServlet {
 			throws ServletException, IOException {
 		
 		Calendar calStart = Calendar.getInstance();
-		calStart.set(2011, 2, 21, 16, 46, 0);//2011-03-22 15:56:00
+		calStart.set(2011, 2, 23, 16, 46, 0);//2011-03-23 16:46:00
 		
 		Calendar calEnd = Calendar.getInstance();
-		calEnd.set(2011, 2, 22, 16, 56, 30);//2011-03-22 16:08:04
+		calEnd.set(2011, 2, 23, 17, 56, 30);//2011-03-23 17:56:30
 		
 		
 		
