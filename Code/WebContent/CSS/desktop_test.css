@@ -149,7 +149,7 @@ padding: 200px 20px 130px;
 	height: 320px;
     border: 1px solid green;
     float:left;
-   overflow: hidden;  if you don't want #second to wrap below #first */
+   overflow: hidden;  /*if you don't want #second to wrap below #first */
 }
 
 .all_graphs{
