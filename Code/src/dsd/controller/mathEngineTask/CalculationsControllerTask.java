@@ -13,7 +13,7 @@ import dsd.controller.ParametersController;
 import dsd.controller.RawDataController;
 import dsd.model.CalculatedData;
 import dsd.model.RawData;
-import dsd.model.WorstCase;
+import dsd.model.WorstPylonCase;
 import dsd.model.calculation.Combination;
 import dsd.model.calculation.InstrumentsData;
 import dsd.model.calculation.LineForces;
@@ -23,7 +23,7 @@ import dsd.model.calculation.Pylon;
 import dsd.model.calculation.PylonCombination;
 import dsd.model.calculation.PylonForces;
 import dsd.model.calculation.SafetyFactor;
-import dsd.model.calculation.WorstPylonCase;
+import dsd.model.calculation.WorstCase;
 import dsd.model.enums.eCalculatedDataType;
 
 public class CalculationsControllerTask implements Runnable{

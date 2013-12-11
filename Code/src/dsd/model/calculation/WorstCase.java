@@ -1,9 +1,8 @@
-package dsd.model;
+package dsd.model.calculation;
 
 import java.util.ArrayList;
 
-import dsd.model.calculation.Pylon;
-import dsd.model.calculation.WorstPylonCase;
+import dsd.model.WorstPylonCase;
 
 public class WorstCase {
 	

@@ -4,10 +4,10 @@ import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 
 import dsd.calculations.MathEngine;
-import dsd.model.WorstCase;
 import dsd.model.calculation.Pylon;
 import dsd.model.calculation.PylonCombination;
 import dsd.model.calculation.PylonForces;
+import dsd.model.calculation.WorstCase;
 
 public class WorstCasesTask implements Runnable{
 	

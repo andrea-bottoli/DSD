@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import dsd.controller.mathEngineTask.CalculationsControllerTask;
 import dsd.model.CalculatedData;
-import dsd.model.WorstCase;
+import dsd.model.calculation.WorstCase;
 import dsd.model.enums.eCalculatedDataType;
 
 public class CalculationsController implements Runnable {

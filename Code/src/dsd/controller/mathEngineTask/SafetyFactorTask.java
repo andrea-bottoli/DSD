@@ -1,8 +1,8 @@
 package dsd.controller.mathEngineTask;
 
-import dsd.model.WorstCase;
+import dsd.model.WorstPylonCase;
 import dsd.model.calculation.SafetyFactor;
-import dsd.model.calculation.WorstPylonCase;
+import dsd.model.calculation.WorstCase;
 
 public class SafetyFactorTask implements Runnable{
 
