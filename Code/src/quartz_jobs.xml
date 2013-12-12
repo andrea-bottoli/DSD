@@ -18,22 +18,40 @@
 	
 	<schedule>
 		<job>
+			<name>LoadPathJob</name>
+			<group>PathGroup</group>
+			<description>This Job loads path form config file</description>
+			<job-class>dsd.jobs.LoadPathJob</job-class>
+		</job>
+		<trigger>
+			<simple>
+				<name>LoadPathTrigger</name>
+				<job-name>LoadPathJob</job-name>
+				<job-group>PathGroup</job-group>
+			</simple>
+		</trigger>
+	</schedule>
+		
+	<schedule>
+		<job>
 			<name>LoadFlagJob</name>
-			<description>This Job load flags form database</description>
+			<group>FlagGroup</group>
+			<description>This Job loads flags form database</description>
 			<job-class>dsd.jobs.LoadFlagJob</job-class>
 		</job>
 		<trigger>
 			<simple>
 				<name>LoadFlagTrigger</name>
 				<job-name>LoadFlagJob</job-name>
+				<job-group>FlagGroup</job-group>
 			</simple>
 		</trigger>
-	</schedule>
-	
-	
+	</schedule>	
+		
 	<schedule>
 		<job>
 			<name>ParserJob</name>
+			<group>ParserGroup</group>
 			<description>This Job check/run the parser</description>
 			<job-class>dsd.jobs.ParserJob</job-class>
 		</job>
@@ -41,6 +59,7 @@
 			<simple>
 				<name>ParserTrigger</name>
 				<job-name>ParserJob</job-name>
+				<job-group>ParserGroup</job-group>
 				<repeat-count>-1</repeat-count> <!-- repeat indefinitely  -->
 				<repeat-interval>60000</repeat-interval>  <!--  every 60 seconds -->
 			</simple>

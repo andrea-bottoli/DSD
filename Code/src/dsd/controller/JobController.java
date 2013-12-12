@@ -27,6 +27,17 @@ public class JobController
 	private static CalculationsController calculationController = new CalculationsController(0, 0, 0);
 	
 	
+	
+	/**
+	 * THis method sets the source path into the file and parser dao
+	 * @param path source path to be setted
+	 */
+	public static void setPath(String path)
+	{
+		//TODO missing methods that allow to set the sources path.
+	}
+	
+	
 	/**
 	 * This method allows to set the timestamps for the 10min data, 1hour data and 1day data
 	 * into the calculation controller main task.
