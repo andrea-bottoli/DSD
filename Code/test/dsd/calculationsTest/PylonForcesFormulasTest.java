@@ -21,7 +21,7 @@ public class PylonForcesFormulasTest {
 	@Test
 	public void testForceNcontributionTy() {
 		PylonForcesFormulas a3= new PylonForcesFormulas();
-	assertEquals(6.65, a3.ForceNcontributionTy(4f, 8f, 7.3f, 12f), 0);
+	assertEquals(6.65, a3.ForceNcontributionTy(4, 8, 7.3, 12), 0);
 	}
 
 	
