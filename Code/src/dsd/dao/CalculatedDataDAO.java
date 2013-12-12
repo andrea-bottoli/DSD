@@ -14,7 +14,6 @@ import dsd.model.enums.eCalculatedDataType;
 
 public class CalculatedDataDAO
 {
-
 	private static String tableName10min = "sensor_data_10_min";
 	private static String tableName1hour = "sensor_data_1_hour";
 	private static String tableName1day = "sensor_data_1_day";
