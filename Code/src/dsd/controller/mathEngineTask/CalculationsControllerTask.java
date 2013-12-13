@@ -143,10 +143,7 @@ public class CalculationsControllerTask implements Runnable{
 	public void StartCalculations()
 	{
 		try
-		{
-			//clear the list that will contains the outputs
-			clearCalculatedDataList();
-			
+		{			
 			//Loading parameters
 			LoadParameters();
 			
@@ -192,6 +189,9 @@ public class CalculationsControllerTask implements Runnable{
 				
 				if(checkSampleSize(localRawData))
 				{
+					//clear the list that will contains the outputs
+					clearCalculatedDataList();
+					
 					this.lastTimestamp = rd.getTimestamp();
 					this.instrumentsData.setTimestamp(this.lastTimestamp);
 					/*
@@ -204,11 +204,10 @@ public class CalculationsControllerTask implements Runnable{
 					CalculateWorstCases();
 					CalculateSafetyFactor();
 					StoreCalculatedValues();
+					WriteOnDB();
 				}
 			}
 			while (globalIterator.hasNext());
-			
-			StoreResults();
 		}
 		catch (Exception e)
 		{
@@ -689,7 +688,7 @@ public class CalculationsControllerTask implements Runnable{
 	/**
 	 * Return the list of results that have to be stored into the DB
 	 */
-	private void StoreResults()
+	private void WriteOnDB()
 	{
 		this.calculationsController.StoreResults(this.calculatedData, this.worstCaseList, this.lastTimestamp, this.dataType);
 	}
