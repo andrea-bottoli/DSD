@@ -22,7 +22,7 @@ public class WorstCaseDAO
 	private static String[] fields = new String[]{"pylon_number", "N", "Tx", "Ty", "Mx", "My", "M",
 			"cs", "comb_number", "timestamp"};
 
-	public static int InsertCalculatedData(List<WorstPylonCase> listOfData, boolean traffic, boolean debris)
+	public static int InsertWorstCaseData(List<WorstPylonCase> listOfData, boolean traffic, boolean debris)
 	{
 		try
 		{
@@ -48,7 +48,7 @@ public class WorstCaseDAO
 		return 0;
 	}
 
-	public static int UpdateCalculatedData(List<WorstPylonCase> listOfData, boolean traffic, boolean debris)
+	public static int UpdateWorstCaseData(List<WorstPylonCase> listOfData, boolean traffic, boolean debris)
 	{
 		try
 		{

@@ -26,4 +26,14 @@ public class CalculatedDataController
 	{
 		CalculatedDataDAO.UpdateCalculatedData(listOfData, dataType);
 	}
+	
+	public static long GetMaxTimestamp(eCalculatedDataType dataType)
+	{
+		return CalculatedDataDAO.GetMaxTimestamp(dataType);
+	}
+	
+	public static long GetCount(eCalculatedDataType dataType)
+	{
+		return CalculatedDataDAO.GetCount(dataType);
+	}
 }

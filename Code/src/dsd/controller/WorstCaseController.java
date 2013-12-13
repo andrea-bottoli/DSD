@@ -17,12 +17,12 @@ public class WorstCaseController
 
 	public static void InsertWorstCaseData(List<WorstPylonCase> listOfData, boolean traffic, boolean debris)
 	{
-		WorstCaseDAO.InsertCalculatedData(listOfData, traffic, debris);
+		WorstCaseDAO.InsertWorstCaseData(listOfData, traffic, debris);
 	}
 	
 	public static void UpdateWorstCaseData(List<WorstPylonCase> listOfData, boolean traffic, boolean debris)
 	{
-		WorstCaseDAO.UpdateCalculatedData(listOfData, traffic, debris);
+		WorstCaseDAO.UpdateWorstCaseData(listOfData, traffic, debris);
 	}
 	
 	public static long GetMaxTimestamp(boolean traffic, boolean debris)
