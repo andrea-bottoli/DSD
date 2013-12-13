@@ -121,6 +121,64 @@ public class WorstCaseDAO
 		return null;
 
 	}
+	
+	public static long GetMaxTimestamp(boolean traffic, boolean debris)
+	{
+		long timestamp = 0;
+		try
+		{
+			Connection con = DAOProvider.getDataSource().getConnection();
+			try
+			{
+				String tableName = GetTableNameForDataType(traffic, debris);
+				ResultSet results = DAOProvider.SelectTableSecure(tableName, " max(timestamp) ", "", "",
+						con, null);
+				while (results.next())
+				{
+					timestamp = results.getTimestamp(1).getTime();
+				}
+			}
+			catch (Exception exc)
+			{
+				exc.printStackTrace();
+			}
+			con.close();
+		}
+		catch (Exception exc)
+		{
+			exc.printStackTrace();
+		}
+		return timestamp;
+	}
+	
+	public static long GetCount(boolean traffic, boolean debris)
+	{
+		long count = 0;
+		try
+		{
+			Connection con = DAOProvider.getDataSource().getConnection();
+			try
+			{
+				String tableName = GetTableNameForDataType(traffic, debris);
+				ResultSet results = DAOProvider.SelectTableSecure(tableName, " count(*) ", "", "",
+						con, null);
+				while (results.next())
+				{
+					count = results.getLong(1);
+				}
+			}
+			catch (Exception exc)
+			{
+				exc.printStackTrace();
+			}
+			con.close();
+		}
+		catch (Exception exc)
+		{
+			exc.printStackTrace();
+		}
+		return count;
+	}
 
 	private static Object[][] PrepareMultipleValuesForInsert(List<WorstPylonCase> listOfData)
 	{

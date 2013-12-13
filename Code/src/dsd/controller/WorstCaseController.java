@@ -24,4 +24,14 @@ public class WorstCaseController
 	{
 		WorstCaseDAO.UpdateCalculatedData(listOfData, traffic, debris);
 	}
+	
+	public static long GetMaxTimestamp(boolean traffic, boolean debris)
+	{
+		return WorstCaseDAO.GetMaxTimestamp(traffic, debris);
+	}
+	
+	public static long GetCount(boolean traffic, boolean debris)
+	{
+		return WorstCaseDAO.GetCount(traffic, debris);
+	}
 }

@@ -79,4 +79,14 @@ public class RawDataController
 
 		System.out.println("Tuples updated: " + counterUpdated + " touples inserted: " + counterInserted);
 	}
+	
+	public static long GetMaxTimestamp()
+	{
+		return RawDataDAO.GetMaxTimestamp();
+	}
+	
+	public static long GetCount()
+	{
+		return RawDataDAO.GetCount();
+	}
 }
