@@ -24,10 +24,6 @@ public class CalculationsController implements Runnable {
 	private long last1hourTimestamp;
 	private long last1dayTimestamp;
 	
-	private long tempLast10minTimestamp;
-	private long tempLast1hourTimestamp;
-	private long tempLast1dayTimestamp;
-	
 	/*
 	 * Variables to store the results of calcualtions
 	 */
@@ -97,13 +93,9 @@ public class CalculationsController implements Runnable {
 				
 				pool.shutdown();
 				
-				exit = pool.awaitTermination(10, TimeUnit.MINUTES);
+				exit = pool.awaitTermination(1, TimeUnit.HOURS);
 			}
 			while(!exit && trigger<3);
-			
-			if(exit){
-				this.WriteOnDB();
-			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -116,41 +108,64 @@ public class CalculationsController implements Runnable {
 	 */
 	public void StoreResults(ArrayList<CalculatedData> resultsList, ArrayList<WorstCase> worstCaseList, long timeStamp, eCalculatedDataType dataType)
 	{
+		clearResultsLists();
+		
 		switch (dataType)
 		{
 		case TenMinutes:
-			this.resultsList10min = resultsList;
-			this.worstCaseList = worstCaseList;
-			this.tempLast10minTimestamp = timeStamp;
+			this.last10minTimestamp = timeStamp;
+			WriteCalculatedDataAndWorstCaseOnDB(resultsList, worstCaseList, dataType);
 			break;
 		
 		case OneHour:
-			this.resultsList1hour = resultsList;
-			this.tempLast1hourTimestamp = timeStamp;
+			this.last1hourTimestamp = timeStamp;
+			WriteCalculatedDataOnDB(resultsList, dataType);
 			break;
 			
 		case OneDay:
-			this.resultsList1day = resultsList;
-			this.tempLast1dayTimestamp = timeStamp;
+			this.last1dayTimestamp = timeStamp;
+			WriteCalculatedDataOnDB(resultsList, dataType);
 			break;
 		}
 	}
 	
+	
 	/**
-	 * This method store on the db the information for all the three grouped data tables
+	 * This methods clear the results lists.
 	 */
-	private void WriteOnDB()
+	private void clearResultsLists() {
+		this.resultsList10min.clear();
+		this.resultsList1hour.clear();
+		this.resultsList1day.clear();
+	}
+
+
+	/**
+	 * This method store on the db the information for a table
+	 */
+	private void WriteCalculatedDataOnDB(ArrayList<CalculatedData> resultsList, eCalculatedDataType dataType)
 	{
-		CalculatedDataController.InsertCalculatedData(this.resultsList10min, eCalculatedDataType.TenMinutes);
-		/*
-		 * TODO storing of worst case list
-		 */
-		CalculatedDataController.InsertCalculatedData(this.resultsList1hour, eCalculatedDataType.OneHour);
-		CalculatedDataController.InsertCalculatedData(this.resultsList1day, eCalculatedDataType.OneDay);
-		
-		this.last10minTimestamp = this.tempLast10minTimestamp;
-		this.last1hourTimestamp = this.tempLast1hourTimestamp;
-		this.last1dayTimestamp = this.tempLast1dayTimestamp;
+		CalculatedDataController.InsertCalculatedData(resultsList, dataType);
+	}
+	
+	/**
+	 * This method store on the db the information for a worst case
+	 */
+	private void WriteWorstCaseOnDB(ArrayList<WorstCase> worstCaseList)
+	{
+		for(WorstCase wc : this.worstCaseList)
+		{
+			WorstCaseController.InsertWorstCaseData(wc.getWorstList(), wc.getTraffic(), wc.getDebris());
+		}
+	}
+	
+	/**
+	 * This method store on the db the information for a worst case
+	 */
+	private void WriteCalculatedDataAndWorstCaseOnDB(ArrayList<CalculatedData> resultsList, ArrayList<WorstCase> worstCaseList, eCalculatedDataType dataType)
+	{
+		WriteCalculatedDataOnDB(resultsList,dataType);
+		WriteWorstCaseOnDB(worstCaseList);
 	}
 
 	
