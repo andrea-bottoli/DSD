@@ -27,6 +27,10 @@
 		<div class="button">
 			<span><a href="HistoryView">History Diagrams</a></span>
 		</div>
+		
+		<div class="button">
+			<span><a href="TestTimestampAndCounts">Statistics</a></span>
+		</div>
 	<!-- 	
 		<div class="button">
 			<span> <a href="http://www.weatheronline.co.uk/Italy.html">WeatherForcast</span>

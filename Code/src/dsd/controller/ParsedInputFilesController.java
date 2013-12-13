@@ -31,4 +31,14 @@ public class ParsedInputFilesController
 		pathForTransforming = StringUtils.replace(pathForTransforming, "/", String.valueOf(File.separatorChar));	
 		return pathForTransforming;
 	}
+	
+	public static long GetMaxTimestamp(eFileType fileType)
+	{
+		return ParsedInputFilesDAO.GetMaxTimestamp(fileType);
+	}
+	
+	public static long GetCount(eFileType fileType)
+	{
+		return ParsedInputFilesDAO.GetCount(fileType);
+	}
 }
