@@ -5,37 +5,52 @@
 <t:desktopPage>
 
 	<body>
-		<div class="actualValues">
-			<h3>Actual Values</h3>
-			<hr />
-			<br/>
-			<div>
-				<p>
-					Anemometer: <b>0.315 m/s</b>
-				</p>
-				<p>
-					Sonar: <b>2.19 m</b>
-				</p>
-				<p>
-					Hydrometer: <b>17.28625 m</b>
-				</p>
+		<div >
+			<div id="actual_values">
+				<h3>Actual Values</h3>
+				<hr />
+				<br/>
+				<div >
+					<p>
+						Anemometer: <b>0.315 m/s</b>						
+					</p>
+					<p>
+						Sonar: <b>2.19 m</b>						
+					</p>
+					<p>
+						Hydrometer: <b>17.28625 m</b>						
+					</p>
+					<p>
+						Anemometer: <b>0.315 m/s</b>						
+					</p>
+					<p>
+						Sonar: <b>2.19 m</b>						
+					</p>
+					<p>
+						Hydrometer: <b>17.28625 m</b>
+					</p>
+				</div>
+				<hr />
+				<br/>
 			</div>
-			<hr />
-			<br/>
-			<div>
+
+			<div id="pictures">
 				<img class=sensorPics src="${requestScope.mantovaPath}" alt="Mantova camera picture of Bridge Borgoforte" />
 				<img class=sensorPics src="${requestScope.modenaPath}" alt="Modena camera picture of Bridge Borgoforte" />
 			</div>
+			
+			<div id="google_rose">
+				<img id="pic_google" src="SiteImages/Google_maps_pic.png" alt="Real-time bridge monitoring logo" />
+			</div>
+			
 			<div class="clear_float"></div>
 
 		</div>
 		
-		
-				
-		
-		
+		<hr />
+		<br/>		
 
-		<div class="graphs">
+		<div>
 			<h3>Last 24 hours trend:</h3>
 			<hr>
 			

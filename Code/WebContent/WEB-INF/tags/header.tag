@@ -2,7 +2,7 @@
 
 <div id="header" class="header">
 	<div id="logo" class= "logo">
-		<img class=center src="SiteImages/logo.png" alt="Real-time bridge monitoring logo" />
+		<img class="logo" src="SiteImages/logo.png" alt="Real-time bridge monitoring logo" />
 	</div>
 	
 	<div id="title" class=title>
@@ -43,7 +43,7 @@
 		<div class="login">
 		 	<form >
 				UserName: <input type="text" name="username"><br>
-				Password: <input type="text" name="password"><br>
+				Password: <input type="text" name="password">
 				<input type="submit">
 			</form>
 		</div>
