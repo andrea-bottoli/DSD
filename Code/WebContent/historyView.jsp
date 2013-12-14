@@ -5,16 +5,6 @@
 
 <t:desktopPage>
 
-	 
-	<link rel="stylesheet" href="JS/jQueryUI/themes/base/jquery.ui.all.css">
-	<script src="JS/jQueryUI/jquery-1.9.1.js"></script>
-	<script src="JS/jQueryUI/ui/jquery.ui.core.js"></script>
-	<script src="JS/jQueryUI/ui/jquery.ui.widget.js"></script>
-	<script src="JS/jQueryUI/ui/jquery.ui.datepicker.js"></script>
-	
-	<script type="text/javascript" src="JS/validations.js"></script>
-	
-	<link rel="stylesheet" href="JS/jQueryUI/demos.css">
 
 			
 <body>
@@ -26,12 +16,12 @@ Welcome to the history view! :)
 
 $(function() {
 	var min = new Date(2011, 3 - 1, 22);
-	var max = new Date(2012, 12 - 1, 04);
+	var max = new Date(2011,11 - 1, 19);
 	$( "#from" ).datepicker({
 		defaultDate: "+1w",//TODO: what is default? last month?
 		minDate: min,
 	//	minDate: -20, //TODO: update min date with our minDate from db
-		maxDate: max,  //TODO: update max date with our minDate from db
+		maxDate: max,  
 		changeMonth: true,
 		numberOfMonths: 2,
 		//possible to change both month and year
@@ -46,7 +36,7 @@ $(function() {
 		defaultDate: "+1w",
 		minDate: min, //min is 
 		maxDate: max,
-	//	maxDate: "+1M +10D",  //TODO: update max date with our maxDate from db
+	//	maxDate: "+1M +10D",  
 		changeMonth: true,
 		numberOfMonths: 2,
 		//possible to change both month and year
@@ -55,6 +45,12 @@ $(function() {
 		onClose: function( selectedDate ) {
 			$( "#from" ).datepicker( "option", "maxDate", selectedDate );
 		}
+	});
+	
+	$(function() {
+		$( "#datepicker" ).datepicker({ 
+			minDate: min, 
+			maxDate: max });
 	});
 });
 </script>
@@ -73,8 +69,8 @@ $(function() {
 	<div class="specificDate">
 		<form name="specificDate" action="#" method="get">
 			<br>Specific date: 
-			<input type="text" name="specificDate" class="tcal" value="" />
-			<input type="submit" value="Show">
+			<input type="text" id="datepicker" name="datepicker"/>
+			<input type="submit" name="showDate" value="Show">
 		</form>
 	</div>
 	

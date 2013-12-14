@@ -55,8 +55,25 @@ public class HistoryView extends HttpServlet {
 			 calEnd.set(Calendar.DAY_OF_MONTH, Integer.parseInt(endDate.substring(3,5)));
 
 		   
-		} else {
+		} else if (request.getParameter("showDate") != null){
+			String startDate = request.getParameter("datepicker");
+			
+			calStart.set(Calendar.YEAR, Integer.parseInt(startDate.substring(6,10)));
+			calStart.set(Calendar.MONTH, Integer.parseInt(startDate.substring(0,2))-1);
+			calStart.set(Calendar.DAY_OF_MONTH, Integer.parseInt(startDate.substring(3,5)));
+			calStart.set(Calendar.HOUR_OF_DAY, 0);
+			calStart.set(Calendar.MINUTE, 0);
+			calStart.set(Calendar.SECOND, 0);
+			
+			
+			
+			calEnd.setTimeInMillis(calStart.getTimeInMillis());
+			calEnd.add(Calendar.DAY_OF_YEAR, +1);
+			
 		   	
+			System.out.println(calEnd.toString());
+			System.out.println(calStart.toString());
+		}else {
 			calStart.set(2011, 2, 22, 16, 00, 0);//2011-03-22 15:00:00
 			
 			calEnd.set(2011, 2, 22, 16, 56, 30);//2011-03-22 16:00:30

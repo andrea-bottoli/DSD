@@ -110,8 +110,8 @@ margin: 0 0 20px;
 
 .content {
 background-color: #f5f5f5;
-max-width: 1300px;
-min-width:700px;
+max-width: 90%;
+/*min-width:700px;*/
 margin:0  auto;
 padding: 105px 20px 130px;
 }
