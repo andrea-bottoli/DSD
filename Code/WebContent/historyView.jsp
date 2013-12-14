@@ -16,13 +16,12 @@ Welcome to the history view! :)
 
 $(function() {
 	var min = new Date(2011, 3 - 1, 22);
-	var max = new Date(2011,11 - 1, 19);
+	var max = new Date(2012,11 - 1, 19);
 	$( "#from" ).datepicker({
 		defaultDate: "+1w",//TODO: what is default? last month?
 		minDate: min,
 	//	minDate: -20, //TODO: update min date with our minDate from db
 		maxDate: max,  
-		changeMonth: true,
 		numberOfMonths: 2,
 		//possible to change both month and year
 		changeMonth: true,
@@ -36,8 +35,7 @@ $(function() {
 		defaultDate: "+1w",
 		minDate: min, //min is 
 		maxDate: max,
-	//	maxDate: "+1M +10D",  
-		changeMonth: true,
+	//	maxDate: "+1M +10D", 
 		numberOfMonths: 2,
 		//possible to change both month and year
 		changeMonth: true, 
@@ -49,8 +47,11 @@ $(function() {
 	
 	$(function() {
 		$( "#datepicker" ).datepicker({ 
-			minDate: min, 
-			maxDate: max });
+			minDate: min,
+			maxDate: max,
+			changeMonth: true,
+			changeYear: true
+			 });
 	});
 });
 </script>
@@ -71,31 +72,32 @@ $(function() {
 			<br>Specific date: 
 			<input type="text" id="datepicker" name="datepicker"/>
 			<input type="submit" name="showDate" value="Show">
+			***This part is being implemented. Try it out :)
 		</form>
 	</div>
 	
 	<div class="specificMonth">
 		<form name="specificMonth" action="#" method="get">
-			Specific month: 
-			<select>
-	  			<option value="January">January</option>
-	  			<option value="February">February</option>
-	  			<option value="March">March</option>
-	 			<option value="April">April</option>
-	 			<option value="May">May</option>
-	  			<option value="June">June</option>
-	  			<option value="July">July</option>
-	 			<option value="August">August</option>
-	 			<option value="September">September</option>
-	  			<option value="October">October</option>
-	  			<option value="November">November</option>
-	 			<option value="December">December</option>
+			<br>Specific month: 
+			<select name= "month">
+	  			<option value="1">January</option>
+	  			<option value="2">February</option>
+	  			<option value="3">March</option>
+	 			<option value="4">April</option>
+	 			<option value="5">May</option>
+	  			<option value="6">June</option>
+	  			<option value="7">July</option>
+	 			<option value="8">August</option>
+	 			<option value="9">September</option>
+	  			<option value="10">October</option>
+	  			<option value="11">November</option>
+	 			<option value="12">December</option>
 			</select>
-			<select name="day" >
+			<select name="year" >
 				 <option value="2011">2011</option>
 	  			<option value="2012">2012</option>
 			</select>
-			<input type="submit" value="Show">
+			<input type="submit" name="showMonth" value="Show">
 		</form>
 	</div>
 	
@@ -204,27 +206,7 @@ $(function() {
 		        });
 			}
 		}
-		/*
-		// generate some random data, quite different range
-		function generateChartData() {
-		    
-		    for (var i = 0; i < 500; i++) {
-		        // we create date objects here. In your data, you can have date strings 
-		        // and then set format of your dates using chart.dataDateFormat property,
-		        // however when possible, use date objects, as this will speed up chart rendering.                    
-		        var newDate = new Date(firstDate);
-		        newDate.setDate(newDate.getDate() + i);
-		        
-		        var visits = Math.round(Math.random() * 40) - 20;
-		        
-		        chartData.push({
-		            date: newDate,
-		            visits: visits
-		        });
-		    }
-		}
 
-		*/
 
 		// this method is called when chart is first inited as we listen for "dataUpdated" event
 		function zoomChart() {
