@@ -49,10 +49,16 @@ public class HistoryView extends HttpServlet {
 			calStart.set(Calendar.YEAR, Integer.parseInt(startDate.substring(6,10)));
 			calStart.set(Calendar.MONTH, Integer.parseInt(startDate.substring(0,2))-1);
 			calStart.set(Calendar.DAY_OF_MONTH, Integer.parseInt(startDate.substring(3,5)));
+			calStart.set(Calendar.HOUR_OF_DAY, 0);
+			calStart.set(Calendar.MINUTE, 0);
+			calStart.set(Calendar.SECOND, 0);
 			 
 			 calEnd.set(Calendar.YEAR, Integer.parseInt(endDate.substring(6,10)));
 			 calEnd.set(Calendar.MONTH, Integer.parseInt(endDate.substring(0,2))-1);
 			 calEnd.set(Calendar.DAY_OF_MONTH, Integer.parseInt(endDate.substring(3,5)));
+			 calEnd.set(Calendar.HOUR_OF_DAY, 0);
+			 calEnd.set(Calendar.MINUTE, 0);
+			 calEnd.set(Calendar.SECOND, 0);
 
 		   
 		} else if (request.getParameter("showDate") != null){
@@ -68,11 +74,33 @@ public class HistoryView extends HttpServlet {
 			
 			
 			calEnd.setTimeInMillis(calStart.getTimeInMillis());
-			calEnd.add(Calendar.DAY_OF_YEAR, +1);
+		//	calEnd.add(Calendar.DAY_OF_YEAR, +1);
+		//	calEnd.roll(Calendar.DATE, true);
+			calEnd.set(Calendar.HOUR_OF_DAY, 23);
+			calEnd.set(Calendar.MINUTE, 59);
+			calEnd.set(Calendar.SECOND, 59);
 			
 		   	
-			System.out.println(calEnd.toString());
-			System.out.println(calStart.toString());
+		}else if (request.getParameter("showMonth") != null) {
+			//TODO implement when the real calculated data is in the database :)
+			/*int month = Integer.parseInt(request.getParameter("month"));
+			int year = Integer.parseInt(request.getParameter("year"));
+			
+			calStart.set(Calendar.YEAR, year);
+			calStart.set(Calendar.MONTH, month - 1);
+			calStart.set(Calendar.DAY_OF_MONTH, 1);
+			calStart.set(Calendar.HOUR_OF_DAY, 0);
+			calStart.set(Calendar.MINUTE, 0);
+			calStart.set(Calendar.SECOND, 0);
+			
+			calEnd.setTimeInMillis(calStart.getTimeInMillis());
+			if (month == 12) {
+				calEnd.set(Calendar.MONTH, 1);
+				calEnd.set(Calendar.YEAR, year + 1);
+			}
+			else
+				calEnd.set(Calendar.MONTH, month + 1);
+			*/
 		}else {
 			calStart.set(2011, 2, 22, 16, 00, 0);//2011-03-22 15:00:00
 			
