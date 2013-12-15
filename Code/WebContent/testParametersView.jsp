@@ -3,24 +3,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 
-<style style="text/css">
-  	.hoverTable{
-		width:100%; 
-		border-collapse:collapse; 
-	}
-	.hoverTable td{ 
-		padding:7px; border:#4e95f4 1px solid;
-	}
-	/* Define the default color for all the table rows */
-	.hoverTable tr{
-		background: #b8d1f3;
-	}
-	/* Define the hover highlight color for the table row */
-    .hoverTable tr:hover {
-          background-color: #ffff99;
-    }
-</style>
-
 <t:desktopPage>
 	<jsp:useBean id="currentValidParameters" type="java.util.ArrayList<dsd.model.Parameter>" scope="request"/>
 	<%-- <jsp:useBean id="parametersListForTimestamp" type="java.util.ArrayList<dsd.model.Parameter>" scope="request"/>
@@ -29,7 +11,7 @@
 	<h1>Current valid parameters</h1>
 	<hr />
 	<br/>
-	<div >
+	<div id="parameters">
 		<table class="hoverTable">
 			<tr>
 				<td  style="width:5%; font-weight:900; font-size:100%">Parameter Data ID:</td>
