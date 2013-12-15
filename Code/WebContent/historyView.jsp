@@ -27,7 +27,7 @@ $(function() {
 		changeMonth: true,
 		changeYear: true,
 		onClose: function( selectedDate ) {
-			$( "#to" ).datepicker( "option", "minDate", selectedDate );
+			$( "#to" ).datepicker( "option", "minDate", selectedDate);
 		}
 	});
 
@@ -216,7 +216,7 @@ $(function() {
 		    // different zoom methods can be used - zoomToIndexes, zoomToDates, zoomToCategoryValues
 		    chart.zoomToIndexes(chartData.length - 40, chartData.length - 1);
 		}
-
+/*
 		// changes cursor mode from pan to select
 		function setPanSelect() {
 		    if (document.getElementById("rb1").checked) {
@@ -228,7 +228,7 @@ $(function() {
 		    }
 		    chart.validateNow();
 		}   
-		
+		*/
 		</script>
 
 		
