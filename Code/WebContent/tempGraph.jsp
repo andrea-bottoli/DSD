@@ -34,7 +34,7 @@
 					</tr>
 					<tr>
 					<td class="actual_values_table_entry">River bed height:</td>
-					<td>3 m/s</td>
+					<td>3 m</td>
 					</tr>
 				</table>
 				</div>
@@ -60,7 +60,6 @@
 
 		<div>
 			<h3>Last 24 hours trend:</h3>
-			<hr>
 			
 			<div id="wrapper">
 			
@@ -71,6 +70,7 @@
 					<div id="Wind_speed_graph" class="all_graphs" ></div>
 							
 					<script type="text/javascript">
+					
 					var chart;
 					var chartData = [];
 					var chartCursor;
@@ -177,7 +177,7 @@
 					        chartCursor.pan = true;
 					    }
 					    chart.validateNow();
-					}  
+					}
 					</script>
 				</div>
 				
@@ -294,7 +294,7 @@
 					        chartCursor.pan = true;
 					    }
 					    chart.validateNow();
-					}  
+					}
 					</script>
 				</div>
 			
