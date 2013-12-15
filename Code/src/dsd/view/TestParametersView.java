@@ -1,6 +1,7 @@
 package dsd.view;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -111,6 +112,16 @@ public class TestParametersView extends HttpServlet
 	/**
 	 * 
 	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		   response.setContentType("text/html");
+
+		      // Actual logic goes here.
+		      PrintWriter out = response.getWriter();
+		      out.println("<h1>" + request.getParameter("value") + "</h1>");
+		      out.println("<h1>" + request.getParameter("parameterID") + "</h1>");
+		      out.println("<h1>" + "Add usedID" + "</h1>");
+	}
+	
 	private static final long serialVersionUID = -5754463975955231994L;
 
 }
