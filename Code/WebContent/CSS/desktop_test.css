@@ -123,7 +123,13 @@ padding: 105px 20px 130px;
 	margin-right: 15%;
 }
 
-
+.actual_values_table_entry {
+	font-weight:bold;
+	/*text-decoration: underline;*/
+	width: 200px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
 
 #actual_values{
 	width: 30%;
@@ -156,9 +162,9 @@ padding: 105px 20px 130px;
 #wrapper {
 	margin-top: 20px;
     width: 100%;
-    height: 400px;
+    height: 350px;
     /*border: 1px solid black;*/
-    overflow-x: scroll; /* will contain if #first is longer than #second */
+    /*overflow-x: scroll; /* will contain if #first is longer than #second */
 }
 #first {
     width: 32%;
@@ -188,6 +194,13 @@ padding: 105px 20px 130px;
 	width: 100%;
 	height: 290px;
 	}
+	
+#bridge_structure {
+	margin-left: 5%;
+	margin-right: 5%;
+	width: 90%;
+	
+}	
 	
 /* -----------footer--------------------------- */
 
