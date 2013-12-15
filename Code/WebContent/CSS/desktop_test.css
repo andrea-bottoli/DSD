@@ -55,6 +55,7 @@ margin: 0 0 20px;
 	position: fixed;
 	left: 0;
 	top: 0;
+	z-index:1;
 	border-bottom:1px solid #666;
 	border-top:1px solid #666;
 }
