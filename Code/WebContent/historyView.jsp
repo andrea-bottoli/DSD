@@ -136,7 +136,7 @@ $(function() {
 		    chart.dataDateFormat = "YYYY-MM-DD hh:mm:ss";
 		    chart.pathToImages = "http://www.amcharts.com/lib/3/images/";
 		    chart.dataProvider = chartData;
-		    chart.categoryField = "date";
+		   	chart.categoryField = "date";
 		    
 		    // listen for "dataUpdated" event (fired when chart is rendered) and call zoomChart method when it happens
 		    chart.addListener("dataUpdated", zoomChart);
@@ -145,11 +145,13 @@ $(function() {
 		    // category
 		    var categoryAxis = chart.categoryAxis;
 		    categoryAxis.parseDates = true; // as our data is date-based, we set parseDates to true
-		    categoryAxis.minPeriod = "ss"; // our data is daily, so we set minPeriod to DD
+		   categoryAxis.dateFormats = {period:'ss',format:'JJ:NN:SS'};
+		    categoryAxis.minPeriod = "ss"; // our data is in seconds currently, so we set minPeriod to ss
 		    categoryAxis.dashLength = 1;
 		    categoryAxis.gridAlpha = 0.15;
 		    categoryAxis.minorGridEnabled = true;
 		    categoryAxis.axisColor = "#DADADA";
+		  
 		    
 		    // value                
 		    var valueAxis = new AmCharts.ValueAxis();
@@ -176,6 +178,7 @@ $(function() {
 		    chartCursor = new AmCharts.ChartCursor();
 		    chartCursor.cursorPosition = "mouse";
 		    chart.addChartCursor(chartCursor);
+		   
 		    
 		    // SCROLLBAR
 		    var chartScrollbar = new AmCharts.ChartScrollbar();
