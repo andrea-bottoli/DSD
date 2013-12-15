@@ -8,10 +8,7 @@
 <t:desktopPage>
 			
 <body>
-Welcome to the history view! :)
-<br>
-<br>
-<br>
+
 	<script>
 //this script is temporarly here
 
@@ -57,49 +54,67 @@ $(function() {
 });
 </script>
 
-		<div class="dateRange">
-			<form name="dateRange" action="HistoryView" onsubmit="return validateRange()" method="get" >
-				<label for="from">Start date: </label>
-				<input type="text" id="from" name="from"/>
-				<label for="to">End date: </label>
-				<input type="text" id="to" name="to"/>
-				<input type="submit" name="showRange" value="Show">
-				***This part is being implemented. Try it out :)
+
+
+	<div id="historyRange">
+	 <h>Choose the range for the history graphs:</h>
+
+		
+		<form name="dateRange" action="HistoryView" onsubmit="return validateRange()" method="get" >
+			<div class="dateRange">
+			
+				<div class="formElement">
+					<label for="from">Start date:</label><br>
+					<input type="text" id="from" name="from"/>
+				</div>
+				<div class="formElement2">
+					<label for="to">End date: </label><br>
+					<input type="text" id="to" name="to"/>
+				</div>
+				
+					<div class="formElement3">
+					<input type="submit" name="showRange" value=" Show ">
+					</div>
+				</div>
 			</form>
-		</div>
+		
 		
 		<div class="specificDate">
 			<form name="specificDate" action="#" method="get">
-				<br>Specific date: 
-				<input type="text" id="datepicker" name="datepicker"/>
-				<input type="submit" name="showDate" value="Show">
-				***This part is being implemented. Try it out :)
+				<div class="formElement">
+					<p>Specific date: </p>    
+					<input type="text" id="datepicker" name="datepicker"/>
+				</div>
+				<input type="submit" name="showDate" value=" Show ">
 			</form>
 		</div>
 		
 		<div class="specificMonth">
 			<form name="specificMonth" action="#" method="get">
-				<br>Specific month: 
-				<select name= "month">
-		  			<option value="1">January</option>
-		  			<option value="2">February</option>
-		  			<option value="3">March</option>
-		 			<option value="4">April</option>
-		 			<option value="5">May</option>
-		  			<option value="6">June</option>
-		  			<option value="7">July</option>
-		 			<option value="8">August</option>
-	 			<option value="9">September</option>
-	  			<option value="10">October</option>
-	  			<option value="11">November</option>
-	 			<option value="12">December</option>
-			</select>
-			<select name="year" >
-				 <option value="2011">2011</option>
-	  			<option value="2012">2012</option>
-			</select>
-			<input type="submit" name="showMonth" value="Show">
-		</form>
+				<div class="formElement">
+					<p>Specific month: </p>
+					<select name= "month">
+			  			<option value="1">January</option>
+			  			<option value="2">February</option>
+			  			<option value="3">March</option>
+			 			<option value="4">April</option>
+			 			<option value="5">May</option>
+			  			<option value="6">June</option>
+			  			<option value="7">July</option>
+			 			<option value="8">August</option>
+			 			<option value="9">September</option>
+			  			<option value="10">October</option>
+			  			<option value="11">November</option>
+			 			<option value="12">December</option>
+					</select>
+					<select name="year" >
+						 <option value="2011">2011</option>
+		  				<option value="2012">2012</option>
+					</select>
+				</div>
+				<input type="submit" name="showMonth" value=" Show ">
+			</form>
+		</div>
 
 	
 	<script type="text/javascript">
@@ -114,23 +129,34 @@ $(function() {
 		*/
 	</script>
 	
-	<div class="specificDate">
-		<form name="specificDate" action="#" method="get">
-			Current month till now 
-			<input type="submit" value="Show">
+		<div class="specificDate">
+			<form name="specificDate" action="#" method="get">
+				<div id="monthTillNow">
+					<input type="submit" value=" Current month till now ">
+				</div>
+				
+			</form>
+		</div>
+	
+	</div>
+	
+	<div id="chosenHistorySettings">
+	
+	<div id="labelRange">
+	 <h>Historical data from: DD.MM.YYYY hh:mm:ss to: DD.MM.YYYY hh:mm:ss</h>
+	</div>
+		<form>
+			<div id="TD">
+			<input type="checkbox" name="vehicle" value="T"><b>T</b>
+			<input type="checkbox" name="vehicle" value="D"><b>D</b> 
+			</div>
 		</form>
+	
 	</div>
-	</div>
 	
-	<br>
-	<br>
-	
-	
-	
-
 	
 	<div id="wrapperHistory">
-			
+				
 				<div id="firstHistory" >
 				
 					<p class="graph_name">Wind speed graph:</p>	

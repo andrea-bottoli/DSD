@@ -205,11 +205,134 @@ padding: 105px 20px 130px;
 
 /*-----------historyViewContent----------------*/
 
+#historyRange {
+	padding: 1%;
+		margin: 1% 2%; /* top and bottom are 1%; left and right are 2%*/
+
+		border: 1px solid green;
+		width: 96%;
+}
+
+#historyRange p, label {
+	font-weight: bold;
+}
+
+.formElement {
+	float: left;
+	margin-top: 1%;
+	margin-left: 4%;
+	
+}
+
+.formElement2 {
+	float: left;
+	margin-top: 1%;
+	margin-left: 1%;
+}
+
+.formElement3 {
+	margin-top: 1%;
+	
+}
+
+
+#TD {
+	font-size: 23px;
+	margin: 2px;
+}
+
+#historyRange input[type=text] {
+	padding:5px; 
+	border:2px solid #ccc; 
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+
+#historyRange  input[type=text]:focus {
+	border-color:#333; 
+}
+
+#historyRange select {
+	padding:5px; border:2px solid #ccc;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-appearance: none;
+}
+
+#historyRange select:focus {
+	border-color:#333; 
+}
+
+input[type=checkbox] {
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	width: 20px;
+	height: 20px;
+	margin: 1% 0.5% 1% 1%;
+}
+
+#historyRange input[type=submit] {
+	padding:5px 15px; 
+	background:#ccc; 
+	border:0 none;
+	cursor:pointer;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	margin: 35px 1%; 
+}
+
+#monthTillNow input[type=submit] {
+	padding:5px 15px; 
+	background:#ccc; 
+	border:0 none;
+	cursor:pointer;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	margin: 25px 4%;
+}
+
+#historyRange h {
+	font-weight: bold;
+	font-size: 17px;
+}
+
+#chosenHistorySettings {
+		padding: 1%;
+		margin: 1% 2%; /* top and bottom are 1%; left and right are 2%*/
+
+		border: 1px solid green;
+		width: 96%;
+}
+
+#labelRange {
+	width: 90%;
+	float: left;
+}
+
+#chosenHistorySettings h {
+	font-weight: bold;
+	font-size: 17px;
+}
+
+.dateRange {
+	width: 100%;
+	height: 70px;
+}
+
+.specificDate {
+	width: 100%;
+	height: 70px;
+}
+
+.specificMonth {
+	width: 100%;
+	height: 70px;
+}
+
 #wrapperHistory {
 	margin-top: 20px;
     width: 100%;
     height: 700px;
-	
 }
 
 #firstHistory {
