@@ -145,7 +145,7 @@ $(function() {
 		    // category
 		    var categoryAxis = chart.categoryAxis;
 		    categoryAxis.parseDates = true; // as our data is date-based, we set parseDates to true
-		   categoryAxis.dateFormats = {period:'ss',format:'JJ:NN:SS'};
+		
 		    categoryAxis.minPeriod = "ss"; // our data is in seconds currently, so we set minPeriod to ss
 		    categoryAxis.dashLength = 1;
 		    categoryAxis.gridAlpha = 0.15;
