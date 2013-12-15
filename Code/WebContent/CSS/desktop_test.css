@@ -16,6 +16,7 @@ box-sizing: border-box;
 
 .clear_float{clear: both;}
 
+
 body {
 background-color: #eee;
 font-size: 0.95em;
@@ -78,9 +79,11 @@ margin: 0 0 20px;
 	margin-left: 20px;
 }
 
-.title{
+.title {
 	text-align: center;
 }
+
+
 
 .buttons{
 	float: left;
