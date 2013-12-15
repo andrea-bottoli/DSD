@@ -132,7 +132,7 @@ $(function() {
 		<div class="specificDate">
 			<form name="specificDate" action="#" method="get">
 				<div id="monthTillNow">
-					<input type="submit" value=" Current month till now ">
+					<input type="submit" value=" Show current month  ">
 				</div>
 				
 			</form>
