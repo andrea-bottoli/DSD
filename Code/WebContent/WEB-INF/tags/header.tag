@@ -37,10 +37,10 @@
 	</div>
 	 
 		<div class="login">
-		 	<form >
-				UserName: <input type="text" name="username"><br>
-				Password: <input type="text" name="password"><br>
-				<input type="submit">
+		 	<form method="POST" action="../../j_security_check">
+				Penis: <input type="text" name="j_username"><br>
+				Password: <input type="password" name="J_password"><br>
+				<input type="submit" value="Login">
 			</form>
 		</div>
 	
