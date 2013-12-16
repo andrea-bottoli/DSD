@@ -16,6 +16,8 @@ public class WorstCasesTask implements Runnable{
 	private WorstCase worstCase;
 	private PylonForces pylonForces;
 	
+	private long timeStamp;
+	
 	private ArrayList<Pylon> pylonList;
 	private ArrayList<Float> minList;
 	private ArrayList<Integer> comboNumberList;
@@ -31,12 +33,16 @@ public class WorstCasesTask implements Runnable{
 	
 	
 	
-	public WorstCasesTask(PylonForces pylonForces, WorstCase worstCase) {
+	public WorstCasesTask(PylonForces pylonForces, WorstCase worstCase, long timeStamp) {
 		super();
 		this.traffic = worstCase.getTraffic();
 		this.debris = worstCase.getDebris();
 		this.worstCase = worstCase;
 		this.pylonForces = pylonForces;
+		
+		this.timeStamp = timeStamp;
+		
+		this.pylonList = new ArrayList<Pylon>();
 		
 		this.minList = new ArrayList<Float>();
 		this.minList.add(new Float(999999999));
@@ -65,6 +71,7 @@ public class WorstCasesTask implements Runnable{
 	private void calculateWorstCase()
 	{
 		int index;
+		float sf;
 		ArrayList<PylonCombination> pylonCombinationList;
 		
 		
@@ -76,17 +83,19 @@ public class WorstCasesTask implements Runnable{
 			
 			for(Pylon p : pc.getPylonList())
 			{
-				p.setSafetyFactor(this.calculateSingleSafetyFactor(p));
+				sf = calculateSingleSafetyFactor(p);
+				p.setSafetyFactor(sf);
 				
 				if(p.getSafetyFactor() < this.minList.get(index))
 				{
-					this.pylonList.set(index, p);
+					setPylon(index, p);
 					this.minList.set(index, p.getSafetyFactor());
 					this.comboNumberList.set(index, pc.getCombination().getCombinationNumber());
 				}
 				
 				index++;
 			}
+
 		}
 		
 		saveValues();
@@ -103,13 +112,24 @@ public class WorstCasesTask implements Runnable{
 		Double o = new Double(0,0); 
 		Double a = new Double(p.getN(), p.getM());
 		Double b;
+		double cs;
 		
 		b = MathEngine.realIntersectionBetweenCubicAndLinearFunctions(mnDomainFunctionA, mnDomainFunctionB, mnDomainFunctionC, mnDomainFunctionD, p.getM(), p.getN(), 0);
+		cs = MathEngine.safetyFactor(o, a, b);
 		
-		return ((float)MathEngine.safetyFactor(o, a, b));
+		return (float)cs;
 	}
 	
-	
+	private void setPylon(int index, Pylon p)
+	{
+		if(this.pylonList.isEmpty()){
+			this.pylonList.add(index, p);
+		}else if((index +1) > this.pylonList.size()){
+			this.pylonList.add(index, p);
+		}else{
+			this.pylonList.set(index, p);
+		}
+	}
 	
 	/**
 	 * this method save the values into the correct variable
@@ -123,6 +143,7 @@ public class WorstCasesTask implements Runnable{
 			this.worstCase.setPylon(p);
 			this.worstCase.setSafetyFactor(p.getSafetyFactor(), p.getPylonNumber());
 			this.worstCase.setPylonComboNumber(this.comboNumberList.get(index), p.getPylonNumber());
+			this.worstCase.setTimeStamp(this.timeStamp);
 			
 			index++;
 		}

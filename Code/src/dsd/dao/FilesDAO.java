@@ -4,17 +4,38 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
+import com.sun.org.apache.bcel.internal.generic.ANEWARRAY;
+
 import dsd.model.enums.eFileType;
 
 public class FilesDAO
 {
 
 	// Just for the moment as dirty solution!!
-	private static String anaFileDir = "/home/joti/Dokumente/Uni/MDH/DSD/Data Sources/2011.Borgoforte/04. Ane_Idro/";
-	private static String sonarFileDir = "/home/joti/Dokumente/Uni/MDH/DSD/Data Sources/2011.Borgoforte/04. Ane_Idro/";
-	private static String pictureModenaFileDir = "/home/joti/Dokumente/Uni/MDH/DSD/Data Sources/2011.Borgoforte/04. Ane_Idro/";
-	private static String pictureMantovaFileDir = "/home/joti/Dokumente/Uni/MDH/DSD/Data Sources/2011.Borgoforte/04. Ane_Idro/";
-
+	private static String anaFileDir = "";
+	private static String sonarFileDir = "";
+	private static String pictureModenaFileDir = "";
+	private static String pictureMantovaFileDir = "";
+//	private static String anaFileDir = "C:\\Users\\Lorenzo\\Desktop\\Sources\\";
+//	private static String sonarFileDir = "C:\\Users\\Lorenzo\\Desktop\\Sources\\";
+//	private static String pictureModenaFileDir = "C:\\Users\\Lorenzo\\Desktop\\Sources\\";
+//	private static String pictureMantovaFileDir = "C:\\Users\\Lorenzo\\Desktop\\Sources\\";
+//	private static String anaFileDir = "/home/joti/Dokumente/Uni/MDH/DSD/Data Sources/2011.Borgoforte/04. Ane_Idro/";
+//	private static String sonarFileDir = "/home/joti/Dokumente/Uni/MDH/DSD/Data Sources/2011.Borgoforte/04. Ane_Idro/";
+//	private static String pictureModenaFileDir = "/home/joti/Dokumente/Uni/MDH/DSD/Data Sources/2011.Borgoforte/04. Ane_Idro/";
+//	private static String pictureMantovaFileDir = "/home/joti/Dokumente/Uni/MDH/DSD/Data Sources/2011.Borgoforte/04. Ane_Idro/";
+	
+	
+	public static void setSourcePath(String path)
+	{
+		anaFileDir = path;
+		sonarFileDir = path;
+		pictureModenaFileDir = path;
+		pictureMantovaFileDir = path;
+	}
+	
+	
+	
 	public static ArrayList<File> getNewAneFiles(GregorianCalendar date)
 	{
 		ArrayList<File> returnList = new ArrayList<File>();

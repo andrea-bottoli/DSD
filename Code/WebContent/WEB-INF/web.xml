@@ -49,6 +49,14 @@
     <url-pattern>/TestParametersData</url-pattern>
   </servlet-mapping>
   <servlet>
+    <servlet-name>TestTimestampAndCounts</servlet-name>
+    <servlet-class>dsd.view.TestTimestampAndCounts</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TestTimestampAndCounts</servlet-name>
+    <url-pattern>/TestTimestampAndCounts</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>TestParser</servlet-name>
     <servlet-class>dsd.view.TestParser</servlet-class>
   </servlet>

@@ -1,41 +1,41 @@
 package dsd.jobs;
 
-import java.util.ArrayList;
-
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import dsd.controller.CalculatedDataController;
 import dsd.controller.JobController;
+import dsd.controller.ParsedInputFilesController;
+import dsd.model.enums.eCalculatedDataType;
+import dsd.model.enums.eFileType;
 
 public class LoadFlagJob  implements Job{
 
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		long inputSensorFlag = 0;
-		long imageFlag = 0;
+		long imageMnFlag = 0;
+		long imageMoFlag = 0;
 		long tenMinFlag = 0;
 		long oneHourFlag = 0;
 		long oneDayFlag = 0;
 		
-		ArrayList<Long> list = new ArrayList<Long>();
 		
 		System.out.println("QUARTZ JOB ONLY ON START UP -- LOADING FLAGS FROM DB");
 		
 		/*
-		 * TODO LOADING FROM DATABASE THE FLAGS
+		 * Loading from DB the maximum timestamp for each tables, parsed file, that we don't need
+		 * to redo the whole operations/calculations over those data
 		 */
-//		list =  .........  ;
-//		
-//		inputSensorFlag = list.get(0);
-//		imageFlag = list.get(1);
-//		tenMinFlag = list.get(2);
-//		oneHourFlag = list.get(3);
-//		oneDayFlag = list.get(4);
+		inputSensorFlag = ParsedInputFilesController.GetMaxTimestamp(eFileType.Analog);
+		imageMnFlag = ParsedInputFilesController.GetMaxTimestamp(eFileType.Mantova);
+		imageMoFlag = ParsedInputFilesController.GetMaxTimestamp(eFileType.Modena);
+		tenMinFlag = CalculatedDataController.GetMaxTimestamp(eCalculatedDataType.TenMinutes);
+		oneHourFlag = CalculatedDataController.GetMaxTimestamp(eCalculatedDataType.OneHour);
+		oneDayFlag = CalculatedDataController.GetMaxTimestamp(eCalculatedDataType.OneDay);
 		
-		
-		
-		JobController.setParserTimeStamps(inputSensorFlag, imageFlag);
+		JobController.setParserTimeStamps(inputSensorFlag, imageMnFlag, imageMoFlag);
 		JobController.setMathEngineTimeStamps(tenMinFlag, oneHourFlag, oneDayFlag);
 	}
 }

@@ -19,9 +19,9 @@ public class JobController
 	private static ArrayList<File> imageMoFilesToBeParsed = new ArrayList<File>();
 	
 	private static GregorianCalendar inputSensorsCalendar = new GregorianCalendar(1800, 01, 01);
-	private static GregorianCalendar imageCalendar = new GregorianCalendar(1800, 01, 01);
+	private static GregorianCalendar imageMnCalendar = new GregorianCalendar(1800, 01, 01);
+	private static GregorianCalendar imageMoCalendar = new GregorianCalendar(1800, 01, 01);
 	
-	private static boolean calculations = Boolean.FALSE;
 	private static boolean exit = Boolean.FALSE;
 	
 	private static CalculationsController calculationController = new CalculationsController(0, 0, 0);
@@ -34,7 +34,7 @@ public class JobController
 	 */
 	public static void setPath(String path)
 	{
-		//TODO missing methods that allow to set the sources path.
+		FilesDAO.setSourcePath(path);
 	}
 	
 	
@@ -46,10 +46,11 @@ public class JobController
 	 * @param sonarMilliseconds the timestamp for sonar gregorian calendar to be set
 	 * @param imageMnMilliseconds the timestamp for mantova image gregorian calendar to be set
 	 */
-	public static void setParserTimeStamps(long inputSensorsMilliseconds, long imageMilliseconds)
+	public static void setParserTimeStamps(long inputSensorsMilliseconds, long imageMnMilliseconds, long imageMoMilliseconds)
 	{
 		inputSensorsCalendar.setTime(new Date(inputSensorsMilliseconds));
-		imageCalendar.setTime(new Date(imageMilliseconds));
+		imageMnCalendar.setTime(new Date(imageMnMilliseconds));
+		imageMoCalendar.setTime(new Date(imageMoMilliseconds));
 	}
 	
 	/**
@@ -105,13 +106,11 @@ public class JobController
 			{
 				exit = Boolean.FALSE;
 				i = 0;
-				calculations = Boolean.FALSE;
 				analogFilesToBeParsed.clear();
 				sonarFilesToBeParsed.clear();
 
 				while ((i < Math.min(analogFileList.size(), sonarFileList.size())) && (exit != Boolean.TRUE))
 				{
-					System.out.println("\ti:" + i + "\nexit:" + exit + "\nmin: "+ Math.min(analogFileList.size(), sonarFileList.size()));
 					analogFileName = analogFileList.get(i).getName();
 					sonarFileName = sonarFileList.get(i).getName();
 
@@ -124,47 +123,51 @@ public class JobController
 						sonarFilesToBeParsed.add(sonarFileList.get(i));
 						i++;
 						inputSensorsCalendar = TimeCalculations.LabViewTimestampsToGregCalendar(Long.parseLong(analogTimestamp));
-						calculations = Boolean.TRUE;
-						System.out.println("\tin if true    i:" + i);
 					}
 					else
 					{
 						exit = Boolean.TRUE;
-						System.out.println("\tin if false");
 					}
 				}
 			}
 			
 			
-			imgMnList = FilesDAO.getMantovaImages(imageCalendar, imgMnList);
-			imgMoList = FilesDAO.getModenaImages(imageCalendar, imgMoList);
+			imgMnList = FilesDAO.getMantovaImages(imageMnCalendar, imgMnList);
+			imgMoList = FilesDAO.getModenaImages(imageMoCalendar, imgMoList);
 
-			if(!(imgMnList.isEmpty() || imgMoList.isEmpty()))
+			if(!imgMnList.isEmpty())
 			{
 				exit = Boolean.FALSE;
 				i = 0;
 				imageMnFilesToBeParsed.clear();
-				imageMoFilesToBeParsed.clear();
 				
-				while ((i < Math.min(imageMnFilesToBeParsed.size(), imageMoFilesToBeParsed.size())) && (exit != Boolean.TRUE))
+				while (i < imageMnFilesToBeParsed.size())
 				{
 					mantovaFileName = imgMnList.get(i).getName();
-					modenaFileName = imgMoList.get(i).getName();
-
 					mantovaTimestamp = mantovaFileName.substring(7, mantovaFileName.length() - 4);
+
+					imageMnFilesToBeParsed.add(imgMnList.get(i));
+					i++;
+					imageMnCalendar = (GregorianCalendar) TimeCalculations.PictureTimeToGregCalendar(mantovaTimestamp);
+				}
+			}
+			
+			
+			
+			if(!imgMoList.isEmpty())
+			{
+				exit = Boolean.FALSE;
+				i = 0;
+				imageMoFilesToBeParsed.clear();
+				
+				while (i < imageMoFilesToBeParsed.size())
+				{
+					modenaFileName = imgMoList.get(i).getName();
 					modenaTimestamp = modenaFileName.substring(6, modenaFileName.length() - 4);
 
-					if (mantovaTimestamp.compareTo(modenaTimestamp) == 0)
-					{
-						imageMnFilesToBeParsed.add(imgMnList.get(i));
-						imageMoFilesToBeParsed.add(imgMoList.get(i));
-						i++;
-						inputSensorsCalendar = (GregorianCalendar) TimeCalculations.PictureTimeToGregCalendar(mantovaTimestamp);
-					}
-					else
-					{
-						exit = Boolean.TRUE;
-					}
+					imageMoFilesToBeParsed.add(imgMoList.get(i));
+					i++;
+					imageMoCalendar = (GregorianCalendar) TimeCalculations.PictureTimeToGregCalendar(modenaTimestamp);
 				}
 			}
 			
@@ -188,10 +191,6 @@ public class JobController
 		{
 			ParserControler.ParseInputFile(analogFilesToBeParsed.get(i), eFileType.Analog);
 			ParserControler.ParseInputFile(sonarFilesToBeParsed.get(i), eFileType.Sonar);
-			/*
-			 * Saving of the inputSensorCalendar into DB
-			 * TODO
-			 */
 		}
 		
 		while(imgMnIt.hasNext() || imgMoIt.hasNext())
@@ -203,11 +202,6 @@ public class JobController
 			if(imgMnIt.hasNext()){
 				ParserControler.ParseInputFile(imgMnIt.next(), eFileType.Modena);
 			}
-			
-			/*
-			 * Saving of the imageCalendar into DB
-			 * TODO
-			 */
 		}
 	}
 	
@@ -218,13 +212,10 @@ public class JobController
 	 */
 	private static void startCalculations()
 	{
-		Thread thread;
-
-		if (calculations)
-		{
-			// call the calculations controller
-			thread = new Thread(calculationController);
-			thread.start();
-		}
+//		Thread thread;
+		
+		// call the calculations controller
+//		thread = new Thread(calculationController);
+//		thread.start();
 	}
 }

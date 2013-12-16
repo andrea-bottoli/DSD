@@ -4,20 +4,25 @@ import dsd.model.calculation.Pylon;
 
 public class WorstPylonCase{
 
+	private long worstCasePylonID;
 	private Pylon pylon;
 	private int comboNumber;
 	private final int position;
+	private long timestamp;
 	
-	public WorstPylonCase(int position)
+	public WorstPylonCase(int pylonNumber)
 	{
-		this.position = position;
+		this.pylon = new Pylon(pylonNumber);
+		this.position = getPosition(pylonNumber);
 	}
 	
-	public WorstPylonCase(Pylon pylon, int comboNumber, int pylonNumber) {
+	public WorstPylonCase(Pylon pylon, int comboNumber) {
 		super();
+		this.worstCasePylonID = 0;
 		this.pylon = pylon;
 		this.comboNumber = comboNumber;
-		this.position = getPosition(pylonNumber);
+		this.position = getPosition(pylon.getPylonNumber());
+		this.timestamp = 0;
 	}
 	
 	
@@ -28,17 +33,23 @@ public class WorstPylonCase{
 		switch (pylonNumber)
 		{
 		case 1:
-			temp = 0; break;
+			temp = 0;
+			break;
 		case 2:
-			temp = 1; break;
+			temp = 1;
+			break;
 		case 3:
-			temp = 2; break;
+			temp = 2;
+			break;
 		case 4:
-			temp = 3; break;
+			temp = 3;
+			break;
 		case 5:
-			temp = 4; break;
+			temp = 4;
+			break;
 		case 6:
-			temp = 5; break;
+			temp = 5;
+			break;
 		default:
 			temp = -1;
 		}
@@ -135,5 +146,33 @@ public class WorstPylonCase{
 	public int getPosition()
 	{
 		return this.position;
+	}
+
+	/**
+	 * @return the iD
+	 */
+	public long getID() {
+		return worstCasePylonID;
+	}
+
+	/**
+	 * @param iD the iD to set
+	 */
+	public void setID(long iD) {
+		worstCasePylonID = iD;
+	}
+
+	/**
+	 * @return the timestamp
+	 */
+	public long getTimestamp() {
+		return timestamp;
+	}
+
+	/**
+	 * @param timestamp the timestamp to set
+	 */
+	public void setTimestamp(long timestamp) {
+		this.timestamp = timestamp;
 	}
 }

@@ -24,24 +24,11 @@ public class CalculationsController implements Runnable {
 	private long last1hourTimestamp;
 	private long last1dayTimestamp;
 	
-	private long tempLast10minTimestamp;
-	private long tempLast1hourTimestamp;
-	private long tempLast1dayTimestamp;
-	
-	/*
-	 * Variables to store the results of calcualtions
-	 */
-	private ArrayList<CalculatedData> resultsList10min = null;
-	private ArrayList<CalculatedData> resultsList1hour = null;
-	private ArrayList<CalculatedData> resultsList1day = null;
-	
-	private ArrayList<WorstCase> worstCaseList = null;
-	
 	//Constructor
 	public CalculationsController(long  last10minTimestamp, long last1hourTimestamp, long last1dayTimestamp)
 	{
 		this.setTimeStamps(last10minTimestamp, last1hourTimestamp, last1dayTimestamp);	
-				
+		
 		ParametersController.IntializeCurrentParemeters();
 	}
 	
@@ -90,20 +77,16 @@ public class CalculationsController implements Runnable {
 				
 				//10min calculation task
 				pool.submit(new CalculationsControllerTask(this, eCalculatedDataType.TenMinutes ,this.last10minTimestamp));
-				//10min calculation task
+				//1hour calculation task
 				pool.submit(new CalculationsControllerTask(this, eCalculatedDataType.OneHour ,this.last1hourTimestamp));
-				//10min calculation task
+				//1day calculation task
 				pool.submit(new CalculationsControllerTask(this, eCalculatedDataType.OneDay ,this.last1dayTimestamp));
 				
 				pool.shutdown();
 				
-				exit = pool.awaitTermination(10, TimeUnit.MINUTES);
+				exit = pool.awaitTermination(1, TimeUnit.HOURS);
 			}
 			while(!exit && trigger<3);
-			
-			if(exit){
-				this.WriteOnDB();
-			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -116,41 +99,53 @@ public class CalculationsController implements Runnable {
 	 */
 	public void StoreResults(ArrayList<CalculatedData> resultsList, ArrayList<WorstCase> worstCaseList, long timeStamp, eCalculatedDataType dataType)
 	{
+		
 		switch (dataType)
 		{
 		case TenMinutes:
-			this.resultsList10min = resultsList;
-			this.worstCaseList = worstCaseList;
-			this.tempLast10minTimestamp = timeStamp;
+			this.last10minTimestamp = timeStamp;
+			WriteCalculatedDataAndWorstCaseOnDB(resultsList, worstCaseList, dataType);
 			break;
 		
 		case OneHour:
-			this.resultsList1hour = resultsList;
-			this.tempLast1hourTimestamp = timeStamp;
+			this.last1hourTimestamp = timeStamp;
+			WriteCalculatedDataOnDB(resultsList, dataType);
 			break;
 			
 		case OneDay:
-			this.resultsList1day = resultsList;
-			this.tempLast1dayTimestamp = timeStamp;
+			this.last1dayTimestamp = timeStamp;
+			WriteCalculatedDataOnDB(resultsList, dataType);
 			break;
+		}
+	}
+
+
+	/**
+	 * This method store on the db the information for a table
+	 */
+	private void WriteCalculatedDataOnDB(ArrayList<CalculatedData> resultsList, eCalculatedDataType dataType)
+	{
+		CalculatedDataController.InsertCalculatedData(resultsList, dataType);
+	}
+	
+	/**
+	 * This method store on the db the information for a worst case
+	 */
+	private void WriteWorstCaseOnDB(ArrayList<WorstCase> worstCaseList)
+	{	
+		for(WorstCase wc : worstCaseList)
+		{
+			WorstCaseController.UpdateWorstCaseData(wc.getWorstList(), wc.getTraffic(), wc.getDebris());
 		}
 	}
 	
 	/**
-	 * This method store on the db the information for all the three grouped data tables
+	 * This method store on the db the information for a worst case
 	 */
-	private void WriteOnDB()
+	private void WriteCalculatedDataAndWorstCaseOnDB(ArrayList<CalculatedData> resultsList, ArrayList<WorstCase> worstCaseList, eCalculatedDataType dataType)
 	{
-		CalculatedDataController.InsertCalculatedData(this.resultsList10min, eCalculatedDataType.TenMinutes);
-		/*
-		 * TODO storing of worst case list
-		 */
-		CalculatedDataController.InsertCalculatedData(this.resultsList1hour, eCalculatedDataType.OneHour);
-		CalculatedDataController.InsertCalculatedData(this.resultsList1day, eCalculatedDataType.OneDay);
-		
-		this.last10minTimestamp = this.tempLast10minTimestamp;
-		this.last1hourTimestamp = this.tempLast1hourTimestamp;
-		this.last1dayTimestamp = this.tempLast1dayTimestamp;
+		WriteCalculatedDataOnDB(resultsList,dataType);
+		WriteWorstCaseOnDB(worstCaseList);
 	}
 
 	

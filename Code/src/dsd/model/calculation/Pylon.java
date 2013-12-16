@@ -27,21 +27,6 @@ public class Pylon extends Force {
 	{
 		return this.getN();
 	}
-	
-	/**
-	 * M = (Mx^2 + My^2)^(0.5)
-	 * 
-	 * @return the Total M of the pylon
-	 */
-	public float getM()
-	{
-		double m;
-		/*
-		 * M = (Mx^2 + My^2)^(0.5)
-		 */
-		m = Math.sqrt((Math.pow(this.getMx(), 2)) + (Math.pow(this.getMy(), 2)));
-		return (float)m;
-	}
 
 	/**
 	 * @return the safetyFactor

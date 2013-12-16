@@ -5,39 +5,61 @@
 <t:desktopPage>
 
 	<body>
-		<div class="actualValues">
-			<h3>Actual Values</h3>
-			<hr />
-			<br/>
-			<div>
-				<p>
-					Anemometer: <b>0.315 m/s</b>
-				</p>
-				<p>
-					Sonar: <b>2.19 m</b>
-				</p>
-				<p>
-					Hydrometer: <b>17.28625 m</b>
-				</p>
+		<div >
+			<div id="actual_values">
+				<h3>Actual Values</h3>
+				<hr />
+				<br/>
+				<div >
+				<table>
+					<tr>
+					<td class="actual_values_table_entry">Flow rate: </td>
+					<td>520 m3/s</td>
+					</tr>
+					<tr>
+					<td class="actual_values_table_entry">Water level:</td>
+					<td>17 m</td>
+					</tr>
+					<tr>
+					<td class="actual_values_table_entry">Water speed:</td>
+					<td>1 m/s</td>
+					</tr>
+					<tr>
+					<td class="actual_values_table_entry">Wind speed:</td>
+					<td>3 m/s</td>
+					</tr>
+					<tr>
+					<td class="actual_values_table_entry">Wind direction:</td>
+					<td>32°</td>
+					</tr>
+					<tr>
+					<td class="actual_values_table_entry">River bed height:</td>
+					<td>3 m</td>
+					</tr>
+				</table>
+				</div>
+				<hr />
+				<br/>
 			</div>
-			<hr />
-			<br/>
-			<div>
-				<img class=sensorPics src="${requestScope.mantovaPath}" alt="Mantova camera picture of Bridge Borgoforte" />
-				<img class=sensorPics src="${requestScope.modenaPath}" alt="Modena camera picture of Bridge Borgoforte" />
+
+			<div id="pictures">
+				<img class=sensorPics src="SiteImages/mantova11032212564100.jpg" alt="Mantova camera picture of Bridge Borgoforte" />
+				<img class=sensorPics src="SiteImages/modena11032213541300.jpg" alt="Modena camera picture of Bridge Borgoforte" />
 			</div>
+			
+			<div id="google_rose">
+				<img id="pic_google" src="SiteImages/Google_maps_pic.png" alt="Real-time bridge monitoring logo" />
+			</div>
+			
 			<div class="clear_float"></div>
 
 		</div>
 		
-		
-				
-		
-		
+		<hr />
+		<br/>		
 
-		<div class="graphs">
+		<div>
 			<h3>Last 24 hours trend:</h3>
-			<hr>
 			
 			<div id="wrapper">
 			
@@ -48,6 +70,7 @@
 					<div id="Wind_speed_graph" class="all_graphs" ></div>
 							
 					<script type="text/javascript">
+					
 					var chart;
 					var chartData = [];
 					var chartCursor;
@@ -154,7 +177,7 @@
 					        chartCursor.pan = true;
 					    }
 					    chart.validateNow();
-					}  
+					}
 					</script>
 				</div>
 				
@@ -271,7 +294,7 @@
 					        chartCursor.pan = true;
 					    }
 					    chart.validateNow();
-					}  
+					}
 					</script>
 				</div>
 			
@@ -394,8 +417,14 @@
 				</div>
 			
 			</div>
-		
 			
+				<hr />
+				<br/>
+				<h3>Structure of the stack:</h3>
+				<div>
+					<img id="bridge_structure" src="SiteImages/Stack.png" alt="Table of pilons" />
+				</div>
+				
 			</div>
 			 
 			<div class="clear_float"></div>

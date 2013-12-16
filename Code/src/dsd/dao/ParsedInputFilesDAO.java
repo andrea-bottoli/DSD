@@ -134,6 +134,66 @@ public class ParsedInputFilesDAO
 		return storedPath;
 	}
 	
+	public static long GetMaxTimestamp(eFileType fileType)
+	{
+		long timestamp = 0;
+		try
+		{
+			Connection con = DAOProvider.getDataSource().getConnection();
+			try
+			{
+				Object[] parameters = new Object[1];
+				parameters[0] = new Integer(fileType.getCode());
+				ResultSet results = DAOProvider.SelectTableSecure(tableName, " max(timestamp) ", " type = ? ", "",
+						con, parameters);
+				while (results.next())
+				{
+					timestamp = results.getTimestamp(1).getTime();
+				}
+			}
+			catch (Exception exc)
+			{
+				exc.printStackTrace();
+			}
+			con.close();
+		}
+		catch (Exception exc)
+		{
+			exc.printStackTrace();
+		}
+		return timestamp;
+	}
+	
+	public static long GetCount(eFileType fileType)
+	{
+		long count = 0;
+		try
+		{
+			Connection con = DAOProvider.getDataSource().getConnection();
+			try
+			{
+				Object[] parameters = new Object[1];
+				parameters[0] = new Integer(fileType.getCode());
+				ResultSet results = DAOProvider.SelectTableSecure(tableName, " count(*) ", " type = ? ", "",
+						con, parameters);
+				while (results.next())
+				{
+					count = results.getLong(1);
+				}
+			}
+			catch (Exception exc)
+			{
+				exc.printStackTrace();
+			}
+			con.close();
+		}
+		catch (Exception exc)
+		{
+			exc.printStackTrace();
+		}
+		return count;
+	}
+	
 	private static Object[] PrepareValuesForInsert(ParsedInputFile dataTuple)
 	{
 		Object[] valueArray = new Object[5];

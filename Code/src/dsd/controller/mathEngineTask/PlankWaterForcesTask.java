@@ -32,6 +32,9 @@ public class PlankWaterForcesTask implements Runnable{
 		
 		float lFlowRate=0, lWaterSpeed=0, lAs=0, lHs=0, lBs=0, lSwater=0;
 		
+		/*
+		 * Q [m3/s]
+		 */
 		if(instrumentsData.getIdro1() < ParametersController.getParameter(eParameter.HeightLimitOfTheRiverForParametersa1b1c1).getValue())
 		{
 			lFlowRate = MathEngine.FlowRate(ParametersController.getParameter(eParameter.CoefficientA1forQhWhenIDRO1lessThanHwater1).getValue(),
@@ -55,6 +58,9 @@ public class PlankWaterForcesTask implements Runnable{
 		}
 		plankForces.setFlowRate(lFlowRate);
 		
+		/*
+		 * Vwater [m/s]
+		 */
 		lWaterSpeed = MathEngine.WaterSpeed(ParametersController.getParameter(eParameter.CoefficientAforTheRelationVwaterIDRO1).getValue(),
 											instrumentsData.getIdro1(),
 											ParametersController.getParameter(eParameter.CoefficientBforTheRelationVwaterIDRO1).getValue(),
@@ -62,6 +68,9 @@ public class PlankWaterForcesTask implements Runnable{
 		
 		plankForces.setWaterSpeed(lWaterSpeed);
 		
+		/*
+		 * lHs [m]
+		 */
 		if(instrumentsData.getSonar1() < ParametersController.getParameter(eParameter.HeightOfTheReferenceOfTheBottomOfTheRiver).getValue())
 		{
 			lHs=instrumentsData.getIdro1() - ParametersController.getParameter(eParameter.HeightOfTheReferenceOfTheBottomOfTheRiver).getValue();
@@ -83,26 +92,38 @@ public class PlankWaterForcesTask implements Runnable{
 		 * D = 0;
 		 * Bs = 2*Dpylon
 		 */
-		lBs = 2*ParametersController.getParameter(eParameter.DiameterOfThePylon).getValue();
+		lBs = 2*ParametersController.getParameter(eParameter.DiameterOfThePylon).getValue(); // lBs [m]
 		plankForces.setBsWithOutDebris(lBs);
-		lAs = lBs*lHs;
+		lAs = lBs*lHs; // lAs [m2]
+		/*
+		 * lSwater [N]
+		 */
 		lSwater = MathEngine.HydrodynamicThrustWithOutDebris(ParametersController.getParameter(eParameter.DragPlankingCoefficientDequals0).getValue(),
 																ParametersController.getParameter(eParameter.WaterDensity).getValue(), lAs, lWaterSpeed);
+		
+		/*
+		 * Transformation from [N] to [kN]
+		 */
+		lSwater /= 1000;
 		plankForces.setHydrodynamicThrustWithOutDebris(lSwater);
 		
 		/*
 		 * D = 1;
 		 * Bs = Cspan
 		 */
-		lBs = ParametersController.getParameter(eParameter.DistanceBetweenTwoLineOfPylon).getValue();
+		lBs = ParametersController.getParameter(eParameter.DistanceBetweenTwoLineOfPylon).getValue(); // lBs [m]
 		plankForces.setBsWithDebris(lBs);
-		lAs = lBs*lHs;
+		lAs = lBs*lHs; // lAs [m2]
 		lSwater = MathEngine.HydrodynamicThrustWithDebris(ParametersController.getParameter(eParameter.DragPlankingCoefficientDequals1).getValue(),
 															ParametersController.getParameter(eParameter.WaterDensity).getValue(),
 															lAs,
 															ParametersController.getParameter(eParameter.AreaReductionForDequals1).getValue(),
 															lWaterSpeed);
 		
+		/*
+		 * Transformation from [N] to [kN]
+		 */
+		lSwater /= 1000;
 		plankForces.setHydrodynamicThrustWithDebris(lSwater);
 	}
 }

@@ -8,6 +8,7 @@ public class Force {
 	private float qy;
 	private float mx;
 	private float my;
+	private float m;
 	
 	public Force()
 	{
@@ -17,6 +18,7 @@ public class Force {
 		this.qy = 0;
 		this.mx = 0;
 		this.my = 0;
+		this.m = 0;
 	}
 	
 	public Force(float n, float tx, float ty, float qy, float mx)
@@ -26,6 +28,9 @@ public class Force {
 		this.ty = ty;
 		this.qy = qy;
 		this.mx = mx;
+		this.my = 0;
+		this.m = 0;
+		setM(calculateM());
 	}
 	
 	public Force(float n, float tx, float ty, float qy, float mx, float my)
@@ -36,6 +41,7 @@ public class Force {
 		this.qy = qy;
 		this.mx = mx;
 		this.my = my;
+		setM(calculateM());
 	}
 
 	/**
@@ -106,6 +112,7 @@ public class Force {
 	 */
 	public void setMx(float mx) {
 		this.mx = mx;
+		setM(calculateM());
 	}
 	
 	/**
@@ -114,11 +121,43 @@ public class Force {
 	public float getMy() {
 		return my;
 	}
-
+	
 	/**
 	 * @param mx the mx to set
 	 */
 	public void setMy(float my) {
 		this.my = my;
+		setM(calculateM());
+	}
+	
+
+	/**
+	 * M = (Mx^2 + My^2)^(0.5)
+	 * 
+	 * @return the Total M of the pylon
+	 */
+	protected float calculateM()
+	{
+		double m;
+		/*
+		 * M = (Mx^2 + My^2)^(0.5)
+		 */
+		m = Math.sqrt(Math.pow(this.mx, 2) + Math.pow(this.my, 2));
+		return (float)m;
+	}
+	
+	/**
+	 * @return the m
+	 */
+	public float getM() {
+		calculateM();
+		return m;
+	}
+	
+	/**
+	 * @param mx the mx to set
+	 */
+	public void setM(float m) {
+		this.m = m;
 	}
 }

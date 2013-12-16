@@ -2,11 +2,11 @@
 
 <div id="header" class="header">
 	<div id="logo" class= "logo">
-		<img class=center src="SiteImages/logo.png" alt="Real-time bridge monitoring logo" />
+		<img class="logo" src="SiteImages/logo.png" alt="Real-time bridge monitoring logo" />
 	</div>
 	
 	<div id="title" class=title>
-		 <h1>Real-time bridge monitoring</h1>
+		 <h1><b>Real-time bridge monitoring: Borgoforte Bridge</b></h1>
 	</div>
 	
 
@@ -27,6 +27,10 @@
 		<div class="button">
 			<span><a href="HistoryView">History Diagrams</a></span>
 		</div>
+		
+		<div class="button">
+			<span><a href="TestTimestampAndCounts">Statistics</a></span>
+		</div>
 	<!-- 	
 		<div class="button">
 			<span> <a href="http://www.weatheronline.co.uk/Italy.html">WeatherForcast</span>
@@ -39,7 +43,7 @@
 		<div class="login">
 		 	<form >
 				UserName: <input type="text" name="username"><br>
-				Password: <input type="text" name="password"><br>
+				Password: <input type="text" name="password">
 				<input type="submit">
 			</form>
 		</div>
