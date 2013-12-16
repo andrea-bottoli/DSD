@@ -458,6 +458,11 @@ public class AlgebraicFunctions {
 	 * @return the distance between the two points in two dimensions
 	 */
 	public static double getDistanceBetweenTwo2DPoints(Double p1, Double p2){
-		return (Math.sqrt(Math.pow(getDistanceBetweenTwo1DPoints(p1.getX(),p2.getX()), 2) + Math.pow(getDistanceBetweenTwo1DPoints(p1.getY(),p2.getY()), 2)));
+		double dx, dy;
+		
+		dx = getDistanceBetweenTwo1DPoints(p1.getX(),p2.getX());
+		dy = getDistanceBetweenTwo1DPoints(p1.getY(),p2.getY());
+		
+		return Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
 	}
 }

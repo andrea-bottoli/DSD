@@ -65,7 +65,7 @@ public class WorstCase {
 	 */
 	public void setPylon1(Pylon pylon){
 		this.worstPylon1.setPylon(pylon);
-		setPylonListInternal(worstPylon1, getPosition(this.worstPylon1.getPylonNumber()));
+		setPylonListInternal(worstPylon1, this.worstPylon1.getPosition());
 	}
 	
 	/**
@@ -73,7 +73,7 @@ public class WorstCase {
 	 */
 	public void setPylon2(Pylon pylon){
 		this.worstPylon2.setPylon(pylon);
-		setPylonListInternal(worstPylon2, getPosition(this.worstPylon2.getPylonNumber()));
+		setPylonListInternal(worstPylon2, this.worstPylon2.getPosition());
 	}
 	
 	/**
@@ -81,7 +81,7 @@ public class WorstCase {
 	 */
 	public void setPylon3(Pylon pylon){
 		this.worstPylon3.setPylon(pylon);
-		setPylonListInternal(worstPylon3, getPosition(this.worstPylon3.getPylonNumber()));
+		setPylonListInternal(worstPylon3,  this.worstPylon3.getPosition());
 	}
 	
 	/**
@@ -89,7 +89,7 @@ public class WorstCase {
 	 */
 	public void setPylon4(Pylon pylon){
 		this.worstPylon4.setPylon(pylon);
-		setPylonListInternal(worstPylon4, getPosition(this.worstPylon4.getPylonNumber()));
+		setPylonListInternal(worstPylon4,  this.worstPylon4.getPosition());
 	}
 	
 	/**
@@ -97,7 +97,7 @@ public class WorstCase {
 	 */
 	public void setPylon5(Pylon pylon){
 		this.worstPylon5.setPylon(pylon);
-		setPylonListInternal(worstPylon5, getPosition(this.worstPylon5.getPylonNumber()));
+		setPylonListInternal(worstPylon5,  this.worstPylon5.getPosition());
 	}
 	
 	/**
@@ -105,7 +105,7 @@ public class WorstCase {
 	 */
 	public void setPylon6(Pylon pylon){
 		this.worstPylon6.setPylon(pylon);
-		setPylonListInternal(worstPylon6, getPosition(this.worstPylon6.getPylonNumber()));
+		setPylonListInternal(worstPylon6,  this.worstPylon6.getPosition());
 	}
 	
 	
@@ -761,6 +761,18 @@ public class WorstCase {
 	{
 		if(exist(pylon.getPylonNumber())){
 			setPylonInternal(pylon);
+		}
+	}
+
+	/**
+	 * This method sets the correct timestamp to the whole worstList
+	 * 
+	 * @param timestamp timestamp to be setted
+	 */
+	public void setTimeStamp(long timestamp) {
+		for(WorstPylonCase wpc : this.worstList)
+		{
+			wpc.setTimestamp(timestamp);
 		}
 	}
 }

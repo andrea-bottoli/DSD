@@ -163,28 +163,31 @@ public class CalculationsControllerTask implements Runnable{
 	private void Calculate()
 	{
 		//Local variables
+		int i;
 		RawData	rd = null;
 		ArrayList<RawData> localRawData = new ArrayList<RawData>();
-		ListIterator<RawData> globalIterator = this.rawData.listIterator();
+		ListIterator<RawData> globalIterator;
 		
 		try
 		{
 			
 			/*
-			 * Think about managing requests lack of time
-			 * from last timestamp to the last data available
-			 */
-			
+			 * Read RawData from database
+			 */			
 			ReadRawData();
+			
+			globalIterator = this.rawData.listIterator();
 			
 			do
 			{
+				i = 0;
 				localRawData.clear();
 				
-				for(int i = 0; i < this.sampleSize; i++)
+				while((i< this.sampleSize) && (globalIterator.hasNext()))
 				{
 					rd = globalIterator.next();
 					localRawData.add(rd);
+					i++;
 				}
 				
 				if(checkSampleSize(localRawData))
@@ -249,6 +252,10 @@ public class CalculationsControllerTask implements Runnable{
 		
 		startDate.setTime(new Date(this.lastTimestamp));
 		
+		if(this.rawData != null){
+			this.rawData.clear();
+		}
+		
 		this.rawData = RawDataController.GetAllForPeriod(startDate, new GregorianCalendar());
 	}
 	
@@ -271,11 +278,11 @@ public class CalculationsControllerTask implements Runnable{
 			{
 				pool = Executors.newFixedThreadPool(3);
 						
-				//WIND PUSH
+				//ANEMOMETER
 				pool.submit(new InstrumentsAnemometerDataTask(localRawData, this.instrumentsData));
-				//WATER PUSH
+				//HYDROMETER
 				pool.submit(new InstrumentsHydroDataTask(localRawData, this.instrumentsData));
-				//WEIGHT PRESSURE
+				//ECHO-SOUNDER
 				pool.submit(new InstrumentsSonarDataTask(localRawData, this.instrumentsData));
 				
 				pool.shutdown();
@@ -394,14 +401,14 @@ public class CalculationsControllerTask implements Runnable{
 			{
 				pool = Executors.newFixedThreadPool(8);
 						
-				pool.submit(new WorstCasesTask(this.mnPylonsForces, this.worstCase00));
-				pool.submit(new WorstCasesTask(this.moPylonsForces, this.worstCase00));
-				pool.submit(new WorstCasesTask(this.mnPylonsForces, this.worstCase01));
-				pool.submit(new WorstCasesTask(this.moPylonsForces, this.worstCase01));
-				pool.submit(new WorstCasesTask(this.mnPylonsForces, this.worstCase10));
-				pool.submit(new WorstCasesTask(this.moPylonsForces, this.worstCase10));
-				pool.submit(new WorstCasesTask(this.mnPylonsForces, this.worstCase11));
-				pool.submit(new WorstCasesTask(this.moPylonsForces, this.worstCase11));
+				pool.submit(new WorstCasesTask(this.mnPylonsForces, this.worstCase00, this.lastTimestamp));
+				pool.submit(new WorstCasesTask(this.moPylonsForces, this.worstCase00, this.lastTimestamp));
+				pool.submit(new WorstCasesTask(this.mnPylonsForces, this.worstCase01, this.lastTimestamp));
+				pool.submit(new WorstCasesTask(this.moPylonsForces, this.worstCase01, this.lastTimestamp));
+				pool.submit(new WorstCasesTask(this.mnPylonsForces, this.worstCase10, this.lastTimestamp));
+				pool.submit(new WorstCasesTask(this.moPylonsForces, this.worstCase10, this.lastTimestamp));
+				pool.submit(new WorstCasesTask(this.mnPylonsForces, this.worstCase11, this.lastTimestamp));
+				pool.submit(new WorstCasesTask(this.moPylonsForces, this.worstCase11, this.lastTimestamp));
 				
 				pool.shutdown();
 			}
@@ -455,6 +462,7 @@ public class CalculationsControllerTask implements Runnable{
 		 * TEMP CODE TO DEBUG THE RESULTS OF EACH CALCULATIONS
 		 */
 		//INSTUMENTS DATA
+		/*
 		System.out.println("------------------------------INSTRUMENTS DATA------------------------------");
 		System.out.println("ANE1\tANE2\tANE3\tANE4\t\t"
 						+ "IDRO1\tIDRO2\t\t"
@@ -479,7 +487,7 @@ public class CalculationsControllerTask implements Runnable{
 		System.out.println("4)Svd1: "+plankForces.getHydrodynamicThrustWithDebris());
 		System.out.println("5)hs: "+plankForces.getHs());
 		System.out.println("6)Bsd0: "+plankForces.getBsWithoutDebris());
-		System.out.println("7)Bsd0: "+plankForces.getBsWithDebris());
+		System.out.println("7)Bsd1: "+plankForces.getBsWithDebris());
 		System.out.println("\n# WEIGHT");
 		System.out.println("1)Pplank: "+plankForces.getPlankWeight());
 		System.out.println("2)Pstack: "+plankForces.getStackWeight());
@@ -551,7 +559,7 @@ public class CalculationsControllerTask implements Runnable{
 		System.out.println("\n###############");
 		System.out.println("## MODENA line");
 		System.out.println("###############");
-		for(PylonCombination c : mnPylonsForces.getPylonComboList())
+		for(PylonCombination c : moPylonsForces.getPylonComboList())
 		{
 			System.out.println("_________");
 			System.out.println("Combo number: "+c.getCombination().getCombinationNumber());
@@ -570,6 +578,7 @@ public class CalculationsControllerTask implements Runnable{
 			System.out.println("\n");
 		}
 		
+		
 		System.out.println("------------------------------WORST CASES------------------------------");
 		System.out.println("\n###############");
 		System.out.println("## Worst Case 00");
@@ -582,13 +591,12 @@ public class CalculationsControllerTask implements Runnable{
 			System.out.println("M: "+wpc.getM());
 			System.out.println("combo number: "+wpc.getComboNumber());
 			System.out.println("_________");
-			System.out.println("\n");
 		}
 		
 		System.out.println("\n###############");
 		System.out.println("## Worst Case 01");
 		System.out.println("###############");
-		for(WorstPylonCase wpc : worstCase00.getWorstList())
+		for(WorstPylonCase wpc : worstCase01.getWorstList())
 		{
 			System.out.println("_________");
 			System.out.println("P_Number: "+wpc.getPylonNumber());
@@ -596,13 +604,12 @@ public class CalculationsControllerTask implements Runnable{
 			System.out.println("M: "+wpc.getM());
 			System.out.println("combo number: "+wpc.getComboNumber());
 			System.out.println("_________");
-			System.out.println("\n");
 		}
 		
 		System.out.println("\n###############");
 		System.out.println("## Worst Case 10");
 		System.out.println("###############");
-		for(WorstPylonCase wpc : worstCase00.getWorstList())
+		for(WorstPylonCase wpc : worstCase10.getWorstList())
 		{
 			System.out.println("_________");
 			System.out.println("P_Number: "+wpc.getPylonNumber());
@@ -610,13 +617,12 @@ public class CalculationsControllerTask implements Runnable{
 			System.out.println("M: "+wpc.getM());
 			System.out.println("combo number: "+wpc.getComboNumber());
 			System.out.println("_________");
-			System.out.println("\n");
 		}
 		
 		System.out.println("\n###############");
 		System.out.println("## Worst Case 11");
 		System.out.println("###############");
-		for(WorstPylonCase wpc : worstCase00.getWorstList())
+		for(WorstPylonCase wpc : worstCase11.getWorstList())
 		{
 			System.out.println("_________");
 			System.out.println("P_Number: "+wpc.getPylonNumber());
@@ -624,7 +630,6 @@ public class CalculationsControllerTask implements Runnable{
 			System.out.println("M: "+wpc.getM());
 			System.out.println("combo number: "+wpc.getComboNumber());
 			System.out.println("_________");
-			System.out.println("\n");
 		}
 		
 		
@@ -634,7 +639,7 @@ public class CalculationsControllerTask implements Runnable{
 		System.out.println("## SAFETY FACTOR 01  ->" + safetyFactor.getSafetyFactorCombo01().getValue());
 		System.out.println("## SAFETY FACTOR 10  ->" + safetyFactor.getSafetyFactorCombo10().getValue());
 		System.out.println("## SAFETY FACTOR 11  ->" + safetyFactor.getSafetyFactorCombo11().getValue());
-		
+		*/
 		/*
 		 * ##################################################################
 		 * ####															#####

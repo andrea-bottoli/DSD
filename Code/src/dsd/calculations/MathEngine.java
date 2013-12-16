@@ -636,14 +636,14 @@ public class MathEngine {
 			rootsList.add(new Double(0,s*d));
 		}else{
 			m = m_force/n_force;
-			rootsList.addAll(realRootsOf3rdDegreeFunction(s*a, s*b, s*c-m, s*d-q));
+			rootsList.addAll(realRootsOf3rdDegreeFunction(s*a, s*b, (s*c)-m, (s*d)-q));
 		}
 		
 		intersection.setLocation(rootsList.get(0).getX(),0);
 		
 		for(Double r : rootsList){
-			d1 = AlgebraicFunctions.getDistanceBetweenTwo1DPoints(n_force, intersection.getX());
-			d2 = AlgebraicFunctions.getDistanceBetweenTwo1DPoints(n_force, r.getX());
+			d1 = AlgebraicFunctions.getDistanceBetweenTwo1DPoints(n_force, intersection.getX()); 	//Distance between the pylon_x and the savet_intersection_x
+			d2 = AlgebraicFunctions.getDistanceBetweenTwo1DPoints(n_force, r.getX());				//Distance between the pylon_x and the current root_x
 			
 			if((r.getX() >= 0) && (n_force >= 0) &&	(d2 < d1)){
 				intersection.setLocation(r.getX(), 0);

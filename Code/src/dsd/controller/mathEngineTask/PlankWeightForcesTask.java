@@ -31,6 +31,9 @@ public class PlankWeightForcesTask implements Runnable{
 	{
 		float lPstack;
 		
+		/*
+		 * lPstack [kN]
+		 */
 		lPstack=MathEngine.StackWeight(ParametersController.getParameter(eParameter.WeightOfSinglePulvino).getValue(),
 										ParametersController.getParameter(eParameter.WeightOfTheTrunkOfPylon).getValue(),
 										ParametersController.getParameter(eParameter.WeightOfTheSingleBeam).getValue(),
