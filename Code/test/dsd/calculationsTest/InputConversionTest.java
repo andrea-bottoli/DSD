@@ -9,31 +9,26 @@ public class InputConversionTest {
 
 	@Test
 	public void testwindSpeedConversion() {
-		InputConversion p1 = new InputConversion();
-	assertEquals(97.5, p1.windSpeedConversion(0.03), 0);
+	assertEquals(97.5, InputConversion.windSpeedConversion(0.03), 0);
 	}
 
 	@Test
 	public void testwindDirectionConversion() {
-		InputConversion p2 = new InputConversion();
-	assertEquals(1035, p2.windDirectionConversion(0.05),0);
+	assertEquals(1035, InputConversion.windDirectionConversion(0.05),0);
 	}
 
 	@Test
 	public void testwaterLevelConversion() {
-		InputConversion p3 = new InputConversion();
-	assertEquals(192.36, p3.waterLevelConversion(0.15),0);
+	assertEquals(192.36, InputConversion.waterLevelConversion(0.15),0);
 	}
 	
 	@Test
 	public void testwaterDistanceConversion() {
-		InputConversion p4 = new InputConversion();
-	assertEquals(-162.5, p4.waterDistanceConversion(0.15),0);
+	assertEquals(-162.5, InputConversion.waterDistanceConversion(0.15),0);
 	}
 	
 	@Test
 	public void testsonarConversion() {
-		InputConversion p5 = new InputConversion();
-	assertEquals(6.33, p5.sonarConversion(6),0);
+	assertEquals(6.33, InputConversion.sonarConversion(6),0);
 	}
 }

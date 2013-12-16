@@ -28,7 +28,7 @@ public class WeightFormulas {
 	 * @param Sonar1: SONAR1 value
 	 * @return The value of Structure Weight 
 	 */
-	protected static double StackWeight(double Ppu, double Ptp, double Pb, double Ppy, double Hbeam, double Sonar1) {
+	public static double StackWeight(double Ppu, double Ptp, double Pb, double Ppy, double Hbeam, double Sonar1) {
 		
 		double stackWeight = 0;
 		

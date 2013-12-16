@@ -26,7 +26,7 @@ public class WindPushFormulas {
 	 * @param Alpha: parameter of bridge angle respects to the north
 	 * @return The value represents the Effective Wind Speed
 	 */
-	protected static double EffectiveWindSpeed(double Ane2, double Ane4, double Alpha)
+	public static double EffectiveWindSpeed(double Ane2, double Ane4, double Alpha)
 	{
 		double effectiveWindSpeed = 0;
 		
@@ -55,7 +55,7 @@ public class WindPushFormulas {
 	 * @param Veffwind: the effective wind speed
 	 * @return The value of wind push on the planking
 	 */
-	protected static double WindPushOnPlank(double Cdwi, double RhoAir, double Aplank, double Veffwind)
+	public static double WindPushOnPlank(double Cdwi, double RhoAir, double Aplank, double Veffwind)
 	{
 		double windPushOnPlank = 0;
 		
@@ -85,7 +85,7 @@ public class WindPushFormulas {
 	 * @param Veffwind: the effective wind speed
 	 * @return The value of wind push on the A1 traffic combination
 	 */
-	protected static double WindPushOnA1TrafficCombination(double Cdwi, double RhoAir, double Beta1, double Atraf, double Veffwind)
+	public static double WindPushOnA1TrafficCombination(double Cdwi, double RhoAir, double Beta1, double Atraf, double Veffwind)
 	{
 		double windPushOnA1TrafficCombination = 0;
 		
@@ -115,7 +115,7 @@ public class WindPushFormulas {
 	 * @param Veffwind: the effective wind speed
 	 * @return The value of wind push on the A2 traffic combination
 	 */
-	protected static double WindPushOnA2TrafficCombination(double Cdwi, double RhoAir, double Beta1, double Atraf, double Veffwind)
+	public static double WindPushOnA2TrafficCombination(double Cdwi, double RhoAir, double Beta1, double Atraf, double Veffwind)
 	{
 		double windPushOnA2TrafficCombination = 0;
 		
@@ -145,7 +145,7 @@ public class WindPushFormulas {
 	 * @param Veffwind: the effective wind speed
 	 * @return The value of wind push on the A3 traffic combination
 	 */
-	protected static double WindPushOnA3TrafficCombination(double Cdwi, double RhoAir, double Beta2, double Atraf, double Veffwind)
+	public static double WindPushOnA3TrafficCombination(double Cdwi, double RhoAir, double Beta2, double Atraf, double Veffwind)
 	{
 		double windPushOnA3TrafficCombination = 0;
 		
