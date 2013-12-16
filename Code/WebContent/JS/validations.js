@@ -4,7 +4,6 @@
 
 function validateRange()
 {
-
 	var errorFlag = false;
 	var alertString = "Please insert the following parameters:";
 

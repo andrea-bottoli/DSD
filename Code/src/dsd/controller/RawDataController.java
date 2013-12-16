@@ -17,6 +17,62 @@ public class RawDataController
 	{
 		return RawDataDAO.GetAllForPeriod(startDate, endDate);
 	}
+	
+	/**
+	 * Receives a string of the starting date, and end date, both formatted MM/DD/YYY
+	 * Should return the raw date from 00:00:00 of the start date, until 23:59:59 on the end date
+	 * */
+	public static ArrayList<RawData> GetAllForPeriod(String startDate, String endDate)
+	{
+		Calendar calStart = Calendar.getInstance();
+		Calendar calEnd = Calendar.getInstance();
+
+		if (startDate.equals(endDate)){
+			return GetAllForDate(startDate);
+		}
+
+		calStart.set(Calendar.YEAR, Integer.parseInt(startDate.substring(6,10)));
+		calStart.set(Calendar.MONTH, Integer.parseInt(startDate.substring(0,2))-1);
+		calStart.set(Calendar.DAY_OF_MONTH, Integer.parseInt(startDate.substring(3,5)));
+		calStart.set(Calendar.HOUR_OF_DAY, 0);
+		calStart.set(Calendar.MINUTE, 0);
+		calStart.set(Calendar.SECOND, 0);
+		 
+		 calEnd.set(Calendar.YEAR, Integer.parseInt(endDate.substring(6,10)));
+		 calEnd.set(Calendar.MONTH, Integer.parseInt(endDate.substring(0,2))-1);
+		 calEnd.set(Calendar.DAY_OF_MONTH, Integer.parseInt(endDate.substring(3,5)));
+		 calEnd.set(Calendar.HOUR_OF_DAY, 0);
+		 calEnd.set(Calendar.MINUTE, 0);
+		 calEnd.set(Calendar.SECOND, 0);
+		 
+		return RawDataDAO.GetAllForPeriod(calStart, calEnd);
+	}
+	
+	/**
+	 * Receives a string of the starting date, formatted MM/DD/YYY
+	 * Should return the raw date from 00:00:00 that day, until 23:59:59 the same day
+	 * */
+	public static ArrayList<RawData> GetAllForDate(String startDate)
+	{
+		Calendar calStart = Calendar.getInstance();
+		Calendar calEnd = Calendar.getInstance();
+
+		calStart.set(Calendar.YEAR, Integer.parseInt(startDate.substring(6,10)));
+		calStart.set(Calendar.MONTH, Integer.parseInt(startDate.substring(0,2))-1);
+		calStart.set(Calendar.DAY_OF_MONTH, Integer.parseInt(startDate.substring(3,5)));
+		calStart.set(Calendar.HOUR_OF_DAY, 0);
+		calStart.set(Calendar.MINUTE, 0);
+		calStart.set(Calendar.SECOND, 0);
+		
+		
+		
+		calEnd.setTimeInMillis(calStart.getTimeInMillis());
+		calEnd.set(Calendar.HOUR_OF_DAY, 23);
+		calEnd.set(Calendar.MINUTE, 59);
+		calEnd.set(Calendar.SECOND, 59);
+		
+		return RawDataDAO.GetAllForPeriod(calStart, calEnd);
+	}
 
 	public static void InsertOrUpdateRawData(List<RawData> rawDataList, eFileType fileType)
 	{
