@@ -15,13 +15,13 @@ import dsd.controller.JobController;
 
 public class LoadPathJob implements Job{
 	
-	private static final String configPath = "EngineConfig/";
+	private static final String configPath = "EngineConfig"+File.separator;
 	private static final String configFileName = "source_path.cfg";
 	
-	private static File configPathFile = new File(configPath);
-	private static File configFile = new File(configPath+configFileName);
+	private static final File configPathFile = new File(configPath);
+	private static final File configFile = new File(configPath+configFileName);
 	
-	private static final String defaultSourcePath = "Sources/";
+	private static final String defaultSourcePath = "Sources"+File.separator;
 	
 	private static File defaultSourcePathFile = new File(defaultSourcePath);
 	
@@ -101,7 +101,7 @@ public class LoadPathJob implements Job{
 		try {
 			pw = new PrintWriter(new FileWriter(file, append), autoFlush);
 			
-			pw.println(defaultSourcePathFile.getAbsolutePath());
+			pw.print(defaultSourcePathFile.getAbsolutePath());
 			
 			pw.close();
 		} catch (IOException e) {
@@ -129,6 +129,11 @@ public class LoadPathJob implements Job{
 			createDirectory(configPathFile);
 		}
 		
+		if(!checkIfExists(defaultSourcePathFile))
+		{
+			createDirectory(defaultSourcePathFile);
+		}
+		
 		
 		/*
 		 * Check if the file exists. If not, the file is created automatically
@@ -143,12 +148,12 @@ public class LoadPathJob implements Job{
 				
 				BufferedReader br = new BufferedReader(new FileReader(configFile));
 				
-				line =  new String("");
+				line =  null;
 				line = br.readLine();
 				
 				while((line != null) && (exit != true)){
 					if(!line.startsWith("#")){
-						line = br.readLine();
+						line = new String(br.readLine());
 						exit = true;
 					}					
 				}

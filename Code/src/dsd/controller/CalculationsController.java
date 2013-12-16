@@ -24,20 +24,11 @@ public class CalculationsController implements Runnable {
 	private long last1hourTimestamp;
 	private long last1dayTimestamp;
 	
-	/*
-	 * Variables to store the results of calcualtions
-	 */
-	private ArrayList<CalculatedData> resultsList10min = null;
-	private ArrayList<CalculatedData> resultsList1hour = null;
-	private ArrayList<CalculatedData> resultsList1day = null;
-	
-	private ArrayList<WorstCase> worstCaseList = null;
-	
 	//Constructor
 	public CalculationsController(long  last10minTimestamp, long last1hourTimestamp, long last1dayTimestamp)
 	{
 		this.setTimeStamps(last10minTimestamp, last1hourTimestamp, last1dayTimestamp);	
-				
+		
 		ParametersController.IntializeCurrentParemeters();
 	}
 	
@@ -86,9 +77,9 @@ public class CalculationsController implements Runnable {
 				
 				//10min calculation task
 				pool.submit(new CalculationsControllerTask(this, eCalculatedDataType.TenMinutes ,this.last10minTimestamp));
-				//10min calculation task
+				//1hour calculation task
 				pool.submit(new CalculationsControllerTask(this, eCalculatedDataType.OneHour ,this.last1hourTimestamp));
-				//10min calculation task
+				//1day calculation task
 				pool.submit(new CalculationsControllerTask(this, eCalculatedDataType.OneDay ,this.last1dayTimestamp));
 				
 				pool.shutdown();
@@ -108,7 +99,6 @@ public class CalculationsController implements Runnable {
 	 */
 	public void StoreResults(ArrayList<CalculatedData> resultsList, ArrayList<WorstCase> worstCaseList, long timeStamp, eCalculatedDataType dataType)
 	{
-		clearResultsLists();
 		
 		switch (dataType)
 		{
@@ -128,16 +118,6 @@ public class CalculationsController implements Runnable {
 			break;
 		}
 	}
-	
-	
-	/**
-	 * This methods clear the results lists.
-	 */
-	private void clearResultsLists() {
-		this.resultsList10min.clear();
-		this.resultsList1hour.clear();
-		this.resultsList1day.clear();
-	}
 
 
 	/**
@@ -152,10 +132,10 @@ public class CalculationsController implements Runnable {
 	 * This method store on the db the information for a worst case
 	 */
 	private void WriteWorstCaseOnDB(ArrayList<WorstCase> worstCaseList)
-	{
-		for(WorstCase wc : this.worstCaseList)
+	{	
+		for(WorstCase wc : worstCaseList)
 		{
-			WorstCaseController.InsertWorstCaseData(wc.getWorstList(), wc.getTraffic(), wc.getDebris());
+			WorstCaseController.UpdateWorstCaseData(wc.getWorstList(), wc.getTraffic(), wc.getDebris());
 		}
 	}
 	

@@ -9,8 +9,8 @@ import dsd.model.enums.eSonarType;
 
 public class InstrumentsSonarDataTask implements Runnable{
 
-	private ArrayList<RawData> rawData;
-	private InstrumentsData instrumentsData;
+	private ArrayList<RawData> rawData = null;
+	private InstrumentsData instrumentsData = null;
 	
 	
 	
@@ -35,6 +35,7 @@ public class InstrumentsSonarDataTask implements Runnable{
 		float percUtilizedData12OverWholeSample, percWrongData3OverWholeSample, percOutWaterData4OverWholeSample;
 		float percErrorData5OverWholeSample, percUncertainData2Over12Sample;
 		float numbCertainValue, numbUncertainValue, numbWrongValue, numbOutOfWaterValue, numbErrorValue;
+		
 		ArrayList<Float> meanList = new ArrayList<Float>();
 		
 		meanRiverBottomLevel = 0;
@@ -49,7 +50,7 @@ public class InstrumentsSonarDataTask implements Runnable{
 		numbWrongValue=0;
 		numbOutOfWaterValue=0;
 		numbErrorValue=0;
-		
+
 		for(RawData rd : this.rawData)
 		{
 			//Sonar operations
@@ -79,9 +80,9 @@ public class InstrumentsSonarDataTask implements Runnable{
 		meanRiverBottomLevel = MathEngine.meanValue(meanList);
 		
 		percUtilizedData12OverWholeSample = (numbCertainValue+numbUncertainValue)/this.rawData.size();
-		percWrongData3OverWholeSample = numbWrongValue/this.rawData.size();;
-		percOutWaterData4OverWholeSample = numbOutOfWaterValue/this.rawData.size();;
-		percErrorData5OverWholeSample = numbErrorValue/this.rawData.size();;
+		percWrongData3OverWholeSample = numbWrongValue/this.rawData.size();
+		percOutWaterData4OverWholeSample = numbOutOfWaterValue/this.rawData.size();
+		percErrorData5OverWholeSample = numbErrorValue/this.rawData.size();
 		percUncertainData2Over12Sample = numbUncertainValue/(numbCertainValue + numbUncertainValue);
 		
 		varianceRiverBottomLevel = MathEngine.variance(meanList);

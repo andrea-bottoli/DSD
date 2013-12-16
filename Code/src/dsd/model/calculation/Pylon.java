@@ -27,15 +27,6 @@ public class Pylon extends Force {
 	{
 		return this.getN();
 	}
-	
-	
-	/**
-	 * @return the Total M of the pylon
-	 */
-	public float getM()
-	{
-		return this.getM();
-	}
 
 	/**
 	 * @return the safetyFactor

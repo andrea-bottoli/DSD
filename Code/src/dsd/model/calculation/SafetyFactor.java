@@ -2,6 +2,8 @@ package dsd.model.calculation;
 
 import java.util.ArrayList;
 
+import dsd.controller.mathEngineTask.SafetyFactorTask;
+
 public class SafetyFactor {
 	
 	/*
@@ -24,6 +26,12 @@ public class SafetyFactor {
 		this.safetyFactorCombo01 = new SafetyFactorCombo(Boolean.FALSE, Boolean.TRUE);
 		this.safetyFactorCombo10 = new SafetyFactorCombo(Boolean.TRUE, Boolean.FALSE);
 		this.safetyFactorCombo11 = new SafetyFactorCombo(Boolean.TRUE, Boolean.TRUE);
+		
+		this.safetyFactorComboList = new ArrayList<SafetyFactorCombo>();
+		this.safetyFactorComboList.add(safetyFactorCombo00);
+		this.safetyFactorComboList.add(safetyFactorCombo01);
+		this.safetyFactorComboList.add(safetyFactorCombo10);
+		this.safetyFactorComboList.add(safetyFactorCombo11);
 	}
 
 
@@ -58,6 +66,13 @@ public class SafetyFactor {
 		return safetyFactorCombo11;
 	}
 	
+	/**
+	 * this method returns the correct safety factor combo based on the T-D
+	 * 
+	 * @param traffic traffic status
+	 * @param debris debris status
+	 * @return the safety factor combo based on the T-D inputs.
+	 */
 	public SafetyFactorCombo getSpecificFactorCombo(Boolean traffic, Boolean debris)
 	{
 		for(SafetyFactorCombo sf : this.safetyFactorComboList)
@@ -67,6 +82,7 @@ public class SafetyFactor {
 				return sf;
 			}
 		}
+		
 		return null;
 	}
 }

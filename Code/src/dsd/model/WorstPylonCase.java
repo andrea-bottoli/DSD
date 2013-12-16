@@ -12,6 +12,7 @@ public class WorstPylonCase{
 	
 	public WorstPylonCase(int pylonNumber)
 	{
+		this.pylon = new Pylon(pylonNumber);
 		this.position = getPosition(pylonNumber);
 	}
 	

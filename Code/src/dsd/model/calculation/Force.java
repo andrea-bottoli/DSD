@@ -136,13 +136,13 @@ public class Force {
 	 * 
 	 * @return the Total M of the pylon
 	 */
-	private float calculateM()
+	protected float calculateM()
 	{
 		double m;
 		/*
 		 * M = (Mx^2 + My^2)^(0.5)
 		 */
-		m = Math.sqrt((Math.pow(this.mx, 2)) + (Math.pow(this.my, 2)));
+		m = Math.sqrt(Math.pow(this.mx, 2) + Math.pow(this.my, 2));
 		return (float)m;
 	}
 	
@@ -150,6 +150,7 @@ public class Force {
 	 * @return the m
 	 */
 	public float getM() {
+		calculateM();
 		return m;
 	}
 	
