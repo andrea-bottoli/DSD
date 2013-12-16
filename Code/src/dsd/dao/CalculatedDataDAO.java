@@ -146,7 +146,8 @@ public class CalculatedDataDAO
 			}
 			catch (Exception exc)
 			{
-				exc.printStackTrace();
+//				exc.printStackTrace();
+				timestamp = 0;
 			}
 			con.close();
 		}

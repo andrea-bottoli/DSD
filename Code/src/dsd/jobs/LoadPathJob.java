@@ -76,10 +76,10 @@ public class LoadPathJob implements Job{
 					+"# DO NOT WRITE NOTHING BEFORE THESE COMMENTS		#\n"
 					+"#			THAT ARE NO COMMENTS  !!!				#\n"
 					+"#													#\n"
-					+"#####################################################\n");
-			
+					+"#####################################################");
+			pw.println("#");
 			pw.println("# THAT IS THE PATH IN WHICH THE PROGRAM CAN FIND THE SOURCE FILES SENT BY THE SERVER ON THE BRIDGE\n"
-					+ "# IF NOT PRESENT WILL BE SETTED A DEFAULT PATH THAT IS './Source/'");
+					+ "# IF NOT PRESENT WILL BE SETTED A DEFAULT PATH THAT IS './Source'");
 			
 			pw.close();
 			
@@ -116,7 +116,7 @@ public class LoadPathJob implements Job{
 	 */
 	private void loadPath()
 	{
-		String line;
+		String line, path = null;
 		boolean exit = false;
 				
 		System.out.println("QUARTZ JOB ONLY ON START UP -- LOADING PATH FROM CONFIG FILE");
@@ -134,7 +134,6 @@ public class LoadPathJob implements Job{
 			createDirectory(defaultSourcePathFile);
 		}
 		
-		
 		/*
 		 * Check if the file exists. If not, the file is created automatically
 		 */
@@ -142,35 +141,36 @@ public class LoadPathJob implements Job{
 		{
 			createFile(configFile);
 			setDefaultPath(configFile);
-			JobController.setPath(defaultSourcePath);			
+			JobController.setPath(defaultSourcePath);
 		}else{
 			try {
-				
 				BufferedReader br = new BufferedReader(new FileReader(configFile));
 				
 				line =  null;
 				line = br.readLine();
 				
 				while((line != null) && (exit != true)){
-					if(!line.startsWith("#")){
+					if(line.startsWith("#")){
 						line = new String(br.readLine());
+					}else{
+						path = new String(line);
 						exit = true;
-					}					
+					}
+					
 				}
 				
 				br.close();
 				
-				if(line == null){
+				if(path == null){
 					/*
 					 * The path is missing in the file
 					 * has to be setted to the default path
 					 */
 					setDefaultPath(configFile);
-					line = defaultSourcePath;
+					path = defaultSourcePathFile.getAbsolutePath();
 				}
 				
-				
-				JobController.setPath(line);				
+				JobController.setPath(path);				
 				
 			} catch (IOException e) {
 				e.printStackTrace();
