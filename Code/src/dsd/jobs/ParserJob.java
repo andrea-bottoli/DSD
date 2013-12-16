@@ -26,6 +26,10 @@ public class ParserJob implements Job{
 	            if (job.getTrigger().equals(arg0.getTrigger()) && !job.getJobInstance().equals(this)) {
 	                System.out.println("There's another instance running, so leaving");
 	                return;
+	            }else if (job.getTrigger().getPriority() > arg0.getTrigger().getPriority())
+	            {
+	            	System.out.println("There are other more priority jobs with me, so leaving");
+	                return;
 	            }
 	        }
 			

@@ -141,7 +141,7 @@ public class LoadPathJob implements Job{
 		{
 			createFile(configFile);
 			setDefaultPath(configFile);
-			JobController.setPath(defaultSourcePath);
+			JobController.setPath(defaultSourcePathFile.getAbsolutePath());
 		}else{
 			try {
 				BufferedReader br = new BufferedReader(new FileReader(configFile));

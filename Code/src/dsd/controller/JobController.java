@@ -74,9 +74,9 @@ public class JobController
 		System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 		checkForNewData();
 		System.out.println("survived to check for new data");
-		//startParsing();
+//		startParsing();
 		System.out.println("survived to parsing");
-		//startCalculations();
+//		startCalculations();
 		System.out.println("survived to calculations");
 		System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n");
 	}
