@@ -212,10 +212,10 @@ public class JobController
 	 */
 	private static void startCalculations()
 	{
-//		Thread thread;
+		Thread thread;
 		
 		// call the calculations controller
-//		thread = new Thread(calculationController);
-//		thread.start();
+		thread = new Thread(calculationController);
+		thread.start();
 	}
 }

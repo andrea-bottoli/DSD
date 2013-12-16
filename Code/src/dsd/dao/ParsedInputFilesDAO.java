@@ -153,7 +153,8 @@ public class ParsedInputFilesDAO
 			}
 			catch (Exception exc)
 			{
-				exc.printStackTrace();
+//				exc.printStackTrace();
+				timestamp = 0;
 			}
 			con.close();
 		}

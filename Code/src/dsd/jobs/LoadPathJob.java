@@ -76,10 +76,10 @@ public class LoadPathJob implements Job{
 					+"# DO NOT WRITE NOTHING BEFORE THESE COMMENTS		#\n"
 					+"#			THAT ARE NO COMMENTS  !!!				#\n"
 					+"#													#\n"
-					+"#####################################################\n");
-			
+					+"#####################################################");
+			pw.println("#");
 			pw.println("# THAT IS THE PATH IN WHICH THE PROGRAM CAN FIND THE SOURCE FILES SENT BY THE SERVER ON THE BRIDGE\n"
-					+ "# IF NOT PRESENT WILL BE SETTED A DEFAULT PATH THAT IS './Source/'");
+					+ "# IF NOT PRESENT WILL BE SETTED A DEFAULT PATH THAT IS './Source'");
 			
 			pw.close();
 			
@@ -134,7 +134,6 @@ public class LoadPathJob implements Job{
 			createDirectory(defaultSourcePathFile);
 		}
 		
-		
 		/*
 		 * Check if the file exists. If not, the file is created automatically
 		 */
@@ -142,20 +141,20 @@ public class LoadPathJob implements Job{
 		{
 			createFile(configFile);
 			setDefaultPath(configFile);
-			JobController.setPath(defaultSourcePath);			
+			JobController.setPath(defaultSourcePath);
 		}else{
 			try {
-				
 				BufferedReader br = new BufferedReader(new FileReader(configFile));
 				
 				line =  null;
 				line = br.readLine();
 				
 				while((line != null) && (exit != true)){
-					if(!line.startsWith("#")){
+					if(line.startsWith("#")){
 						line = new String(br.readLine());
+					}else{
 						exit = true;
-					}					
+					}
 				}
 				
 				br.close();
@@ -168,7 +167,6 @@ public class LoadPathJob implements Job{
 					setDefaultPath(configFile);
 					line = defaultSourcePath;
 				}
-				
 				
 				JobController.setPath(line);				
 				
