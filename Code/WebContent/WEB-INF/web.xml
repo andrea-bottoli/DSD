@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
   <display-name>BridgeMonitoring</display-name>
+  
   <resource-ref>
     <description>MySQL Data source example</description>
     <res-ref-name>jdbc/RTBMconnection</res-ref-name>
@@ -24,54 +25,116 @@
     </init-param>
     <load-on-startup>2</load-on-startup>
   </servlet>
-  <servlet>
-    <servlet-name>CurrentStateView</servlet-name>
-    <servlet-class>dsd.view.CurrentStateView</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>CurrentStateView</servlet-name>
-    <url-pattern>/CurrentStateView</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <servlet-name>TestRawData</servlet-name>
-    <servlet-class>dsd.view.TestRawData</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>TestRawData</servlet-name>
-    <url-pattern>/TestRawData</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <servlet-name>TestParametersData</servlet-name>
-    <servlet-class>dsd.view.TestParametersView</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>TestParametersData</servlet-name>
-    <url-pattern>/TestParametersData</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <servlet-name>TestTimestampAndCounts</servlet-name>
-    <servlet-class>dsd.view.TestTimestampAndCounts</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>TestTimestampAndCounts</servlet-name>
-    <url-pattern>/TestTimestampAndCounts</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <servlet-name>TestParser</servlet-name>
-    <servlet-class>dsd.view.TestParser</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>TestParser</servlet-name>
-    <url-pattern>/TestParser</url-pattern>
-  </servlet-mapping>
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
-  </welcome-file-list>
+
+	
+   <servlet>
+		<servlet-name>CurrentStateView</servlet-name>
+ 		<servlet-class>dsd.view.CurrentStateView</servlet-class>
+   </servlet>
+	
+	<servlet-mapping>
+       <servlet-name>CurrentStateView</servlet-name>
+       <url-pattern>/CurrentStateView</url-pattern>
+   </servlet-mapping>
+	
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Wildcard means whole app requires authentication</web-resource-name>
+			<url-pattern>/CurrentStateView</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>dude</role-name>
+		</auth-constraint>
+
+		<user-data-constraint>
+			<!-- transport-guarantee can be CONFIDENTIAL, INTEGRAL, or NONE -->
+			<transport-guarantee>NONE</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
+	   
+   <servlet>
+     	<servlet-name>TestRawData</servlet-name>
+     	<servlet-class>dsd.view.TestRawData</servlet-class>
+   </servlet>
+	
+	<servlet-mapping>
+       <servlet-name>TestRawData</servlet-name>
+       <url-pattern>/TestRawData</url-pattern>
+   </servlet-mapping>
+
+      <security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Wildcard means whole app requires authentication</web-resource-name>
+			<url-pattern>/TestRawData</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>dude</role-name>
+		</auth-constraint>
+
+		<user-data-constraint>
+			<!-- transport-guarantee can be CONFIDENTIAL, INTEGRAL, or NONE -->
+			<transport-guarantee>NONE</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
+		   
+   <servlet>
+     	<servlet-name>TestParametersData</servlet-name>
+     	<servlet-class>dsd.view.TestParametersView</servlet-class>
+   </servlet>
+	
+	<servlet-mapping>
+	       <servlet-name>TestParametersData</servlet-name>
+	       <url-pattern>/TestParametersData</url-pattern>
+   </servlet-mapping>
+      
+      <security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Wildcard means whole app requires authentication</web-resource-name>
+			<url-pattern>/TestParametersData</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>dude</role-name>
+		</auth-constraint>
+
+		<user-data-constraint>
+			<!-- transport-guarantee can be CONFIDENTIAL, INTEGRAL, or NONE -->
+			<transport-guarantee>NONE</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
+   
+   <servlet>
+     	<servlet-name>TestParser</servlet-name>
+     	<servlet-class>dsd.view.TestParser</servlet-class>
+   </servlet>
+   	
+	<servlet-mapping>
+	       <servlet-name>TestParser</servlet-name>
+	       <url-pattern>/TestParser</url-pattern>
+   </servlet-mapping>
+   
+   <security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Wildcard means whole app requires authentication</web-resource-name>
+			<url-pattern>/TestParser</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>dude</role-name>
+		</auth-constraint>
+
+		<user-data-constraint>
+			<!-- transport-guarantee can be CONFIDENTIAL, INTEGRAL, or NONE -->
+			<transport-guarantee>NONE</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
+
   <servlet>
     <description></description>
     <display-name>HistoryView</display-name>
@@ -82,4 +145,23 @@
     <servlet-name>HistoryView</servlet-name>
     <url-pattern>/HistoryView</url-pattern>
   </servlet-mapping>
+
+
+	
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<form-login-config>
+			<form-login-page>/index.jsp</form-login-page>
+			<form-error-page>/error.html</form-error-page>
+		</form-login-config>
+	</login-config>
+  
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
 </web-app>

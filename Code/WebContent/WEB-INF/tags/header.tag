@@ -41,10 +41,10 @@
 	</div>
 	 
 		<div class="login">
-		 	<form >
-				UserName: <input type="text" name="username"><br>
-				Password: <input type="text" name="password">
-				<input type="submit">
+		 	<form method="POST" action="j_security_check">
+				Username: <input type="text" name="j_username"><br>
+				Password: <input type="password" name="j_password"><br>
+				<input type="submit" value="Login">
 			</form>
 		</div>
 	
