@@ -131,7 +131,7 @@ public class CalculationsControllerTask implements Runnable{
 		{
 		case TenMinutes:
 			this.sampleSize = 600;
-			this.minutesOffset = 1;
+			this.minutesOffset = 10;
 			this.hoursOffset = 0;
 			this.daysOffset = 0;
 			break;
@@ -207,25 +207,22 @@ public class CalculationsControllerTask implements Runnable{
 					i++;
 				}
 				
-				if(checkSampleSize(localRawData))
-				{
-					//clear the list that will contains the outputs
-					clearCalculatedDataList();
-					
-					this.lastTimestamp = rd.getTimestamp();
-					this.instrumentsData.setTimestamp(this.lastTimestamp);
-					/*
-					 * Start calculations for one line of the DB
-					 */
-					CalculateMeanValues(localRawData);
-					CalculatePlankForces();
-					CalculateLineForces();
-					CalculatePylonForces();
-					CalculateWorstCases();
-					CalculateSafetyFactor();
-					StoreCalculatedValues();
-					WriteOnDB();
-				}
+				//clear the list that will contains the outputs
+				clearCalculatedDataList();
+				
+				this.lastTimestamp = rd.getTimestamp();
+				this.instrumentsData.setTimestamp(this.lastTimestamp);
+				/*
+				 * Start calculations for one line of the DB
+				 */
+				CalculateMeanValues(localRawData);
+				CalculatePlankForces();
+				CalculateLineForces();
+				CalculatePylonForces();
+				CalculateWorstCases();
+				CalculateSafetyFactor();
+				StoreCalculatedValues();
+				WriteOnDB();
 			}
 			while (globalIterator.hasNext());
 		}
@@ -269,6 +266,7 @@ public class CalculationsControllerTask implements Runnable{
 		GregorianCalendar endDate;
 				
 		startDate.setTime(new Date(this.lastTimestamp));
+		startDate.add(Calendar.SECOND, -startDate.get(Calendar.SECOND));
 		
 		endDate = (GregorianCalendar)startDate.clone();
 		
@@ -276,14 +274,16 @@ public class CalculationsControllerTask implements Runnable{
 		endDate.add(Calendar.HOUR, this.hoursOffset);
 		endDate.add(Calendar.DATE, this.daysOffset);
 		
-		System.out.println("start date: "+startDate.getTime());
-		System.out.println("end date: "+endDate.getTime());
+		System.out.println("start date["+this.dataType+"]: "+startDate.getTime());
+		System.out.println("end date["+this.dataType+"]: "+endDate.getTime());
 		
 		
 		if(this.rawData != null){
 			this.rawData.clear();
 		}
 		this.rawData = RawDataController.GetAllForPeriod(startDate, endDate);
+		
+		this.lastTimestamp = endDate.getTimeInMillis();
 		System.out.println("***lunghezza dati: ["+this.rawData.size()+"]");
 	}
 	

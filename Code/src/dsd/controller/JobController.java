@@ -23,6 +23,7 @@ public class JobController
 	private static GregorianCalendar imageMoCalendar = new GregorianCalendar(1800, 01, 01);
 	
 	private static boolean exit = Boolean.FALSE;
+	private static boolean enableCalculation = Boolean.FALSE;
 	
 	private static CalculationsController calculationController = new CalculationsController(0, 0, 0);
 	
@@ -63,6 +64,9 @@ public class JobController
 	 */
 	public static void setMathEngineTimeStamps(long timeStamp10min, long timeStamp1hour, long timeStamp1day)
 	{
+		if(timeStamp10min == 0 || timeStamp1hour == 0 || timeStamp1day == 0){
+			enableCalculation = false;
+		}
 		calculationController.setTimeStamps(timeStamp10min, timeStamp1hour, timeStamp1day);
 	}
 	/**
@@ -91,6 +95,10 @@ public class JobController
 			String sonarFileName;
 			String analogTimestamp;
 			String sonarTimestamp;
+			String analogNextFileName;
+			String sonarNextFileName;
+			String analogNextTimestamp;
+			String sonarNextTimestamp;
 			String mantovaFileName;
 			String modenaFileName;
 			String mantovaTimestamp;
@@ -107,11 +115,26 @@ public class JobController
 				sonarFilesToBeParsed.clear();
 				while ((i < Math.min(analogFileList.size(), sonarFileList.size())) && (exit != Boolean.TRUE))
 				{
+					analogFileName ="";
+					sonarFileName ="";
+					analogTimestamp ="";
+					sonarTimestamp ="";
+					analogNextFileName ="";
+					sonarNextFileName ="";
+					analogNextTimestamp ="";
+					sonarNextTimestamp ="";
+					
 					analogFileName = analogFileList.get(i).getName();
 					sonarFileName = sonarFileList.get(i).getName();
 
 					analogTimestamp = analogFileName.substring(6, analogFileName.length() - 4);
 					sonarTimestamp = sonarFileName.substring(5, sonarFileName.length() - 4);
+					
+					analogNextFileName = analogFileList.get(i+1).getName();
+					sonarNextFileName = sonarFileList.get(i+1).getName();
+
+					analogNextTimestamp = analogNextFileName.substring(6, analogNextFileName.length() - 4);
+					sonarNextTimestamp = sonarNextFileName.substring(5, sonarNextFileName.length() - 4);
 					
 					if (analogTimestamp.compareTo(sonarTimestamp) == 0)
 					{
@@ -120,7 +143,13 @@ public class JobController
 						i++;
 						inputSensorsCalendar = TimeCalculations.LabViewTimestampsToGregCalendar(Long.parseLong(analogTimestamp));
 					}
-					else
+					else if(analogNextTimestamp.equals(sonarNextTimestamp) && analogNextFileName!="" && sonarNextFileName!="")
+					{
+						analogFilesToBeParsed.add(analogFileList.get(i));
+						sonarFilesToBeParsed.add(sonarFileList.get(i));
+						i++;
+						inputSensorsCalendar = TimeCalculations.LabViewTimestampsToGregCalendar(Long.parseLong(analogTimestamp));
+					}else
 					{
 						exit = Boolean.TRUE;
 					}
@@ -179,16 +208,18 @@ public class JobController
 	 * This method start the parsing process
 	 */
 	private static void startParsing()
-	{
+	{		
 		ListIterator<File> imgMnIt = imageMnFilesToBeParsed.listIterator();
 		ListIterator<File> imgMoIt = imageMoFilesToBeParsed.listIterator();
 		
 		System.out.println("-> It's parsing");
 		
 		for (int i = 0; i < Math.min(analogFilesToBeParsed.size(), sonarFilesToBeParsed.size()); i++)
-		{
+		{			
 			ParserControler.ParseInputFile(analogFilesToBeParsed.get(i), eFileType.Analog);
 			ParserControler.ParseInputFile(sonarFilesToBeParsed.get(i), eFileType.Sonar);
+			
+			enableCalculation = true;
 		}
 		
 		while(imgMnIt.hasNext() || imgMoIt.hasNext())
@@ -210,10 +241,27 @@ public class JobController
 	 */
 	private static void startCalculations()
 	{
+		long minRawData = 0;
+		long count = 0;
 		Thread thread;
-		System.out.println("-> It starts the calculations");
-		// call the calculations controller
-		thread = new Thread(calculationController);
-		thread.start();
+		
+		if(!enableCalculation){
+			count = RawDataController.GetCount();
+			
+			if(count > 0){
+				enableCalculation = true;
+				
+				minRawData = RawDataController.GetMinTimestamp();
+				setMathEngineTimeStamps(minRawData, minRawData, minRawData);
+			}
+		}
+		
+		if(enableCalculation){
+			System.out.println("-> It starts the calculations");
+			
+			// call the calculations controller
+			thread = new Thread(calculationController);
+			thread.start();
+		}
 	}
 }

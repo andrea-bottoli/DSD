@@ -1,5 +1,7 @@
 package dsd.jobs;
 
+import java.util.GregorianCalendar;
+
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -15,6 +17,7 @@ public class LoadFlagJob  implements Job{
 
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
+		GregorianCalendar gc;
 		long inputSensorFlag = 0;
 		long imageMnFlag = 0;
 		long imageMoFlag = 0;
@@ -39,6 +42,7 @@ public class LoadFlagJob  implements Job{
 		if(tenMinFlag == 0 || oneHourFlag == 0 || oneDayFlag ==0)
 		{
 			minRawData = RawDataController.GetMinTimestamp();
+			
 			if(tenMinFlag == 0){
 				tenMinFlag = minRawData;
 			}
