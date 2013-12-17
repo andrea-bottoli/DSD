@@ -109,6 +109,36 @@ public class RawDataDAO
 
 	}
 	
+	public static long GetMinTimestamp()
+	{
+		long timestamp = 0;
+		try
+		{
+			Connection con = DAOProvider.getDataSource().getConnection();
+			try
+			{
+				ResultSet results = DAOProvider.SelectTableSecure(tableName, " min(timestamp) ", "", "",
+						con, null);
+				while (results.next())
+				{
+					timestamp = results.getTimestamp(1).getTime();
+				}
+			}
+			catch (Exception exc)
+			{
+				exc.printStackTrace();
+			}
+			con.close();
+		}
+		catch (Exception exc)
+		{
+//			exc.printStackTrace();
+			timestamp = 0;
+		}
+		return timestamp;
+	
+	}
+	
 	public static long GetMaxTimestamp()
 	{
 		long timestamp = 0;
@@ -126,7 +156,8 @@ public class RawDataDAO
 			}
 			catch (Exception exc)
 			{
-				exc.printStackTrace();
+//				exc.printStackTrace();
+				timestamp = 0;
 			}
 			con.close();
 		}

@@ -145,4 +145,8 @@ public class RawDataController
 	{
 		return RawDataDAO.GetCount();
 	}
+
+	public static long GetMinTimestamp() {
+		return RawDataDAO.GetMinTimestamp();
+	}
 }

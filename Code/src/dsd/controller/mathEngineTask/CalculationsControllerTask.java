@@ -30,6 +30,9 @@ import dsd.model.enums.eCalculatedDataType;
 public class CalculationsControllerTask implements Runnable{
 
 	//Variables to be instantiated
+	private int minutesOffset;
+	private int hoursOffset;
+	private int daysOffset;
 	
 	//Reference to the master controller
 	private CalculationsController calculationsController = null;
@@ -76,6 +79,9 @@ public class CalculationsControllerTask implements Runnable{
 	//Constructor
 	public CalculationsControllerTask(CalculationsController calculationsController, eCalculatedDataType dataType, long flag)
 	{
+		this.minutesOffset = 0;
+		this.hoursOffset = 0;
+		this.daysOffset = 0;
 		this.calculationsController = calculationsController;
 		this.sampleSize = 0;
 		this.dataType = dataType;
@@ -125,14 +131,23 @@ public class CalculationsControllerTask implements Runnable{
 		{
 		case TenMinutes:
 			this.sampleSize = 600;
+			this.minutesOffset = 1;
+			this.hoursOffset = 0;
+			this.daysOffset = 0;
 			break;
 		
 		case OneHour:
 			this.sampleSize = 3600;
+			this.minutesOffset = 0;
+			this.hoursOffset = 1;
+			this.daysOffset = 0;
 			break;
 			
 		case OneDay:
 			this.sampleSize = 86400;
+			this.minutesOffset = 0;
+			this.hoursOffset = 0;
+			this.daysOffset = 1;
 			break;
 		}
 	}
@@ -251,25 +266,25 @@ public class CalculationsControllerTask implements Runnable{
 	private void ReadRawData()
 	{
 		GregorianCalendar startDate = new GregorianCalendar();
-		GregorianCalendar endDate = new GregorianCalendar();
-		
-//		System.out.println("ts: "+this.lastTimestamp);
-		
+		GregorianCalendar endDate;
+				
 		startDate.setTime(new Date(this.lastTimestamp));
 		
-//		startDate.set(2011, 2, 11, 00, 00, 0);//2011-03-23 16:46:00
+		endDate = (GregorianCalendar)startDate.clone();
 		
-//		endDate.set(2011, 7, 20, 01, 00, 00);//2011-03-23 17:56:30
+		endDate.add(Calendar.MINUTE, this.minutesOffset);
+		endDate.add(Calendar.HOUR, this.hoursOffset);
+		endDate.add(Calendar.DATE, this.daysOffset);
 		
-//		System.out.println("end date: "+endDate.getTime());
-//		System.out.println("start date: "+startDate.getTime());
+		System.out.println("start date: "+startDate.getTime());
+		System.out.println("end date: "+endDate.getTime());
 		
 		
 		if(this.rawData != null){
 			this.rawData.clear();
 		}
 		this.rawData = RawDataController.GetAllForPeriod(startDate, endDate);
-		System.out.println("lunghezza dati: "+this.rawData.size());
+		System.out.println("***lunghezza dati: ["+this.rawData.size()+"]");
 	}
 	
 	/**
@@ -721,3 +736,4 @@ public class CalculationsControllerTask implements Runnable{
 		calculatedData.clear();
 	}
 }
+

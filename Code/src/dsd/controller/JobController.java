@@ -73,7 +73,7 @@ public class JobController
 	{
 		checkForNewData();
 		startParsing();
-//		startCalculations();
+		startCalculations();
 	}
 
 	/**
@@ -189,7 +189,6 @@ public class JobController
 		{
 			ParserControler.ParseInputFile(analogFilesToBeParsed.get(i), eFileType.Analog);
 			ParserControler.ParseInputFile(sonarFilesToBeParsed.get(i), eFileType.Sonar);
-			startCalculations();
 		}
 		
 		while(imgMnIt.hasNext() || imgMoIt.hasNext())

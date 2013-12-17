@@ -1,12 +1,10 @@
 package dsd.jobs;
 
-import java.util.Date;
-import java.util.GregorianCalendar;
-
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import dsd.controller.RawDataController;
 import dsd.controller.CalculatedDataController;
 import dsd.controller.JobController;
 import dsd.controller.ParsedInputFilesController;
@@ -23,7 +21,7 @@ public class LoadFlagJob  implements Job{
 		long tenMinFlag = 0;
 		long oneHourFlag = 0;
 		long oneDayFlag = 0;
-		
+		long minRawData = 0;
 		
 		System.out.println("QUARTZ JOB ONLY ON START UP -- LOADING FLAGS FROM DB");
 		
@@ -37,6 +35,20 @@ public class LoadFlagJob  implements Job{
 		tenMinFlag = CalculatedDataController.GetMaxTimestamp(eCalculatedDataType.TenMinutes);
 		oneHourFlag = CalculatedDataController.GetMaxTimestamp(eCalculatedDataType.OneHour);
 		oneDayFlag = CalculatedDataController.GetMaxTimestamp(eCalculatedDataType.OneDay);
+	
+		if(tenMinFlag == 0 || oneHourFlag == 0 || oneDayFlag ==0)
+		{
+			minRawData = RawDataController.GetMinTimestamp();
+			if(tenMinFlag == 0){
+				tenMinFlag = minRawData;
+			}
+			if(oneHourFlag == 0){
+				oneHourFlag = minRawData;
+			}
+			if(oneHourFlag == 0){
+				oneHourFlag = minRawData;
+			}
+		}		
 		
 		JobController.setParserTimeStamps(inputSensorFlag, imageMnFlag, imageMoFlag);
 		JobController.setMathEngineTimeStamps(tenMinFlag, oneHourFlag, oneDayFlag);

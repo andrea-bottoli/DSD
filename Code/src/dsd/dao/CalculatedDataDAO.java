@@ -137,8 +137,7 @@ public class CalculatedDataDAO
 			try
 			{
 				String tableName = GetTableNameForDataType(eDataType);
-				ResultSet results = DAOProvider.SelectTableSecure(tableName, " max(timestamp) ", "", "",
-						con, null);
+				ResultSet results = DAOProvider.SelectTableSecure(tableName, " max(timestamp) ", "", "",con, null);
 				while (results.next())
 				{
 					timestamp = results.getTimestamp(1).getTime();

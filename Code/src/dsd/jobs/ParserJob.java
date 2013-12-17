@@ -25,12 +25,6 @@ public class ParserJob implements Job{
 			jobs = arg0.getScheduler().getCurrentlyExecutingJobs();
 			
 			for (JobExecutionContext job : jobs) {
-				
-//				System.out.println(arg0.getTrigger().toString());
-//				System.out.println("job trigger name : "+job.getTrigger().getClass().getName());
-//				System.out.println("arg0 trigger name : "+arg0.getTrigger().getClass().getName());
-				
-				
 				if (job.getTrigger().equals(arg0.getTrigger())) {
 					count++;
 	            }else if (job.getTrigger().getPriority() < arg0.getTrigger().getPriority())
