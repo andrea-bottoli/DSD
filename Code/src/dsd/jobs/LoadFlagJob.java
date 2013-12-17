@@ -1,7 +1,5 @@
 package dsd.jobs;
 
-import java.util.GregorianCalendar;
-
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -17,7 +15,7 @@ public class LoadFlagJob  implements Job{
 
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
-		GregorianCalendar gc;
+		
 		long inputSensorFlag = 0;
 		long imageMnFlag = 0;
 		long imageMoFlag = 0;

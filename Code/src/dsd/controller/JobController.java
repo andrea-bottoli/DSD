@@ -130,12 +130,6 @@ public class JobController
 					analogTimestamp = analogFileName.substring(6, analogFileName.length() - 4);
 					sonarTimestamp = sonarFileName.substring(5, sonarFileName.length() - 4);
 					
-					analogNextFileName = analogFileList.get(i+1).getName();
-					sonarNextFileName = sonarFileList.get(i+1).getName();
-
-					analogNextTimestamp = analogNextFileName.substring(6, analogNextFileName.length() - 4);
-					sonarNextTimestamp = sonarNextFileName.substring(5, sonarNextFileName.length() - 4);
-					
 					if (analogTimestamp.compareTo(sonarTimestamp) == 0)
 					{
 						analogFilesToBeParsed.add(analogFileList.get(i));
@@ -143,19 +137,35 @@ public class JobController
 						i++;
 						inputSensorsCalendar = TimeCalculations.LabViewTimestampsToGregCalendar(Long.parseLong(analogTimestamp));
 					}
-					else if(analogNextTimestamp.equals(sonarNextTimestamp) && analogNextFileName!="" && sonarNextFileName!="")
+					else
 					{
-						analogFilesToBeParsed.add(analogFileList.get(i));
-						sonarFilesToBeParsed.add(sonarFileList.get(i));
-						i++;
-						inputSensorsCalendar = TimeCalculations.LabViewTimestampsToGregCalendar(Long.parseLong(analogTimestamp));
-					}else
-					{
-						exit = Boolean.TRUE;
+						try
+						{
+							analogNextFileName = analogFileList.get(i+1).getName();
+							sonarNextFileName = sonarFileList.get(i+1).getName();
+	
+							analogNextTimestamp = analogNextFileName.substring(6, analogNextFileName.length() - 4);
+							sonarNextTimestamp = sonarNextFileName.substring(5, sonarNextFileName.length() - 4);
+							
+							if(analogNextTimestamp.equals(sonarNextTimestamp) && analogNextFileName!="" && sonarNextFileName!="")
+							{
+								analogFilesToBeParsed.add(analogFileList.get(i));
+								sonarFilesToBeParsed.add(sonarFileList.get(i));
+								i++;
+								inputSensorsCalendar = TimeCalculations.LabViewTimestampsToGregCalendar(Long.parseLong(analogTimestamp));
+							}
+							else
+							{
+								exit = Boolean.TRUE;
+							}
+						}
+						catch(IndexOutOfBoundsException e)
+						{
+							exit = Boolean.TRUE;
+						}
 					}
 				}
 			}
-			
 			
 			imgMnList = FilesDAO.getMantovaImages(imageMnCalendar, imgMnList);
 			imgMoList = FilesDAO.getModenaImages(imageMoCalendar, imgMoList);
