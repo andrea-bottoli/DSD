@@ -36,6 +36,23 @@
        <servlet-name>CurrentStateView</servlet-name>
        <url-pattern>/CurrentStateView</url-pattern>
    </servlet-mapping>
+	
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Wildcard means whole app requires authentication</web-resource-name>
+			<url-pattern>/CurrentStateView</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>dude</role-name>
+		</auth-constraint>
+
+		<user-data-constraint>
+			<!-- transport-guarantee can be CONFIDENTIAL, INTEGRAL, or NONE -->
+			<transport-guarantee>NONE</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
 	   
    <servlet>
      	<servlet-name>TestRawData</servlet-name>
@@ -46,7 +63,24 @@
        <servlet-name>TestRawData</servlet-name>
        <url-pattern>/TestRawData</url-pattern>
    </servlet-mapping>
-	   
+
+      <security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Wildcard means whole app requires authentication</web-resource-name>
+			<url-pattern>/TestRawData</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>dude</role-name>
+		</auth-constraint>
+
+		<user-data-constraint>
+			<!-- transport-guarantee can be CONFIDENTIAL, INTEGRAL, or NONE -->
+			<transport-guarantee>NONE</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
+		   
    <servlet>
      	<servlet-name>TestParametersData</servlet-name>
      	<servlet-class>dsd.view.TestParametersView</servlet-class>
@@ -56,12 +90,29 @@
 	       <servlet-name>TestParametersData</servlet-name>
 	       <url-pattern>/TestParametersData</url-pattern>
    </servlet-mapping>
+      
+      <security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Wildcard means whole app requires authentication</web-resource-name>
+			<url-pattern>/TestParametersData</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>dude</role-name>
+		</auth-constraint>
+
+		<user-data-constraint>
+			<!-- transport-guarantee can be CONFIDENTIAL, INTEGRAL, or NONE -->
+			<transport-guarantee>NONE</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
    
    <servlet>
      	<servlet-name>TestParser</servlet-name>
      	<servlet-class>dsd.view.TestParser</servlet-class>
    </servlet>
-	
+   	
 	<servlet-mapping>
 	       <servlet-name>TestParser</servlet-name>
 	       <url-pattern>/TestParser</url-pattern>
@@ -70,7 +121,7 @@
    <security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Wildcard means whole app requires authentication</web-resource-name>
-			<url-pattern>/*</url-pattern>
+			<url-pattern>/TestParser</url-pattern>
 			<http-method>GET</http-method>
 			<http-method>POST</http-method>
 		</web-resource-collection>
@@ -88,7 +139,7 @@
 	<login-config>
 		<auth-method>FORM</auth-method>
 		<form-login-config>
-			<form-login-page>/</form-login-page>
+			<form-login-page>/index.jsp</form-login-page>
 			<form-error-page>/error.html</form-error-page>
 		</form-login-config>
 	</login-config>
