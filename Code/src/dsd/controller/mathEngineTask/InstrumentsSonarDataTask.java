@@ -71,6 +71,11 @@ public class InstrumentsSonarDataTask implements Runnable{
 			}else if(rd.getSonarType().equals(eSonarType.ErrorData))
 			{
 				numbErrorValue++;
+			}else if (rd.getSonarType().getCode() == 0)
+			{
+				numbErrorValue++;
+			}else{
+				numbErrorValue++;
 			}
 		}
 				

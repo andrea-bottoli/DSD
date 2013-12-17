@@ -71,14 +71,9 @@ public class JobController
 	 */
 	public static void CheckAndStart()
 	{
-		System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 		checkForNewData();
-		System.out.println("survived to check for new data");
-//		startParsing();
-		System.out.println("survived to parsing");
+		startParsing();
 //		startCalculations();
-		System.out.println("survived to calculations");
-		System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n");
 	}
 
 	/**
@@ -101,14 +96,15 @@ public class JobController
 			String mantovaTimestamp;
 			String modenaTimestamp;
 			int i;
-
+			
+			System.out.println("-> It's checking for new data");
+			
 			if (!(analogFileList.isEmpty() || sonarFileList.isEmpty()))
 			{
 				exit = Boolean.FALSE;
 				i = 0;
 				analogFilesToBeParsed.clear();
 				sonarFilesToBeParsed.clear();
-
 				while ((i < Math.min(analogFileList.size(), sonarFileList.size())) && (exit != Boolean.TRUE))
 				{
 					analogFileName = analogFileList.get(i).getName();
@@ -116,7 +112,7 @@ public class JobController
 
 					analogTimestamp = analogFileName.substring(6, analogFileName.length() - 4);
 					sonarTimestamp = sonarFileName.substring(5, sonarFileName.length() - 4);
-
+					
 					if (analogTimestamp.compareTo(sonarTimestamp) == 0)
 					{
 						analogFilesToBeParsed.add(analogFileList.get(i));
@@ -186,11 +182,14 @@ public class JobController
 	{
 		ListIterator<File> imgMnIt = imageMnFilesToBeParsed.listIterator();
 		ListIterator<File> imgMoIt = imageMoFilesToBeParsed.listIterator();
-
+		
+		System.out.println("-> It's parsing");
+		
 		for (int i = 0; i < Math.min(analogFilesToBeParsed.size(), sonarFilesToBeParsed.size()); i++)
 		{
 			ParserControler.ParseInputFile(analogFilesToBeParsed.get(i), eFileType.Analog);
 			ParserControler.ParseInputFile(sonarFilesToBeParsed.get(i), eFileType.Sonar);
+			startCalculations();
 		}
 		
 		while(imgMnIt.hasNext() || imgMoIt.hasNext())
@@ -213,7 +212,7 @@ public class JobController
 	private static void startCalculations()
 	{
 		Thread thread;
-		
+		System.out.println("-> It starts the calculations");
 		// call the calculations controller
 		thread = new Thread(calculationController);
 		thread.start();

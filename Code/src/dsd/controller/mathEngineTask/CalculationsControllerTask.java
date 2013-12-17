@@ -1,6 +1,7 @@
 package dsd.controller.mathEngineTask;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.ListIterator;
@@ -143,7 +144,8 @@ public class CalculationsControllerTask implements Runnable{
 	public void StartCalculations()
 	{
 		try
-		{			
+		{	
+			
 			//Loading parameters
 			LoadParameters();
 			
@@ -173,7 +175,7 @@ public class CalculationsControllerTask implements Runnable{
 			
 			/*
 			 * Read RawData from database
-			 */			
+			 */
 			ReadRawData();
 			
 			globalIterator = this.rawData.listIterator();
@@ -249,14 +251,25 @@ public class CalculationsControllerTask implements Runnable{
 	private void ReadRawData()
 	{
 		GregorianCalendar startDate = new GregorianCalendar();
+		GregorianCalendar endDate = new GregorianCalendar();
+		
+//		System.out.println("ts: "+this.lastTimestamp);
 		
 		startDate.setTime(new Date(this.lastTimestamp));
+		
+//		startDate.set(2011, 2, 11, 00, 00, 0);//2011-03-23 16:46:00
+		
+//		endDate.set(2011, 7, 20, 01, 00, 00);//2011-03-23 17:56:30
+		
+//		System.out.println("end date: "+endDate.getTime());
+//		System.out.println("start date: "+startDate.getTime());
+		
 		
 		if(this.rawData != null){
 			this.rawData.clear();
 		}
-		
-		this.rawData = RawDataController.GetAllForPeriod(startDate, new GregorianCalendar());
+		this.rawData = RawDataController.GetAllForPeriod(startDate, endDate);
+		System.out.println("lunghezza dati: "+this.rawData.size());
 	}
 	
 	/**
@@ -685,7 +698,8 @@ public class CalculationsControllerTask implements Runnable{
 		//SETTED TIMESTAMP
 		cd.setTimestamp(this.instrumentsData.getTimestamp());
 		
-		this.calculatedData.add(cd);		
+		this.calculatedData.add(cd);
+		System.out.println(this.calculatedData.size());
 	}
 	
 	

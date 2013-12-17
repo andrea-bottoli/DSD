@@ -42,15 +42,14 @@ public class FilesDAO
 
 		File file = new File(anaFileDir);
 		File[] fileArray = file.listFiles();
-
+		
 		for (int i = 0; i < fileArray.length; i++)
 		{
 			String fileName = fileArray[i].getName();
 			if (fileName.substring(0, 6).equals("analog"))
 			{
 				String timestamp = fileName.substring(6, fileName.length() - 4);
-				if (date.before(dsd.calculations.TimeCalculations.LabViewTimestampsToGregCalendar(Long
-						.parseLong(timestamp))))
+				if (date.before(dsd.calculations.TimeCalculations.LabViewTimestampsToGregCalendar(Long.parseLong(timestamp))))
 				{
 					returnList.add(fileArray[i]);
 				}
