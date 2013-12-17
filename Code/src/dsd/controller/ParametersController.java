@@ -43,13 +43,8 @@ public class ParametersController
 		return ParametersDAO.GetParameterHistory(parameterID);
 	}
 
-	public static int UpdateParameters(List<Parameter> parametersList)
+	public static int InsertNewParameterValues(List<Parameter> parametersList)
 	{
-		return ParametersDAO.UpdateParameters(parametersList);
-	}
-
-	public static int InsertParameters(List<Parameter> parametersList)
-	{
-		return ParametersDAO.InsertParameters(parametersList);
+		return ParametersDAO.InsertNewParameterValues(parametersList);
 	}
 }
