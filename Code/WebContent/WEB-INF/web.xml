@@ -8,25 +8,31 @@
     <res-type>javax.sql.DataSource</res-type>
     <res-auth>Container</res-auth>
   </resource-ref>
-  <servlet>
-    <servlet-name>QuartzInitializer</servlet-name>
-    <servlet-class>org.quartz.ee.servlet.QuartzInitializerServlet</servlet-class>
-    <init-param>
-      <param-name>config-file</param-name>
-      <param-value>quartz.properties</param-value>
-    </init-param>
-    <init-param>
-      <param-name>shutdown-on-unload</param-name>
-      <param-value>true</param-value>
-    </init-param>
-    <init-param>
-      <param-name>start-scheduler-on-load</param-name>
-      <param-value>true</param-value>
-    </init-param>
-    <load-on-startup>2</load-on-startup>
-  </servlet>
+  
+  	<!--======= QuarzInitializer =================================================== -->
+  
+	<servlet>
+    	<servlet-name>QuartzInitializer</servlet-name>
+    	<servlet-class>org.quartz.ee.servlet.QuartzInitializerServlet</servlet-class>
+    	<init-param>
+      		<param-name>config-file</param-name>
+      		<param-value>quartz.properties</param-value>
+    	</init-param>
+    	<init-param>
+      		<param-name>shutdown-on-unload</param-name>
+      		<param-value>true</param-value>
+    	</init-param>
+    	<init-param>
+      		<param-name>start-scheduler-on-load</param-name>
+      		<param-value>true</param-value>
+    	</init-param>
+    	<load-on-startup>2</load-on-startup>
+  	</servlet>
 
-	
+
+
+	<!--======= CurrentStateView =================================================== -->
+
    <servlet>
 		<servlet-name>CurrentStateView</servlet-name>
  		<servlet-class>dsd.view.CurrentStateView</servlet-class>
@@ -53,6 +59,10 @@
 			<transport-guarantee>NONE</transport-guarantee>
 		</user-data-constraint>
 	</security-constraint>
+	   
+	   
+	   
+	<!--======= TestRawData =================================================== -->
 	   
    <servlet>
      	<servlet-name>TestRawData</servlet-name>
@@ -81,6 +91,10 @@
 		</user-data-constraint>
 	</security-constraint>
 		   
+		   
+
+   <!--======= TestParametersData =================================================== -->
+   
    <servlet>
      	<servlet-name>TestParametersData</servlet-name>
      	<servlet-class>dsd.view.TestParametersView</servlet-class>
@@ -107,7 +121,10 @@
 			<transport-guarantee>NONE</transport-guarantee>
 		</user-data-constraint>
 	</security-constraint>
+	
+	
    
+   <!--======= TestPaser =================================================== -->
    <servlet>
      	<servlet-name>TestParser</servlet-name>
      	<servlet-class>dsd.view.TestParser</servlet-class>
@@ -120,7 +137,7 @@
    
    <security-constraint>
 		<web-resource-collection>
-			<web-resource-name>Wildcard means whole app requires authentication</web-resource-name>
+			<web-resource-name>TestParser</web-resource-name>
 			<url-pattern>/TestParser</url-pattern>
 			<http-method>GET</http-method>
 			<http-method>POST</http-method>
@@ -135,6 +152,10 @@
 		</user-data-constraint>
 	</security-constraint>
 
+
+
+	<!--======= HistoryView =================================================== -->
+
   <servlet>
     <description></description>
     <display-name>HistoryView</display-name>
@@ -146,12 +167,82 @@
     <url-pattern>/HistoryView</url-pattern>
   </servlet-mapping>
 
+   <security-constraint>
+		<web-resource-collection>
+			<web-resource-name>HistoryView</web-resource-name>
+			<url-pattern>/HistoryView</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>dude</role-name>
+		</auth-constraint>
 
+		<user-data-constraint>
+			<!-- transport-guarantee can be CONFIDENTIAL, INTEGRAL, or NONE -->
+			<transport-guarantee>NONE</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
 	
+	
+	
+	<!--======= TestTimestampAndCounts =================================================== -->
+	
+	<servlet>
+    	<servlet-name>TestTimestampAndCounts</servlet-name>
+    	<servlet-class>dsd.view.TestTimestampAndCounts</servlet-class>
+  	</servlet>
+  	<servlet-mapping>
+    	<servlet-name>TestTimestampAndCounts</servlet-name>
+    	<url-pattern>/TestTimestampAndCounts</url-pattern>
+  	</servlet-mapping>
+  
+     <security-constraint>
+		<web-resource-collection>
+			<web-resource-name>TestTimestampAndCounts</web-resource-name>
+			<url-pattern>/TestTimestampAndCounts</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>dude</role-name>
+		</auth-constraint>
+
+		<user-data-constraint>
+			<!-- transport-guarantee can be CONFIDENTIAL, INTEGRAL, or NONE -->
+			<transport-guarantee>NONE</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
+	
+	
+	<!--======= index.jsp =================================================== -->
+	
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>index</web-resource-name>
+			<url-pattern>/index.jsp</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>dude</role-name>
+		</auth-constraint>
+
+		<user-data-constraint>
+			<!-- transport-guarantee can be CONFIDENTIAL, INTEGRAL, or NONE -->
+			<transport-guarantee>NONE</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
+	
+	
+	
+	
+	<!--======= Login-From =================================================== -->
+		
 	<login-config>
 		<auth-method>FORM</auth-method>
 		<form-login-config>
-			<form-login-page>/index.jsp</form-login-page>
+			<form-login-page>/login.jsp</form-login-page>
 			<form-error-page>/error.html</form-error-page>
 		</form-login-config>
 	</login-config>
