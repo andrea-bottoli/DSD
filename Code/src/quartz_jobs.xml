@@ -69,7 +69,7 @@
 				<job-group>ParserGroup</job-group>
 				<priority>9</priority>
 				<repeat-count>-1</repeat-count> <!-- repeat indefinitely  -->
-				<repeat-interval>30000</repeat-interval>  <!--  every 60 seconds -->
+				<repeat-interval>5000</repeat-interval>  <!--  every 60 seconds -->
 			</simple>
 		</trigger>
 	</schedule>

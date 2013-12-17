@@ -17,6 +17,9 @@ public class InstrumentsData {
 	private float sonar7; 	//% of uncertain data of type 2 utilized over the 1+2 sample.
 	private long timestamp;	//timestamp of this row data
 	
+	public InstrumentsData(){
+		
+	}
 	/**
 	 * @return the ANE1: Mean value of Wind Speed
 	 */

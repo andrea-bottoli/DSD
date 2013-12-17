@@ -1,5 +1,9 @@
 package dsd.jobs;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -22,7 +26,7 @@ public class LoadFlagJob  implements Job{
 		long tenMinFlag = 0;
 		long oneHourFlag = 0;
 		long oneDayFlag = 0;
-		long minRawData = 0;
+		GregorianCalendar gc = new GregorianCalendar();
 		
 		System.out.println("QUARTZ JOB ONLY ON START UP -- LOADING FLAGS FROM DB");
 		
@@ -37,18 +41,21 @@ public class LoadFlagJob  implements Job{
 		oneHourFlag = CalculatedDataController.GetMaxTimestamp(eCalculatedDataType.OneHour);
 		oneDayFlag = CalculatedDataController.GetMaxTimestamp(eCalculatedDataType.OneDay);
 	
-		if(tenMinFlag == 0 || oneHourFlag == 0 || oneDayFlag ==0)
+		if((tenMinFlag == 0) || (oneHourFlag == 0) || (oneDayFlag ==0))
 		{
-			minRawData = RawDataController.GetMinTimestamp();
+			gc.setTime(new Date(RawDataController.GetMinTimestamp()));
+			
+			gc.set(Calendar.MINUTE, 0);
+			gc.set(Calendar.SECOND, 0);
 			
 			if(tenMinFlag == 0){
-				tenMinFlag = minRawData;
+				tenMinFlag = gc.getTimeInMillis();
 			}
 			if(oneHourFlag == 0){
-				oneHourFlag = minRawData;
+				oneHourFlag = gc.getTimeInMillis();
 			}
-			if(oneHourFlag == 0){
-				oneHourFlag = minRawData;
+			if(oneDayFlag == 0){
+				oneDayFlag = gc.getTimeInMillis();
 			}
 		}		
 		
