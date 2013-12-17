@@ -77,7 +77,7 @@ public class JobController
 	{
 		checkForNewData();
 		startParsing();
-		startCalculations();
+//		startCalculations();
 	}
 
 	/**
