@@ -10,7 +10,10 @@
 	</div>
 	
 
-	
+			<div class="login">
+			<a href="<%=request.getContextPath()%>/logout.jsp">logout</a>
+		</div>
+		
 	<div id="tabs" class="buttons">
 		<div class="button">
 			<span ><a href="index.jsp">Home</a></span>
@@ -40,8 +43,6 @@
 		<br/>
 	</div>
 	 
-		<div class="login">
-			<a href="<%=request.getContextPath()%>/logout.jsp">logout</a>
-		</div>
+
 	
 </div>
