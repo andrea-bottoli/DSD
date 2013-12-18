@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.ListIterator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -14,14 +13,10 @@ import dsd.controller.ParametersController;
 import dsd.controller.RawDataController;
 import dsd.model.CalculatedData;
 import dsd.model.RawData;
-import dsd.model.WorstPylonCase;
-import dsd.model.calculation.Combination;
 import dsd.model.calculation.InstrumentsData;
 import dsd.model.calculation.LineForces;
 import dsd.model.calculation.LineForcesMatrix;
 import dsd.model.calculation.PlankForces;
-import dsd.model.calculation.Pylon;
-import dsd.model.calculation.PylonCombination;
 import dsd.model.calculation.PylonForces;
 import dsd.model.calculation.SafetyFactor;
 import dsd.model.calculation.WorstCase;
@@ -86,7 +81,9 @@ public class CalculationsControllerTask implements Runnable{
 		this.sampleSize = 0;
 		this.dataType = dataType;
 		this.lastTimestamp = flag;	
+		
 		this.calculatedData = new ArrayList<CalculatedData>();
+		
 		this.instrumentsData = new InstrumentsData();
 		this.plankForces = new PlankForces();
 		this.mnLineMatrix = new LineForcesMatrix();
@@ -113,7 +110,7 @@ public class CalculationsControllerTask implements Runnable{
 	
 	@Override
 	public void run() {
-		StartCalculations();		
+		startCalculations();		
 	}
 	
 	
@@ -156,16 +153,16 @@ public class CalculationsControllerTask implements Runnable{
 	/**
 	 * This method starts the whole elaboration on the calculated data table
 	 */
-	public void StartCalculations()
+	public void startCalculations()
 	{
 		try
 		{	
 			
 			//Loading parameters
-			LoadParameters();
+			loadParameters();
 			
 			//start calculations
-			Calculate();
+			calculate();
 		}
 		catch (Exception e)
 		{
@@ -177,54 +174,41 @@ public class CalculationsControllerTask implements Runnable{
 	 * This method manages all the elaborations to calculate the 10minuts
 	 * values from the RawData values.
 	 */
-	private void Calculate()
+	private void calculate()
 	{
-		//Local variables
-		int i;
-		RawData	rd = null;
-		ArrayList<RawData> localRawData = new ArrayList<RawData>();
-		ListIterator<RawData> globalIterator;
-		
 		try
 		{
+			//clear the list that will contains the outputs
+			clearCalculatedDataList();
 			
 			/*
 			 * Read RawData from database
 			 */
-			ReadRawData();
-			
-			globalIterator = this.rawData.listIterator();
-			
-			do
-			{
-				i = 0;
-				localRawData.clear();
-				
-				while((i< this.sampleSize) && (globalIterator.hasNext()))
-				{
-					rd = globalIterator.next();
-					localRawData.add(rd);
-					i++;
-				}
-				
-				//clear the list that will contains the outputs
-				clearCalculatedDataList();
-				
-				this.lastTimestamp = rd.getTimestamp();
+			readRawData();
+
+			if(!this.rawData.isEmpty())
+			{								
 				this.instrumentsData.setTimestamp(this.lastTimestamp);
+				
 				/*
 				 * Start calculations for one line of the DB
 				 */
-				CalculateMeanValues(localRawData);
-				CalculatePlankForces();
-				CalculateLineForces();
-				CalculatePylonForces();
-				CalculateWorstCases();
-				CalculateSafetyFactor();
-				StoreCalculatedValues();
-				WriteOnDB();
+				calculateMeanValues(this.rawData);
+				calculatePlankForces();
+				calculateLineForces();
+				calculatePylonForces();
+				calculateWorstCases();
+				calculateSafetyFactor();
+				storeCalculatedValues();
+				writeOnDB(false);
+			}else
+			{
+				/*
+				 * The whole sample is empty
+				 */
+				storeEmptyValues();
+				writeOnDB(true);
 			}
-			while (globalIterator.hasNext());
 		}
 		catch (Exception e)
 		{
@@ -250,7 +234,7 @@ public class CalculationsControllerTask implements Runnable{
 	/**
 	 * This method allows to read and load parameters
 	 */
-	private void LoadParameters()
+	private void loadParameters()
 	{
 		ParametersController.IntializeCurrentParemeters();
 	}
@@ -260,22 +244,29 @@ public class CalculationsControllerTask implements Runnable{
 	 * for any time interval
 	 * @param lastRawDataTimestamp2 
 	 */
-	private void ReadRawData()
+	private void readRawData()
 	{
 		GregorianCalendar startDate = new GregorianCalendar();
 		GregorianCalendar endDate;
-				
-		startDate.setTime(new Date(this.lastTimestamp));
-		startDate.add(Calendar.SECOND, -startDate.get(Calendar.SECOND));
+		
+		if(this.lastTimestamp == 0){
+			startDate.setTime(new Date(RawDataController.GetMinTimestamp()));
+			startDate.set(Calendar.MINUTE, 0);
+			startDate.set(Calendar.SECOND, 0);
+		}else{
+			startDate.setTime(new Date(this.lastTimestamp));
+		}
 		
 		endDate = (GregorianCalendar)startDate.clone();
 		
 		endDate.add(Calendar.MINUTE, this.minutesOffset);
 		endDate.add(Calendar.HOUR, this.hoursOffset);
 		endDate.add(Calendar.DATE, this.daysOffset);
+		this.lastTimestamp = endDate.getTimeInMillis();
+		endDate.add(Calendar.SECOND, -1);
 		
-		System.out.println("start date["+this.dataType+"]: "+startDate.getTime());
-		System.out.println("end date["+this.dataType+"]: "+endDate.getTime());
+//		System.out.println("start date["+this.dataType+"]: "+startDate.getTime());
+//		System.out.println("end date["+this.dataType+"]: "+endDate.getTime());
 		
 		
 		if(this.rawData != null){
@@ -283,8 +274,7 @@ public class CalculationsControllerTask implements Runnable{
 		}
 		this.rawData = RawDataController.GetAllForPeriod(startDate, endDate);
 		
-		this.lastTimestamp = endDate.getTimeInMillis();
-		System.out.println("***lunghezza dati: ["+this.rawData.size()+"]");
+//		System.out.println("***lunghezza dati: ["+this.rawData.size()+"]");
 	}
 	
 	/**
@@ -296,7 +286,7 @@ public class CalculationsControllerTask implements Runnable{
 	 * SONAR5, SONAR6 and SONAR7. For sonar values, there are also some
 	 * statistics that have to be calculated.
 	 */
-	private void CalculateMeanValues(ArrayList<RawData> localRawData)
+	private void calculateMeanValues(ArrayList<RawData> localRawData)
 	{
 		//THINK ABOUT DO THIS WITH THREADS !!!!
 		ExecutorService pool = null;
@@ -325,7 +315,7 @@ public class CalculationsControllerTask implements Runnable{
 	 * This method calculates the values of the forces that
 	 * are acting on the plank.
 	 */
-	private void CalculatePlankForces()
+	private void calculatePlankForces()
 	{		
 		//THINK ABOUT DO THIS WITH THREADS !!!!
 		ExecutorService pool = null;
@@ -357,7 +347,7 @@ public class CalculationsControllerTask implements Runnable{
 	 * Execute the task to caluclate the LineForcesMatrix and LineForces
 	 * for each line of pylons.
 	 */
-	private void CalculateLineForces()
+	private void calculateLineForces()
 	{	
 		//POOL1 for MANTOVA LINE
 		ExecutorService pool1 = null;
@@ -391,7 +381,7 @@ public class CalculationsControllerTask implements Runnable{
 	 * This method calculates the values of the forces that
 	 * are acting on a single pylon.
 	 */
-	private void CalculatePylonForces()
+	private void calculatePylonForces()
 	{
 		ExecutorService pool = null;
 		
@@ -420,7 +410,7 @@ public class CalculationsControllerTask implements Runnable{
 	 * This method calculates the worst cases for each pylon
 	 * in each type of load combination.
 	 */
-	private void CalculateWorstCases()
+	private void calculateWorstCases()
 	{
 		ExecutorService pool = null;
 		
@@ -449,7 +439,7 @@ public class CalculationsControllerTask implements Runnable{
 	/**
 	 * This method calculates the value of the risk factor
 	 */
-	private void CalculateSafetyFactor()
+	private void calculateSafetyFactor()
 	{
 		ExecutorService pool = null;
 		
@@ -470,214 +460,57 @@ public class CalculationsControllerTask implements Runnable{
 			e.printStackTrace();
 		}
 	}
-		
+	
 	/**
 	 * This method allow to store a whole row of 
 	 * calculated data into the correct tables.
 	 */
-	private void StoreCalculatedValues()
+	private void storeEmptyValues()
 	{
+		CalculatedData cd = new CalculatedData();
+		
 		/*
-		 * ##################################################################
-		 * ####															#####
-		 * ####						FOR DEBUGGING 						#####
-		 * ####															#####
-		 * ##################################################################
-		 * 
+		 * Store temp values of temp variables into the CaclulatdData variable
 		 */
+		//SETTED ANEMOMETER
+		cd.setWindSpeed(0);
+		cd.setWindSpeedMax(0);
+		cd.setWindDirection(0);
+		cd.setWindDirectionMax(0);
 		
-		/*
-		 * TEMP CODE TO DEBUG THE RESULTS OF EACH CALCULATIONS
-		 */
-		//INSTUMENTS DATA
-		/*
-		System.out.println("------------------------------INSTRUMENTS DATA------------------------------");
-		System.out.println("ANE1\tANE2\tANE3\tANE4\t\t"
-						+ "IDRO1\tIDRO2\t\t"
-						+ "SONAR1\tSONAR2\tSONAR3\tSONAR4\tSONAR5\tSONAR6\tSONAR7");
-		System.out.println(instrumentsData.getAne1()+"\t"+ instrumentsData.getAne2() +"\t"+instrumentsData.getAne3()+"\t"+instrumentsData.getAne4()+"\t\t"
-				+ instrumentsData.getIdro1()+"\t"+instrumentsData.getIdro2()+"\t\t"
-				+ instrumentsData.getSonar1()+"\t"+instrumentsData.getSonar2()+"\t"+instrumentsData.getSonar3()+"\t"+instrumentsData.getSonar4()+"\t"
-				+ instrumentsData.getSonar5()+"\t"+instrumentsData.getSonar6()+"\t"+instrumentsData.getSonar7());
-		System.out.println("\n\n");
+		//SETTED HYDROMETER
+		cd.setHydrometer(0);
+		cd.setHydrometerVariance(0);
+		cd.setWaterSpeed(0);
+		cd.setWaterFlowRate(0);
 		
-		//PLANK FORCES
-		System.out.println("------------------------------PLANK FORCES------------------------------");
-		System.out.println("\n# WIND");
-		System.out.println("1)Svplank: "+plankForces.getWindPushOnPlank());
-		System.out.println("2)SvA1: "+plankForces.getWindPushOnA1TrafficCombination());
-		System.out.println("3)SvA2: "+plankForces.getWindPushOnA2TrafficCombination());
-		System.out.println("4)SvA3: "+plankForces.getWindPushOnA3TrafficCombination());
-		System.out.println("\n# WATER");
-		System.out.println("1)Q: "+plankForces.getFlowRate());
-		System.out.println("2)V: "+plankForces.getWaterSpeed());
-		System.out.println("3)Svd0: "+plankForces.getHydrodynamicThrustWithOutDebris());
-		System.out.println("4)Svd1: "+plankForces.getHydrodynamicThrustWithDebris());
-		System.out.println("5)hs: "+plankForces.getHs());
-		System.out.println("6)Bsd0: "+plankForces.getBsWithoutDebris());
-		System.out.println("7)Bsd1: "+plankForces.getBsWithDebris());
-		System.out.println("\n# WEIGHT");
-		System.out.println("1)Pplank: "+plankForces.getPlankWeight());
-		System.out.println("2)Pstack: "+plankForces.getStackWeight());
-		System.out.println("3)Pstruct: "+plankForces.getStructureWeight());
-		System.out.println("\n\n");
+		//SETTED SONAR
+		cd.setSonar(0);
+		cd.setSonarVariance(0);
+		cd.setSonarPercCorrect(0);
+		cd.setSonarPercWrong(0);
+		cd.setSonarPercOutOfWater(0);
+		cd.setSonarPercError(1);
+		cd.setSonarPercUncertain(0);
 		
-		//LINE FORCES
-		System.out.println("------------------------------LINE FORCES------------------------------");
-		System.out.println("\n###############");
-		System.out.println("## MANTOVA line");
-		System.out.println("###############");
-		for(Combination c : mnLineForces.getComboList())
-		{
-			System.out.println("_________");
-			System.out.println("Combo number: "+c.getCombinationNumber());
-			System.out.println("T: "+c.getTraffic());
-			System.out.println("D: "+c.getDebris());
-			System.out.println("N: "+c.getN());
-			System.out.println("Tx: "+c.getTx());
-			System.out.println("Ty: "+c.getTy());
-			System.out.println("qy: "+c.getQy());
-			System.out.println("Mx: "+c.getMx());
-			System.out.println("_________");
-			System.out.println("\n");
-		}
+		//SETTED SAFETY FACTOR
+		cd.setSafetyFactor00(0);
+		cd.setSafetyFactor01(0);
+		cd.setSafetyFactor10(0);
+		cd.setSafetyFactor11(0);
 		
-		System.out.println("\n###############");
-		System.out.println("## MODENA line");
-		System.out.println("###############");
-		for(Combination c : mnLineForces.getComboList())
-		{
-			System.out.println("_________");
-			System.out.println("Combo number: "+c.getCombinationNumber());
-			System.out.println("T: "+c.getTraffic());
-			System.out.println("D: "+c.getDebris());
-			System.out.println("N: "+c.getN());
-			System.out.println("Tx: "+c.getTx());
-			System.out.println("Ty: "+c.getTy());
-			System.out.println("qy: "+c.getQy());
-			System.out.println("Mx: "+c.getMx());
-			System.out.println("_________");
-			System.out.println("\n");
-		}
+		//SETTED TIMESTAMP
+		cd.setTimestamp(this.lastTimestamp);
 		
-		
-		System.out.println("------------------------------PYLON FORCES------------------------------");
-		System.out.println("\n###############");
-		System.out.println("## MANTOVA line");
-		System.out.println("###############");
-		for(PylonCombination c : mnPylonsForces.getPylonComboList())
-		{
-			System.out.println("_________");
-			System.out.println("Combo number: "+c.getCombination().getCombinationNumber());
-			System.out.println("T: "+c.getCombination().getTraffic());
-			System.out.println("D: "+c.getCombination().getDebris());
-			for(Pylon p : c.getPylonList())
-			{
-				System.out.println("\tpylon number: "+p.getPylonNumber());
-				System.out.println("\tN: "+p.getN());
-				System.out.println("\tTx: "+p.getTx());
-				System.out.println("\tTy: "+p.getTy());
-				System.out.println("\tMx: "+p.getMx());
-				System.out.println("\tMy: "+p.getMy());
-			}
-			System.out.println("_________");
-			System.out.println("\n");
-		}
-		
-		System.out.println("\n###############");
-		System.out.println("## MODENA line");
-		System.out.println("###############");
-		for(PylonCombination c : moPylonsForces.getPylonComboList())
-		{
-			System.out.println("_________");
-			System.out.println("Combo number: "+c.getCombination().getCombinationNumber());
-			System.out.println("T: "+c.getCombination().getTraffic());
-			System.out.println("D: "+c.getCombination().getDebris());
-			for(Pylon p : c.getPylonList())
-			{
-				System.out.println("\tpylon number: "+p.getPylonNumber());
-				System.out.println("\tN: "+p.getN());
-				System.out.println("\tTx: "+p.getTx());
-				System.out.println("\tTy: "+p.getTy());
-				System.out.println("\tMx: "+p.getMx());
-				System.out.println("\tMy: "+p.getMy());
-			}
-			System.out.println("_________");
-			System.out.println("\n");
-		}
-		
-		
-		System.out.println("------------------------------WORST CASES------------------------------");
-		System.out.println("\n###############");
-		System.out.println("## Worst Case 00");
-		System.out.println("###############");
-		for(WorstPylonCase wpc : worstCase00.getWorstList())
-		{
-			System.out.println("_________");
-			System.out.println("P_Number: "+wpc.getPylonNumber());
-			System.out.println("N: "+wpc.getN());
-			System.out.println("M: "+wpc.getM());
-			System.out.println("combo number: "+wpc.getComboNumber());
-			System.out.println("_________");
-		}
-		
-		System.out.println("\n###############");
-		System.out.println("## Worst Case 01");
-		System.out.println("###############");
-		for(WorstPylonCase wpc : worstCase01.getWorstList())
-		{
-			System.out.println("_________");
-			System.out.println("P_Number: "+wpc.getPylonNumber());
-			System.out.println("N: "+wpc.getN());
-			System.out.println("M: "+wpc.getM());
-			System.out.println("combo number: "+wpc.getComboNumber());
-			System.out.println("_________");
-		}
-		
-		System.out.println("\n###############");
-		System.out.println("## Worst Case 10");
-		System.out.println("###############");
-		for(WorstPylonCase wpc : worstCase10.getWorstList())
-		{
-			System.out.println("_________");
-			System.out.println("P_Number: "+wpc.getPylonNumber());
-			System.out.println("N: "+wpc.getN());
-			System.out.println("M: "+wpc.getM());
-			System.out.println("combo number: "+wpc.getComboNumber());
-			System.out.println("_________");
-		}
-		
-		System.out.println("\n###############");
-		System.out.println("## Worst Case 11");
-		System.out.println("###############");
-		for(WorstPylonCase wpc : worstCase11.getWorstList())
-		{
-			System.out.println("_________");
-			System.out.println("P_Number: "+wpc.getPylonNumber());
-			System.out.println("N: "+wpc.getN());
-			System.out.println("M: "+wpc.getM());
-			System.out.println("combo number: "+wpc.getComboNumber());
-			System.out.println("_________");
-		}
-		
-		
-		System.out.println("------------------------------SAFETY FACTOR------------------------------");
-		System.out.println("\n###############");
-		System.out.println("## SAFETY FACTOR 00  ->" + safetyFactor.getSafetyFactorCombo00().getValue());
-		System.out.println("## SAFETY FACTOR 01  ->" + safetyFactor.getSafetyFactorCombo01().getValue());
-		System.out.println("## SAFETY FACTOR 10  ->" + safetyFactor.getSafetyFactorCombo10().getValue());
-		System.out.println("## SAFETY FACTOR 11  ->" + safetyFactor.getSafetyFactorCombo11().getValue());
-		*/
-		/*
-		 * ##################################################################
-		 * ####															#####
-		 * ####						END DEBUGGING 						#####
-		 * ####															#####
-		 * ##################################################################
-		 * 
-		 */
-		
-		
+		this.calculatedData.add(cd);
+	}
+	
+	/**
+	 * This method allow to store a whole row of 
+	 * calculated data into the correct tables.
+	 */
+	private void storeCalculatedValues()
+	{
 		CalculatedData cd = new CalculatedData();
 		
 		/*
@@ -711,10 +544,9 @@ public class CalculationsControllerTask implements Runnable{
 		cd.setSafetyFactor11(this.safetyFactor.getSafetyFactorCombo11().getValue());
 		
 		//SETTED TIMESTAMP
-		cd.setTimestamp(this.instrumentsData.getTimestamp());
+		cd.setTimestamp(this.lastTimestamp);
 		
 		this.calculatedData.add(cd);
-		System.out.println(this.calculatedData.size());
 	}
 	
 	
@@ -722,9 +554,9 @@ public class CalculationsControllerTask implements Runnable{
 	/**
 	 * Return the list of results that have to be stored into the DB
 	 */
-	private void WriteOnDB()
+	private void writeOnDB(boolean emptyRow)
 	{
-		this.calculationsController.StoreResults(this.calculatedData, this.worstCaseList, this.lastTimestamp, this.dataType);
+		this.calculationsController.StoreResults(this.calculatedData, this.worstCaseList, this.lastTimestamp, this.dataType, emptyRow);
 	}
 	
 	

@@ -50,11 +50,16 @@ public class InstrumentsSonarDataTask implements Runnable{
 		numbWrongValue=0;
 		numbOutOfWaterValue=0;
 		numbErrorValue=0;
-
+		
 		for(RawData rd : this.rawData)
 		{
 			//Sonar operations
-			if(rd.getSonarType().equals(eSonarType.CorrectData))
+			if (rd.getSonarType() == null)
+			{
+				numbErrorValue++;
+			}else if(rd.getSonarType().getCode() == 0){
+				numbErrorValue++;
+			}else if(rd.getSonarType().equals(eSonarType.CorrectData))
 			{
 				meanList.add(rd.getSonar());
 				numbCertainValue++;
@@ -70,11 +75,6 @@ public class InstrumentsSonarDataTask implements Runnable{
 				numbOutOfWaterValue++;
 			}else if(rd.getSonarType().equals(eSonarType.ErrorData))
 			{
-				numbErrorValue++;
-			}else if (rd.getSonarType().getCode() == 0)
-			{
-				numbErrorValue++;
-			}else{
 				numbErrorValue++;
 			}
 		}

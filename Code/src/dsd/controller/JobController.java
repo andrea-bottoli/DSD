@@ -2,6 +2,7 @@ package dsd.controller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.ListIterator;
@@ -23,7 +24,7 @@ public class JobController
 	private static GregorianCalendar imageMoCalendar = new GregorianCalendar(1800, 01, 01);
 	
 	private static boolean exit = Boolean.FALSE;
-	private static boolean enableCalculation = Boolean.FALSE;
+	private static boolean enableCalculation = false;
 	
 	private static CalculationsController calculationController = new CalculationsController(0, 0, 0);
 	
@@ -64,8 +65,12 @@ public class JobController
 	 */
 	public static void setMathEngineTimeStamps(long timeStamp10min, long timeStamp1hour, long timeStamp1day)
 	{
-		if(timeStamp10min == 0 || timeStamp1hour == 0 || timeStamp1day == 0){
+		if((timeStamp10min == 0) && (timeStamp1hour == 0) && (timeStamp1day == 0)){
+			System.out.println("Check in job parser per il enable calculation");
 			enableCalculation = false;
+		}else
+		{
+			enableCalculation = true;
 		}
 		calculationController.setTimeStamps(timeStamp10min, timeStamp1hour, timeStamp1day);
 	}
@@ -228,8 +233,6 @@ public class JobController
 		{			
 			ParserControler.ParseInputFile(analogFilesToBeParsed.get(i), eFileType.Analog);
 			ParserControler.ParseInputFile(sonarFilesToBeParsed.get(i), eFileType.Sonar);
-			
-			enableCalculation = true;
 		}
 		
 		while(imgMnIt.hasNext() || imgMoIt.hasNext())
@@ -251,18 +254,22 @@ public class JobController
 	 */
 	private static void startCalculations()
 	{
-		long minRawData = 0;
+		GregorianCalendar gc = new GregorianCalendar();
 		long count = 0;
 		Thread thread;
 		
 		if(!enableCalculation){
 			count = RawDataController.GetCount();
 			
-			if(count > 0){
-				enableCalculation = true;
+			if(count > 0){				
+				gc.setTime(new Date(RawDataController.GetMinTimestamp()));
 				
-				minRawData = RawDataController.GetMinTimestamp();
-				setMathEngineTimeStamps(minRawData, minRawData, minRawData);
+				gc.set(Calendar.MINUTE, 0);
+				gc.set(Calendar.SECOND, 0);
+				
+				setMathEngineTimeStamps(gc.getTimeInMillis(), gc.getTimeInMillis(), gc.getTimeInMillis());
+				
+				enableCalculation = true;
 			}
 		}
 		
