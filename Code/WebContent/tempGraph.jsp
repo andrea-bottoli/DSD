@@ -43,12 +43,18 @@
 			</div>
 
 			<div id="pictures">
+				<p class=sensorPicsNames><b>Mantova side:	</b></p>
 				<img class=sensorPics src="SiteImages/mantova11032212564100.jpg" alt="Mantova camera picture of Bridge Borgoforte" />
+				<p class=sensorPicsNames><b>Modena side:	</b></p>
 				<img class=sensorPics src="SiteImages/modena11032213541300.jpg" alt="Modena camera picture of Bridge Borgoforte" />
 			</div>
 			
 			<div id="google_rose">
 				<img id="pic_google" src="SiteImages/Google_maps_pic.png" alt="Real-time bridge monitoring logo" />
+			</div>
+			
+			<div id="stack_structure_frame">
+				<img id="stack_structiure_pic" src="SiteImages/img01_bis.jpg" alt="picture of stack" />
 			</div>
 			
 			<div class="clear_float"></div>
@@ -65,7 +71,7 @@
 			
 				<div id="first" >
 				
-					<p class="graph_name">Wind speed graph:</p>	
+					<p class="graph_name">Anemometer graph(Wind speed):</p>	
 						
 					<div id="Wind_speed_graph" class="all_graphs" ></div>
 							
@@ -184,7 +190,7 @@
 				
 				<div id="second">
 		
-					<p class="graph_name">Sonar Graph:</p>
+					<p class="graph_name">Sonar Graph(River bed):</p>
 					<div id="Sonar_graph" class="all_graphs" ></div>
 					
 					<script type="text/javascript">
@@ -301,7 +307,7 @@
 			
 				<div id="thirth" >
 				
-					<p class="graph_name">Hydrometer Graph:</p>
+					<p class="graph_name">Hydrometer Graph(Water height):</p>
 					<div id="Hydrometer_graph" class="all_graphs" ></div>
 				
 					<script type="text/javascript">
@@ -415,17 +421,7 @@
 					</script>
 
 				</div>
-			
-			</div>
-			
-				<hr />
-				<br/>
-				<h3>Structure of the stack:</h3>
-				<div>
-					<img id="bridge_structure" src="SiteImages/Stack.png" alt="Table of pilons" />
-				</div>
-				
-			</div>
+		
 			 
 			<div class="clear_float"></div>
 		

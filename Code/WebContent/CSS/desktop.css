@@ -118,17 +118,33 @@ margin: 0 0 20px;
 
 .content {
 background-color: #f5f5f5;
-max-width: 90%;
+width: 90%;
+max-width: 1239px;
 /*min-width:700px;*/
 margin:0  auto;
 padding: 105px 20px 130px;
 }
 
+#pictures{
+	width: 30%;
+    /*height: 465px;*/
+    float:left; /* add this */
+   
+}
+
 .sensorPics{
+	width:90%;
+	height: 200px;
+	margin-left: 5%;
+	margin-right: 5%;
+}
+
+.sensorPicsNames{
 	width:70%;
-	height: 200px;;
-	margin-left: 15%;
-	margin-right: 15%;
+	height: 10px;
+	margin-left: 5%;
+	margin-right: 5%;
+	margin-top: 3%;
 }
 
 .actual_values_table_entry {
@@ -140,49 +156,57 @@ padding: 105px 20px 130px;
 }
 
 #actual_values{
-	width: 30%;
+	width: 27%;
     height: 420px;
     float:left; /* add this */	
 }
 
-#pictures{
-	width: 40%;
-    height: 420px;
-    float:left; /* add this */
-   
-}
 
 #google_rose{
-	width: 30%;
-    height: 420px;
+	width: 22%;
+	margin-top: 37px;
+    height: 445px;
     float:left; /* add this */
     	
 }
 
 #pic_google{
-	width:60%;
-	height: 420px;;
-	margin-left: 20%;
-	margin-right: 20%;
+	width:90%;
+	height: 442px;;
+	margin-right: 5%;
+}
+
+#stack_structure_frame{
+	width: 21%;
+	margin-top: 37px;
+    height: 445px;
+    float:left; /* add this */
+    	
+}
+
+#stack_structiure_pic{
+	width:90%;
+	height: 442px;;
+	margin-right: 5%;
 }
 
 
 #wrapper {
 	margin-top: 20px;
     width: 100%;
-    height: 350px;
+    height: 1065px;
     /*border: 1px solid black;*/
     /*overflow-x: scroll; /* will contain if #first is longer than #second */
 }
 #first {
-    width: 32%;
+    width: 100%;
     height: 320px;
     float:left; /* add this */
     border: 1px solid green;
 }
 #second {
-	margin-left: 2%;
-	width: 32%;
+	margin-top: 10px;
+	width: 100%;
 	height: 320px;
     border: 1px solid green;
     float:left;
@@ -190,12 +214,12 @@ padding: 105px 20px 130px;
 }
 
 #thirth {
-	margin-left: 2%;
-	width: 32%;
+	margin-top: 10px;
+	width: 100%;
 	height: 320px;
     border: 1px solid green;
     float:left;
-   overflow: hidden;  /*if you don't want #second to wrap below #first */
+   /*overflow: hidden;  /*if you don't want #second to wrap below #first */
 }
 
 .all_graphs{
