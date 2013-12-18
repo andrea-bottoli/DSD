@@ -9,7 +9,7 @@
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10/jquery.min.js"></script>
 	<script type="text/javascript" src="JS/charts.js"></script>
 	
-	<link rel="stylesheet" type="text/css" href="CSS/desktop_test.css">
+	<link rel="stylesheet" type="text/css" href="CSS/desktop.css">
 	
 		 
 	<link rel="stylesheet" href="JS/jQueryUI/themes/base/jquery.ui.all.css">
