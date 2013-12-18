@@ -107,9 +107,12 @@ public class DAOProvider
 			PreparedStatement command = con.prepareStatement(String.format("delete from %s %s", table, (where
 					.trim().equals("") ? "" : "where " + where)));
 
-			for (int i = 0; i < parameters.length; i++)
+			if(parameters != null)
 			{
-				SetParameter(command, parameters[i], i + 1);
+				for (int i = 0; i < parameters.length; i++)
+				{
+					SetParameter(command, parameters[i], i + 1);
+				}
 			}
 
 			return command.executeUpdate();

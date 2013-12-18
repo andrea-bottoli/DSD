@@ -56,6 +56,7 @@ public class WorstCaseDAO
 			try
 			{
 				String tableName = GetTableNameForDataType(traffic, debris);
+				DAOProvider.DeleteRowSecure(tableName, "", con, null);
 				DAOProvider.UpdateRowsSecure(tableName, PrepareColumnsForUpdate(), con,
 						PrepareMultipleValuesForUpdate(listOfData));
 			}
