@@ -12,36 +12,25 @@
 
 	
 	<div id="tabs" class="buttons">
-		<div class="button">
-			<span ><a href="index.jsp">Home</a></span>
-		</div>
 		
 		<div class="button">
-			<span><a href="CurrentStateView">Current State</a></span>
+			<span><a href="index.jsp">Current State</a></span>
 		</div>
 		
-		<div class="button">
-			<span ><a href="TestParametersData">Parameters</a></span>
-		</div>
-	
 		<div class="button">
 			<span><a href="HistoryView">History Diagrams</a></span>
 		</div>
 		
-		<div class="button">
-			<span><a href="TestTimestampAndCounts">Statistics</a></span>
-		</div>
-	<!-- 	
-		<div class="button">
-			<span> <a href="http://www.weatheronline.co.uk/Italy.html">WeatherForcast</span>
-		</div>
-		  -->
 		
 		<br/>
 	</div>
 	 
 		<div class="login">
-			<a href="<%=request.getContextPath()%>/logout.jsp">logout</a>
+		 	<form method="POST" action="<%=request.getContextPath()%>/j_security_check">
+				Username: <input type="text" name="j_username"><br>
+				Password: <input type="password" name="j_password"><br>
+				<input type="submit" value="Login">
+			</form>
 		</div>
 	
 </div>

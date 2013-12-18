@@ -2,9 +2,23 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 
 <body>
-	<t:header>
+	<%
+	String auth = request.getAuthType();
+	%>
+	<%= request.getAuthType() %>
+	<% 
+  if  (auth != null) {
+      %>
+      	<t:header></t:header>
+      <%
+  } else {
+	  %>
+	  <t:loginHeader></t:loginHeader>
+	  <%
+  }
+%>
 	
-	</t:header>
+	
 	
 	<div id="content" class= "content">
 		<jsp:doBody />
