@@ -142,8 +142,10 @@ $(function() {
 	
 	<div id="chosenHistorySettings">
 	
+
+	
 	<div id="labelRange">
-	 <h>Historical data from: DD.MM.YYYY hh:mm:ss to: DD.MM.YYYY hh:mm:ss</h>
+	 <span><h>Historical data FROM: <h id="labelStartDate">DD.MM.YYYY hh:mm:ss</h> TO: <h id="labelEndDate">DD.MM.YYYY hh:mm:ss</h></h></span>
 	</div>
 		<form>
 			<div id="TD">
@@ -154,6 +156,23 @@ $(function() {
 	
 	</div>
 	
+	<script >
+	
+    var list = eval('(' + '${rawDataList}' + ')');
+
+	var startDate = new Date(list.Dates[0]);
+	var endDate = new Date(list.Dates[list.Dates.length-1]);
+	var options = {
+		    weekday: "long", year: "numeric", month: "short",
+		    day: "numeric", hour: "2-digit", minute: "2-digit"
+	};
+
+	$("#labelStartDate").text(startDate.toLocaleTimeString("en-us", options));
+	$("#labelEndDate").text(endDate.toLocaleTimeString("en-us", options));
+
+
+     </script>
+	
 	
 	<div id="wrapperHistory">
 				
@@ -163,7 +182,7 @@ $(function() {
 						
 					<div id="Wind_speed_graph" class="all_graphs" ></div>
 							
-					<script type="text/javascript">
+	<script type="text/javascript">
 					var chart;
 					var chartData = [];
 					var chartCursor;
