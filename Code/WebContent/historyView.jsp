@@ -79,20 +79,20 @@ $(function() {
 			</form>
 		
 		
-		<div class="specificDate">
-			<form name="specificDate" action="#" method="get">
+		<form name="specificDate" action="#" method="get">
+			<div class="specificDate">
 				<div class="formElement">
-					<p>Specific date: </p>    
+					<label>Specific date: </label><br>    
 					<input type="text" id="datepicker" name="datepicker"/>
 				</div>
 				<input type="submit" name="showDate" value=" Show ">
-			</form>
-		</div>
+						</div>
+		</form>
 		
 		<div class="specificMonth">
 			<form name="specificMonth" action="#" method="get">
 				<div class="formElement">
-					<p>Specific month: </p>
+					<label>Specific month: </label><br>
 					<select name= "month">
 			  			<option value="1">January</option>
 			  			<option value="2">February</option>

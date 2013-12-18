@@ -309,7 +309,7 @@ input[type=checkbox] {
 	cursor:pointer;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
-	margin: 35px 1%; 
+	margin: 34px 1%; 
 }
 
 #monthTillNow input[type=submit] {
@@ -339,6 +339,16 @@ input[type=checkbox] {
 	width: 86%;
 	float: left;
 }
+
+#labelStartDate{
+	color: #b5030d;
+}
+
+ #labelEndDate {
+	color: #b5030d;
+}
+
+
 
 #chosenHistorySettings h {
 	font-weight: bold;
