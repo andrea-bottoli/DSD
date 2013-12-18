@@ -22,11 +22,11 @@
 	<div id="tabs" class="buttons">
 		
 		<div class="button">
-			<span><a href="index.jsp">Current State</a></span>
+			<span><a href="index.jsp">Home</a></span>
 		</div>
 		
 		<div class="button">
-			<span><a href="HistoryView">History Diagrams</a></span>
+			<span><a href="CurrentStateView">Current State</a></span>
 		</div>
 		
 		
