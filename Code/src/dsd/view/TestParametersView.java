@@ -44,7 +44,7 @@ public class TestParametersView extends HttpServlet
 		req.setAttribute("currentValidParameters", parametersList);
 
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/testParametersView.jsp");
-		dispatcher.forward(req, resp);
+		dispatcher.forward(req, resp); 
 	}
 
 	/**
