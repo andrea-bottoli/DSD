@@ -16,6 +16,10 @@ box-sizing: border-box;
 
 .clear_float{clear: both;}
 
+.ul_no_dot{
+	list-style: none;
+}
+
 
 body {
 background-color: #eee;
@@ -437,6 +441,23 @@ input[type=checkbox] {
 	background-color: #75a6e8;
 }
 	
+	
+.team-img{
+	max-width:160px;
+	vertical-align: middle;
+}
+
+.team-members-list-left{
+	float:left;
+}
+
+.team-members-list-right{
+	float:right;
+}
+
+.team-members-list-item{
+	padding: 3px;
+}
 /* -----------footer--------------------------- */
 
 .footer {
