@@ -5,6 +5,14 @@
                maxActive="50" maxIdle="30" maxWait="10000"
                username="dsdbestteam" password="bridgevulnerabilityisawsome" 
                driverClassName="com.mysql.jdbc.Driver"
-               url="jdbc:mysql://161.53.67.134:3306/RTBM"/>
+               url="jdbc:mysql://161.53.67.134:3306/RTBM" />
+               
+               <!-- username="root" password="root"
+               driverClassName="com.mysql.jdbc.Driver"
+               url="jdbc:mysql://localhost:3306/rtbm"-->
+               
+               <!-- username="dsdbestteam" password="bridgevulnerabilityisawsome" 
+               driverClassName="com.mysql.jdbc.Driver"
+               url="jdbc:mysql://161.53.67.134:3306/RTBM"-->
  
 </Context>
