@@ -480,7 +480,8 @@
 
 				</div>
 		
-		<div id="parameters">
+		<c:if test = "${pageContext.request.authType !=null}"> 
+		<div id="parameters" class=" WorstCaseTable">
 		<pclass="graph_name" > Worst-Case-Table</p>
 		<table class="hoverTable">
 			<tr>
@@ -510,6 +511,7 @@
 			</c:forEach>
 		</table>
 	</div>
+	</c:if>
 			 
 			<div class="clear_float"></div>
 		

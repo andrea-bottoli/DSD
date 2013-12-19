@@ -126,7 +126,7 @@ width: 90%;
 max-width: 1239px;
 /*min-width:700px;*/
 margin:0 auto;
-padding: 140px 20px 130px;
+padding: 140px 20px 150px;
 }
 
 #pictures{
@@ -476,6 +476,13 @@ input[type=checkbox] {
 
 .team-members-list-item{
 	padding: 3px;
+	
+}
+
+.WorstCaseTable{
+	
+	min-height: 1400px;
+	
 }
 /* -----------footer--------------------------- */
 
