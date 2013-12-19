@@ -225,8 +225,17 @@
 	
 	<!--======= index.jsp =================================================== -->
 	
-
 	
+	<!--======= Mate-DEV-Bereich =================================================== -->
+	
+	<servlet>
+    	<servlet-name>WCPylonTable</servlet-name>
+    	<servlet-class>dsd.view.WCPylonTable</servlet-class>
+  	</servlet>
+  	<servlet-mapping>
+    	<servlet-name>WCPylonTable</servlet-name>
+    	<url-pattern>/MateDev</url-pattern>
+  	</servlet-mapping>
 	
 	
 	<!--======= Login-From =================================================== -->

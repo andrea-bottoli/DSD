@@ -5,13 +5,13 @@
 
 <t:desktopPage>
 <div>
-<h1>Real-time Brigde Monitoring... </h1>
+<h1>Real-time Bridge Monitoring... </h1>
 <p>... is a project of the <b>DSD</b> Course. <b>DSD</b> is the abbreviation of <b>Distributed Software Development</b> and is a joined Course of
 </p>
 <ul>
 <li>Mälardalen University (MdH), School of Innovation, Design and Engineering (IDT), Sweden</li>
 <li>University of Zagreb, Faculty of Electrical Engineering and Computing (FER), Croatia</li>
-<li>Politecnico di Milano, Information Engineering School (POLIMI), Italiy</li>
+<li>Politecnico di Milano, Information Engineering School (POLIMI), Italy</li>
 </ul>
 <p>For more Information please look at the <a href="http://www.fer.unizg.hr/rasip/dsd">offical DSD Homepage</a>.</p>
 <h3>Team</h3>
