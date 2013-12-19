@@ -274,6 +274,8 @@ padding: 140px 20px 130px;
 #TD {
 	font-size: 23px;
 	margin: 2px;
+	float: left;
+	width: 10%;
 }
 
 #historyRange input[type=text] {
@@ -334,7 +336,7 @@ input[type=checkbox] {
 #chosenHistorySettings {
 		padding: 1%;
 		margin: 1% 2%; /* top and bottom are 1%; left and right are 2%*/
-
+		height: 70px;
 		border: 1px solid green;
 		width: 96%;
 }

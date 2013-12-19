@@ -45,23 +45,41 @@ public class CurrentStateView extends HttpServlet {
         try {
 
             obj = new JSONObject();
+            
             JSONArray listOfTimeStamps = new JSONArray();
+            
             JSONArray listOfWindSpeed = new JSONArray();
+            JSONArray listOfWindSpeed_MAX = new JSONArray();
+            
+            JSONArray listOfWindSpeedDirection = new JSONArray();
+            
             JSONArray listOfSonarValues = new JSONArray();
             JSONArray listOfHydrometerValues = new JSONArray();
+            
             
             for(int i =0; i< TenMinData.size(); i++ ){
             	
             	listOfTimeStamps.put(TenMinData.get(i).getTimestampDate().getTime());
+            	
             	listOfWindSpeed.put(TenMinData.get(i).getWindSpeed()); //TODO: put the real wind speed values 
+            	listOfWindSpeed_MAX.put(TenMinData.get(i).getWindSpeedMax());
+            	
+            	listOfWindSpeedDirection.put(TenMinData.get(i).getWindDirection());
+            	
             	listOfSonarValues.put(TenMinData.get(i).getSonar());
             	listOfHydrometerValues.put(TenMinData.get(i).getHydrometer());
             }
            
             obj.put("Dates", listOfTimeStamps);
+            
             obj.put("ValuesOfWindSpeed", listOfWindSpeed);
+            obj.put("ValuesOfWindSpeed_MAX", listOfWindSpeed_MAX);
+            
+            obj.put("ValuesOfWindSpeedDirection", listOfWindSpeedDirection);
+            
             obj.put("ValuesOfSonar", listOfSonarValues);
             obj.put("ValuesOfHydrometer", listOfHydrometerValues);
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
