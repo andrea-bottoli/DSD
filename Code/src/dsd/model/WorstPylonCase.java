@@ -2,20 +2,19 @@ package dsd.model;
 
 import dsd.model.calculation.Pylon;
 
-public class WorstPylonCase{
+public class WorstPylonCase {
 
 	private long worstCasePylonID;
 	private Pylon pylon;
 	private int comboNumber;
 	private final int position;
 	private long timestamp;
-	
-	public WorstPylonCase(int pylonNumber)
-	{
+
+	public WorstPylonCase(int pylonNumber) {
 		this.pylon = new Pylon(pylonNumber);
 		this.position = getPosition(pylonNumber);
 	}
-	
+
 	public WorstPylonCase(Pylon pylon, int comboNumber) {
 		super();
 		this.worstCasePylonID = 0;
@@ -24,14 +23,11 @@ public class WorstPylonCase{
 		this.position = getPosition(pylon.getPylonNumber());
 		this.timestamp = 0;
 	}
-	
-	
-	private int getPosition(int pylonNumber)
-	{
+
+	private int getPosition(int pylonNumber) {
 		int temp;
-		
-		switch (pylonNumber)
-		{
+
+		switch (pylonNumber) {
 		case 1:
 			temp = 0;
 			break;
@@ -53,12 +49,10 @@ public class WorstPylonCase{
 		default:
 			temp = -1;
 		}
-		
+
 		return temp;
 	}
-	
-	
-	
+
 	/**
 	 * @return the safetyFactor
 	 */
@@ -67,7 +61,8 @@ public class WorstPylonCase{
 	}
 
 	/**
-	 * @param safetyFactor the safetyFactor to set
+	 * @param safetyFactor
+	 *            the safetyFactor to set
 	 */
 	public void setSafetyFactor(float safetyFactor) {
 		this.pylon.setSafetyFactor(safetyFactor);
@@ -81,70 +76,71 @@ public class WorstPylonCase{
 	}
 
 	/**
-	 * @param comboNumber the comboNumber to set
+	 * @param comboNumber
+	 *            the comboNumber to set
 	 */
 	public void setComboNumber(int comboNumber) {
 		this.comboNumber = comboNumber;
 	}
 
 	/**
-	 * @param pylon the pylon to set
+	 * @param pylon
+	 *            the pylon to set
 	 */
 	public void setPylon(Pylon pylon) {
 		this.pylon = pylon;
 	}
-	
+
 	/**
 	 * @return the pylonNumber
 	 */
 	public int getPylonNumber() {
 		return this.pylon.getPylonNumber();
 	}
-	
+
 	/**
 	 * @return the N force acting on the pylon
 	 */
 	public float getN() {
 		return this.pylon.getN();
 	}
-	
+
 	/**
 	 * @return the N force acting on the pylon
 	 */
 	public float getM() {
 		return this.pylon.getM();
 	}
-	
+
 	/**
 	 * @return the Mx force acting on the pylon
 	 */
 	public float getMx() {
 		return this.pylon.getMx();
 	}
-	
+
 	/**
 	 * @return the My force acting on the pylon
 	 */
 	public float getMy() {
 		return this.pylon.getMy();
 	}
-	
+
 	/**
 	 * @return the Tx force acting on the pylon
 	 */
 	public float getTx() {
 		return this.pylon.getTx();
 	}
-	
+
 	/**
 	 * @return the Ty force acting on the pylon
 	 */
 	public float getTy() {
 		return this.pylon.getTy();
 	}
-	
-	public int getPosition()
-	{
+
+	public int getPosition() {
 		return this.position;
 	}
 
@@ -156,7 +152,8 @@ public class WorstPylonCase{
 	}
 
 	/**
-	 * @param iD the iD to set
+	 * @param iD
+	 *            the iD to set
 	 */
 	public void setID(long iD) {
 		worstCasePylonID = iD;
@@ -170,7 +167,8 @@ public class WorstPylonCase{
 	}
 
 	/**
-	 * @param timestamp the timestamp to set
+	 * @param timestamp
+	 *            the timestamp to set
 	 */
 	public void setTimestamp(long timestamp) {
 		this.timestamp = timestamp;

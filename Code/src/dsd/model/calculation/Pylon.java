@@ -1,12 +1,11 @@
 package dsd.model.calculation;
 
 public class Pylon extends Force {
-	
+
 	private int pylonNumber;
 	private float safetyFactor;
-	
-	public Pylon(int pylonNumber)
-	{	
+
+	public Pylon(int pylonNumber) {
 		super();
 		this.pylonNumber = pylonNumber;
 	}
@@ -14,17 +13,14 @@ public class Pylon extends Force {
 	/**
 	 * @return the pylonNumber
 	 */
-	public int getPylonNumber()
-	{
+	public int getPylonNumber() {
 		return pylonNumber;
 	}
-	
-	
+
 	/**
 	 * @return the Total N of the pylon
 	 */
-	public float getPylonN()
-	{
+	public float getPylonN() {
 		return this.getN();
 	}
 
@@ -36,7 +32,8 @@ public class Pylon extends Force {
 	}
 
 	/**
-	 * @param safetyFactor the safetyFactor to set
+	 * @param safetyFactor
+	 *            the safetyFactor to set
 	 */
 	public void setSafetyFactor(float safetyFactor) {
 		this.safetyFactor = safetyFactor;
