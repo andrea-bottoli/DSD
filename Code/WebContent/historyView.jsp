@@ -51,6 +51,29 @@ $(function() {
 			changeYear: true
 			 });
 	});
+	
+    var list = eval('(' + '${rawDataList}' + ')');
+
+	var startDate = list.Dates[0];
+	var endDate = list.Dates[list.Dates.length-1];
+	var Tchecked = list.TDChecked[0];
+	var Dchecked = list.TDChecked[1];
+	
+
+	$("#hstartDate").val(startDate);
+	$("#hendDate").val(endDate);
+	
+	if (Tchecked == true) 
+		$("#Tvalue").attr("checked",true);
+	else 
+		$("#Tvalue").attr("checked",false);
+	
+	if (Dchecked == true) 
+		$("#Dvalue").attr("checked",true);
+	else 
+		$("#Dvalue").attr("checked",false);
+	
+	
 });
 </script>
 
@@ -147,16 +170,21 @@ $(function() {
 	<div id="labelRange">
 	 <span><h>Historical data FROM: <h id="labelStartDate">DD.MM.YYYY hh:mm:ss</h> TO: <h id="labelEndDate">DD.MM.YYYY hh:mm:ss</h></h></span>
 	</div>
-		<form>
-			<div id="TD">
-			<input type="checkbox" name="vehicle" value="T"><b>T</b>
-			<input type="checkbox" name="vehicle" value="D"><b>D</b> 
-			</div>
-		</form>
+	<form id="TDvalue" name="TDvalue" action="#" method="get">
+		<div id="TD">
+			<input type="checkbox" id="Tvalue" name="Tvalue" value="true" onclick="this.form.submit()" checked><b>T</b>	
+			<input type="checkbox" id="Dvalue" name="Dvalue" value="true" onclick="this.form.submit()" checked><b>D</b> 
+			<input type="hidden" id="hstartDate" name="hstartDate" value="Bla">
+			<input type="hidden" id="hendDate" name="hendDate" value="Bla">
+		</div>
+	</form>
+
 	
 	</div>
 	
+
 	<script >
+	
 	
     var list = eval('(' + '${rawDataList}' + ')');
 
@@ -557,6 +585,7 @@ $(function() {
 					    var valueAxis = new AmCharts.ValueAxis();
 					    valueAxis.axisAlpha = 0.2;
 					    valueAxis.dashLength = 1;
+					    valueAxis.title = "Safety factor";
 					    chart4.addValueAxis(valueAxis);
 					    
 					    // GRAPH
@@ -595,16 +624,10 @@ $(function() {
 					function generateChartData4() {
 					   
 					    var list = eval('(' + '${rawDataList}' + ')');
-//TODO nkk
 						var array = list.Dates;
 						var dataSet = list.Safety11;
-
-
 						
-					    for (var i = 0; i < array.length; i++) {
-					        // we create date objects here. In your data, you can have date strings 
-					        // and then set format of your dates using chart.dataDateFormat property,
-					        // however when possible, use date objects, as this will speed up chart rendering.                    
+					    for (var i = 0; i < array.length; i++) {                
 					        var newDate = new Date(array[i]);
 					  		        
 					        chartData4.push({

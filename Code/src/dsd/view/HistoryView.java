@@ -43,45 +43,71 @@ public class HistoryView extends HttpServlet {
 		ArrayList<CalculatedData> TenMinData  = null;
 		Calendar calStart = Calendar.getInstance();
 		Calendar calEnd = Calendar.getInstance();
-
-		if (request.getParameter("showRange") != null)
-		{
-			TenMinData = CalculatedDataController.GetAllForPeriod(request.getParameter("from"), request.getParameter("to"),
-					eCalculatedDataType.TenMinutes);
-		   
-		} else if (request.getParameter("showDate") != null)
-		{
-			TenMinData = CalculatedDataController.GetAllForDate(request.getParameter("datepicker"), eCalculatedDataType.TenMinutes);  	
-		} else if (request.getParameter("showMonth") != null) 
-		{
-			//TODO implement when the real calculated data is in the database :)
-			/*int month = Integer.parseInt(request.getParameter("month"));
-			int year = Integer.parseInt(request.getParameter("year"));
-			
-			calStart.set(Calendar.YEAR, year);
-			calStart.set(Calendar.MONTH, month - 1);
-			calStart.set(Calendar.DAY_OF_MONTH, 1);
-			calStart.set(Calendar.HOUR_OF_DAY, 0);
-			calStart.set(Calendar.MINUTE, 0);
-			calStart.set(Calendar.SECOND, 0);
-			
-			calEnd.setTimeInMillis(calStart.getTimeInMillis());
-			if (month == 12) {
-				calEnd.set(Calendar.MONTH, 1);
-				calEnd.set(Calendar.YEAR, year + 1);
+		boolean Tchecked;
+		boolean Dchecked;
+		if (request.getParameter("Tvalue") == null)
+			Tchecked = false;
+		else 
+			Tchecked = true;
+		if (request.getParameter("Dvalue") == null)
+			Dchecked = false;
+		else
+			Dchecked = true;
+		
+		
+		if (request.getParameter("Tvalue") == null && request.getParameter("Dvalue") == null) {
+			if (request.getParameter("hstartDate") != null) {
+				Tchecked = false;
+				Dchecked = false;
 			}
-			else
-				calEnd.set(Calendar.MONTH, month + 1);
-			*/
+			else {
+				Tchecked = true;
+				Dchecked = true;
+			}
+			if (request.getParameter("showRange") != null)
+			{
+				TenMinData = CalculatedDataController.GetAllForPeriod(request.getParameter("from"), request.getParameter("to"),
+						eCalculatedDataType.TenMinutes);
+			   
+			} else if (request.getParameter("showDate") != null)
+			{
+				TenMinData = CalculatedDataController.GetAllForDate(request.getParameter("datepicker"), eCalculatedDataType.TenMinutes);  	
+			} else if (request.getParameter("showMonth") != null) 
+			{
+				//TODO implement when the real calculated data is in the database :)
+				/*int month = Integer.parseInt(request.getParameter("month"));
+				int year = Integer.parseInt(request.getParameter("year"));
+				
+				calStart.set(Calendar.YEAR, year);
+				calStart.set(Calendar.MONTH, month - 1);
+				calStart.set(Calendar.DAY_OF_MONTH, 1);
+				calStart.set(Calendar.HOUR_OF_DAY, 0);
+				calStart.set(Calendar.MINUTE, 0);
+				calStart.set(Calendar.SECOND, 0);
+				
+				calEnd.setTimeInMillis(calStart.getTimeInMillis());
+				if (month == 12) {
+					calEnd.set(Calendar.MONTH, 1);
+					calEnd.set(Calendar.YEAR, year + 1);
+				}
+				else
+					calEnd.set(Calendar.MONTH, month + 1);
+				*/
+			}else {
+				//TODO, what will be displayed by default? the current month?
+	
+				calStart.set(2011, 2, 22, 16, 00, 0);//2011-03-22 15:00:00
+				calEnd.set(2011, 2, 22, 16, 56, 30);//2011-03-22 16:00:30
+				
+				TenMinData = CalculatedDataController.GetAllForPeriod(calStart, calEnd, eCalculatedDataType.TenMinutes);
+			}
 		}else {
-			//TODO, what will be displayed by default? the current month?
-
-			calStart.set(2011, 2, 22, 16, 00, 0);//2011-03-22 15:00:00
-			calEnd.set(2011, 2, 22, 16, 56, 30);//2011-03-22 16:00:30
+			calStart.setTimeInMillis(Long.parseLong(request.getParameter("hstartDate")));
+			calEnd.setTimeInMillis(Long.parseLong(request.getParameter("hendDate")));
+			TenMinData = CalculatedDataController.GetAllForPeriod(calStart, calEnd,	eCalculatedDataType.TenMinutes);
 			
-			TenMinData = CalculatedDataController.GetAllForPeriod(calStart, calEnd, eCalculatedDataType.TenMinutes);
-		}
 
+		}
 		
 		JSONObject obj = null;
         try {
@@ -91,7 +117,9 @@ public class HistoryView extends HttpServlet {
             JSONArray listOfWindSpeed = new JSONArray();
             JSONArray listOfSonarValues = new JSONArray();
             JSONArray listOfHydrometerValues = new JSONArray();
-            JSONArray listOFSafety11 = new JSONArray();
+            JSONArray listOFSafety = new JSONArray();
+            JSONArray listTD = new JSONArray();
+
             
             for(int i =0; i< TenMinData.size(); i++ ){
             	
@@ -99,14 +127,27 @@ public class HistoryView extends HttpServlet {
             	listOfWindSpeed.put(TenMinData.get(i).getWindSpeed()); 
             	listOfSonarValues.put(TenMinData.get(i).getSonar());
             	listOfHydrometerValues.put(TenMinData.get(i).getHydrometer());
-            	listOFSafety11.put(TenMinData.get(i).getSafetyFactor11());
+            	if ((Tchecked == true) && (Dchecked == true)) {
+            		listOFSafety.put(TenMinData.get(i).getSafetyFactor11());
+            	} else if (Tchecked == false && Dchecked == true) {
+            		listOFSafety.put(TenMinData.get(i).getSafetyFactor01());
+            	} else if (Tchecked == true && Dchecked == false) {
+            		listOFSafety.put(TenMinData.get(i).getSafetyFactor10());
+            	} else if (Tchecked == false && Dchecked == false) {
+            		listOFSafety.put(TenMinData.get(i).getSafetyFactor00());
+            	}
+            	
             }
+            
+            listTD.put(Tchecked);
+            listTD.put(Dchecked);
             
             obj.put("Dates", listOfTimeStamps);
             obj.put("ValuesOfWindSpeed", listOfWindSpeed);
             obj.put("ValuesOfSonar", listOfSonarValues);
             obj.put("ValuesOfHydrometer", listOfHydrometerValues);
-            obj.put("Safety11", listOFSafety11);
+            obj.put("Safety11", listOFSafety);
+            obj.put("TDChecked", listTD);
             
         } catch (Exception e) {
             e.printStackTrace();
