@@ -4,9 +4,6 @@
 <body>
 	<%
 	String auth = request.getAuthType();
-	%>
-	<%= request.getAuthType() %>
-	<% 
   if  (auth != null) {
       %>
       	<t:header></t:header>
