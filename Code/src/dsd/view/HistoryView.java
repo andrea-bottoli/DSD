@@ -98,6 +98,7 @@ public class HistoryView extends HttpServlet {
 	
 				calStart.set(2011, 2, 22, 16, 00, 0);//2011-03-22 15:00:00
 				calEnd.set(2011, 2, 22, 23, 59, 00);//2011-03-22 16:00:30
+				//comment
 				
 				TenMinData = CalculatedDataController.GetAllForPeriod(calStart, calEnd, eCalculatedDataType.TenMinutes);
 			}
