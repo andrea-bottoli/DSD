@@ -79,20 +79,20 @@ $(function() {
 			</form>
 		
 		
-		<div class="specificDate">
-			<form name="specificDate" action="#" method="get">
+		<form name="specificDate" action="#" method="get">
+			<div class="specificDate">
 				<div class="formElement">
-					<p>Specific date: </p>    
+					<label>Specific date: </label><br>    
 					<input type="text" id="datepicker" name="datepicker"/>
 				</div>
 				<input type="submit" name="showDate" value=" Show ">
-			</form>
-		</div>
+						</div>
+		</form>
 		
 		<div class="specificMonth">
 			<form name="specificMonth" action="#" method="get">
 				<div class="formElement">
-					<p>Specific month: </p>
+					<label>Specific month: </label><br>
 					<select name= "month">
 			  			<option value="1">January</option>
 			  			<option value="2">February</option>
@@ -300,28 +300,28 @@ $(function() {
 					<div id="Sonar_graph" class="all_graphs" ></div>
 					
 					<script type="text/javascript">
-					var chart;
-					var chartData = [];
-					var chartCursor;
+					var chart2;
+					var chartData2 = [];
+					var chartCursor2;
 
 					AmCharts.ready(function () {
 					    // generate some data first
 					    generateChartData2();
 					    
 					    // SERIAL CHART    
-					    chart = new AmCharts.AmSerialChart();
-					    chart.dataDateFormat = "YYYY-MM-DD hh:mm:ss";
-					    chart.pathToImages = "http://www.amcharts.com/lib/3/images/";
-					    chart.dataProvider = chartData;
-					    chart.categoryField = "date";
+					    chart2 = new AmCharts.AmSerialChart();
+					    chart2.dataDateFormat = "YYYY-MM-DD hh:mm:ss";
+					    chart2.pathToImages = "http://www.amcharts.com/lib/3/images/";
+					    chart2.dataProvider = chartData2;
+					    chart2.categoryField = "date";
 					    
 					    
 					    // listen for "dataUpdated" event (fired when chart is rendered) and call zoomChart method when it happens
-					    chart.addListener("dataUpdated", zoomChart);
+					    chart2.addListener("dataUpdated", zoomChart2);
 					    
 					    // AXES
 					    // category
-					    var categoryAxis = chart.categoryAxis;
+					    var categoryAxis = chart2.categoryAxis;
 					    categoryAxis.parseDates = true; // as our data is date-based, we set parseDates to true
 					    categoryAxis.minPeriod = "ss"; // our data is daily, so we set minPeriod to DD
 					    categoryAxis.dashLength = 1;
@@ -331,9 +331,10 @@ $(function() {
 					    
 					    // value                
 					    var valueAxis = new AmCharts.ValueAxis();
+					    valueAxis.title = "bla";
 					    valueAxis.axisAlpha = 0.2;
 					    valueAxis.dashLength = 1;
-					    chart.addValueAxis(valueAxis);
+					    chart2.addValueAxis(valueAxis);
 					    
 					    // GRAPH
 					    var graph = new AmCharts.AmGraph();
@@ -348,12 +349,12 @@ $(function() {
 					    graph.negativeLineColor = "#0352b5";
 					    graph.balloonText = "[[category]]<br><b><span style='font-size:14px;'>value: [[value]]</span></b>";
 					    graph.hideBulletsCount = 50; // this makes the chart to hide bullets when there are more than 50 series in selection
-					    chart.addGraph(graph);
+					    chart2.addGraph(graph);
 					    
 					    // CURSOR
-					    chartCursor = new AmCharts.ChartCursor();
-					    chartCursor.cursorPosition = "mouse";
-					    chart.addChartCursor(chartCursor);
+					    chartCursor2 = new AmCharts.ChartCursor();
+					    chartCursor2.cursorPosition = "mouse";
+					    chart2.addChartCursor(chartCursor2);
 					    
 					    // SCROLLBAR
 					    var chartScrollbar = new AmCharts.ChartScrollbar();
@@ -361,10 +362,10 @@ $(function() {
 					    chartScrollbar.scrollbarHeight = 40;
 					    chartScrollbar.color = "#FFFFFF";
 					    chartScrollbar.autoGridCount = true;
-					    chart.addChartScrollbar(chartScrollbar);
+					    chart2.addChartScrollbar(chartScrollbar);
 					    
 					    // WRITE
-					    chart.write("Sonar_graph");
+					    chart2.write("Sonar_graph");
 					});
 
 					// generate some random data, quite different range
@@ -383,7 +384,7 @@ $(function() {
 					        // however when possible, use date objects, as this will speed up chart rendering.                    
 					        var newDate = new Date(array[i]);
 					  		        
-					        chartData.push({
+					        chartData2.push({
 					            date: newDate,
 					            visits: dataSet[i]
 					        });
@@ -391,21 +392,21 @@ $(function() {
 					}
 
 					// this method is called when chart is first inited as we listen for "dataUpdated" event
-					function zoomChart() {
+					function zoomChart2() {
 					    // different zoom methods can be used - zoomToIndexes, zoomToDates, zoomToCategoryValues
-					    chart.zoomToIndexes(chartData.length - 40, chartData.length - 1);
+					    chart2.zoomToIndexes(chartData2.length - 40, chartData2.length - 1);
 					}
 
 					// changes cursor mode from pan to select
 					function setPanSelect() {
 					    if (document.getElementById("rb1").checked) {
-					        chartCursor.pan = false;
-					        chartCursor.zoomable = true;
+					        chartCursor2.pan = false;
+					        chartCursor2.zoomable = true;
 					        
 					    } else {
-					        chartCursor.pan = true;
+					        chartCursor2.pan = true;
 					    }
-					    chart.validateNow();
+					    chart2.validateNow();
 					}  
 					</script>
 				</div>
@@ -417,28 +418,28 @@ $(function() {
 					<div id="Hydrometer_graph" class="all_graphs" ></div>
 				
 					<script type="text/javascript">
-					var chart;
-					var chartData = [];
-					var chartCursor;
+					var chart3;
+					var chartData3 = [];
+					var chartCursor3;
 
 					AmCharts.ready(function () {
 					    // generate some data first
 					    generateChartData1();
 					    
 					    // SERIAL CHART    
-					    chart = new AmCharts.AmSerialChart();
-					    chart.dataDateFormat = "YYYY-MM-DD hh:mm:ss";
-					    chart.pathToImages = "http://www.amcharts.com/lib/3/images/";
-					    chart.dataProvider = chartData;
-					    chart.categoryField = "date";
+					    chart3 = new AmCharts.AmSerialChart();
+					    chart3.dataDateFormat = "YYYY-MM-DD hh:mm:ss";
+					    chart3.pathToImages = "http://www.amcharts.com/lib/3/images/";
+					    chart3.dataProvider = chartData3;
+					    chart3.categoryField = "date";
 					    
 					    
 					    // listen for "dataUpdated" event (fired when chart is rendered) and call zoomChart method when it happens
-					    chart.addListener("dataUpdated", zoomChart);
+					    chart3.addListener("dataUpdated", zoomChart3);
 					    
 					    // AXES
 					    // category
-					    var categoryAxis = chart.categoryAxis;
+					    var categoryAxis = chart3.categoryAxis;
 					    categoryAxis.parseDates = true; // as our data is date-based, we set parseDates to true
 					    categoryAxis.minPeriod = "ss"; // our data is daily, so we set minPeriod to DD
 					    categoryAxis.dashLength = 1;
@@ -450,7 +451,7 @@ $(function() {
 					    var valueAxis = new AmCharts.ValueAxis();
 					    valueAxis.axisAlpha = 0.2;
 					    valueAxis.dashLength = 1;
-					    chart.addValueAxis(valueAxis);
+					    chart3.addValueAxis(valueAxis);
 					    
 					    // GRAPH
 					    var graph = new AmCharts.AmGraph();
@@ -465,12 +466,12 @@ $(function() {
 					    graph.negativeLineColor = "#0352b5";
 					    graph.balloonText = "[[category]]<br><b><span style='font-size:14px;'>value: [[value]]</span></b>";
 					    graph.hideBulletsCount = 50; // this makes the chart to hide bullets when there are more than 50 series in selection
-					    chart.addGraph(graph);
+					    chart3.addGraph(graph);
 					    
 					    // CURSOR
-					    chartCursor = new AmCharts.ChartCursor();
-					    chartCursor.cursorPosition = "mouse";
-					    chart.addChartCursor(chartCursor);
+					    chartCursor3 = new AmCharts.ChartCursor();
+					    chartCursor3.cursorPosition = "mouse";
+					    chart3.addChartCursor(chartCursor3);
 					    
 					    // SCROLLBAR
 					    var chartScrollbar = new AmCharts.ChartScrollbar();
@@ -478,10 +479,10 @@ $(function() {
 					    chartScrollbar.scrollbarHeight = 40;
 					    chartScrollbar.color = "#FFFFFF";
 					    chartScrollbar.autoGridCount = true;
-					    chart.addChartScrollbar(chartScrollbar);
+					    chart3.addChartScrollbar(chartScrollbar);
 					    
 					    // WRITE
-					    chart.write("Hydrometer_graph");
+					    chart3.write("Hydrometer_graph");
 					});
 
 					// generate some random data, quite different range
@@ -500,7 +501,7 @@ $(function() {
 					        // however when possible, use date objects, as this will speed up chart rendering.                    
 					        var newDate = new Date(array[i]);
 					  		        
-					        chartData.push({
+					        chartData3.push({
 					            date: newDate,
 					            visits: dataSet[i]
 					        });
@@ -508,22 +509,11 @@ $(function() {
 					}
 
 					// this method is called when chart is first inited as we listen for "dataUpdated" event
-					function zoomChart() {
+					function zoomChart3() {
 					    // different zoom methods can be used - zoomToIndexes, zoomToDates, zoomToCategoryValues
-					    chart.zoomToIndexes(chartData.length - 40, chartData.length - 1);
+					    chart3.zoomToIndexes(chartData3.length - 40, chartData3.length - 1);
 					}
 
-					// changes cursor mode from pan to select
-					function setPanSelect() {
-					    if (document.getElementById("rb1").checked) {
-					        chartCursor.pan = false;
-					        chartCursor.zoomable = true;
-					        
-					    } else {
-					        chartCursor.pan = true;
-					    }
-					    chart.validateNow();
-					}  
 					</script>
 
 				</div>

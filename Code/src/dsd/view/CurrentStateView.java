@@ -1,6 +1,7 @@
 package dsd.view;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -13,9 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import dsd.controller.CalculatedDataController;
 import dsd.controller.ParsedInputFilesController;
 import dsd.controller.RawDataController;
+import dsd.model.CalculatedData;
 import dsd.model.RawData;
+import dsd.model.enums.eCalculatedDataType;
 import dsd.model.enums.eFileType;
 
 public class CurrentStateView extends HttpServlet {
@@ -25,11 +29,14 @@ public class CurrentStateView extends HttpServlet {
 			throws ServletException, IOException {
 		
 		Calendar calStart = Calendar.getInstance();
-		calStart.set(2011, 2, 22, 15, 46, 0);//2011-03-23 16:46:00
+		calStart.set(2011, 2, 22, 16, 46, 0);//2011-03-23 16:46:00
 		
 		Calendar calEnd = Calendar.getInstance();
-		calEnd.set(2011, 2, 22, 16, 56, 30);//2011-03-23 17:56:30
+		calEnd.set(2011, 2, 23, 16, 56, 30);//2011-03-23 17:56:30
 		
+		ArrayList<CalculatedData> TenMinData = CalculatedDataController.GetAllForPeriod(calStart, calEnd,
+				eCalculatedDataType.TenMinutes);
+
 		
 		
 		List<RawData> rawDataList = RawDataController.GetAllForPeriod(calStart, calEnd);
@@ -43,21 +50,18 @@ public class CurrentStateView extends HttpServlet {
             JSONArray listOfSonarValues = new JSONArray();
             JSONArray listOfHydrometerValues = new JSONArray();
             
-            for(int i =0; i< rawDataList.size(); i++ ){
+            for(int i =0; i< TenMinData.size(); i++ ){
             	
-            	listOfTimeStamps.put(rawDataList.get(i).getTimestampDate().getTime());
-            	listOfWindSpeed.put(rawDataList.get(i).getWindSpeed()); //TODO: put the real wind speed values 
-            	listOfSonarValues.put(rawDataList.get(i).getSonar());
-            	listOfHydrometerValues.put(rawDataList.get(i).getHydrometer());
+            	listOfTimeStamps.put(TenMinData.get(i).getTimestampDate().getTime());
+            	listOfWindSpeed.put(TenMinData.get(i).getWindSpeed()); //TODO: put the real wind speed values 
+            	listOfSonarValues.put(TenMinData.get(i).getSonar());
+            	listOfHydrometerValues.put(TenMinData.get(i).getHydrometer());
             }
            
             obj.put("Dates", listOfTimeStamps);
             obj.put("ValuesOfWindSpeed", listOfWindSpeed);
             obj.put("ValuesOfSonar", listOfSonarValues);
             obj.put("ValuesOfHydrometer", listOfHydrometerValues);
-
-            obj.put("key", "Dzana");
-            
         } catch (Exception e) {
             e.printStackTrace();
         }
