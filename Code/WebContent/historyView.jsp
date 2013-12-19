@@ -517,6 +517,112 @@ $(function() {
 					</script>
 
 				</div>
+				
+			<div id="fourthHistory" >
+				
+					<p class="graph_name">Safety Factor:</p>
+					<div id="SafetyFactor_graph" class="all_graphs" ></div>
+				
+					<script type="text/javascript">
+					var chart4;
+					var chartData4 = [];
+					var chartCursor4;
+
+					AmCharts.ready(function () {
+					    // generate some data first
+					    generateChartData4();
+					    
+					    // SERIAL CHART    
+					    chart4 = new AmCharts.AmSerialChart();
+					    chart4.dataDateFormat = "YYYY-MM-DD hh:mm:ss";
+					    chart4.pathToImages = "http://www.amcharts.com/lib/3/images/";
+					    chart4.dataProvider = chartData4;
+					    chart4.categoryField = "date";
+					    
+					    
+					    // listen for "dataUpdated" event (fired when chart is rendered) and call zoomChart method when it happens
+					    chart4.addListener("dataUpdated", zoomChart4);
+					    
+					    // AXES
+					    // category
+					    var categoryAxis = chart4.categoryAxis;
+					    categoryAxis.parseDates = true; // as our data is date-based, we set parseDates to true
+					    categoryAxis.minPeriod = "ss"; // our data is daily, so we set minPeriod to DD
+					    categoryAxis.dashLength = 1;
+					    categoryAxis.gridAlpha = 0.15;
+					    categoryAxis.minorGridEnabled = true;
+					    categoryAxis.axisColor = "#DADADA";
+					    
+					    // value                
+					    var valueAxis = new AmCharts.ValueAxis();
+					    valueAxis.axisAlpha = 0.2;
+					    valueAxis.dashLength = 1;
+					    chart4.addValueAxis(valueAxis);
+					    
+					    // GRAPH
+					    var graph = new AmCharts.AmGraph();
+					    graph.title = "red line";
+					    graph.valueField = "visits";
+					    graph.bullet = "round";
+					    graph.bulletBorderColor = "#FFFFFF";
+					    graph.bulletBorderThickness = 2;
+					    graph.bulletBorderAlpha = 1;
+					    graph.lineThickness = 2;
+					    graph.lineColor = "#b5030d";
+					    graph.negativeLineColor = "#0352b5";
+					    graph.balloonText = "[[category]]<br><b><span style='font-size:14px;'>value: [[value]]</span></b>";
+					    graph.hideBulletsCount = 50; // this makes the chart to hide bullets when there are more than 50 series in selection
+					    chart4.addGraph(graph);
+					    
+					    // CURSOR
+					    chartCursor4 = new AmCharts.ChartCursor();
+					    chartCursor4.cursorPosition = "mouse";
+					    chart4.addChartCursor(chartCursor4);
+					    
+					    // SCROLLBAR
+					    var chartScrollbar = new AmCharts.ChartScrollbar();
+					    chartScrollbar.graph = graph;
+					    chartScrollbar.scrollbarHeight = 40;
+					    chartScrollbar.color = "#FFFFFF";
+					    chartScrollbar.autoGridCount = true;
+					    chart4.addChartScrollbar(chartScrollbar);
+					    
+					    // WRITE
+					    chart4.write("SafetyFactor_graph");
+					});
+
+					// generate some random data, quite different range
+					function generateChartData4() {
+					   
+					    var list = eval('(' + '${rawDataList}' + ')');
+//TODO nkk
+						var array = list.Dates;
+						var dataSet = list.Safety11;
+
+
+						
+					    for (var i = 0; i < array.length; i++) {
+					        // we create date objects here. In your data, you can have date strings 
+					        // and then set format of your dates using chart.dataDateFormat property,
+					        // however when possible, use date objects, as this will speed up chart rendering.                    
+					        var newDate = new Date(array[i]);
+					  		        
+					        chartData4.push({
+					            date: newDate,
+					            visits: dataSet[i]
+					        });
+					    }
+					}
+
+					// this method is called when chart is first inited as we listen for "dataUpdated" event
+					function zoomChart4() {
+					    // different zoom methods can be used - zoomToIndexes, zoomToDates, zoomToCategoryValues
+					    chart4.zoomToIndexes(chartData4.length - 40, chartData4.length - 1);
+					}
+
+					</script>
+
+				</div>
 			
 			</div>
 			

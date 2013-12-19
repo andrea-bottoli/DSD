@@ -91,6 +91,7 @@ public class HistoryView extends HttpServlet {
             JSONArray listOfWindSpeed = new JSONArray();
             JSONArray listOfSonarValues = new JSONArray();
             JSONArray listOfHydrometerValues = new JSONArray();
+            JSONArray listOFSafety11 = new JSONArray();
             
             for(int i =0; i< TenMinData.size(); i++ ){
             	
@@ -98,12 +99,14 @@ public class HistoryView extends HttpServlet {
             	listOfWindSpeed.put(TenMinData.get(i).getWindSpeed()); 
             	listOfSonarValues.put(TenMinData.get(i).getSonar());
             	listOfHydrometerValues.put(TenMinData.get(i).getHydrometer());
+            	listOFSafety11.put(TenMinData.get(i).getSafetyFactor11());
             }
             
             obj.put("Dates", listOfTimeStamps);
             obj.put("ValuesOfWindSpeed", listOfWindSpeed);
             obj.put("ValuesOfSonar", listOfSonarValues);
             obj.put("ValuesOfHydrometer", listOfHydrometerValues);
+            obj.put("Safety11", listOFSafety11);
             
         } catch (Exception e) {
             e.printStackTrace();

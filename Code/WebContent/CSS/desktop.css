@@ -377,7 +377,7 @@ input[type=checkbox] {
 #wrapperHistory {
 	margin: 1% 2%;
     width: 98%;
-    height: 1065px;
+    height: 1385px;
 }
 
 
@@ -397,6 +397,15 @@ input[type=checkbox] {
 }
 
 #thirthHistory {
+	margin-top: 10px;
+	width: 100%;
+	height: 320px;
+    border: 1px solid green;
+    float:left;
+   overflow: hidden;
+}
+
+#fourthHistory {
 	margin-top: 10px;
 	width: 100%;
 	height: 320px;
