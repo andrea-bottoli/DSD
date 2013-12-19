@@ -206,7 +206,7 @@ $(function() {
 				
 				<div id="firstHistory" >
 				
-					<p class="graph_name">Wind speed graph:</p>	
+					<p class="graph_name">Anemometer graph (Wind speed):</p>	
 						
 					<div id="Wind_speed_graph" class="all_graphs" ></div>
 							
@@ -243,23 +243,48 @@ $(function() {
 					    // value                
 					    var valueAxis = new AmCharts.ValueAxis();
 					    valueAxis.axisAlpha = 0.2;
+					    valueAxis.title = "Speed (m per second)";
 					    valueAxis.dashLength = 1;
 					    chart.addValueAxis(valueAxis);
 					    
 					    // GRAPH
 					    var graph = new AmCharts.AmGraph();
-					    graph.title = "red line";
+					    graph.title = "wind speed";
 					    graph.valueField = "visits";
 					    graph.bullet = "round";
 					    graph.bulletBorderColor = "#FFFFFF";
 					    graph.bulletBorderThickness = 2;
 					    graph.bulletBorderAlpha = 1;
 					    graph.lineThickness = 2;
-					    graph.lineColor = "#b5030d";
+					    graph.lineColor = "#030db5";
 					    graph.negativeLineColor = "#0352b5";
 					    graph.balloonText = "[[category]]<br><b><span style='font-size:14px;'>value: [[value]]</span></b>";
 					    graph.hideBulletsCount = 50; // this makes the chart to hide bullets when there are more than 50 series in selection
 					    chart.addGraph(graph);
+					    
+					    // GRAPH MAX
+					    var graph_max = new AmCharts.AmGraph();
+					    graph_max.title = "max wind speed";
+					    graph_max.valueField = "visits2";
+					    graph_max.bullet = "round";
+					    graph_max.bulletBorderColor = "#FFFFFF";
+					    graph_max.bulletBorderThickness = 2;
+					    graph_max.bulletBorderAlpha = 1;
+					    graph_max.lineThickness = 2;
+					    graph_max.lineColor = "#b5030d";
+					    graph_max.negativeLineColor = "#0352b5";
+					    graph_max.balloonText = "[[category]]<br><b><span style='font-size:14px;'>value: [[value]]</span></b>";
+					    graph_max.hideBulletsCount = 50; // this makes the chart to hide bullets when there are more than 50 series in selection
+					    chart.addGraph(graph_max);
+					    
+					    //LEGEND
+					    var legend = new AmCharts.AmLegend();
+					    legend.bulletType = "round";
+					    legend.equalWidths = false;
+					    legend.valueWidth = 120;
+					    legend.useGraphSettings = true;
+					    legend.color = "#010541";
+					    chart.addLegend(legend);
 					    
 					    // CURSOR
 					    chartCursor = new AmCharts.ChartCursor();
@@ -285,7 +310,7 @@ $(function() {
 
 						var array = list.Dates;
 						var dataSet = list.ValuesOfWindSpeed;
-
+						var max_windSpeed = list.ValuesOfWindSpeed_MAX;
 
 						
 					    for (var i = 0; i < array.length; i++) {
@@ -296,7 +321,8 @@ $(function() {
 					  		        
 					        chartData.push({
 					            date: newDate,
-					            visits: dataSet[i]
+					            visits: dataSet[i],
+					            visits2: max_windSpeed[i]
 					        });
 					    }
 					}
@@ -307,24 +333,13 @@ $(function() {
 					    chart.zoomToIndexes(chartData.length - 40, chartData.length - 1);
 					}
 
-					// changes cursor mode from pan to select
-					function setPanSelect() {
-					    if (document.getElementById("rb1").checked) {
-					        chartCursor.pan = false;
-					        chartCursor.zoomable = true;
-					        
-					    } else {
-					        chartCursor.pan = true;
-					    }
-					    chart.validateNow();
-					}  
 					</script>
 				</div>
 				
 				
 				<div id="secondHistory">
 		
-					<p class="graph_name">Sonar Graph:</p>
+					<p class="graph_name">Wind direction:</p>
 					<div id="Sonar_graph" class="all_graphs" ></div>
 					
 					<script type="text/javascript">
@@ -359,7 +374,7 @@ $(function() {
 					    
 					    // value                
 					    var valueAxis = new AmCharts.ValueAxis();
-					    valueAxis.title = "bla";
+					    valueAxis.title = "Angle of wind direction";
 					    valueAxis.axisAlpha = 0.2;
 					    valueAxis.dashLength = 1;
 					    chart2.addValueAxis(valueAxis);
@@ -402,7 +417,7 @@ $(function() {
 					    var list = eval('(' + '${rawDataList}' + ')');
 
 						var array = list.Dates;
-						var dataSet = list.ValuesOfSonar;
+						var dataSet = list.ValuesOfWindSpeedDirection;
 
 
 						
@@ -478,6 +493,7 @@ $(function() {
 					    // value                
 					    var valueAxis = new AmCharts.ValueAxis();
 					    valueAxis.axisAlpha = 0.2;
+					    valueAxis.title = "m asl";
 					    valueAxis.dashLength = 1;
 					    chart3.addValueAxis(valueAxis);
 					    
@@ -490,16 +506,41 @@ $(function() {
 					    graph.bulletBorderThickness = 2;
 					    graph.bulletBorderAlpha = 1;
 					    graph.lineThickness = 2;
-					    graph.lineColor = "#b5030d";
+					    graph.lineColor = "#030db5";
 					    graph.negativeLineColor = "#0352b5";
 					    graph.balloonText = "[[category]]<br><b><span style='font-size:14px;'>value: [[value]]</span></b>";
 					    graph.hideBulletsCount = 50; // this makes the chart to hide bullets when there are more than 50 series in selection
 					    chart3.addGraph(graph);
 					    
+						 // GRAPH MAX
+					    var graph_max = new AmCharts.AmGraph();
+					    graph_max.title = "river bed hight";
+					    graph_max.valueField = "visits2";
+					    graph_max.bullet = "round";
+					    graph_max.bulletBorderColor = "#FFFFFF";
+					    graph_max.bulletBorderThickness = 2;
+					    graph_max.bulletBorderAlpha = 1;
+					    graph_max.lineThickness = 2;
+					    graph_max.lineColor = "#b5030d";
+					    graph_max.negativeLineColor = "#0352b5";
+					    graph_max.balloonText = "[[category]]<br><b><span style='font-size:14px;'>value: [[value]]</span></b>";
+					    graph_max.hideBulletsCount = 50; // this makes the chart to hide bullets when there are more than 50 series in selection
+					    chart3.addGraph(graph_max);
+					    
 					    // CURSOR
 					    chartCursor3 = new AmCharts.ChartCursor();
 					    chartCursor3.cursorPosition = "mouse";
 					    chart3.addChartCursor(chartCursor3);
+					    
+					    
+					    //LEGEND
+					    var legend = new AmCharts.AmLegend();
+					    legend.bulletType = "round";
+					    legend.equalWidths = false;
+					    legend.valueWidth = 120;
+					    legend.useGraphSettings = true;
+					    legend.color = "#010541";
+					    chart3.addLegend(legend);
 					    
 					    // SCROLLBAR
 					    var chartScrollbar = new AmCharts.ChartScrollbar();
@@ -519,19 +560,17 @@ $(function() {
 					    var list = eval('(' + '${rawDataList}' + ')');
 
 						var array = list.Dates;
-						var dataSet = list.ValuesOfHydrometer;
-
+						var hidrometerValues = list.ValuesOfHydrometer;
+						var sonarValues = list.ValuesOfSonar;
 
 						
-					    for (var i = 0; i < array.length; i++) {
-					        // we create date objects here. In your data, you can have date strings 
-					        // and then set format of your dates using chart.dataDateFormat property,
-					        // however when possible, use date objects, as this will speed up chart rendering.                    
+					    for (var i = 0; i < array.length; i++) {                   
 					        var newDate = new Date(array[i]);
 					  		        
 					        chartData3.push({
 					            date: newDate,
-					            visits: dataSet[i]
+					            visits: hidrometerValues[i],
+					            visits2: sonarValues[i]
 					        });
 					    }
 					}
