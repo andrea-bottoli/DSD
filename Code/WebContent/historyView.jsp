@@ -331,6 +331,7 @@ $(function() {
 					    
 					    // value                
 					    var valueAxis = new AmCharts.ValueAxis();
+					    valueAxis.title = "bla";
 					    valueAxis.axisAlpha = 0.2;
 					    valueAxis.dashLength = 1;
 					    chart2.addValueAxis(valueAxis);

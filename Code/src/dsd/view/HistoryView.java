@@ -1,6 +1,7 @@
 package dsd.view;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -13,9 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import dsd.controller.CalculatedDataController;
 import dsd.controller.ParsedInputFilesController;
 import dsd.controller.RawDataController;
+import dsd.model.CalculatedData;
 import dsd.model.RawData;
+import dsd.model.enums.eCalculatedDataType;
 import dsd.model.enums.eFileType;
 
 /**
@@ -36,17 +40,18 @@ public class HistoryView extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<RawData> rawDataList = null;
+		ArrayList<CalculatedData> TenMinData  = null;
 		Calendar calStart = Calendar.getInstance();
 		Calendar calEnd = Calendar.getInstance();
 
 		if (request.getParameter("showRange") != null)
 		{
-			rawDataList = RawDataController.GetAllForPeriod(request.getParameter("from"), request.getParameter("to"));
+			TenMinData = CalculatedDataController.GetAllForPeriod(request.getParameter("from"), request.getParameter("to"),
+					eCalculatedDataType.TenMinutes);
 		   
 		} else if (request.getParameter("showDate") != null)
 		{
-			rawDataList = RawDataController.GetAllForDate(request.getParameter("datepicker"));   	
+			TenMinData = CalculatedDataController.GetAllForDate(request.getParameter("datepicker"), eCalculatedDataType.TenMinutes);  	
 		} else if (request.getParameter("showMonth") != null) 
 		{
 			//TODO implement when the real calculated data is in the database :)
@@ -74,7 +79,7 @@ public class HistoryView extends HttpServlet {
 			calStart.set(2011, 2, 22, 16, 00, 0);//2011-03-22 15:00:00
 			calEnd.set(2011, 2, 22, 16, 56, 30);//2011-03-22 16:00:30
 			
-			rawDataList = RawDataController.GetAllForPeriod(calStart, calEnd);
+			TenMinData = CalculatedDataController.GetAllForPeriod(calStart, calEnd, eCalculatedDataType.TenMinutes);
 		}
 
 		
@@ -87,12 +92,12 @@ public class HistoryView extends HttpServlet {
             JSONArray listOfSonarValues = new JSONArray();
             JSONArray listOfHydrometerValues = new JSONArray();
             
-            for(int i =0; i< rawDataList.size(); i++ ){
+            for(int i =0; i< TenMinData.size(); i++ ){
             	
-            	listOfTimeStamps.put(rawDataList.get(i).getTimestampDate().getTime());
-            	listOfWindSpeed.put(rawDataList.get(i).getWindSpeed()); 
-            	listOfSonarValues.put(rawDataList.get(i).getSonar());
-            	listOfHydrometerValues.put(rawDataList.get(i).getHydrometer());
+            	listOfTimeStamps.put(TenMinData.get(i).getTimestampDate().getTime());
+            	listOfWindSpeed.put(TenMinData.get(i).getWindSpeed()); 
+            	listOfSonarValues.put(TenMinData.get(i).getSonar());
+            	listOfHydrometerValues.put(TenMinData.get(i).getHydrometer());
             }
             
             obj.put("Dates", listOfTimeStamps);
