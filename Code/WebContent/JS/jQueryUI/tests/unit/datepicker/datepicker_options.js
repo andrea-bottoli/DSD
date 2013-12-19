@@ -1,3 +1,18 @@
+#-------------------------------------------------------------------------------
+# Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Br?i?, Dzana Kujan, Nikola Radisavljevic, J�rn Tillmanns, Miraldi Fifo
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#   http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#-------------------------------------------------------------------------------
 /*
  * datepicker_options.js
  */
@@ -946,7 +961,7 @@ test("parseDate", function() {
 		new Date(2001, 4 - 1, 9), "Parse date 'jour' d 'de' MM (''DD''), yy with settings");
 
 	zh = $.datepicker.regional["zh-CN"];
-	TestHelpers.datepicker.equalsDate($.datepicker.parseDate("yy M d", "2011 十一月 22", zh),
+	TestHelpers.datepicker.equalsDate($.datepicker.parseDate("yy M d", "2011 �??一月 22", zh),
 		new Date(2011, 11 - 1, 22), "Parse date yy M d with zh-CN");
 });
 

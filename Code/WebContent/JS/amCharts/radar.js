@@ -1,3 +1,18 @@
+#-------------------------------------------------------------------------------
+# Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Br?i?, Dzana Kujan, Nikola Radisavljevic, Jörn Tillmanns, Miraldi Fifo
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#   http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#-------------------------------------------------------------------------------
 AmCharts.AmRadarChart=AmCharts.Class({inherits:AmCharts.AmCoordinateChart,construct:function(a){this.type="radar";AmCharts.AmRadarChart.base.construct.call(this,a);this.cname="AmRadarChart";this.marginRight=this.marginBottom=this.marginTop=this.marginLeft=0;this.radius="35%";AmCharts.applyTheme(this,a,this.cname)},initChart:function(){AmCharts.AmRadarChart.base.initChart.call(this);this.dataChanged&&(this.updateData(),this.dataChanged=!1,this.dispatchDataUpdated=!0);this.drawChart()},updateData:function(){this.parseData();
 var a=this.graphs,b;for(b=0;b<a.length;b++)a[b].data=this.chartData},updateGraphs:function(){var a=this.graphs,b;for(b=0;b<a.length;b++){var c=a[b];c.index=b;c.width=this.realRadius;c.height=this.realRadius;c.x=this.marginLeftReal;c.y=this.marginTopReal}},parseData:function(){AmCharts.AmRadarChart.base.parseData.call(this);this.parseSerialData()},updateValueAxes:function(){var a=this.valueAxes,b;for(b=0;b<a.length;b++){var c=a[b];c.axisRenderer=AmCharts.RadAxis;c.guideFillRenderer=AmCharts.RadarFill;
 c.axisItemRenderer=AmCharts.RadItem;c.autoGridCount=!1;c.x=this.marginLeftReal;c.y=this.marginTopReal;c.width=this.realRadius;c.height=this.realRadius}},drawChart:function(){AmCharts.AmRadarChart.base.drawChart.call(this);var a=this.updateWidth(),b=this.updateHeight(),c=this.marginTop+this.getTitleHeight(),d=this.marginLeft,b=b-c-this.marginBottom;this.marginLeftReal=d+(a-d-this.marginRight)/2;this.marginTopReal=c+b/2;this.realRadius=AmCharts.toCoordinate(this.radius,a,b);this.updateValueAxes();this.updateGraphs();

@@ -1,3 +1,18 @@
+#-------------------------------------------------------------------------------
+# Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Br?i?, Dzana Kujan, Nikola Radisavljevic, Jörn Tillmanns, Miraldi Fifo
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#   http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#-------------------------------------------------------------------------------
 AmCharts.GaugeAxis=AmCharts.Class({construct:function(a){this.cname="GaugeAxis";this.radius="95%";this.startAngle=-120;this.endAngle=120;this.startValue=0;this.endValue=200;this.valueInterval=20;this.minorTickInterval=5;this.tickLength=10;this.minorTickLength=5;this.tickColor="#555555";this.labelFrequency=this.tickThickness=this.tickAlpha=1;this.inside=!0;this.labelOffset=15;this.showLastLabel=this.showFirstLabel=!0;this.axisThickness=1;this.axisColor="#000000";this.axisAlpha=1;this.gridInside=!0;
 this.topTextYOffset=0;this.topTextBold=!0;this.bottomTextYOffset=0;this.bottomTextBold=!0;this.centerY=this.centerX="0%";this.bandOutlineAlpha=this.bandOutlineThickness=0;this.bandOutlineColor="#000000";this.bandAlpha=1;AmCharts.applyTheme(this,a,"GaugeAxis")},value2angle:function(a){return this.startAngle+this.singleValueAngle*a},setTopText:function(a){if(void 0!==a){this.topText=a;var b=this.chart;if(this.axisCreated){this.topTF&&this.topTF.remove();var d=this.topTextFontSize;d||(d=b.fontSize);
 var c=this.topTextColor;c||(c=b.color);a=AmCharts.text(b.container,a,c,b.fontFamily,d,void 0,this.topTextBold);a.translate(this.centerXReal,this.centerYReal-this.radiusReal/2+this.topTextYOffset);this.chart.graphsSet.push(a);this.topTF=a}}},setBottomText:function(a){if(void 0!==a){this.bottomText=a;var b=this.chart;if(this.axisCreated){this.bottomTF&&this.bottomTF.remove();var d=this.bottomTextFontSize;d||(d=b.fontSize);var c=this.bottomTextColor;c||(c=b.color);a=AmCharts.text(b.container,a,c,b.fontFamily,

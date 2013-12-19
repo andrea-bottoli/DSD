@@ -1,3 +1,18 @@
+#-------------------------------------------------------------------------------
+# Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Br?i?, Dzana Kujan, Nikola Radisavljevic, J�rn Tillmanns, Miraldi Fifo
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#   http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#-------------------------------------------------------------------------------
 /*
  * Globalize Culture ja-JP
  *
@@ -31,7 +46,7 @@ Globalize.addCultureInfo( "ja-JP", "default", {
 	nativeName: "日本語 (日本)",
 	language: "ja",
 	numberFormat: {
-		NaN: "NaN (非数値)",
+		NaN: "NaN (�?�数値)",
 		negativeInfinity: "-∞",
 		positiveInfinity: "+∞",
 		percent: {
@@ -46,16 +61,16 @@ Globalize.addCultureInfo( "ja-JP", "default", {
 	calendars: {
 		standard: {
 			days: {
-				names: ["日曜日","月曜日","火曜日","水曜日","木曜日","金曜日","土曜日"],
-				namesAbbr: ["日","月","火","水","木","金","土"],
-				namesShort: ["日","月","火","水","木","金","土"]
+				names: ["日曜日","月曜日","�?�曜日","水曜日","木曜日","金曜日","土曜日"],
+				namesAbbr: ["日","月","�?�","水","木","金","土"],
+				namesShort: ["日","月","�?�","水","木","金","土"]
 			},
 			months: {
 				names: ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月",""],
 				namesAbbr: ["1","2","3","4","5","6","7","8","9","10","11","12",""]
 			},
-			AM: ["午前","午前","午前"],
-			PM: ["午後","午後","午後"],
+			AM: ["�?��?","�?��?","�?��?"],
+			PM: ["�?�後","�?�後","�?�後"],
 			eras: [{"name":"西暦","start":null,"offset":0}],
 			patterns: {
 				d: "yyyy/MM/dd",
@@ -71,17 +86,17 @@ Globalize.addCultureInfo( "ja-JP", "default", {
 		Japanese: {
 			name: "Japanese",
 			days: {
-				names: ["日曜日","月曜日","火曜日","水曜日","木曜日","金曜日","土曜日"],
-				namesAbbr: ["日","月","火","水","木","金","土"],
-				namesShort: ["日","月","火","水","木","金","土"]
+				names: ["日曜日","月曜日","�?�曜日","水曜日","木曜日","金曜日","土曜日"],
+				namesAbbr: ["日","月","�?�","水","木","金","土"],
+				namesShort: ["日","月","�?�","水","木","金","土"]
 			},
 			months: {
 				names: ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月",""],
 				namesAbbr: ["1","2","3","4","5","6","7","8","9","10","11","12",""]
 			},
-			AM: ["午前","午前","午前"],
-			PM: ["午後","午後","午後"],
-			eras: [{"name":"平成","start":null,"offset":1867},{"name":"昭和","start":-1812153600000,"offset":1911},{"name":"大正","start":-1357603200000,"offset":1925},{"name":"明治","start":60022080000,"offset":1988}],
+			AM: ["�?��?","�?��?","�?��?"],
+			PM: ["�?�後","�?�後","�?�後"],
+			eras: [{"name":"平�?","start":null,"offset":1867},{"name":"昭和","start":-1812153600000,"offset":1911},{"name":"大正","start":-1357603200000,"offset":1925},{"name":"明治","start":60022080000,"offset":1988}],
 			twoDigitYearMax: 99,
 			patterns: {
 				d: "gg y/M/d",

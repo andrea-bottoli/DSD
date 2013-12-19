@@ -1,3 +1,18 @@
+#-------------------------------------------------------------------------------
+# Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Br?i?, Dzana Kujan, Nikola Radisavljevic, J�rn Tillmanns, Miraldi Fifo
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#   http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#-------------------------------------------------------------------------------
 /* Algerian Arabic Translation for jQuery UI date picker plugin. (can be used for Tunisia)*/
 /* Mohamed Cherif BOUCHELAGHEM -- cherifbouchelaghem@yahoo.fr */
 
@@ -7,8 +22,8 @@ jQuery(function($){
 		prevText: '&#x3C;السابق',
 		nextText: 'التالي&#x3E;',
 		currentText: 'اليوم',
-		monthNames: ['جانفي', 'فيفري', 'مارس', 'أفريل', 'ماي', 'جوان',
-		'جويلية', 'أوت', 'سبتمبر','أكتوبر', 'نوفمبر', 'ديسمبر'],
+		monthNames: ['جان�?ي', '�?ي�?ري', 'مارس', 'أ�?ريل', 'ماي', 'جوان',
+		'جويلية', 'أوت', 'سبتمبر','أكتوبر', 'نو�?مبر', 'ديسمبر'],
 		monthNamesShort: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
 		dayNames: ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'],
 		dayNamesShort: ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'],
