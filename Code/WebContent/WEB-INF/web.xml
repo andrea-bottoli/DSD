@@ -43,6 +43,7 @@
        <url-pattern>/CurrentStateView</url-pattern>
    </servlet-mapping>
 	
+	<!--
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Wildcard means whole app requires authentication</web-resource-name>
@@ -55,10 +56,10 @@
 		</auth-constraint>
 
 		<user-data-constraint>
-			<!-- transport-guarantee can be CONFIDENTIAL, INTEGRAL, or NONE -->
 			<transport-guarantee>NONE</transport-guarantee>
 		</user-data-constraint>
 	</security-constraint>
+	-->
 	   
 	   
 	   
@@ -167,22 +168,7 @@
     <url-pattern>/HistoryView</url-pattern>
   </servlet-mapping>
 
-   <security-constraint>
-		<web-resource-collection>
-			<web-resource-name>HistoryView</web-resource-name>
-			<url-pattern>/HistoryView</url-pattern>
-			<http-method>GET</http-method>
-			<http-method>POST</http-method>
-		</web-resource-collection>
-		<auth-constraint>
-			<role-name>dude</role-name>
-		</auth-constraint>
-
-		<user-data-constraint>
-			<!-- transport-guarantee can be CONFIDENTIAL, INTEGRAL, or NONE -->
-			<transport-guarantee>NONE</transport-guarantee>
-		</user-data-constraint>
-	</security-constraint>
+   
 	
 	
 	
@@ -214,13 +200,16 @@
 		</user-data-constraint>
 	</security-constraint>
 	
+	<!--======= Login =================================================== -->
+		<servlet-mapping>
+	       <servlet-name>CurrentStateView</servlet-name>
+	       <url-pattern>/Login</url-pattern>
+   		</servlet-mapping>
 	
-	<!--======= index.jsp =================================================== -->
-	
-	<security-constraint>
+	     <security-constraint>
 		<web-resource-collection>
-			<web-resource-name>index</web-resource-name>
-			<url-pattern>/index.jsp</url-pattern>
+			<web-resource-name>Login</web-resource-name>
+			<url-pattern>/Login</url-pattern>
 			<http-method>GET</http-method>
 			<http-method>POST</http-method>
 		</web-resource-collection>
@@ -234,6 +223,9 @@
 		</user-data-constraint>
 	</security-constraint>
 	
+	<!--======= index.jsp =================================================== -->
+	
+
 	
 	
 	

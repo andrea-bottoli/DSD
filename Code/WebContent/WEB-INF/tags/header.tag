@@ -8,7 +8,6 @@
 	<div id="title" class=title>
 		 <h1><b>Real-time bridge monitoring: Borgoforte Bridge</b></h1>
 	</div>
-	
 
 			<div class="login">
 			<a href="<%=request.getContextPath()%>/logout.jsp">logout</a>
