@@ -1,18 +1,18 @@
-#-------------------------------------------------------------------------------
-# Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Br?i?, Dzana Kujan, Nikola Radisavljevic, Jörn Tillmanns, Miraldi Fifo
-# 
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-# 
-#   http://www.apache.org/licenses/LICENSE-2.0
-# 
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#-------------------------------------------------------------------------------
+/*******************************************************************************
+*Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Br?i?, Dzana Kujan, Nikola Radisavljevic, Jörn Tillmanns, Miraldi Fifo
+*
+*Licensed under the Apache License, Version 2.0 (the "License");
+*you may not use this file except in compliance with the License.
+*You may obtain a copy of the License at
+*
+*  http://www.apache.org/licenses/LICENSE-2.0
+*
+*Unless required by applicable law or agreed to in writing, software
+*distributed under the License is distributed on an "AS IS" BASIS,
+*WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+*See the License for the specific language governing permissions and
+*limitations under the License.
+*******************************************************************************/
 AmCharts.AmXYChart=AmCharts.Class({inherits:AmCharts.AmRectangularChart,construct:function(a){this.type="xy";AmCharts.AmXYChart.base.construct.call(this,a);this.cname="AmXYChart";this.theme=a;this.createEvents("zoomed");this.maxZoomFactor=20;AmCharts.applyTheme(this,a,this.cname)},initChart:function(){AmCharts.AmXYChart.base.initChart.call(this);this.dataChanged&&(this.updateData(),this.dataChanged=!1,this.dispatchDataUpdated=!0);this.updateScrollbar=!0;this.drawChart();this.autoMargins&&!this.marginsUpdated&&
 (this.marginsUpdated=!0,this.measureMargins());var a=this.marginLeftReal,c=this.marginTopReal,b=this.plotAreaWidth,d=this.plotAreaHeight;this.graphsSet.clipRect(a,c,b,d);this.bulletSet.clipRect(a,c,b,d);this.trendLinesSet.clipRect(a,c,b,d)},createValueAxes:function(){var a=[],c=[];this.xAxes=a;this.yAxes=c;var b=this.valueAxes,d,e;for(e=0;e<b.length;e++){d=b[e];var f=d.position;if("top"==f||"bottom"==f)d.rotate=!0;d.setOrientation(d.rotate);f=d.orientation;"V"==f&&c.push(d);"H"==f&&a.push(d)}0===
 c.length&&(d=new AmCharts.ValueAxis(this.theme),d.rotate=!1,d.setOrientation(!1),b.push(d),c.push(d));0===a.length&&(d=new AmCharts.ValueAxis(this.theme),d.rotate=!0,d.setOrientation(!0),b.push(d),a.push(d));for(e=0;e<b.length;e++)this.processValueAxis(b[e],e);a=this.graphs;for(e=0;e<a.length;e++)this.processGraph(a[e],e)},drawChart:function(){AmCharts.AmXYChart.base.drawChart.call(this);AmCharts.ifArray(this.chartData)?(this.chartScrollbar&&this.updateScrollbars(),this.zoomChart()):this.cleanChart();
