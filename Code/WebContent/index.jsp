@@ -34,10 +34,10 @@
 <li class="team-members-list-item"><img alt="" src="SiteImages/dev-team/ab.jpg" class="team-img"> Andrea Bottoli</li>
 <li class="team-members-list-item"><img alt="" src="SiteImages/dev-team/dk.jpg" class="team-img"> Dzana Kujan</li>
 <li class="team-members-list-item"><img alt="" src="SiteImages/dev-team/lp.jpg" class="team-img"> Lorenzo Pagliari</li>
-<li class="team-members-list-item"><img alt="" src="SiteImages/dev-team/mf.jpg" class="team-img"> Marko Brčić </li>
+<li class="team-members-list-item"><img alt="" src="SiteImages/dev-team/mf.jpg" class="team-img">  Miraldi Fifo</li>
 </ul>
 <ul class="ul_no_dot team-members-list-right">
-<li class="team-members-list-item"><img alt="" src="SiteImages/dev-team/mb.jpg" class="team-img"> Miraldi Fifo</li>
+<li class="team-members-list-item"><img alt="" src="SiteImages/dev-team/mb.jpg" class="team-img"> Marko Brčić</li>
 <li class="team-members-list-item"><img alt="" src="SiteImages/dev-team/nr.jpg" class="team-img"> Nikola Radisavljevic</li>
 <li class="team-members-list-item"><img alt="" src="SiteImages/dev-team/jt.jpg" class="team-img"> J&ouml;rn Tillmanns</li>
 </ul>
