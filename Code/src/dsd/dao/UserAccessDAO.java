@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Br?i?, Dzana Kujan, Nikola Radisavljevic, Jörn Tillmanns, Miraldi Fifo
+ * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Br?i?, Dzana Kujan, Nikola Radisavljevic, Jï¿½rn Tillmanns, Miraldi Fifo
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package dsd.dao;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import dsd.calculations.CryptFunktions;
 import dsd.model.User;
@@ -42,6 +43,33 @@ public class UserAccessDAO {
 
 		return selectUser(usertableFields[1], username);
 
+	}
+
+	public static ArrayList<User> getAllUsers() {
+		ArrayList<User> userList = new ArrayList<User>();
+
+		try {
+			Connection con = DAOProvider.getDataSource().getConnection();
+
+			Object[] parameters = {};
+			ResultSet result = DAOProvider.SelectTableSecure(usertable, "", "",
+					"", con, parameters);
+			while (result.next()) {
+				User user = new User();
+				user.setUsername(result.getString(usertableFields[1]));
+				user.setSurename(result.getString(usertableFields[2]));
+				user.setLastname(result.getString(usertableFields[3]));
+				user.setPasswd(result.getString(usertableFields[4]));
+				user.setEmail(result.getString(usertableFields[5]));
+				user.setRole(eUserRole.getSonarType(result
+						.getInt(roleTableFields[2])));
+				userList.add(user);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return userList;
 	}
 
 	private static User selectUser(String field, String param) {
