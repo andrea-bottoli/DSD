@@ -84,6 +84,9 @@ public class CalculationsControllerTask implements Runnable{
 	 * has analyzed the data for each source
 	 */
 	private long lastTimestamp;
+	
+	//Variable that tracks the number of iteration to perform all the calculations needed.
+	private int iterationNumber;
 
 	
 	//Constructor
@@ -95,7 +98,9 @@ public class CalculationsControllerTask implements Runnable{
 		this.calculationsController = calculationsController;
 		this.sampleSize = 0;
 		this.dataType = dataType;
-		this.lastTimestamp = flag;	
+		this.lastTimestamp = flag;
+		
+		this.iterationNumber = 0;
 		
 		this.calculatedData = new ArrayList<CalculatedData>();
 		
@@ -176,73 +181,15 @@ public class CalculationsControllerTask implements Runnable{
 			//Loading parameters
 			loadParameters();
 			
+			//setup the number of iteration
+			setUpNumberOfIteration();
+			
 			//start calculations
 			calculate();
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * This method manages all the elaborations to calculate the 10minuts
-	 * values from the RawData values.
-	 */
-	private void calculate()
-	{
-		try
-		{
-			//clear the list that will contains the outputs
-			clearCalculatedDataList();
-			
-			/*
-			 * Read RawData from database
-			 */
-			readRawData();
-
-			if(!this.rawData.isEmpty())
-			{								
-				this.instrumentsData.setTimestamp(this.lastTimestamp);
-				
-				/*
-				 * Start calculations for one line of the DB
-				 */
-				calculateMeanValues(this.rawData);
-				calculatePlankForces();
-				calculateLineForces();
-				calculatePylonForces();
-				calculateWorstCases();
-				calculateSafetyFactor();
-				storeCalculatedValues();
-				writeOnDB(false);
-			}else
-			{
-				/*
-				 * The whole sample is empty
-				 */
-				storeEmptyValues();
-				writeOnDB(true);
-			}
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	
-	/**
-	 * @param localRawData: list of data to be check the size
-	 * @return Boolean. Return true if the list matches the local variable sampleSize, false if doesn't match.
-	 */
-	private boolean checkSampleSize(ArrayList<RawData> localRawData)
-	{
-		if(localRawData.size()==this.sampleSize)
-		{
-			return true;
-		}else{
-			return false;
 		}
 	}
 	
@@ -253,6 +200,90 @@ public class CalculationsControllerTask implements Runnable{
 	{
 		ParametersController.IntializeCurrentParemeters();
 	}
+	
+	/**
+	 * This method setup the number of iterations to do
+	 */
+	private void setUpNumberOfIteration()
+	{
+		GregorianCalendar startDate = new GregorianCalendar();
+				
+		long startTimestamp = 0;
+		long endTimestamp = 0;
+		
+		if(this.lastTimestamp == 0){
+			startDate.setTime(new Date(RawDataController.GetMinTimestamp()));
+			startDate.set(Calendar.HOUR_OF_DAY, 0);
+			startDate.set(Calendar.MINUTE, 0);
+			startDate.set(Calendar.SECOND, 0);
+			
+			startTimestamp = startDate.getTimeInMillis();
+		}else{
+			startTimestamp = this.lastTimestamp;
+		}
+		
+		endTimestamp = RawDataController.GetMaxTimestamp();
+//		System.out.println("start: "+new Date(startTimestamp));
+//		System.out.println("end: "+new Date(endTimestamp));
+		
+		if((startTimestamp == 0) || (endTimestamp == 0)){
+			this.iterationNumber = 0;
+		}else{
+			this.iterationNumber = (int) (((endTimestamp - startTimestamp)/1000)/this.sampleSize);
+		}
+//		System.out.println("NUMBER OF ITERATIONS TO DO for"+this.dataType +" : "+this.iterationNumber);
+	}
+	
+	/**
+	 * This method manages all the elaborations to calculate the 10minuts
+	 * values from the RawData values.
+	 */
+	private void calculate()
+	{
+		try
+		{
+			if(this.iterationNumber > 0){
+				for(int i=0; i < this.iterationNumber; i++){
+
+					//clear the list that will contains the outputs
+					clearCalculatedDataList();
+					
+					/*
+					 * Read RawData from database
+					 */
+					readRawData();
+
+					if(!this.rawData.isEmpty())
+					{								
+						this.instrumentsData.setTimestamp(this.lastTimestamp);
+						
+						/*
+						 * Start calculations for one line of the DB
+						 */
+						calculateMeanValues(this.rawData);
+						calculatePlankForces();
+						calculateLineForces();
+						calculatePylonForces();
+						calculateWorstCases();
+						calculateSafetyFactor();
+						storeCalculatedValues();
+						writeOnDB(false);
+					}else
+					{
+						/*
+						 * The whole sample is empty
+						 */
+						storeEmptyValues();
+						writeOnDB(true);
+					}
+				}
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}	
 	
 	/**
 	 * This method allows to read and load the RawData
@@ -266,6 +297,7 @@ public class CalculationsControllerTask implements Runnable{
 		
 		if(this.lastTimestamp == 0){
 			startDate.setTime(new Date(RawDataController.GetMinTimestamp()));
+			startDate.set(Calendar.HOUR_OF_DAY, 0);
 			startDate.set(Calendar.MINUTE, 0);
 			startDate.set(Calendar.SECOND, 0);
 		}else{
