@@ -13,16 +13,25 @@
 #See the License for the specific language governing permissions and
 #limitations under the License.
 ------------------------------------------------------------------------------%>
+<%@tag import="dsd.model.enums.eUserRole"%>
 <%@ tag language="java" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 
 <body>
 	<%
-	String auth = request.getAuthType();
-  if  (auth != null) {
+	
+  if  (request.isUserInRole(eUserRole.User.toString())) {
       %>
-      	<t:header></t:header>
+      	<t:headerUser></t:headerUser>
       <%
+  }else if(request.isUserInRole(eUserRole.Engineer.toString())){
+	  %>
+    	<t:headerEngineere></t:headerEngineere>
+    <%
+  }else if(request.isUserInRole(eUserRole.Administrator.toString())){
+	  %>
+    	<t:headerAdministrator></t:headerAdministrator>
+    <%
   } else {
 	  %>
 	  <t:loginHeader></t:loginHeader>

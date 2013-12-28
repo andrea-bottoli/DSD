@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum eUserRole {
-	Administrator(1), Engineere(2), User(3);
+	Administrator(1), Engineer(2), User(3);
 
 	private int code;
 

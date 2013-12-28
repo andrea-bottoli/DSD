@@ -70,23 +70,24 @@
        <url-pattern>/MNDomain</url-pattern>
    </servlet-mapping>
 	
-	<!--
+	
 	<security-constraint>
 		<web-resource-collection>
-			<web-resource-name>Wildcard means whole app requires authentication</web-resource-name>
-			<url-pattern>/CurrentStateView</url-pattern>
+			<web-resource-name>MN_Domain_WC_Table_and_Alarm</web-resource-name>
+			<url-pattern>/MNDomain</url-pattern>
 			<http-method>GET</http-method>
 			<http-method>POST</http-method>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>User</role-name>
+			<role-name>Engineer</role-name>
 		</auth-constraint>
 
 		<user-data-constraint>
 			<transport-guarantee>NONE</transport-guarantee>
 		</user-data-constraint>
 	</security-constraint>
-	-->
+	
 	   
 	   
 	   
@@ -104,13 +105,14 @@
 
       <security-constraint>
 		<web-resource-collection>
-			<web-resource-name>Wildcard means whole app requires authentication</web-resource-name>
+			<web-resource-name>TestRawData</web-resource-name>
 			<url-pattern>/TestRawData</url-pattern>
 			<http-method>GET</http-method>
 			<http-method>POST</http-method>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>User</role-name>
+			<role-name>Engineer</role-name>
 		</auth-constraint>
 
 		<user-data-constraint>
@@ -142,6 +144,7 @@
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>User</role-name>
+			<role-name>Engineer</role-name>
 		</auth-constraint>
 
 		<user-data-constraint>
@@ -218,6 +221,7 @@
 			<http-method>POST</http-method>
 		</web-resource-collection>
 		<auth-constraint>
+			<role-name>Engineer</role-name>
 			<role-name>Administrator</role-name>
 		</auth-constraint>
 
@@ -272,6 +276,7 @@
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>User</role-name>
+			<role-name>Engineer</role-name>
 			<role-name>Administrator</role-name>
 		</auth-constraint>
 
