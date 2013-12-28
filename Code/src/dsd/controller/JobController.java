@@ -81,7 +81,6 @@ public class JobController
 	public static void setMathEngineTimeStamps(long timeStamp10min, long timeStamp1hour, long timeStamp1day)
 	{
 		if((timeStamp10min == 0) && (timeStamp1hour == 0) && (timeStamp1day == 0)){
-			System.out.println("Check in job parser per il enable calculation");
 			enableCalculation = false;
 		}else
 		{
@@ -278,7 +277,7 @@ public class JobController
 			
 			if(count > 0){				
 				gc.setTime(new Date(RawDataController.GetMinTimestamp()));
-				
+				gc.set(Calendar.HOUR_OF_DAY, 0);
 				gc.set(Calendar.MINUTE, 0);
 				gc.set(Calendar.SECOND, 0);
 				
@@ -295,5 +294,13 @@ public class JobController
 			thread = new Thread(calculationController);
 			thread.start();
 		}
+	}
+	
+	
+	/**
+	 * This method resets the flags of the threads
+	 */
+	public static void resetFlags(){
+		calculationController.resetFlags();
 	}
 }
