@@ -57,6 +57,18 @@
        <servlet-name>CurrentStateView</servlet-name>
        <url-pattern>/CurrentStateView</url-pattern>
    </servlet-mapping>
+   
+   	<!--======= MNDomain =================================================== -->
+
+   <servlet>
+		<servlet-name>MN_Domain_WC_Table_and_Alarm</servlet-name>
+ 		<servlet-class>dsd.view.MN_Domain_WC_Table_and_Alarm</servlet-class>
+   </servlet>
+	
+	<servlet-mapping>
+       <servlet-name>MN_Domain_WC_Table_and_Alarm</servlet-name>
+       <url-pattern>/MNDomain</url-pattern>
+   </servlet-mapping>
 	
 	<!--
 	<security-constraint>

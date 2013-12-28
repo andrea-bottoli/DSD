@@ -141,13 +141,14 @@ public class RawDataDAO
 			}
 			catch (Exception exc)
 			{
-				exc.printStackTrace();
+//				exc.printStackTrace();
+				timestamp = 0;
 			}
 			con.close();
 		}
 		catch (Exception exc)
 		{
-//			exc.printStackTrace();
+			exc.printStackTrace();
 			timestamp = 0;
 		}
 		return timestamp;

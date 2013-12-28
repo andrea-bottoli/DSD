@@ -94,7 +94,7 @@ public class ParserControler
 	{
 		if (ParsedInputFilesController.IsAlreadyParsed(file.getName()))
 		{
-			System.out.println(file.getName() + " already parsed so it will be skipped!");
+//			System.out.println(file.getName() + " already parsed so it will be skipped!");
 			return;
 		}
 		List<RawData> rawDataList = new ArrayList<RawData>();
