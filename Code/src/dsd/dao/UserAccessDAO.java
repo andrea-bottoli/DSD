@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Br?i?, Dzana Kujan, Nikola Radisavljevic, Jörn Tillmanns, Miraldi Fifo
+ * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Br?i?, Dzana Kujan, Nikola Radisavljevic, JÃ¶rn Tillmanns, Miraldi Fifo
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package dsd.dao;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import dsd.calculations.CryptFunktions;
 import dsd.model.User;
@@ -25,28 +26,70 @@ import dsd.model.enums.eUserRole;
 
 public class UserAccessDAO {
 
-	private static String usertable = "user";
-	private static String roleTable = "user_roles";
+	private static String usertable = "users";
+	private static String roleTable = "users_roles";
 	private static String[] usertableFields = new String[] { "ID", "username",
 			"surename", "lastname", "password", "email" };
-	private static String[] roleTableFields = new String[] { "ID", "user",
+	private static String[] roleTableFields = new String[] { "ID", "username",
 			"role" };
 
 	public static User selectUserByUsername(String username) {
 
-		return selectUser(usertableFields[1], username);
+		ArrayList<User> userList = selectUser(usertableFields[1], username);
+		if (userList.size() == 1)
+			return userList.get(0);
+		else
+			return null;
 
 	}
 
-	public static User selectUserByLastname(String username) {
+	public static ArrayList<User> selectUserByLastname(String username) {
 
-		return selectUser(usertableFields[1], username);
+		return selectUser(usertableFields[3], username);
 
 	}
 
-	private static User selectUser(String field, String param) {
+	public static ArrayList<User> selectUserByFirstname(String username) {
+
+		return selectUser(usertableFields[2], username);
+
+	}
+
+	public static ArrayList<User> getAllUsers() {
+		ArrayList<User> userList = new ArrayList<User>();
+
 		try {
-			User user = new User();
+			Connection con = DAOProvider.getDataSource().getConnection();
+
+			Object[] parameters = {};
+			String table = usertable + " right join " + roleTable + " on "
+					+ usertable + "." + usertableFields[1] + " = " + roleTable
+					+ "." + roleTableFields[1];
+			ResultSet result = DAOProvider.SelectTableSecure(table, "*", "",
+					"", con, parameters);
+			String blub = result.getStatement().toString();
+			System.out.println(blub);
+			while (result.next()) {
+				User user = new User();
+				user.setUsername(result.getString(usertableFields[1]));
+				user.setSurename(result.getString(usertableFields[2]));
+				user.setLastname(result.getString(usertableFields[3]));
+				user.setPasswd(result.getString(usertableFields[4]));
+				user.setEmail(result.getString(usertableFields[5]));
+				user.setRole(eUserRole.valueOf(result
+						.getString(roleTableFields[2])));
+				userList.add(user);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return userList;
+	}
+
+	private static ArrayList<User> selectUser(String field, String param) {
+		try {
+			ArrayList<User> userList = new ArrayList<User>();
 			Connection con = DAOProvider.getDataSource().getConnection();
 
 			Object[] parameters = { param };
@@ -59,16 +102,17 @@ public class UserAccessDAO {
 			ResultSet result = DAOProvider.SelectTableSecure(table, select,
 					where, order, con, parameters);
 			while (result.next()) {
-
+				User user = new User();
 				user.setUsername(result.getString(usertableFields[1]));
 				user.setSurename(result.getString(usertableFields[2]));
 				user.setLastname(result.getString(usertableFields[3]));
 				user.setPasswd(result.getString(usertableFields[4]));
 				user.setEmail(result.getString(usertableFields[5]));
-				user.setRole(eUserRole.getSonarType(result
+				user.setRole(eUserRole.getRoleType(result
 						.getInt(roleTableFields[2])));
+				userList.add(user);
 			}
-			return user;
+			return userList;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

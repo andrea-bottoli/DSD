@@ -79,7 +79,7 @@
 			<http-method>POST</http-method>
 		</web-resource-collection>
 		<auth-constraint>
-			<role-name>dude</role-name>
+			<role-name>User</role-name>
 		</auth-constraint>
 
 		<user-data-constraint>
@@ -110,7 +110,7 @@
 			<http-method>POST</http-method>
 		</web-resource-collection>
 		<auth-constraint>
-			<role-name>dude</role-name>
+			<role-name>User</role-name>
 		</auth-constraint>
 
 		<user-data-constraint>
@@ -141,7 +141,7 @@
 			<http-method>POST</http-method>
 		</web-resource-collection>
 		<auth-constraint>
-			<role-name>dude</role-name>
+			<role-name>User</role-name>
 		</auth-constraint>
 
 		<user-data-constraint>
@@ -171,7 +171,7 @@
 			<http-method>POST</http-method>
 		</web-resource-collection>
 		<auth-constraint>
-			<role-name>dude</role-name>
+			<role-name>Administrator</role-name>
 		</auth-constraint>
 
 		<user-data-constraint>
@@ -218,7 +218,7 @@
 			<http-method>POST</http-method>
 		</web-resource-collection>
 		<auth-constraint>
-			<role-name>dude</role-name>
+			<role-name>Administrator</role-name>
 		</auth-constraint>
 
 		<user-data-constraint>
@@ -226,6 +226,36 @@
 			<transport-guarantee>NONE</transport-guarantee>
 		</user-data-constraint>
 	</security-constraint>
+	
+	
+	<!--======= UserAdministration =================================================== -->
+	
+	<servlet>
+    	<servlet-name>UserAdministration</servlet-name>
+    	<servlet-class>dsd.view.UserAdministrationView</servlet-class>
+  	</servlet>
+  	<servlet-mapping>
+    	<servlet-name>UserAdministration</servlet-name>
+    	<url-pattern>/UserAdministration</url-pattern>
+  	</servlet-mapping>
+  
+     <security-constraint>
+		<web-resource-collection>
+			<web-resource-name>UserAdministration</web-resource-name>
+			<url-pattern>/UserAdministration</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>Administrator</role-name>
+		</auth-constraint>
+
+		<user-data-constraint>
+			<!-- transport-guarantee can be CONFIDENTIAL, INTEGRAL, or NONE -->
+			<transport-guarantee>NONE</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
+	
 	
 	<!--======= Login =================================================== -->
 		<servlet-mapping>
@@ -241,7 +271,8 @@
 			<http-method>POST</http-method>
 		</web-resource-collection>
 		<auth-constraint>
-			<role-name>dude</role-name>
+			<role-name>User</role-name>
+			<role-name>Administrator</role-name>
 		</auth-constraint>
 
 		<user-data-constraint>
@@ -253,17 +284,7 @@
 	<!--======= index.jsp =================================================== -->
 	
 	
-	<!--======= Mate-DEV-Bereich =================================================== -->
-	
-	<servlet>
-    	<servlet-name>WCPylonTable</servlet-name>
-    	<servlet-class>dsd.view.WCPylonTable</servlet-class>
-  	</servlet>
-  	<servlet-mapping>
-    	<servlet-name>WCPylonTable</servlet-name>
-    	<url-pattern>/MateDev</url-pattern>
-  	</servlet-mapping>
-	
+
 	
 	<!--======= Login-From =================================================== -->
 		
