@@ -72,7 +72,7 @@ $(function() {
 			
 				<div id="MNGraph" >
 				
-					<p class="graph_name">Anemometer graph(Wind speed):</p>	
+					<p class="graph_name">MN_Domain:</p>	
 						
 					<div id="Wind_speed_graph" class="mnGraph" ></div>
 							
@@ -245,7 +245,7 @@ $(function() {
 						<td >${item.tx}</td>	
 						<td >${item.ty}</td>	
 						<td >${item.mx}</td>	
-						<td >${MNDomain}</td>			
+						<td >${item.my}</td>			
 							
 				</tr>
 			</c:forEach>

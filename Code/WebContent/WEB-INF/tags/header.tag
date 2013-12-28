@@ -46,6 +46,10 @@
 		</div>
 		
 		<div class="button">
+			<span><a href="MNDomain">MN Domain</a></span>
+		</div>
+		
+		<div class="button">
 			<span><a href="TestTimestampAndCounts">Statistics</a></span>
 		</div>
 	<!-- 	
