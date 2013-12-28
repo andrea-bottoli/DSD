@@ -141,6 +141,13 @@ public class MN_Domain_WC_Table_and_Alarm extends HttpServlet {
 				listOfHydrometerValues.put(TenMinData.get(i).getHydrometer());
 			}
 			
+			for (int i = 0; i < NValues.size(); i++) {
+
+				listOfM.put(MValues.get(i));
+
+				listOfN.put(NValues.get(i)); 
+			}
+			
 			listTD.put(Tchecked);
             listTD.put(Dchecked);
 
@@ -155,18 +162,12 @@ public class MN_Domain_WC_Table_and_Alarm extends HttpServlet {
 			obj.put("ValuesOfSonar", listOfSonarValues);
 			obj.put("ValuesOfHydrometer", listOfHydrometerValues);
 			
-			obj.put("MValues", 5);
-			obj.put("NValues", 26);
-			
+			obj.put("MValues", listOfM);
+			obj.put("NValues", listOfN);
 
             obj.put("TDChecked", listTD);
 			
-			for (int i = 0; i < NValues.size(); i++) {
-
-				listOfM.put(MValues.get(i));
-
-				listOfN.put(NValues.get(i)); 
-			}
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();

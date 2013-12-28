@@ -70,11 +70,11 @@ $(function() {
 			<h3>MN Domain graph:</h3>
 			
 			
-				<div id="first" >
+				<div id="MNGraph" >
 				
 					<p class="graph_name">Anemometer graph(Wind speed):</p>	
 						
-					<div id="Wind_speed_graph" class="all_graphs" ></div>
+					<div id="Wind_speed_graph" class="mnGraph" ></div>
 							
 					<script type="text/javascript">
 					
@@ -106,10 +106,11 @@ $(function() {
 					    categoryAxis.gridAlpha = 0.15;
 					    categoryAxis.minorGridEnabled = true;
 					    categoryAxis.axisColor = "#DADADA";
+					    categoryAxis.title = "N_Values";
 					    
 					    // value                
 					    var valueAxis = new AmCharts.ValueAxis();
-					    valueAxis.title = "speed (m per second)";
+					    valueAxis.title = "M_Values";
 					    valueAxis.axisAlpha = 0.2;
 					    valueAxis.dashLength = 1;
 					    chart.addValueAxis(valueAxis);
@@ -124,8 +125,8 @@ $(function() {
 					    graph.bulletBorderThickness = 2;
 					    graph.bulletBorderAlpha = 1;
 					    graph.lineThickness = 2;
-					    graph.lineColor = "#030db5";
-					    graph.negativeLineColor = "#0352b5";
+					    graph.lineColor = "#b5030d";
+					    graph.negativeLineColor = "#b5030d";
 					    graph.balloonText = "[[category]]<br><b><span style='font-size:14px;'>value: [[value]]</span></b>";
 					    graph.hideBulletsCount = 50; // this makes the chart to hide bullets when there are more than 50 series in selection
 					    chart.addGraph(graph);
@@ -140,7 +141,7 @@ $(function() {
 					    graph_max.bulletBorderAlpha = 1;
 					    graph_max.lineThickness = 2;
 					    graph_max.lineColor = "#b5030d";
-					    graph_max.negativeLineColor = "#0352b5";
+					    graph_max.negativeLineColor = "#b5030d";
 					    graph_max.balloonText = "[[category]]<br><b><span style='font-size:14px;'>value: [[value]]</span></b>";
 					    graph_max.hideBulletsCount = 50; // this makes the chart to hide bullets when there are more than 50 series in selection
 					    chart.addGraph(graph_max);
@@ -175,71 +176,22 @@ $(function() {
 					   
 					    var list1 = eval('(' + '${MNDomain}' + ')');
 
-						var array = list1.Dates;
-						var windSpeed = list1.ValuesOfWindSpeed;
-						var max_windSpeed = list1.ValuesOfWindSpeed_MAX;
-
-						chartData.push({
-				            date: 0,
-				            visits:  0,
-				            visits2: 0
-				        });
-
-						chartData.push({
-				            date: 1,
-				            visits:  1,
-				            visits2: -1
-				        });
-						
-						chartData.push({
-				            date: 2,
-				            visits:  2,
-				            visits2: -2
-				        });
-						
-						chartData.push({
-				            date: 3,
-				            visits:  3,
-				            visits2: -3
-				        });
-						
-						chartData.push({
-				            date: 4,
-				            visits: 3,
-				            visits2: -3
-				        });
-						
-						chartData.push({
-				            date: 5,
-				            visits: 2,
-				            visits2: -2
-				        });
-						
-						chartData.push({
-				            date: 6,
-				            visits: 1,
-				            visits2: -1
-				        });
-						
-						chartData.push({
-				            date: 7,
-				            visits: 0,
-				            visits2: 0
-				        });
+						var Mvalues = list1.MValues;
+						var Nvalues = list1.NValues;
 						
 						
-					   /* for (var i = 0; i < array.length; i++) {
+					    for (var i = 0; i < Mvalues.length/2; i++) {
 					        // we create date objects here. In your data, you can have date strings 
 					        // and then set format of your dates using chart.dataDateFormat property,
 					        // however when possible, use date objects, as this will speed up chart rendering.                    
-					        var newDate = new Date(array[i]);
+					        //var newDate = new Date(array[i]);
 					  		        
 					        chartData.push({
-					            date: i,
-					            visits:  windSpeed[i],
-					            visits2: max_windSpeed[i]
+					            date: Nvalues[i],
+					            visits:  Mvalues[Mvalues.length-i-1],
+					            visits2: Mvalues[i]
 					        });
-					    }*/
+					    }
 					}
 
 					// this method is called when chart is first inited as we listen for "dataUpdated" event
@@ -293,7 +245,7 @@ $(function() {
 						<td >${item.tx}</td>	
 						<td >${item.ty}</td>	
 						<td >${item.mx}</td>	
-						<td >${item.my}</td>			
+						<td >${MNDomain}</td>			
 							
 				</tr>
 			</c:forEach>
