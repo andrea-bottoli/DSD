@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Br?i?, Dzana Kujan, Nikola Radisavljevic, Jörn Tillmanns, Miraldi Fifo
+ * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Br?i?, Dzana Kujan, Nikola Radisavljevic, Jï¿½rn Tillmanns, Miraldi Fifo
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ public enum eUserRole {
 
 	private static Map<Integer, eUserRole> codeToRoleMapping;
 
-	public static eUserRole getSonarType(int i) {
+	public static eUserRole getRoleType(int i) {
 		if (codeToRoleMapping == null) {
 			initMapping();
 		}
