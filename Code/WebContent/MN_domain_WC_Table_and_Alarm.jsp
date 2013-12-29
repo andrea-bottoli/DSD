@@ -115,12 +115,12 @@ $(function() {
 					    valueAxis.dashLength = 1;
 					    chart.addValueAxis(valueAxis);
 					    
-					    // GRAPH
+					    // GRAPH MN domain
 					    var graph = new AmCharts.AmGraph();
 					    graph.title = "wind speed";
 					    graph.valueField = "visits";
 					    graph.bullet = "round";
-					    graph.connect = false;//////////****************************bitno
+					    graph.connect = true;
 					    graph.bulletBorderColor = "#FFFFFF";
 					    graph.bulletBorderThickness = 2;
 					    graph.bulletBorderAlpha = 1;
@@ -131,7 +131,7 @@ $(function() {
 					    graph.hideBulletsCount = 50; // this makes the chart to hide bullets when there are more than 50 series in selection
 					    chart.addGraph(graph);
 					    
-					    // GRAPH MAX
+					    // GRAPH MN domain
 					    var graph_max = new AmCharts.AmGraph();
 					    graph_max.title = "max wind speed";
 					    graph_max.valueField = "visits2";
@@ -145,6 +145,22 @@ $(function() {
 					    graph_max.balloonText = "[[category]]<br><b><span style='font-size:14px;'>value: [[value]]</span></b>";
 					    graph_max.hideBulletsCount = 50; // this makes the chart to hide bullets when there are more than 50 series in selection
 					    chart.addGraph(graph_max);
+					    
+					    // GRAPH MN domain
+					    var graphPilons = new AmCharts.AmGraph();
+					    graphPilons.title = "wind speed";
+					    graphPilons.valueField = "pilons";
+					    graphPilons.bullet = "round";
+					    graphPilons.connect = false;//////////****************************bitno
+					    graphPilons.bulletBorderColor = "#FFFFFF";
+					    graphPilons.bulletBorderThickness = 2;
+					    graphPilons.bulletBorderAlpha = 1;
+					    graphPilons.lineThickness = 2;
+					    graphPilons.lineColor = "#03b552";
+					    graphPilons.negativeLineColor = "#03b552";
+					    graphPilons.balloonText = "[[category]]<br><b><span style='font-size:14px;'>value: [[value]]</span></b>";
+					    graphPilons.hideBulletsCount = 50; // this makes the chart to hide bullets when there are more than 50 series in selection
+					    chart.addGraph(graphPilons);
 					    
 					    // CURSOR
 					    chartCursor = new AmCharts.ChartCursor();
@@ -175,6 +191,7 @@ $(function() {
 					function generateChartData1() {
 					   
 					    var list1 = eval('(' + '${MNDomain}' + ')');
+					   // var list2 = eval('(' + '${wcPylonArray}' + ')');
 
 						var Mvalues = list1.MValues;
 						var Nvalues = list1.NValues;
@@ -185,12 +202,42 @@ $(function() {
 					        // and then set format of your dates using chart.dataDateFormat property,
 					        // however when possible, use date objects, as this will speed up chart rendering.                    
 					        //var newDate = new Date(array[i]);
+					        
 					  		        
 					        chartData.push({
 					            date: Nvalues[i],
 					            visits:  Mvalues[Mvalues.length-i-1],
 					            visits2: Mvalues[i]
 					        });
+					        
+					        <c:forEach items="${wcPylonArray}" var="item">
+							
+					        if ("${item.n}" > Nvalues[i] && "${item.n}" < Nvalues[i+1]){
+					        						        	
+					    		   chartData.push({
+							            date: "${item.n}",
+							            pilons: "${item.m}"
+							        });
+					    		  
+					    		   chartData.push({
+							            date: "${item.n}",
+							       });
+					    		   
+					    		   
+					    }
+																					
+						</c:forEach>
+					        
+					      /*  for (var j = 0; j < 6; j++){
+						    	   if (list2[j].n > Nvalues[i])
+						    		   chartData.push({
+								            date: list2[j].n,
+								            pilons: list2[j].m
+								        });
+						    	   // TODO: napravi razmake
+								        
+						       }				        
+					        */
 					    }
 					}
 
