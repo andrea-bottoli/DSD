@@ -15,6 +15,7 @@
  ******************************************************************************/
 package dsd.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MNDomain {
@@ -23,7 +24,8 @@ public class MNDomain {
 	private List<Float> n;
 	
 	public MNDomain(){
-		
+		this.m = new ArrayList<Float>();
+		this.n = new ArrayList<Float>();
 	}
 	
 	public MNDomain(List<Float> m, List<Float> n){

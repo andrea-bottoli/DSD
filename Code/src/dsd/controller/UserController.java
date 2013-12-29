@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Br?i?, Dzana Kujan, Nikola Radisavljevic, Jörn Tillmanns, Miraldi Fifo
+ * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Br?i?, Dzana Kujan, Nikola Radisavljevic, Jï¿½rn Tillmanns, Miraldi Fifo
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,22 @@
  ******************************************************************************/
 package dsd.controller;
 
+import java.util.ArrayList;
+
+import dsd.dao.UserAccessDAO;
+import dsd.model.User;
+
 public class UserController {
 
+	public static ArrayList<User> getAllUsers() {
+		return UserAccessDAO.getAllUsers();
+	}
+
+	public static User getUser(String username) {
+		return UserAccessDAO.selectUserByUsername(username);
+	}
+
+	public static void delUser(String username) {
+		UserAccessDAO.deletUser(username);
+	}
 }

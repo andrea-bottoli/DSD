@@ -13,40 +13,22 @@
 #See the License for the specific language governing permissions and
 #limitations under the License.
 ------------------------------------------------------------------------------%>
-<%@tag import="dsd.model.enums.eUserRole"%>
-<%@ tag language="java" pageEncoding="UTF-8"%>
+<%@page import="dsd.model.User"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<body>
-	<%
+<!DOCTYPE html>
+
+<t:desktopPage>
+	<jsp:useBean id="user" type="dsd.model.User" scope="request"/>
 	
-  if  (request.isUserInRole(eUserRole.User.toString())) {
-      %>
-      	<t:headerUser></t:headerUser>
-      <%
-  }else if(request.isUserInRole(eUserRole.Engineer.toString())){
-	  %>
-    	<t:headerEngineere></t:headerEngineere>
-    <%
-  }else if(request.isUserInRole(eUserRole.Administrator.toString())){
-	  %>
-    	<t:headerAdministrator></t:headerAdministrator>
-    <%
-  } else {
-	  %>
-	  <t:loginHeader></t:loginHeader>
-	  <%
-  }
-%>
-	
-	
-	
-	<div id="content" class= "content">
-		<jsp:doBody />
+	<br/>
+	<h1>User-Detail</h1>
+	<hr />
+	<br/>
+	<div id="parameters">
+		...
 	</div>
 	
-	<t:footer>
-	
-	</t:footer>
-
-</body>
+</t:desktopPage>

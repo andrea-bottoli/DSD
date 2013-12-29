@@ -23,23 +23,14 @@
 	<div id="title" class=title>
 		 <h1><b>Real-time bridge monitoring: Borgoforte Bridge</b></h1>
 	</div>
-	
-			<div class="login">
-		 	<!--  <form method="POST" action="<%=request.getContextPath()%>/j_security_check">
-				Username: <input type="text" name="j_username"><br>
-				Password: <input type="password" name="j_password"><br>
-				<input type="submit" value="Login">
-			</form>
-			-->
-			<a href="<%=request.getContextPath()%>/Login">Login</a>
-		</div>
-	
 
-	
-	<div id="tabs" class="buttons">
+			<div class="login">
+			<a href="<%=request.getContextPath()%>/logout.jsp">logout</a>
+		</div>
 		
+	<div id="tabs" class="buttons">
 		<div class="button">
-			<span><a href="index.jsp">Home</a></span>
+			<span ><a href="index.jsp">Home</a></span>
 		</div>
 		
 		<div class="button">
@@ -50,9 +41,22 @@
 			<span><a href="HistoryView">History Diagrams</a></span>
 		</div>
 		
+		<div class="button">
+			<span><a href="TestTimestampAndCounts">Statistics</a></span>
+		</div>
+		
+		<div class="button">
+			<span ><a href="UserAdministration">User Administration</a></span>
+		</div>
+	<!-- 	
+		<div class="button">
+			<span> <a href="http://www.weatheronline.co.uk/Italy.html">WeatherForcast</span>
+		</div>
+		  -->
 		
 		<br/>
 	</div>
 	 
 
+	
 </div>
