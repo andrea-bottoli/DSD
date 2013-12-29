@@ -49,9 +49,8 @@
 We don't want to have contact with you!
 
 <h3>License</h3>
-We provide our Software under the <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache License 2.0</a>.
- You will find the source code in our <a href="https://github.com/andrea-bottoli/DSD">GitHub Repository</a>.
-
+We provide our Software under the <a href="LICENSE-2.0.jsp">Apache License 2.0</a>.
+ You will find the source code in our <a href="https://github.com/andrea-bottoli/DSD">GitHub Repository</a>. All pictograms used on this side are licenced under <a href="license_pictogramms.jsp">SIL Open Font License</a>. 
 </div>
 
 

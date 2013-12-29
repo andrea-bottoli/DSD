@@ -31,11 +31,11 @@
 		<table class="hoverTable">
 			<tr>
 				<td  style="width:20%; font-weight:900; font-size:100%">Username</td>
-				<td  style="width:20%; font-weight:bold">Surename</td>
-				<td  style="width:20%; font-weight:bold">Lastname</td>
-				<td  style="width:20%; font-weight:bold">E-Mail</td>
-				<td  style="width:10%; font-weight:bold">Edit</td>
-				<td  style="width:10%; font-weight:bold">Delete</td>
+				<td  style="width:25%; font-weight:bold">Surename</td>
+				<td  style="width:25%; font-weight:bold">Lastname</td>
+				<td  style="width:25%; font-weight:bold">E-Mail</td>
+				<td  style="width:2.5%; font-weight:bold">Edit</td>
+				<td  style="width:2.5%; font-weight:bold">Delete</td>
 				
 			</tr>
 			<c:forEach items="${userList}" var="item">
@@ -44,8 +44,8 @@
 						<td >${item.lastname}</td>
 						<td >${item.surename}</td>	
 						<td >${item.email}</td>
-						<td ></td>	
-						<td ></td>				
+						<td ><a href="UserAdministration?edit=${item.username}"><span class="icon">r</span></a></td>	
+						<td ><a href="UserAdministration?del=${item.username}"><span class="icon">I</span></a></td>				
 							
 				</tr>
 			</c:forEach>

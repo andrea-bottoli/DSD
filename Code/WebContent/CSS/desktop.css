@@ -1,5 +1,5 @@
 /*******************************************************************************
-*Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Br?i?, Dzana Kujan, Nikola Radisavljevic, Jörn Tillmanns, Miraldi Fifo
+*Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Br?i?, Dzana Kujan, Nikola Radisavljevic, Jï¿½rn Tillmanns, Miraldi Fifo
 *
 *Licensed under the Apache License, Version 2.0 (the "License");
 *you may not use this file except in compliance with the License.
@@ -16,6 +16,8 @@
 * css released under Creative Commons License -  http://creativecommons.org/licenses/by/2.0/deed.en  */
 /* html5 + CSS 3 Template created by miss monorom  http://intensivstation.ch 2013 */
 
+
+
 /* reset */
 * {
 margin: 0;
@@ -27,12 +29,30 @@ box-sizing: border-box;
 /* render html5 elements as block 
    rendert html5 elemente als block  */
 
+@font-face {
+	font-family: 'icons';
+	src: url('./modernpics.otf');hover_icon
+	
+	font-weight: normal;
+	font-style: normal;	
+}
+
 .header, .footer { display: block;}
 
 .clear_float{clear: both;}
 
 .ul_no_dot{
 	list-style: none;
+}
+
+.icon{
+	font-family: "icons";	
+	font-size: 1.3em;
+	text-decoration: none;
+	}
+
+.icon:HOVER{
+	text-decoration: underline;
 }
 
 
@@ -524,4 +544,5 @@ input[type=checkbox] {
 	bottom: 0;
 	border-bottom:1px solid #666;
 	border-top:1px solid #666;
+	height: 30px;
 	}
