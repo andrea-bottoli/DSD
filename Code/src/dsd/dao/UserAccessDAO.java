@@ -97,10 +97,12 @@ public class UserAccessDAO {
 					+ usertable + "." + usertableFields[1] + " = " + roleTable
 					+ "." + roleTableFields[1];
 			String select = "*";
-			String where = field + " = ?";
+			String where = usertable + "." + field + " = ?";
 			String order = "";
 			ResultSet result = DAOProvider.SelectTableSecure(table, select,
 					where, order, con, parameters);
+
+			System.out.println(result.getStatement().toString());
 			while (result.next()) {
 				User user = new User();
 				user.setUsername(result.getString(usertableFields[1]));
@@ -108,8 +110,8 @@ public class UserAccessDAO {
 				user.setLastname(result.getString(usertableFields[3]));
 				user.setPasswd(result.getString(usertableFields[4]));
 				user.setEmail(result.getString(usertableFields[5]));
-				user.setRole(eUserRole.getRoleType(result
-						.getInt(roleTableFields[2])));
+				user.setRole(eUserRole.valueOf(result
+						.getString(roleTableFields[2])));
 				userList.add(user);
 			}
 			return userList;
@@ -135,11 +137,31 @@ public class UserAccessDAO {
 			ResultSet result = DAOProvider.SelectTableSecure(usertable,
 					usertableFields[4], usertableFields[1] + " = ? ", "", con,
 					param);
+			return true;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		return false;
+	}
+
+	public static boolean deletUser(String username) {
+		Object[] param = { username };
+		try {
+			Connection con = DAOProvider.getDataSource().getConnection();
+
+			int result1 = DAOProvider.DeleteRowSecure(roleTable,
+					roleTableFields[1] + " = ?", con, param);
+			int result2 = DAOProvider.DeleteRowSecure(usertable,
+					usertableFields[1] + " = ?", con, param);
+			if (result1 != 0 && result2 != 0)
+				return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+
 	}
 }

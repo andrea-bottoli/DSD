@@ -29,4 +29,8 @@ public class UserController {
 	public static User getUser(String username) {
 		return UserAccessDAO.selectUserByUsername(username);
 	}
+
+	public static void delUser(String username) {
+		UserAccessDAO.deletUser(username);
+	}
 }

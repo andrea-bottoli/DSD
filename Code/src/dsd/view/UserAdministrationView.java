@@ -23,11 +23,30 @@ public class UserAdministrationView extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		ArrayList<User> userList = UserController.getAllUsers();
+		RequestDispatcher dispatcher;
+		if (req.getParameter("edit") != null) {
+			User user = UserController.getUser(req.getParameter("edit"));
+			if (user != null)
+				req.setAttribute("user", user);
+			dispatcher = getServletContext().getRequestDispatcher(
+					"/userDetail.jsp");
 
-		req.setAttribute("userList", userList);
-		RequestDispatcher dispatcher = getServletContext()
-				.getRequestDispatcher("/userOverview.jsp");
+		} else if (req.getParameter("del") != null) {
+			UserController.delUser(req.getParameter("del"));
+			ArrayList<User> userList = UserController.getAllUsers();
+
+			req.setAttribute("userList", userList);
+			dispatcher = getServletContext().getRequestDispatcher(
+					"/userOverview.jsp");
+
+		} else {
+
+			ArrayList<User> userList = UserController.getAllUsers();
+
+			req.setAttribute("userList", userList);
+			dispatcher = getServletContext().getRequestDispatcher(
+					"/userOverview.jsp");
+		}
 		dispatcher.forward(req, resp);
 
 	}
