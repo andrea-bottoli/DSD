@@ -40,6 +40,10 @@
 		<div class="button">
 			<span><a href="HistoryView">History Diagrams</a></span>
 		</div>
+		
+				<div class="button">
+			<span><a href="MNDomain">MN Domain</a></span>
+		</div>
 	
 		<div class="button">
 			<span ><a href="TestParametersData">Parameters</a></span>

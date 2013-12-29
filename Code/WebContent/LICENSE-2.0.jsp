@@ -1,12 +1,24 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html><head>
-  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-  <link rel="stylesheet" href="LICENSE-2.0_fichiers/style.css" type="text/css">
-  <meta name="author" content="The Apache Software Foundation">
-  <meta name="email" content="apache.AT.apache.DOT.org">
-  <title>Apache License, Version 2.0 - The Apache Software Foundation</title>
-</head>
-<body>        
+<%------------------------------------------------------------------------------
+#Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Brčić, Dzana Kujan, Nikola Radisavljevic, Jörn Tillmanns, Miraldi Fifo
+#
+#Licensed under the Apache License, Version 2.0 (the "License");
+#you may not use this file except in compliance with the License.
+#You may obtain a copy of the License at
+#
+#  http://www.apache.org/licenses/LICENSE-2.0
+#
+#Unless required by applicable law or agreed to in writing, software
+#distributed under the License is distributed on an "AS IS" BASIS,
+#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#See the License for the specific language governing permissions and
+#limitations under the License.
+------------------------------------------------------------------------------%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+
+<!DOCTYPE html>
+
+<t:desktopPage>
 <p align="center">
 Apache License<br>
 Version 2.0, January 2004<br>
@@ -207,4 +219,4 @@ While redistributing
 <p>
 END OF TERMS AND CONDITIONS
 </p>
-</body></html>
+</t:desktopPage>

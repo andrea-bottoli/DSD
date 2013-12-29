@@ -52,7 +52,9 @@
 						<td ><input type="text" name="value" value="${parameter.value}" size="3"/></td>
 						<td >${parameter.userID}</td>
 						<td >${parameter.timestampDate}</td>
-						<td > <input type="submit" name="nikica" value="Save"> </td>
+						<td ><input type="submit" id="nikica" style="display:none" />
+						<label class="icon" for="submit_button">%</label>
+						</td>
 						<input type="hidden" name="parameterID" value="${parameter.parameterID}">
 					</form>
 				</tr>
