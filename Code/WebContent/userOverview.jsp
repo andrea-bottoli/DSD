@@ -22,9 +22,13 @@
 
 <t:desktopPage>
 	<jsp:useBean id="userList" type="java.util.ArrayList<dsd.model.User>" scope="request"/>
+	<jsp:useBean id="error"	type="java.lang.String" scope="request"/>
+	
 	
 	<br/>
 	<h1>User-Overview</h1>
+	<p><a href="UserAdministration?edit=new">New User</a>
+	</p>
 	<hr />
 	<br/>
 	<div id="parameters">

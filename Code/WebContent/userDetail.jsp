@@ -23,29 +23,38 @@
 
 <script type="text/javascript">
 function chkFormular () {
-  if (document.getElementById("username").value == "") {
-    alert("Please add a username!");
-    document.getElementById("username").focus();
-    return false;
-  }
-  if (document.getElementById("password1").value != document.getElementById("password2").value) {
-    alert("Passwords are not the identical.");
-    document.getElementById("password1").value="";
-    document.getElementById("password2").value="";
-    document.getElementById("password1").focus();
-    return false;
-  }
+ 	if (document.getElementById("username").value == "") {
+    	alert("Please add a username!");
+    	document.getElementById("username").focus();
+    	return false;
+  	}
+  	if (document.getElementById("username").value == "new") {
+	    alert("username cannot be 'new' !");
+	    document.getElementById("username").value="";
+	    document.getElementById("username").focus();
+	    return false;
+	}
+  	if (document.getElementById("password1").value != document.getElementById("password2").value) {
+    	alert("Passwords are not the identical.");
+    	document.getElementById("password1").value="";
+    	document.getElementById("password2").value="";
+    	document.getElementById("password1").focus();
+    	return false;
+  	}
 }
 </script>
 
 <t:desktopPage>
 	<jsp:useBean id="user" type="dsd.model.User" scope="request"/>
 	<jsp:useBean id="roles" type="dsd.model.enums.eUserRole[]" scope="request"/>
-	
+	<jsp:useBean id="error"	type="java.lang.String" scope="request"/>
 	
 	<br/>
 	<h1>User-Detail</h1>
-	<hr />
+	<hr/>
+	<c:if test="${error =='username'}">
+		<span class="error">Dieser Username existiert schon!</span>
+	</c:if>
 	<br/>
 	<div id="userdetails">
 	<form method="post" action="UserAdministration" onsubmit="return chkFormular()">
@@ -75,6 +84,7 @@ function chkFormular () {
 	</ul>
 	<span class="clear_float"></span>
 	<input type="hidden" name="save" value="true">
+	<input type="hidden" name="userID" value="${user.ID}">
 	<span><input type="submit" value="Save"><input type="button" onClick="window.location.href='UserAdministration'" value="Cancle"></span>
 	</form>
 	</div>

@@ -24,42 +24,55 @@ public class UserAdministrationView extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		RequestDispatcher dispatcher;
 		if (req.getParameter("edit") != null) {
-			User user = UserController.getUser(req.getParameter("edit"));
-			eUserRole[] roles = dsd.model.enums.eUserRole.values();
-			req.setAttribute("roles", roles);
-			if (user != null)
-				req.setAttribute("user", user);
-			dispatcher = getServletContext().getRequestDispatcher(
-					"/userDetail.jsp");
-
-		} else if (req.getParameter("del") != null) {
-			UserController.delUser(req.getParameter("del"));
-			ArrayList<User> userList = UserController.getAllUsers();
-			req.setAttribute("userList", userList);
-			dispatcher = getServletContext().getRequestDispatcher(
-					"/userOverview.jsp");
-
+			User user = null;
+			if (req.getParameter("edit").equals("new")) {
+				user = new User();
+			} else {
+				user = UserController.getUser(req.getParameter("edit"));
+			}
+			if (user != null) {
+				showDetailView(user, req, resp, "");
+			} else {
+				showAllUsers(req, resp,
+						"No user with username " + req.getParameter("edit")
+								+ ".");
+			}
 		} else {
-
-			ArrayList<User> userList = UserController.getAllUsers();
-
-			req.setAttribute("userList", userList);
-			dispatcher = getServletContext().getRequestDispatcher(
-					"/userOverview.jsp");
+			if (req.getParameter("del") != null)
+				UserController.delUser(req.getParameter("del"));
+			showAllUsers(req, resp, "");
 		}
-		dispatcher.forward(req, resp);
 
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		RequestDispatcher dispatcher;
+
+		String error = null;
+		User user = UserController.getUser(req.getParameter("username"));
 		if (req.getParameter("save").equals("true")) {
-			User user = UserController.getUser(req.getParameter("username"));
-			if (user != null) {
+			if (req.getParameter("userID").equals("-1")) {
+				if (user != null) {
+					error = "username";
+				}
+
+				user = new User();
+				user.setPasswd(req.getParameter("password1"));
+				user.setUsername(req.getParameter("username"));
+				user.setSurename(req.getParameter("surename"));
+				user.setLastname(req.getParameter("lastname"));
+				user.setEmail(req.getParameter("email"));
+				user.setRole(eUserRole.valueOf(req.getParameter("role")));
+
+				if (error == null) {
+					UserController.insertUser(user);
+				} else {
+					showDetailView(user, req, resp, error);
+					return;
+				}
+			} else {
 				if (req.getParameter("password1") != "") {
 					user.setPasswd(req.getParameter("password1"));
 				}
@@ -69,25 +82,38 @@ public class UserAdministrationView extends HttpServlet {
 				user.setEmail(req.getParameter("email"));
 
 				UserController.saveUser(user);
-			} else {
-				user = new User();
-				user.setPasswd(req.getParameter("password1"));
-				user.setUsername(req.getParameter("username"));
-				user.setSurename(req.getParameter("surename"));
-				user.setLastname(req.getParameter("lastname"));
-				user.setEmail(req.getParameter("email"));
-
-				UserController.insertUser(user);
 			}
-
 		}
 
+		showAllUsers(req, resp, "");
+	}
+
+	private void showDetailView(User user, HttpServletRequest req,
+			HttpServletResponse resp, String error) throws ServletException,
+			IOException {
+
+		RequestDispatcher dispatcher;
+
+		eUserRole[] roles = dsd.model.enums.eUserRole.values();
+		req.setAttribute("roles", roles);
+		req.setAttribute("error", error);
+		req.setAttribute("user", user);
+		dispatcher = getServletContext()
+				.getRequestDispatcher("/userDetail.jsp");
+		dispatcher.forward(req, resp);
+	}
+
+	private void showAllUsers(HttpServletRequest req, HttpServletResponse resp,
+			String error) throws ServletException, IOException {
 		ArrayList<User> userList = UserController.getAllUsers();
 
+		RequestDispatcher dispatcher;
 		req.setAttribute("userList", userList);
+		req.setAttribute("error", error);
 		dispatcher = getServletContext().getRequestDispatcher(
 				"/userOverview.jsp");
 		dispatcher.forward(req, resp);
+
 	}
 
 }
