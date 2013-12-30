@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Br?i?, Dzana Kujan, Nikola Radisavljevic, Jörn Tillmanns, Miraldi Fifo
+ * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Br?i?, Dzana Kujan, Nikola Radisavljevic, Jï¿½rn Tillmanns, Miraldi Fifo
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
  ******************************************************************************/
 package dsd.model;
 
-import dsd.calculations.CryptFunktions;
 import dsd.model.enums.eUserRole;
 
 public class User {
@@ -26,9 +25,11 @@ public class User {
 	private String email;
 	private String passwd;
 	private eUserRole role;
+	private int ID;
 
 	public User() {
 		// TODO Auto-generated constructor stub
+		ID = -1;
 	}
 
 	public String getUsername() {
@@ -68,7 +69,8 @@ public class User {
 	}
 
 	public void setPasswd(String passwd) {
-		this.passwd = CryptFunktions.MD5(passwd);
+		// this.passwd = CryptFunktions.MD5(passwd);
+		this.passwd = passwd;
 	}
 
 	public eUserRole getRole() {
@@ -77,6 +79,14 @@ public class User {
 
 	public void setRole(eUserRole role) {
 		this.role = role;
+	}
+
+	public int getID() {
+		return ID;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
 	}
 
 }

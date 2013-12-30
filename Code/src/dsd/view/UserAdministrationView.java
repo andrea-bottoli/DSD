@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import dsd.controller.UserController;
 import dsd.model.User;
+import dsd.model.enums.eUserRole;
 
 public class UserAdministrationView extends HttpServlet {
 
@@ -26,6 +27,8 @@ public class UserAdministrationView extends HttpServlet {
 		RequestDispatcher dispatcher;
 		if (req.getParameter("edit") != null) {
 			User user = UserController.getUser(req.getParameter("edit"));
+			eUserRole[] roles = dsd.model.enums.eUserRole.values();
+			req.setAttribute("roles", roles);
 			if (user != null)
 				req.setAttribute("user", user);
 			dispatcher = getServletContext().getRequestDispatcher(
@@ -34,7 +37,6 @@ public class UserAdministrationView extends HttpServlet {
 		} else if (req.getParameter("del") != null) {
 			UserController.delUser(req.getParameter("del"));
 			ArrayList<User> userList = UserController.getAllUsers();
-
 			req.setAttribute("userList", userList);
 			dispatcher = getServletContext().getRequestDispatcher(
 					"/userOverview.jsp");
@@ -54,8 +56,38 @@ public class UserAdministrationView extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		super.doPost(req, resp);
+		RequestDispatcher dispatcher;
+		if (req.getParameter("save").equals("true")) {
+			User user = UserController.getUser(req.getParameter("username"));
+			if (user != null) {
+				if (req.getParameter("password1") != "") {
+					user.setPasswd(req.getParameter("password1"));
+				}
+				user.setUsername(req.getParameter("username"));
+				user.setSurename(req.getParameter("surename"));
+				user.setLastname(req.getParameter("lastname"));
+				user.setEmail(req.getParameter("email"));
+
+				UserController.saveUser(user);
+			} else {
+				user = new User();
+				user.setPasswd(req.getParameter("password1"));
+				user.setUsername(req.getParameter("username"));
+				user.setSurename(req.getParameter("surename"));
+				user.setLastname(req.getParameter("lastname"));
+				user.setEmail(req.getParameter("email"));
+
+				UserController.insertUser(user);
+			}
+
+		}
+
+		ArrayList<User> userList = UserController.getAllUsers();
+
+		req.setAttribute("userList", userList);
+		dispatcher = getServletContext().getRequestDispatcher(
+				"/userOverview.jsp");
+		dispatcher.forward(req, resp);
 	}
 
 }

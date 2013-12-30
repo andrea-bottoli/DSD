@@ -33,4 +33,20 @@ public class UserController {
 	public static void delUser(String username) {
 		UserAccessDAO.deletUser(username);
 	}
+
+	public static boolean getUserExists(User user) {
+		if (getUser(user.getUsername()) != null) {
+			return true;
+		}
+		return false;
+	}
+
+	public static void saveUser(User user) {
+		UserAccessDAO.saveUser(user);
+
+	}
+
+	public static void insertUser(User user) {
+		UserAccessDAO.newUser(user);
+	}
 }
