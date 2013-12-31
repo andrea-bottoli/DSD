@@ -34,18 +34,6 @@
 		</div>
 		
 		<div class="button">
-			<span><a href="CurrentStateView">Current State</a></span>
-		</div>
-		
-		<div class="button">
-			<span><a href="HistoryView">History Diagrams</a></span>
-		</div>
-		
-		<div class="button">
-			<span><a href="TestTimestampAndCounts">Statistics</a></span>
-		</div>
-		
-		<div class="button">
 			<span ><a href="UserAdministration">User Administration</a></span>
 		</div>
 	<!-- 	

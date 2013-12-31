@@ -198,7 +198,23 @@
     <url-pattern>/HistoryView</url-pattern>
   </servlet-mapping>
 
-   
+   <security-constraint>
+		<web-resource-collection>
+			<web-resource-name>HistoryView</web-resource-name>
+			<url-pattern>/HistoryView</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>Engineer</role-name>
+			<role-name>User</role-name>
+		</auth-constraint>
+
+		<user-data-constraint>
+			<!-- transport-guarantee can be CONFIDENTIAL, INTEGRAL, or NONE -->
+			<transport-guarantee>NONE</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
 	
 	
 	
@@ -213,7 +229,7 @@
     	<url-pattern>/TestTimestampAndCounts</url-pattern>
   	</servlet-mapping>
   
-     <security-constraint>
+    <security-constraint>
 		<web-resource-collection>
 			<web-resource-name>TestTimestampAndCounts</web-resource-name>
 			<url-pattern>/TestTimestampAndCounts</url-pattern>
@@ -222,7 +238,6 @@
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>Engineer</role-name>
-			<role-name>Administrator</role-name>
 		</auth-constraint>
 
 		<user-data-constraint>
@@ -262,8 +277,12 @@
 	
 	
 	<!--======= Login =================================================== -->
+		<servlet>
+    		<servlet-name>Login</servlet-name>
+    		<servlet-class>dsd.view.Login</servlet-class>
+  		</servlet>
 		<servlet-mapping>
-	       <servlet-name>CurrentStateView</servlet-name>
+	       <servlet-name>Login</servlet-name>
 	       <url-pattern>/Login</url-pattern>
    		</servlet-mapping>
 	
