@@ -59,9 +59,13 @@ public class LoadFlagJob  implements Job{
 		if((tenMinFlag == 0) || (oneHourFlag == 0) || (oneDayFlag ==0))
 		{
 			gc.setTime(new Date(RawDataController.GetMinTimestamp()));
-			gc.set(Calendar.HOUR_OF_DAY, 0);
-			gc.set(Calendar.MINUTE, 0);
-			gc.set(Calendar.SECOND, 0);
+			
+			if(gc.getTimeInMillis() > 0)
+			{
+				gc.set(Calendar.HOUR_OF_DAY, 0);
+				gc.set(Calendar.MINUTE, 0);
+				gc.set(Calendar.SECOND, 0);
+			}
 			
 			if(tenMinFlag == 0){
 				tenMinFlag = gc.getTimeInMillis();

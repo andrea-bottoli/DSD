@@ -96,7 +96,7 @@ public class JobController
 	{
 		checkForNewData();
 		startParsing();
-//		startCalculations();
+		startCalculations();
 	}
 
 	/**
@@ -282,8 +282,6 @@ public class JobController
 				gc.set(Calendar.SECOND, 0);
 				
 				setMathEngineTimeStamps(gc.getTimeInMillis(), gc.getTimeInMillis(), gc.getTimeInMillis());
-				
-				enableCalculation = true;
 			}
 		}
 		
