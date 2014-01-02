@@ -213,25 +213,26 @@ public class CalculationsControllerTask implements Runnable{
 		
 		if(this.lastTimestamp == 0){
 			startDate.setTime(new Date(RawDataController.GetMinTimestamp()));
-			startDate.set(Calendar.HOUR_OF_DAY, 0);
-			startDate.set(Calendar.MINUTE, 0);
-			startDate.set(Calendar.SECOND, 0);
 			
+			if(startDate.getTimeInMillis() > 0)
+			{
+				startDate.set(Calendar.HOUR_OF_DAY, 0);
+				startDate.set(Calendar.MINUTE, 0);
+				startDate.set(Calendar.SECOND, 0);
+			}
+						
 			startTimestamp = startDate.getTimeInMillis();
 		}else{
 			startTimestamp = this.lastTimestamp;
 		}
 		
 		endTimestamp = RawDataController.GetMaxTimestamp();
-//		System.out.println("start: "+new Date(startTimestamp));
-//		System.out.println("end: "+new Date(endTimestamp));
 		
 		if((startTimestamp == 0) || (endTimestamp == 0)){
 			this.iterationNumber = 0;
 		}else{
 			this.iterationNumber = (int) (((endTimestamp - startTimestamp)/1000)/this.sampleSize);
 		}
-//		System.out.println("NUMBER OF ITERATIONS TO DO for"+this.dataType +" : "+this.iterationNumber);
 	}
 	
 	/**
@@ -297,9 +298,13 @@ public class CalculationsControllerTask implements Runnable{
 		
 		if(this.lastTimestamp == 0){
 			startDate.setTime(new Date(RawDataController.GetMinTimestamp()));
-			startDate.set(Calendar.HOUR_OF_DAY, 0);
-			startDate.set(Calendar.MINUTE, 0);
-			startDate.set(Calendar.SECOND, 0);
+			
+			if(startDate.getTimeInMillis() > 0)
+			{
+				startDate.set(Calendar.HOUR_OF_DAY, 0);
+				startDate.set(Calendar.MINUTE, 0);
+				startDate.set(Calendar.SECOND, 0);
+			}
 		}else{
 			startDate.setTime(new Date(this.lastTimestamp));
 		}
@@ -312,16 +317,10 @@ public class CalculationsControllerTask implements Runnable{
 		this.lastTimestamp = endDate.getTimeInMillis();
 		endDate.add(Calendar.SECOND, -1);
 		
-//		System.out.println("start date["+this.dataType+"]: "+startDate.getTime());
-//		System.out.println("end date["+this.dataType+"]: "+endDate.getTime());
-		
-		
 		if(this.rawData != null){
 			this.rawData.clear();
 		}
 		this.rawData = RawDataController.GetAllForPeriod(startDate, endDate);
-		
-//		System.out.println("***lunghezza dati: ["+this.rawData.size()+"]");
 	}
 	
 	/**
@@ -335,7 +334,6 @@ public class CalculationsControllerTask implements Runnable{
 	 */
 	private void calculateMeanValues(ArrayList<RawData> localRawData)
 	{
-		//THINK ABOUT DO THIS WITH THREADS !!!!
 		ExecutorService pool = null;
 		
 		try {
@@ -363,8 +361,7 @@ public class CalculationsControllerTask implements Runnable{
 	 * are acting on the plank.
 	 */
 	private void calculatePlankForces()
-	{		
-		//THINK ABOUT DO THIS WITH THREADS !!!!
+	{
 		ExecutorService pool = null;
 		
 		try {
