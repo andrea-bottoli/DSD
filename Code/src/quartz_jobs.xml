@@ -79,12 +79,31 @@
 		<trigger>
 			<simple>
 				<name>ParserTrigger</name>
-				<description>This trigger, schedule the Parser job every minute</description>
+				<description>This trigger, schedule the Parser job</description>
 				<job-name>ParserJob</job-name>
 				<job-group>ParserGroup</job-group>
 				<priority>9</priority>
 				<repeat-count>-1</repeat-count> <!-- repeat indefinitely  -->
-				<!-- <repeat-interval>10000</repeat-interval>  every 10 seconds -->
+				<repeat-interval>60000</repeat-interval>  <!--  every 60 seconds -->
+			</simple>
+		</trigger>
+	</schedule>
+	
+	<schedule>
+		<job>
+			<name>CalculationsJob</name>
+			<group>CalculationsGroup</group>
+			<description>This Job check/run the calculation controller</description>
+			<job-class>dsd.jobs.CalculationsJob</job-class>
+		</job>
+		<trigger>
+			<simple>
+				<name>ParserTrigger</name>
+				<description>This trigger, schedule the Calculations job</description>
+				<job-name>CalculationsJob</job-name>
+				<job-group>CalculationsGroup</job-group>
+				<priority>9</priority>
+				<repeat-count>-1</repeat-count> <!-- repeat indefinitely  -->
 				<repeat-interval>60000</repeat-interval>  <!--  every 60 seconds -->
 			</simple>
 		</trigger>
