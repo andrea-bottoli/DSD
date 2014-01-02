@@ -23,9 +23,10 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import dsd.controller.JobCalculationsController;
 import dsd.controller.RawDataController;
 import dsd.controller.CalculatedDataController;
-import dsd.controller.JobController;
+import dsd.controller.JobParserController;
 import dsd.controller.ParsedInputFilesController;
 import dsd.model.enums.eCalculatedDataType;
 import dsd.model.enums.eFileType;
@@ -43,7 +44,7 @@ public class LoadFlagJob  implements Job{
 		long oneDayFlag = 0;
 		GregorianCalendar gc = new GregorianCalendar();
 		
-		System.out.println("QUARTZ JOB ONLY ON START UP -- LOADING FLAGS FROM DB");
+		System.out.println("LOADING FLAG JOB ONLY ON START UP -- LOADING FLAGS FROM DB");
 		
 		/*
 		 * Loading from DB the maximum timestamp for each tables, parsed file, that we don't need
@@ -78,7 +79,7 @@ public class LoadFlagJob  implements Job{
 			}
 		}		
 		
-		JobController.setParserTimeStamps(inputSensorFlag, imageMnFlag, imageMoFlag);
-		JobController.setMathEngineTimeStamps(tenMinFlag, oneHourFlag, oneDayFlag);
+		JobParserController.setParserTimeStamps(inputSensorFlag, imageMnFlag, imageMoFlag);
+		JobCalculationsController.setMathEngineTimeStamps(tenMinFlag, oneHourFlag, oneDayFlag);
 	}
 }

@@ -18,9 +18,9 @@
  
   <Resource name="jdbc/RTBMconnection" auth="Container" type="javax.sql.DataSource"
                maxActive="50" maxIdle="30" maxWait="10000"
-               username="dsdbestteam" password="bridgevulnerabilityisawsome" 
+               username="root" password="root"
                driverClassName="com.mysql.jdbc.Driver"
-               url="jdbc:mysql://161.53.67.134:3306/RTBM" />
+               url="jdbc:mysql://localhost:3306/rtbm" />
                
                <!-- username="root" password="root"
                driverClassName="com.mysql.jdbc.Driver"

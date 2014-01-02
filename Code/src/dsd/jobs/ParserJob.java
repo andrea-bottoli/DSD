@@ -23,14 +23,14 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.SchedulerException;
 
-import dsd.controller.JobController;
+import dsd.controller.JobParserController;
 
 @DisallowConcurrentExecution
 public class ParserJob implements Job{
 
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
-		System.out.println("QUARTZ JOB EVERY 60 seconds");
+		System.out.println("PARSER JOB EVERY 60 seconds");
 		
 		int count = 0;
 		
@@ -54,7 +54,7 @@ public class ParserJob implements Job{
 				return;
 			}
 			
-			JobController.CheckAndStart();
+			JobParserController.CheckAndParse();
 			
 		} catch (SchedulerException e) {
 			e.printStackTrace();

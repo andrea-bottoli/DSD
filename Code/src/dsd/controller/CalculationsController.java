@@ -25,7 +25,7 @@ import dsd.model.CalculatedData;
 import dsd.model.calculation.WorstCase;
 import dsd.model.enums.eCalculatedDataType;
 
-public class CalculationsController implements Runnable {
+public class CalculationsController {
 	
 	//Variables to be instantiated
 	
@@ -60,15 +60,7 @@ public class CalculationsController implements Runnable {
 		this.last10minTimestamp = timeStamp10min;
 		this.last1hourTimestamp = timeStamp1hour;
 		this.last1dayTimestamp = timeStamp1day;
-	}
-	
-	
-	
-	@Override
-	public void run() {
-		StartCalculations();
-	}
-	
+	}	
 	
 	/**
 	 * This method start the threads in charge to calculate in parallel
@@ -76,7 +68,7 @@ public class CalculationsController implements Runnable {
 	 * 
 	 * Wait the finish of all the three threads.
 	 */
-	private void StartCalculations()
+	public void StartCalculations()
 	{
 		ExecutorService pool = null;
 		int trigger = 0;

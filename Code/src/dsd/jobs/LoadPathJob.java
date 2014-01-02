@@ -26,7 +26,7 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import dsd.controller.JobController;
+import dsd.controller.JobParserController;
 
 public class LoadPathJob implements Job{
 	
@@ -134,7 +134,7 @@ public class LoadPathJob implements Job{
 		String line, path = null;
 		boolean exit = false;
 				
-		System.out.println("QUARTZ JOB ONLY ON START UP -- LOADING PATH FROM CONFIG FILE");
+		System.out.println("LOADING PATH JOB ONLY ON START UP -- LOADING PATH FROM CONFIG FILE");
 		
 		/*
 		 * Check if the folder path exists. If not, the path is created automatically
@@ -156,7 +156,7 @@ public class LoadPathJob implements Job{
 		{
 			createFile(configFile);
 			setDefaultPath(configFile);
-			JobController.setPath(defaultSourcePathFile.getAbsolutePath());
+			JobParserController.setPath(defaultSourcePathFile.getAbsolutePath());
 		}else{
 			try {
 				BufferedReader br = new BufferedReader(new FileReader(configFile));
@@ -185,7 +185,7 @@ public class LoadPathJob implements Job{
 					path = defaultSourcePathFile.getAbsolutePath();
 				}
 				
-				JobController.setPath(path);				
+				JobParserController.setPath(path);				
 				
 			} catch (IOException e) {
 				e.printStackTrace();

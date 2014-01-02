@@ -17,7 +17,6 @@ package dsd.controller;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.ListIterator;
@@ -26,7 +25,7 @@ import dsd.calculations.TimeCalculations;
 import dsd.dao.FilesDAO;
 import dsd.model.enums.eFileType;
 
-public class JobController
+public class JobParserController
 {
 
 	private static ArrayList<File> analogFilesToBeParsed = new ArrayList<File>();
@@ -39,10 +38,6 @@ public class JobController
 	private static GregorianCalendar imageMoCalendar = new GregorianCalendar(1800, 01, 01);
 	
 	private static boolean exit = Boolean.FALSE;
-	private static boolean enableCalculation = false;
-	
-	private static CalculationsController calculationController = new CalculationsController(0, 0, 0);
-	
 	
 	
 	/**
@@ -71,32 +66,13 @@ public class JobController
 	}
 	
 	/**
-	 * This method allows to set the timestamps for the 10min data, 1hour data and 1day data
-	 * into the calculation controller main task.
-	 * 
-	 * @param timeStamp10min the timestamp for 10 minutes data
-	 * @param timeStamp1hour the timestamp for 1 hour data
-	 * @param timeStamp1day the timestamp for 1 day data
-	 */
-	public static void setMathEngineTimeStamps(long timeStamp10min, long timeStamp1hour, long timeStamp1day)
-	{
-		if((timeStamp10min == 0) && (timeStamp1hour == 0) && (timeStamp1day == 0)){
-			enableCalculation = false;
-		}else
-		{
-			enableCalculation = true;
-		}
-		calculationController.setTimeStamps(timeStamp10min, timeStamp1hour, timeStamp1day);
-	}
-	/**
 	 * This method Check if there are new files to be parsed, then start the parsing process and at the
 	 * end start the calculation process.
 	 */
-	public static void CheckAndStart()
+	public static void CheckAndParse()
 	{
 		checkForNewData();
 		startParsing();
-		startCalculations();
 	}
 
 	/**
@@ -259,46 +235,5 @@ public class JobController
 				ParserControler.ParseInputFile(imgMnIt.next(), eFileType.Modena);
 			}
 		}
-	}
-	
-	
-	
-	/**
-	 * This method start the calculation process
-	 */
-	private static void startCalculations()
-	{
-		GregorianCalendar gc = new GregorianCalendar();
-		long count = 0;
-		Thread thread;
-		
-		if(!enableCalculation){
-			count = RawDataController.GetCount();
-			
-			if(count > 0){				
-				gc.setTime(new Date(RawDataController.GetMinTimestamp()));
-				gc.set(Calendar.HOUR_OF_DAY, 0);
-				gc.set(Calendar.MINUTE, 0);
-				gc.set(Calendar.SECOND, 0);
-				
-				setMathEngineTimeStamps(gc.getTimeInMillis(), gc.getTimeInMillis(), gc.getTimeInMillis());
-			}
-		}
-		
-		if(enableCalculation){
-			System.out.println("-> It starts the calculations");
-			
-			// call the calculations controller
-			thread = new Thread(calculationController);
-			thread.start();
-		}
-	}
-	
-	
-	/**
-	 * This method resets the flags of the threads
-	 */
-	public static void resetFlags(){
-		calculationController.resetFlags();
 	}
 }
