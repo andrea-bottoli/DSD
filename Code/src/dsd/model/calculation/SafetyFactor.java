@@ -17,8 +17,6 @@ package dsd.model.calculation;
 
 import java.util.ArrayList;
 
-import dsd.controller.mathEngineTask.SafetyFactorTask;
-
 public class SafetyFactor {
 	
 	/*
