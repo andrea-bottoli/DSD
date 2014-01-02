@@ -98,7 +98,7 @@
 		</job>
 		<trigger>
 			<simple>
-				<name>ParserTrigger</name>
+				<name>CalculationsTrigger</name>
 				<description>This trigger, schedule the Calculations job</description>
 				<job-name>CalculationsJob</job-name>
 				<job-group>CalculationsGroup</job-group>
