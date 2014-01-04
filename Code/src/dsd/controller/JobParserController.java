@@ -37,6 +37,7 @@ public class JobParserController
 	private static GregorianCalendar imageMnCalendar = new GregorianCalendar(1800, 01, 01);
 	private static GregorianCalendar imageMoCalendar = new GregorianCalendar(1800, 01, 01);
 	
+	private static boolean enable = Boolean.FALSE;
 	private static boolean exit = Boolean.FALSE;
 	
 	
@@ -100,6 +101,8 @@ public class JobParserController
 			String modenaTimestamp;
 			int i;
 			
+			enable = false;
+			
 			System.out.println("-> It's checking for new data");
 			
 			if (!(analogFileList.isEmpty() || sonarFileList.isEmpty()))
@@ -129,6 +132,7 @@ public class JobParserController
 					{
 						analogFilesToBeParsed.add(analogFileList.get(i));
 						sonarFilesToBeParsed.add(sonarFileList.get(i));
+						enable = true;
 						i++;
 						inputSensorsCalendar = TimeCalculations.LabViewTimestampsToGregCalendar(Long.parseLong(analogTimestamp));
 					}
@@ -146,6 +150,7 @@ public class JobParserController
 							{
 								analogFilesToBeParsed.add(analogFileList.get(i));
 								sonarFilesToBeParsed.add(sonarFileList.get(i));
+								enable = true;
 								i++;
 								inputSensorsCalendar = TimeCalculations.LabViewTimestampsToGregCalendar(Long.parseLong(analogTimestamp));
 							}
@@ -162,8 +167,8 @@ public class JobParserController
 				}
 			}
 			
-			imgMnList = FilesDAO.getMantovaImages(imageMnCalendar, imgMnList);
-			imgMoList = FilesDAO.getModenaImages(imageMoCalendar, imgMoList);
+//			imgMnList = FilesDAO.getMantovaImages(imageMnCalendar, imgMnList);
+//			imgMoList = FilesDAO.getModenaImages(imageMoCalendar, imgMoList);
 
 			if(!imgMnList.isEmpty())
 			{
@@ -171,12 +176,13 @@ public class JobParserController
 				i = 0;
 				imageMnFilesToBeParsed.clear();
 				
-				while (i < imageMnFilesToBeParsed.size())
+				while (i < imgMnList.size())
 				{
 					mantovaFileName = imgMnList.get(i).getName();
 					mantovaTimestamp = mantovaFileName.substring(7, mantovaFileName.length() - 4);
 
 					imageMnFilesToBeParsed.add(imgMnList.get(i));
+					enable = true;
 					i++;
 					imageMnCalendar = (GregorianCalendar) TimeCalculations.PictureTimeToGregCalendar(mantovaTimestamp);
 				}
@@ -190,12 +196,13 @@ public class JobParserController
 				i = 0;
 				imageMoFilesToBeParsed.clear();
 				
-				while (i < imageMoFilesToBeParsed.size())
+				while (i < imgMoList.size())
 				{
 					modenaFileName = imgMoList.get(i).getName();
 					modenaTimestamp = modenaFileName.substring(6, modenaFileName.length() - 4);
 
 					imageMoFilesToBeParsed.add(imgMoList.get(i));
+					enable = true;
 					i++;
 					imageMoCalendar = (GregorianCalendar) TimeCalculations.PictureTimeToGregCalendar(modenaTimestamp);
 				}
@@ -217,23 +224,26 @@ public class JobParserController
 		ListIterator<File> imgMnIt = imageMnFilesToBeParsed.listIterator();
 		ListIterator<File> imgMoIt = imageMoFilesToBeParsed.listIterator();
 		
-		System.out.println("-> It's parsing");
-		
-		for (int i = 0; i < Math.min(analogFilesToBeParsed.size(), sonarFilesToBeParsed.size()); i++)
-		{			
-			ParserControler.ParseInputFile(analogFilesToBeParsed.get(i), eFileType.Analog);
-			ParserControler.ParseInputFile(sonarFilesToBeParsed.get(i), eFileType.Sonar);
-		}
-		
-		while(imgMnIt.hasNext() || imgMoIt.hasNext())
+		if(enable)
 		{
-			if(imgMnIt.hasNext()){
-				ParserControler.ParseInputFile(imgMnIt.next(), eFileType.Mantova);
+			System.out.println("-> It's parsing");
+			
+			for (int i = 0; i < Math.min(analogFilesToBeParsed.size(), sonarFilesToBeParsed.size()); i++)
+			{			
+				ParserControler.ParseInputFile(analogFilesToBeParsed.get(i), eFileType.Analog);
+				ParserControler.ParseInputFile(sonarFilesToBeParsed.get(i), eFileType.Sonar);
 			}
 			
-			if(imgMnIt.hasNext()){
-				ParserControler.ParseInputFile(imgMnIt.next(), eFileType.Modena);
-			}
+			while(imgMnIt.hasNext() || imgMoIt.hasNext())
+			{
+				if(imgMnIt.hasNext()){
+					ParserControler.ParseInputFile(imgMnIt.next(), eFileType.Mantova);
+				}
+				
+				if(imgMnIt.hasNext()){
+					ParserControler.ParseInputFile(imgMnIt.next(), eFileType.Modena);
+				}
+			}			
 		}
 	}
 }

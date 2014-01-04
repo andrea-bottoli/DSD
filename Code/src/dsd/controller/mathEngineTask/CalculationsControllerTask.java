@@ -219,16 +219,18 @@ public class CalculationsControllerTask implements Runnable{
 				startDate.set(Calendar.HOUR_OF_DAY, 0);
 				startDate.set(Calendar.MINUTE, 0);
 				startDate.set(Calendar.SECOND, 0);
+				
+				startTimestamp = startDate.getTimeInMillis();
+			}else{
+				startTimestamp = 0;
 			}
-						
-			startTimestamp = startDate.getTimeInMillis();
 		}else{
 			startTimestamp = this.lastTimestamp;
 		}
 		
 		endTimestamp = RawDataController.GetMaxTimestamp();
 		
-		if((startTimestamp == 0) || (endTimestamp == 0)){
+		if((startTimestamp <= 0) || (endTimestamp <= 0)){
 			this.iterationNumber = 0;
 		}else{
 			this.iterationNumber = (int) (((endTimestamp - startTimestamp)/1000)/this.sampleSize);
@@ -591,6 +593,8 @@ public class CalculationsControllerTask implements Runnable{
 		cd.setTimestamp(this.lastTimestamp);
 		
 		this.calculatedData.add(cd);
+		
+//		printTest(cd);
 	}
 	
 	
@@ -611,5 +615,24 @@ public class CalculationsControllerTask implements Runnable{
 	{
 		calculatedData.clear();
 	}
+	
+	private void printTest(CalculatedData cd){
+		System.out.println("wind speed: "+cd.getWindSpeed());
+		System.out.println("wind direction: "+cd.getWindDirection());
+		System.out.println("wind speed max: "+cd.getWindSpeedMax());
+		System.out.println("wind direction max: "+cd.getWindDirectionMax());
+		System.out.println("hydro: "+cd.getHydrometer());
+		System.out.println("hydro var: "+cd.getHydrometerVariance());
+		System.out.println("sonar: "+cd.getSonar());
+		System.out.println("sonar var: "+cd.getSonarVariance());
+		System.out.println("sonar c: " +cd.getSonarPercCorrect());
+		System.out.println("sonar u: "+cd.getSonarPercUncertain());
+		System.out.println("sonar e: "+cd.getSonarPercError());
+		System.out.println("sonar oow: "+cd.getSonarPercOutOfWater());
+		System.out.println("sonar wrong: "+cd.getSonarPercWrong());
+		System.out.println("flow rate: "+cd.getWaterFlowRate());
+		System.out.println("water speed: "+cd.getWaterSpeed());
+		System.out.println("timestamp: "+cd.getTimestamp());
+		System.out.println("timestampDate: "+cd.getTimestampDate());
+	}
 }
-

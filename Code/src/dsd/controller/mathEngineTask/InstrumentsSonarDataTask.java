@@ -60,11 +60,11 @@ public class InstrumentsSonarDataTask implements Runnable{
 		percOutWaterData4OverWholeSample = 0;
 		percErrorData5OverWholeSample = 0;
 		percUncertainData2Over12Sample = 0;
-		numbCertainValue=0;
-		numbUncertainValue=0;
-		numbWrongValue=0;
-		numbOutOfWaterValue=0;
-		numbErrorValue=0;
+		numbCertainValue = 0;
+		numbUncertainValue = 0;
+		numbWrongValue = 0;
+		numbOutOfWaterValue = 0;
+		numbErrorValue = 0;
 		
 		for(RawData rd : this.rawData)
 		{
@@ -72,7 +72,8 @@ public class InstrumentsSonarDataTask implements Runnable{
 			if (rd.getSonarType() == null)
 			{
 				numbErrorValue++;
-			}else if(rd.getSonarType().getCode() == 0){
+			}else if(rd.getSonarType().getCode() == 0)
+			{
 				numbErrorValue++;
 			}else if(rd.getSonarType().equals(eSonarType.CorrectData))
 			{
@@ -91,9 +92,11 @@ public class InstrumentsSonarDataTask implements Runnable{
 			}else if(rd.getSonarType().equals(eSonarType.ErrorData))
 			{
 				numbErrorValue++;
+			}else
+			{
+				numbErrorValue++;
 			}
 		}
-				
 		
 		//calculation of mean values for all instruments plus sonar statistics
 		//SONAR
@@ -103,7 +106,15 @@ public class InstrumentsSonarDataTask implements Runnable{
 		percWrongData3OverWholeSample = numbWrongValue/this.rawData.size();
 		percOutWaterData4OverWholeSample = numbOutOfWaterValue/this.rawData.size();
 		percErrorData5OverWholeSample = numbErrorValue/this.rawData.size();
-		percUncertainData2Over12Sample = numbUncertainValue/(numbCertainValue + numbUncertainValue);
+		
+		if(numbUncertainValue > 0)
+		{
+			percUncertainData2Over12Sample = numbUncertainValue/(numbCertainValue + numbUncertainValue);
+		}else
+		{
+			percUncertainData2Over12Sample = 0;
+		}
+		
 		
 		varianceRiverBottomLevel = MathEngine.variance(meanList);
 		

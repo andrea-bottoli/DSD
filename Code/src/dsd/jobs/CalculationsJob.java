@@ -14,7 +14,7 @@ public class CalculationsJob implements Job{
 
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
-		System.out.println("CALCULATIONS JOB EVERY 30 seconds");
+		System.out.println("CALCULATIONS JOB EVERY 60 seconds");
 		
 		int count = 0;
 		
