@@ -91,7 +91,7 @@ public class CalculationsController {
 				
 				pool.shutdown();
 				
-				exit = pool.awaitTermination(1, TimeUnit.HOURS);
+				exit = pool.awaitTermination(24, TimeUnit.HOURS);
 			}
 			while(!exit && trigger<3);
 		} catch (InterruptedException e) {
