@@ -81,7 +81,7 @@ function AskAndSubmit(t)
 				</form>
 				
 				
-				<form action="Tests/Test.html" method="GET" name="subscriberAddForm">
+				<form action="#" method="GET" name="subscriberAddForm">
 					<input type="hidden" name="email" value="smth@smth.com"/>
 					<input type="button" name="Confirm" value="Send the alarm allert message" onclick="AskAndSubmit(this)"/> 
 					<!--Change the email address in hidden field email-->

@@ -33,27 +33,27 @@
 				<table>
 					<tr>
 					<td class="actual_values_table_entry">Flow rate: </td>
-					<td>520 m3/s</td>
+					<td>${water_flow_rate} m3/s</td>
 					</tr>
 					<tr>
 					<td class="actual_values_table_entry">Water level:</td>
-					<td>17 m</td>
+					<td>${water_level} m</td>
 					</tr>
 					<tr>
 					<td class="actual_values_table_entry">Water speed:</td>
-					<td>1 m/s</td>
+					<td>${water_speed}  m/s</td>
 					</tr>
 					<tr>
 					<td class="actual_values_table_entry">Wind speed:</td>
-					<td>3 m/s</td>
+					<td>${wind_speed} m/s</td>
 					</tr>
 					<tr>
 					<td class="actual_values_table_entry">Wind direction:</td>
-					<td>32°</td>
+					<td>${wind_direction}°</td>
 					</tr>
 					<tr>
 					<td class="actual_values_table_entry">River bed height:</td>
-					<td>3 m</td>
+					<td>${river_bed_height} m</td>
 					</tr>
 				</table>
 				</div>

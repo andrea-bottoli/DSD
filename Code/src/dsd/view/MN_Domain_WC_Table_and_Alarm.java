@@ -48,19 +48,19 @@ public class MN_Domain_WC_Table_and_Alarm extends HttpServlet {
 			throws ServletException, IOException {
 
 		Calendar calStart = Calendar.getInstance();
-		calStart.set(2012, 7, 10, 13, 10, 00);// 2011-03-23 16:46:00  2012-08-10 13:10:00
+		calStart.set(2011, 2, 25, 16, 10, 00);// 2011-03-23 16:46:00  2012-08-10 13:10:00
 
 		Calendar calEnd = Calendar.getInstance();
-		calEnd.set(2012, 7, 10, 13, 10, 00);// 2011-03-23 17:56:30
+		calEnd.set(2011, 2, 25, 17, 10, 00);// 2011-03-23 17:56:30
 
-		ArrayList<CalculatedData> TenMinData = CalculatedDataController
-				.GetAllForPeriod(calStart, calEnd,
-						eCalculatedDataType.TenMinutes);
+		//ArrayList<CalculatedData> TenMinData = CalculatedDataController
+			//	.GetAllForPeriod(calStart, calEnd,
+				//		eCalculatedDataType.TenMinutes);
 
-		List<RawData> rawDataList = RawDataController.GetAllForPeriod(calStart,
-				calEnd);
+		//List<RawData> rawDataList = RawDataController.GetAllForPeriod(calStart,
+			//	calEnd);
 		
-		ArrayList<WorstPylonCase> wcPylonArray = null;
+		ArrayList<WorstPylonCase> wcPylonArray = WorstCaseController.GetAllForPeriod(calStart, calEnd, true, true);
 		
 		MNDomain MN = MNDomainController.GetMNDomain();
 		
@@ -120,26 +120,6 @@ public class MN_Domain_WC_Table_and_Alarm extends HttpServlet {
 			
 			JSONArray listTD = new JSONArray();//send the values for check buttons
 
-			for (int i = 0; i < TenMinData.size(); i++) {
-
-				listOfTimeStamps.put(TenMinData.get(i).getTimestampDate()
-						.getTime());
-
-				listOfWindSpeed.put(TenMinData.get(i).getWindSpeed()); // TODO:
-																		// put
-																		// the
-																		// real
-																		// wind
-																		// speed
-																		// values
-				listOfWindSpeed_MAX.put(TenMinData.get(i).getWindSpeedMax());
-
-				listOfWindSpeedDirection.put(TenMinData.get(i)
-						.getWindDirection());
-
-				listOfSonarValues.put(TenMinData.get(i).getSonar());
-				listOfHydrometerValues.put(TenMinData.get(i).getHydrometer());
-			}
 			
 			for (int i = 0; i < NValues.size(); i++) {
 
@@ -148,19 +128,22 @@ public class MN_Domain_WC_Table_and_Alarm extends HttpServlet {
 				listOfN.put(NValues.get(i)); 
 			}
 			
+			
+			/*this was a test
+			 * if (wcPylonArray.isEmpty() == true){
+				Tchecked = false;
+	            Dchecked = false;
+	            
+            	
+            }*/ 
+			
 			listTD.put(Tchecked);
             listTD.put(Dchecked);
+            
+            
 
 
-			obj.put("Dates", listOfTimeStamps);
-
-			obj.put("ValuesOfWindSpeed", listOfWindSpeed);
-			obj.put("ValuesOfWindSpeed_MAX", listOfWindSpeed_MAX);
-
-			obj.put("ValuesOfWindSpeedDirection", listOfWindSpeedDirection);
-
-			obj.put("ValuesOfSonar", listOfSonarValues);
-			obj.put("ValuesOfHydrometer", listOfHydrometerValues);
+			
 			
 			obj.put("MValues", listOfM);
 			obj.put("NValues", listOfN);
