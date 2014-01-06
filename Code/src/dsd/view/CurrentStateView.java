@@ -64,7 +64,6 @@ public class CurrentStateView extends HttpServlet {
 		
 		
 		//current values 
-		//(float)Math.round(n*100)/100
 		
 		float water_flow_rate =  (float)Math.round(TenMinData.get(TenMinData.size()-1).getWaterFlowRate()*100)/100 ;
 		float water_level =  (float)Math.round(TenMinData.get(TenMinData.size()-1).getHydrometer()*100)/100 ;
@@ -72,8 +71,6 @@ public class CurrentStateView extends HttpServlet {
 		float wind_speed=  (float)Math.round(TenMinData.get(TenMinData.size()-1).getWindSpeed()*100)/100 ;
 		float wind_direction=  (float)Math.round(TenMinData.get(TenMinData.size()-1).getWindDirection()*100)/100;
 		float river_bed_height=  (float)Math.round(TenMinData.get(TenMinData.size()-1).getSonar()*100)/100 ;
-		
-		
 		
 		try {
 
