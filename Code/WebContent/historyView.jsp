@@ -336,8 +336,8 @@ $(function() {
 					  		        
 					        chartData.push({
 					            date: newDate,
-					            visits: dataSet[i],
-					            visits2: max_windSpeed[i]
+					            visits: dataSet[i].toFixed(2),
+					            visits2: max_windSpeed[i].toFixed(2)
 					        });
 					    }
 					}
@@ -444,7 +444,7 @@ $(function() {
 					  		        
 					        chartData2.push({
 					            date: newDate,
-					            visits: dataSet[i]
+					            visits: dataSet[i].toFixed(2)
 					        });
 					    }
 					}
@@ -584,8 +584,8 @@ $(function() {
 					  		        
 					        chartData3.push({
 					            date: newDate,
-					            visits: hidrometerValues[i],
-					            visits2: sonarValues[i]
+					            visits: hidrometerValues[i].toFixed(2),
+					            visits2: sonarValues[i].toFixed(2)
 					        });
 					    }
 					}
@@ -686,7 +686,7 @@ $(function() {
 					  		        
 					        chartData4.push({
 					            date: newDate,
-					            visits: dataSet[i]
+					            visits: dataSet[i].toFixed(2)
 					        });
 					    }
 					}
