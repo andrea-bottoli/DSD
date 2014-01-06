@@ -206,8 +206,8 @@
 					  		        
 					        chartData.push({
 					            date: newDate,
-					            visits:  windSpeed[i],
-					            visits2: max_windSpeed[i]
+					            visits:  windSpeed[i].toFixed(2),
+					            visits2: max_windSpeed[i].toFixed(2)
 					        });
 					    }
 					}
@@ -326,7 +326,7 @@
 					  		
 					        chartData2.push({
 					            date: newDate,
-					            visits: dataSet[i]
+					            visits: dataSet[i].toFixed(2)
 					        });
 					    }
 					}
@@ -468,8 +468,8 @@
 					  		        
 					        chartData3.push({
 					            date: newDate,
-					            visits: hidrometerValues[i],
-					            visits2: sonarValues[i]
+					            visits: hidrometerValues[i].toFixed(2),
+					            visits2: sonarValues[i].toFixed(2)
 					        });
 					    }
 					}

@@ -46,10 +46,27 @@ $(function() {
 	$("#first").attr("value","notFirst");
 });
 </script>
+
+
+
+<script type="text/javascript" language="JavaScript">
+function AskAndSubmit(t)
+{
+  var message = "Alarm is on,";
+  
+  var answer = confirm( message + " do you want to send an email with MN domain values to Engineer@bridge.com?");
+  if (answer)
+  {
+    t.form.submit();
+  }
+}
+</script>
+
+
+
 		
 		
-			<div id="chosenHistorySettings">
-			
+			<div id="chosenHistorySettings">		
 		
 			
 				<div id="labelRange">
@@ -61,6 +78,13 @@ $(function() {
 						<input type="checkbox" id="Dvalue" name="Dvalue" value="true" onclick="this.form.submit()" checked><b>D</b> 
 						<input type="hidden" id="first" name="first" value="First">
 					</div>
+				</form>
+				
+				
+				<form action="Tests/Test.html" method="GET" name="subscriberAddForm">
+					<input type="hidden" name="email" value="smth@smth.com"/>
+					<input type="button" name="Confirm" value="Send the alarm allert message" onclick="AskAndSubmit(this)"/> 
+					<!--Change the email address in hidden field email-->
 				</form>
 		
 			
@@ -117,7 +141,7 @@ $(function() {
 					    
 					    // GRAPH MN domain
 					    var graph = new AmCharts.AmGraph();
-					    graph.title = "wind speed";
+					    graph.title = "MN down";
 					    graph.valueField = "visits";
 					    graph.bullet = "round";
 					    graph.connect = true;
@@ -133,7 +157,7 @@ $(function() {
 					    
 					    // GRAPH MN domain
 					    var graph_max = new AmCharts.AmGraph();
-					    graph_max.title = "max wind speed";
+					    graph_max.title = "MN up";
 					    graph_max.valueField = "visits2";
 					    graph_max.bullet = "round";
 					    graph_max.bulletBorderColor = "#FFFFFF";
@@ -148,7 +172,7 @@ $(function() {
 					    
 					    // GRAPH MN domain
 					    var graphPilons = new AmCharts.AmGraph();
-					    graphPilons.title = "wind speed";
+					    graphPilons.title = "pilons";
 					    graphPilons.valueField = "pilons";
 					    graphPilons.bullet = "round";
 					    graphPilons.connect = false;//////////****************************bitno
@@ -223,7 +247,7 @@ $(function() {
 							            date: "${item.n}",
 							       });
 					    		   
-					    		   
+					    	   
 					    }
 																					
 						</c:forEach>

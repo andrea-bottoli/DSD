@@ -48,10 +48,10 @@ public class MN_Domain_WC_Table_and_Alarm extends HttpServlet {
 			throws ServletException, IOException {
 
 		Calendar calStart = Calendar.getInstance();
-		calStart.set(2011, 2, 25, 17, 00, 01);// 2011-03-23 16:46:00
+		calStart.set(2012, 7, 10, 13, 10, 00);// 2011-03-23 16:46:00  2012-08-10 13:10:00
 
 		Calendar calEnd = Calendar.getInstance();
-		calEnd.set(2011, 2, 25, 18, 00, 00);// 2011-03-23 17:56:30
+		calEnd.set(2012, 7, 10, 13, 10, 00);// 2011-03-23 17:56:30
 
 		ArrayList<CalculatedData> TenMinData = CalculatedDataController
 				.GetAllForPeriod(calStart, calEnd,
