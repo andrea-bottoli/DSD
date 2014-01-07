@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Br?i?, Dzana Kujan, Nikola Radisavljevic, J�rn Tillmanns, Miraldi Fifo
+ * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Brčić, Dzana Kujan, Nikola Radisavljevic, Jörn Tillmanns, Miraldi Fifo
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,9 +20,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import dsd.dao.CalculatedDataDAO;
-import dsd.dao.RawDataDAO;
 import dsd.model.CalculatedData;
-import dsd.model.RawData;
 import dsd.model.enums.eCalculatedDataType;
 
 

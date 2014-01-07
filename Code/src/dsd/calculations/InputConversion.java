@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Br?i?, Dzana Kujan, Nikola Radisavljevic, Jˆrn Tillmanns, Miraldi Fifo
+ * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Brƒçiƒá, Dzana Kujan, Nikola Radisavljevic, J√∂rn Tillmanns, Miraldi Fifo
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,11 +43,11 @@ public class InputConversion {
 	
 	
 	/**
-	 *  This method converts the wind direction from [mmA] to [∞ - degrees]
+	 *  This method converts the wind direction from [mmA] to [¬∞ - degrees]
 	 *  The degrees are measured from north clockwise, following the wind rose.
 	 *  
 	 * @param windDirectionToBeConvert: the value of wind direction in [mmA] measure by the Anemometer
-	 * @return The value of wind direction converted in [∞ - degrees]
+	 * @return The value of wind direction converted in [¬∞ - degrees]
 	 */
 	public static double windDirectionConversion(double windDirectionToBeConvert)
 	{
