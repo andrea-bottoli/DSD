@@ -46,7 +46,7 @@ public class CurrentStateView extends HttpServlet {
 			throws ServletException, IOException {
 
 		Calendar calStart = Calendar.getInstance();
-		calStart.set(2012, 10, 19, 20, 00, 00);// 2011-03-23 16:46:00
+		calStart.set(2012, 10, 18, 22, 00, 00);// 2011-03-23 16:46:00
 
 		Calendar calEnd = Calendar.getInstance();
 		calEnd.set(2012, 10, 19, 22, 00, 00);// 2011-03-23 17:56:30
@@ -96,13 +96,7 @@ public class CurrentStateView extends HttpServlet {
 				listOfTimeStamps.put(TenMinData.get(i).getTimestampDate()
 						.getTime());
 
-				listOfWindSpeed.put(TenMinData.get(i).getWindSpeed()); // TODO:
-																		// put
-																		// the
-																		// real
-																		// wind
-																		// speed
-																		// values
+				listOfWindSpeed.put(TenMinData.get(i).getWindSpeed());
 				listOfWindSpeed_MAX.put(TenMinData.get(i).getWindSpeedMax());
 
 				listOfWindSpeedDirection.put(TenMinData.get(i)
@@ -141,6 +135,7 @@ public class CurrentStateView extends HttpServlet {
 		req.setAttribute("wind_speed", wind_speed);
 		req.setAttribute("wind_direction", wind_direction);
 		req.setAttribute("river_bed_height", river_bed_height);
+		req.setAttribute("water_height", water_level - river_bed_height);
 
 		RequestDispatcher dispatcher = getServletContext()
 				.getRequestDispatcher("/tempGraph.jsp");
