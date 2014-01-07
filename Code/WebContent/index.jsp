@@ -27,7 +27,7 @@
 
 <h2><strong>DESCRIPTION</strong></h2>
 
-<p style="margin-left:40px">Real-Time Bridge Monitoring allows to verify in real-time (with a delay of 1 hour due to local server delay) the status of a number of piers of a bridge (in this case the Borgoforte bridge on Po river in Italy) based on some physical parameters, including:</p>
+<p style="margin-left:10px">Real-Time Bridge Monitoring allows to verify in real-time (with a delay of 1 hour due to local server delay) the status of a number of piers of a bridge (in this case the Borgoforte bridge on Po river in Italy) based on some physical parameters, including:</p>
 
 <ul>
 	<li>wind speed [m/s]</li>
@@ -43,7 +43,7 @@
 
 <h2><strong>USERS</strong></h2>
 
-<p style="margin-left:40px">Users that could use the system are:</p>
+<p style="margin-left:10px">Users that could use the system are:</p>
 
 <ul>
 	<li><strong>External users</strong>
@@ -71,7 +71,7 @@
 
 <h2><strong>FEATURES</strong></h2>
 
-<p style="margin-left:40px">Real-Time Bridge Monitoring also provides access to different types of users with different roles; they could perform different tasks such as:</p>
+<p style="margin-left:10px">Real-Time Bridge Monitoring also provides access to different types of users with different roles; they could perform different tasks such as:</p>
 
 <ul>
 	<li>view the current state</li>
@@ -84,7 +84,7 @@
 </ul>
 
 <p>For more Information please look at the <a href="http://www.fer.unizg.hr/rasip/dsd">offical DSD Homepage</a>.</p>
-<h3>Team</h3>
+<h2><strong>TEAM</strong></h2>
 <ul class="ul_no_dot team-members-list-left">
 <li class="team-members-list-item"><img alt="" src="SiteImages/dev-team/ab.jpg" class="team-img"> Andrea Bottoli</li>
 <li class="team-members-list-item"><img alt="" src="SiteImages/dev-team/dk.jpg" class="team-img"> Dzana Kujan</li>
@@ -99,15 +99,13 @@
 
 <div class ="clear_float">
 </div>
-
-<h3>Contact</h3>
+<h2><strong>CONTACT</strong></h2>
 If you want to contact us, send an e-mail to:
 <a href="andrea.bottoli@mail.polimi.it"> Andrea Bottoli</a>
 
-<h3>License</h3>
+<h2><strong>LICENSE</strong></h2>
 We provide our Software under the <a href="LICENSE-2.0.jsp">Apache License 2.0</a>.
  You will find the source code in our <a href="https://github.com/andrea-bottoli/DSD">GitHub Repository</a>. All pictograms used on this side are licenced under <a href="license_pictogramms.jsp">SIL Open Font License</a>. 
 </div>
-
 
 </t:desktopPage>
