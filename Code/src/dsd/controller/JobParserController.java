@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Brčić, Dzana Kujan, Nikola Radisavljevic, Jörn Tillmanns, Miraldi Fifo
+ * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko BrÄ�iÄ‡, Dzana Kujan, Nikola Radisavljevic, JÃ¶rn Tillmanns, Miraldi Fifo
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package dsd.controller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.ListIterator;
@@ -103,6 +104,10 @@ public class JobParserController
 			
 			enable = false;
 			
+			GregorianCalendar c = new GregorianCalendar();
+    		c.setTime(new Date());
+    		System.out.print("["+c.get(Calendar.YEAR)+"/"+(c.get(Calendar.MONTH)+1)+"/"+c.get(Calendar.DATE)+" - "
+								+c.get(Calendar.HOUR_OF_DAY)+":"+c.get(Calendar.MINUTE)+":"+c.get(Calendar.SECOND)+"]: ");
 			System.out.println("-> It's checking for new data");
 			
 			if (!(analogFileList.isEmpty() || sonarFileList.isEmpty()))
@@ -226,6 +231,10 @@ public class JobParserController
 		
 		if(enable)
 		{
+			GregorianCalendar c = new GregorianCalendar();
+    		c.setTime(new Date());
+    		System.out.print("["+c.get(Calendar.YEAR)+"/"+(c.get(Calendar.MONTH)+1)+"/"+c.get(Calendar.DATE)+" - "
+								+c.get(Calendar.HOUR_OF_DAY)+":"+c.get(Calendar.MINUTE)+":"+c.get(Calendar.SECOND)+"]: ");
 			System.out.println("-> It's parsing");
 			
 			for (int i = 0; i < Math.min(analogFilesToBeParsed.size(), sonarFilesToBeParsed.size()); i++)
@@ -244,6 +253,12 @@ public class JobParserController
 					ParserControler.ParseInputFile(imgMnIt.next(), eFileType.Modena);
 				}
 			}			
+		}else{
+			GregorianCalendar c = new GregorianCalendar();
+    		c.setTime(new Date());
+    		System.out.print("["+c.get(Calendar.YEAR)+"/"+(c.get(Calendar.MONTH)+1)+"/"+c.get(Calendar.DATE)+" - "
+								+c.get(Calendar.HOUR_OF_DAY)+":"+c.get(Calendar.MINUTE)+":"+c.get(Calendar.SECOND)+"]: ");
+    		System.out.println("-> Nothing to parse");
 		}
 	}
 }
