@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Brčić, Dzana Kujan, Nikola Radisavljevic, Jörn Tillmanns, Miraldi Fifo
+ * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko BrÄ�iÄ‡, Dzana Kujan, Nikola Radisavljevic, JÃ¶rn Tillmanns, Miraldi Fifo
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,10 +46,10 @@ public class CurrentStateView extends HttpServlet {
 			throws ServletException, IOException {
 
 		Calendar calStart = Calendar.getInstance();
-		calStart.set(2011, 2, 25, 17, 00, 01);// 2011-03-23 16:46:00
+		calStart.set(2012, 10, 19, 10, 00, 00);// 2011-03-23 16:46:00
 
 		Calendar calEnd = Calendar.getInstance();
-		calEnd.set(2011, 2, 25, 18, 00, 00);// 2011-03-23 17:56:30
+		calEnd.set(2012, 10, 19, 12, 00, 00);// 2011-03-23 17:56:30
 
 		ArrayList<CalculatedData> TenMinData = CalculatedDataController
 				.GetAllForPeriod(calStart, calEnd,

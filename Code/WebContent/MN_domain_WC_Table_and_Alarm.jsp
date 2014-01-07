@@ -86,6 +86,7 @@ function AskAndSubmit(t)
 					<input type="button" name="Confirm" value="Send the alarm allert message" onclick="AskAndSubmit(this)"/> 
 					<!--Change the email address in hidden field email-->
 				</form>
+				 
 		
 			
 			</div>
