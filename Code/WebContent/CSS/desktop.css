@@ -38,8 +38,11 @@ box-sizing: border-box;
 .clear_float{clear: both;}
 
 .ul_no_dot{
+	padding: 0px;
 	list-style: none;
 }
+
+
 
 .icon{
 	font-family: "icons";	
@@ -49,6 +52,10 @@ box-sizing: border-box;
 
 .icon:HOVER{
 	text-decoration: underline;
+}
+
+ul{
+	padding-left: 30px;
 }
 
 
@@ -67,10 +74,16 @@ a:link, a:visited{
 a:hover {color: #564b47;}
 a:active { color:#000000;}
 
-h1, h2 {
+h1 {
 font-size:1.8em;
-font-weight: normal;
+font-weight: bold;
 margin: 0 0 20px;
+}
+
+h2{
+font-size:1.2em;
+font-weight: bold;
+margin: 30px 0 15px;
 }
 
 .graph_name {
@@ -534,19 +547,24 @@ input[type=checkbox] {
 
 /* -----------UserDetail--------------------------- */
 .ul_left{
+	padding: 0px;
 	float:left;
 	margin: 0px;
 	margin-right: 8px;
 	padding-right: 20px;
 	list-style: none;
 	line-height: 2em;
+	
 }
 
 .ul_right{
 	list-style: none;
 	line-height: 2em;	
+	padding: 0px;
 	
 }
+
+
 
 
 /* -----------footer--------------------------- */

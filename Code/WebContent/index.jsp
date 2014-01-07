@@ -25,7 +25,7 @@
 
 <p style="text-align:center"><img alt="" src="SiteImages/logo.png" style="height:227px; width:300px" /></p>
 
-<h2><strong>DESCRIPTION</strong></h2>
+<h2>DESCRIPTION</h2>
 
 <p style="margin-left:10px">Real-Time Bridge Monitoring allows to verify in real-time (with a delay of 1 hour due to local server delay) the status of a number of piers of a bridge (in this case the Borgoforte bridge on Po river in Italy) based on some physical parameters, including:</p>
 
@@ -41,7 +41,7 @@
 	<li>structural parameters</li>
 </ul>
 
-<h2><strong>USERS</strong></h2>
+<h2>USERS</h2>
 
 <p style="margin-left:10px">Users that could use the system are:</p>
 
@@ -69,7 +69,7 @@
 	</li>
 </ul>
 
-<h2><strong>FEATURES</strong></h2>
+<h2>FEATURES</h2>
 
 <p style="margin-left:10px">Real-Time Bridge Monitoring also provides access to different types of users with different roles; they could perform different tasks such as:</p>
 
@@ -84,7 +84,7 @@
 </ul>
 
 <p>For more Information please look at the <a href="http://www.fer.unizg.hr/rasip/dsd">offical DSD Homepage</a>.</p>
-<h2><strong>TEAM</strong></h2>
+<h2>TEAM</h2>
 <ul class="ul_no_dot team-members-list-left">
 <li class="team-members-list-item"><img alt="" src="SiteImages/dev-team/ab.jpg" class="team-img"> Andrea Bottoli</li>
 <li class="team-members-list-item"><img alt="" src="SiteImages/dev-team/dk.jpg" class="team-img"> Dzana Kujan</li>
@@ -99,11 +99,11 @@
 
 <div class ="clear_float">
 </div>
-<h2><strong>CONTACT</strong></h2>
+<h2>CONTACT</h2>
 If you want to contact us, send an e-mail to:
 <a href="andrea.bottoli@mail.polimi.it"> Andrea Bottoli</a>
 
-<h2><strong>LICENSE</strong></h2>
+<h2>LICENSE</h2>
 We provide our Software under the <a href="LICENSE-2.0.jsp">Apache License 2.0</a>.
  You will find the source code in our <a href="https://github.com/andrea-bottoli/DSD">GitHub Repository</a>. All pictograms used on this side are licenced under <a href="license_pictogramms.jsp">SIL Open Font License</a>. 
 </div>
