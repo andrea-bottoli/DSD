@@ -52,9 +52,9 @@ $(function() {
 <script type="text/javascript" language="JavaScript">
 function AskAndSubmit(t)
 {
-  var message = "Alarm is on,";
+  var message = "Alarm is on, are you sure you want to send an email with MN domain values to engineer?";
   
-  var answer = confirm( message + " do you want to send an email with MN domain values to Engineer@bridge.com?");
+  var answer = confirm( message );
   if (answer)
   {
     t.form.submit();
@@ -81,10 +81,8 @@ function AskAndSubmit(t)
 				</form>
 				
 				
-				<form action="#" method="GET" name="subscriberAddForm">
-					<input type="hidden" name="email" value="smth@smth.com"/>
-					<input type="button" name="Confirm" value="Send the alarm allert message" onclick="AskAndSubmit(this)"/> 
-					<!--Change the email address in hidden field email-->
+				<form action="#" method="POST" name="subscriberAddForm">
+					<input type="button" name="Confirm" value="Send the alarm allert message" onclick="AskAndSubmit(this)"/>
 				</form>
 				 
 		

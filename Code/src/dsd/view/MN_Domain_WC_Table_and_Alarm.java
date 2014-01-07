@@ -48,17 +48,10 @@ public class MN_Domain_WC_Table_and_Alarm extends HttpServlet {
 			throws ServletException, IOException {
 
 		Calendar calStart = Calendar.getInstance();
-		calStart.set(2012, 10, 19, 3, 10, 00);// 2011-03-23 16:46:00  2012-08-10 13:10:00
+		calStart.set(2012, 10, 19, 20, 00, 00);// 2011-03-23 16:46:00  2012-08-10 13:10:00
 
 		Calendar calEnd = Calendar.getInstance();
-		calEnd.set(2012, 10, 19, 4, 10, 00);// 2011-03-23 17:56:30
-
-		//ArrayList<CalculatedData> TenMinData = CalculatedDataController
-			//	.GetAllForPeriod(calStart, calEnd,
-				//		eCalculatedDataType.TenMinutes);
-
-		//List<RawData> rawDataList = RawDataController.GetAllForPeriod(calStart,
-			//	calEnd);
+		calEnd.set(2012, 10, 19, 22, 00, 00);// 2011-03-23 17:56:30
 		
 		ArrayList<WorstPylonCase> wcPylonArray = WorstCaseController.GetAllForPeriod(calStart, calEnd, true, true);
 		
@@ -108,16 +101,6 @@ public class MN_Domain_WC_Table_and_Alarm extends HttpServlet {
 
 			JSONArray listOfN = new JSONArray();
 			
-			JSONArray listOfTimeStamps = new JSONArray();
-
-			JSONArray listOfWindSpeed = new JSONArray();
-			JSONArray listOfWindSpeed_MAX = new JSONArray();
-
-			JSONArray listOfWindSpeedDirection = new JSONArray();
-
-			JSONArray listOfSonarValues = new JSONArray();
-			JSONArray listOfHydrometerValues = new JSONArray();
-			
 			JSONArray listTD = new JSONArray();//send the values for check buttons
 
 			
@@ -128,23 +111,9 @@ public class MN_Domain_WC_Table_and_Alarm extends HttpServlet {
 				listOfN.put(NValues.get(i)); 
 			}
 			
-			
-			/*this was a test
-			 * if (wcPylonArray.isEmpty() == true){
-				Tchecked = false;
-	            Dchecked = false;
-	            
-            	
-            }*/ 
-			
 			listTD.put(Tchecked);
             listTD.put(Dchecked);
-            
-            
-
-
-			
-			
+            			
 			obj.put("MValues", listOfM);
 			obj.put("NValues", listOfN);
 
@@ -166,13 +135,115 @@ public class MN_Domain_WC_Table_and_Alarm extends HttpServlet {
 		RequestDispatcher dispatcher = getServletContext()
 				.getRequestDispatcher("/MN_domain_WC_Table_and_Alarm.jsp");
 		
-		//MailSender.sendMail("ratke89@gmail.com", "ilija0326_1", "Sending message works", "nikola.radisavljevic@yahoo.com");
 		
 		
 		dispatcher.forward(req, resp);
 		// super.doGet(req, resp);
 
 	}
+	
+	//this metod is called on sending alarm. Everything is the same as in doGet, except message is sent
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+
+		Calendar calStart = Calendar.getInstance();
+		calStart.set(2012, 10, 19, 20, 00, 00);// 2011-03-23 16:46:00  2012-08-10 13:10:00
+
+		Calendar calEnd = Calendar.getInstance();
+		calEnd.set(2012, 10, 19, 22, 00, 00);// 2011-03-23 17:56:30
+
+		ArrayList<WorstPylonCase> wcPylonArray = WorstCaseController.GetAllForPeriod(calStart, calEnd, true, true);
+		
+		String messageToMail = "Table of the worst case: \n\n ";
+		messageToMail += "Pilon: "+" Worst Case: "+" N:    "+"           M:     " + "          Tx:     "+"         Ty:     " +"         Mx:     " +"         My:     " +"\n\n";
+		for (int i = 0; i<wcPylonArray.size(); i++){
+			messageToMail += i+".        "+wcPylonArray.get(i).getSafetyFactor()+"        "+ wcPylonArray.get(i).getN()+"       "+wcPylonArray.get(i).getM()+"       "+wcPylonArray.get(i).getTx()+"       "+wcPylonArray.get(i).getTy()+"       "+wcPylonArray.get(i).getMx()+"       "+wcPylonArray.get(i).getMy()+"\n";
+		}
+		
+		MNDomain MN = MNDomainController.GetMNDomain();
+		
+		List<Float> MValues = MN.getM();
+		List<Float> NValues = MN.getN();
+		
+		//make check_boxes work 
+		
+		boolean Tchecked = true;
+		boolean Dchecked = true;
+		
+		if ((req.getParameter("Tvalue") == null && req.getParameter("Dvalue")== null && req.getParameter("first") == null) || 
+				(req.getParameter("Tvalue") != null && req.getParameter("Dvalue")!= null && req.getParameter("first") != null) 	){
+			Tchecked = true;
+			Dchecked = true;
+			wcPylonArray = WorstCaseController.GetAllForPeriod(calStart, calEnd, true, true);
+		}
+		
+		if (req.getParameter("Tvalue") == null && req.getParameter("Dvalue") != null){
+			Tchecked = false; 
+			Dchecked = true;
+			wcPylonArray = WorstCaseController.GetAllForPeriod(calStart, calEnd, false, true);
+		}
+		
+		if (req.getParameter("Tvalue") != null && req.getParameter("Dvalue") == null){
+			Tchecked = true; 
+			Dchecked = false;
+			wcPylonArray = WorstCaseController.GetAllForPeriod(calStart, calEnd, true, false);
+		}
+		
+		if (req.getParameter("Tvalue") == null && req.getParameter("Dvalue") == null && req.getParameter("first") != null){
+			Tchecked = false; 
+			Dchecked = false;
+			wcPylonArray = WorstCaseController.GetAllForPeriod(calStart, calEnd, false, false);
+		}
+				
+		JSONObject obj = null;
+		try {
+
+			obj = new JSONObject();
+
+			JSONArray listOfM = new JSONArray();
+
+			JSONArray listOfN = new JSONArray();
+			
+			JSONArray listTD = new JSONArray();//send the values for check buttons
+
+			
+			for (int i = 0; i < NValues.size(); i++) {
+
+				listOfM.put(MValues.get(i));
+
+				listOfN.put(NValues.get(i)); 
+			}
+			
+			listTD.put(Tchecked);
+            listTD.put(Dchecked);
+            			
+			obj.put("MValues", listOfM);
+			obj.put("NValues", listOfN);
+
+            obj.put("TDChecked", listTD);
+			
+			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		req.setAttribute("MNDomain", obj);
+		req.setAttribute("modenaPath", ParsedInputFilesController
+				.FetchStoredPath(eFileType.Modena, calEnd));
+		req.setAttribute("mantovaPath", ParsedInputFilesController
+				.FetchStoredPath(eFileType.Mantova, calEnd));
+		req.setAttribute("wcPylonArray", wcPylonArray);
+
+		RequestDispatcher dispatcher = getServletContext()
+				.getRequestDispatcher("/MN_domain_WC_Table_and_Alarm.jsp");
+		
+
+		MailSender.sendMail("bogoforte.bridge@gmail.com", "italy2014", messageToMail, "ratke89@gmail.com", "andrea.bottoli@mail.polimi.it");
+		
+		dispatcher.forward(req, resp);	
+	}
+	
 
 	/**
 	 * 
