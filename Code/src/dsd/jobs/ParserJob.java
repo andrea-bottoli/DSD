@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Brčić, Dzana Kujan, Nikola Radisavljevic, Jörn Tillmanns, Miraldi Fifo
+ * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko BrÄ�iÄ‡, Dzana Kujan, Nikola Radisavljevic, JÃ¶rn Tillmanns, Miraldi Fifo
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,9 @@
  ******************************************************************************/
 package dsd.jobs;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.quartz.DisallowConcurrentExecution;
@@ -44,12 +47,20 @@ public class ParserJob implements Job{
 					count++;
 	            }else if (job.getTrigger().getPriority() < arg0.getTrigger().getPriority())
 	            {
+	            	GregorianCalendar c = new GregorianCalendar();
+	        		c.setTime(new Date());
+	        		System.out.print("["+c.get(Calendar.YEAR)+"/"+(c.get(Calendar.MONTH)+1)+"/"+c.get(Calendar.DATE)+" - "
+										+c.get(Calendar.HOUR_OF_DAY)+":"+c.get(Calendar.MINUTE)+":"+c.get(Calendar.SECOND)+"]: ");
 	            	System.out.println("There are other more priority jobs with me, so leaving");
 	                return;
 	            }
 	        }
 			
 			if(count > 1){
+				GregorianCalendar c = new GregorianCalendar();
+        		c.setTime(new Date());
+        		System.out.print("["+c.get(Calendar.YEAR)+"/"+(c.get(Calendar.MONTH)+1)+"/"+c.get(Calendar.DATE)+" - "
+									+c.get(Calendar.HOUR_OF_DAY)+":"+c.get(Calendar.MINUTE)+":"+c.get(Calendar.SECOND)+"]: ");
 				System.out.println("There's another instance running, so leaving");
 				return;
 			}
