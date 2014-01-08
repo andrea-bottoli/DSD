@@ -153,9 +153,8 @@ function AskAndSubmit(t)
 					    graphP.xField = "n";
 					    graphP.yField = "m";
 					    graphP.lineAlpha = 0;
-					   // graphP.connect = true;
 					    graphP.bullet = "bubble";
-					    graphP.maxBulletSize = 8;
+					    graphP.maxBulletSize = 10;
 					    graphP.lineColor = "#e70411";
 					    graphP.balloonText = "N:<b>[[x]]</b> M:<b>[[y]]</b><br>value:<b>[[value]]</b>";
 					    chart.addGraph(graphP);
