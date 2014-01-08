@@ -100,97 +100,68 @@ function AskAndSubmit(t)
 					<div id="Wind_speed_graph" class="mnGraph" ></div>
 							
 					<script type="text/javascript">
-					
 					var chart;
+
 					var chartData = [];
-					var chartCursor;
 
 					AmCharts.ready(function () {
-					    // generate some data first
-					    generateChartData1();
-					    
-					    // SERIAL CHART    
-					    chart = new AmCharts.AmSerialChart();
-					    chart.dataDateFormat = "YYYY-MM-DD hh:mm:ss";
+						
+						
+						generateChartData1();//generate data for graph
+						
+					    // XY Chart
+					    chart = new AmCharts.AmXYChart();
+					    chart.pathToImages = "../amcharts/images/";
 					    chart.pathToImages = "http://www.amcharts.com/lib/3/images/";
 					    chart.dataProvider = chartData;
-					    chart.categoryField = "date";
+					    chart.startDuration = 1.5;
 					    
 					    
-					    // listen for "dataUpdated" event (fired when chart is rendered) and call zoomChart method when it happens
-					    chart.addListener("dataUpdated", zoomChart1);
+					    
 					    
 					    // AXES
-					    // category
-					    var categoryAxis = chart.categoryAxis;
-					    categoryAxis.parseDates = false; // as our data is date-based, we set parseDates to true
-					    categoryAxis.minPeriod = "ss"; // our data is daily, so we set minPeriod to DD
-					    categoryAxis.dashLength = 1;
-					    categoryAxis.gridAlpha = 0.15;
-					    categoryAxis.minorGridEnabled = true;
-					    categoryAxis.axisColor = "#DADADA";
-					    categoryAxis.title = "N_Values";
+					    // X
+					    var xAxis = new AmCharts.ValueAxis();
+					    xAxis.title = "N[kN]";
+					    xAxis.position = "bottom";
+					    xAxis.autoGridCount = true;
+					    chart.addValueAxis(xAxis);
 					    
-					    // value                
-					    var valueAxis = new AmCharts.ValueAxis();
-					    valueAxis.title = "M_Values";
-					    valueAxis.axisAlpha = 0.2;
-					    valueAxis.dashLength = 1;
-					    chart.addValueAxis(valueAxis);
+					    // Y
+					    var yAxis = new AmCharts.ValueAxis();
+					    yAxis.title = "M[kNm]";
+					    yAxis.position = "left";
+					    yAxis.autoGridCount = true;
+					    chart.addValueAxis(yAxis);
 					    
-					    // GRAPH MN domain
+					    // GRAPH Borders of domain
 					    var graph = new AmCharts.AmGraph();
-					    graph.title = "MN down";
-					    graph.valueField = "visits";
-					    graph.bullet = "round";
+					    graph.valueField = "value"; // valueField responsible for the size of a bullet
+					    graph.xField = "x";
+					    graph.yField = "y";
+					    graph.lineAlpha = 1;
 					    graph.connect = true;
-					    graph.bulletBorderColor = "#FFFFFF";
-					    graph.bulletBorderThickness = 2;
-					    graph.bulletBorderAlpha = 1;
-					    graph.lineThickness = 2;
-					    graph.lineColor = "#b5030d";
-					    graph.negativeLineColor = "#b5030d";
-					    graph.balloonText = "[[category]]<br><b><span style='font-size:14px;'>value: [[value]]</span></b>";
-					    graph.hideBulletsCount = 50; // this makes the chart to hide bullets when there are more than 50 series in selection
+					    graph.bullet = "bubble";
+					    graph.maxBulletSize = 8;
+					    graph.lineColor = "#0411e7";
+					    graph.balloonText = "N:<b>[[x]]</b> M:<b>[[y]]</b><br>value:<b>[[value]]</b>";
 					    chart.addGraph(graph);
 					    
-					    // GRAPH MN domain
-					    var graph_max = new AmCharts.AmGraph();
-					    graph_max.title = "MN up";
-					    graph_max.valueField = "visits2";
-					    graph_max.bullet = "round";
-					    graph_max.bulletBorderColor = "#FFFFFF";
-					    graph_max.bulletBorderThickness = 2;
-					    graph_max.bulletBorderAlpha = 1;
-					    graph_max.lineThickness = 2;
-					    graph_max.lineColor = "#b5030d";
-					    graph_max.negativeLineColor = "#b5030d";
-					    graph_max.balloonText = "[[category]]<br><b><span style='font-size:14px;'>value: [[value]]</span></b>";
-					    graph_max.hideBulletsCount = 50; // this makes the chart to hide bullets when there are more than 50 series in selection
-					    chart.addGraph(graph_max);
+					 // GRAPH pilons of the bridge
+					    var graphP = new AmCharts.AmGraph();
+					    graphP.valueField = "value"; // valueField responsible for the size of a bullet
+					    graphP.xField = "n";
+					    graphP.yField = "m";
+					    graphP.lineAlpha = 0;
+					   // graphP.connect = true;
+					    graphP.bullet = "bubble";
+					    graphP.maxBulletSize = 8;
+					    graphP.lineColor = "#e70411";
+					    graphP.balloonText = "N:<b>[[x]]</b> M:<b>[[y]]</b><br>value:<b>[[value]]</b>";
+					    chart.addGraph(graphP);
 					    
-					    // GRAPH MN domain
-					    var graphPilons = new AmCharts.AmGraph();
-					    graphPilons.title = "pilons";
-					    graphPilons.valueField = "pilons";
-					    graphPilons.bullet = "round";
-					    graphPilons.connect = false;//////////****************************bitno
-					    graphPilons.bulletBorderColor = "#FFFFFF";
-					    graphPilons.bulletBorderThickness = 2;
-					    graphPilons.bulletBorderAlpha = 1;
-					    graphPilons.lineThickness = 2;
-					    graphPilons.lineColor = "#03b552";
-					    graphPilons.negativeLineColor = "#03b552";
-					    graphPilons.balloonText = "[[category]]<br><b><span style='font-size:14px;'>value: [[value]]</span></b>";
-					    graphPilons.hideBulletsCount = 50; // this makes the chart to hide bullets when there are more than 50 series in selection
-					    chart.addGraph(graphPilons);
 					    
-					    // CURSOR
-					    chartCursor = new AmCharts.ChartCursor();
-					    chartCursor.cursorPosition = "mouse";
-					    chart.addChartCursor(chartCursor);
-					    
-					    // SCROLLBAR
+					 // SCROLLBAR
 					    var chartScrollbar = new AmCharts.ChartScrollbar();
 					    chartScrollbar.graph = graph;
 					    chartScrollbar.scrollbarHeight = 40;
@@ -198,21 +169,12 @@ function AskAndSubmit(t)
 					    chartScrollbar.autoGridCount = true;
 					    chart.addChartScrollbar(chartScrollbar);
 					    
-					    var legend = new AmCharts.AmLegend();
-					    legend.bulletType = "round";
-					    legend.equalWidths = false;
-					    legend.valueWidth = 120;
-					    legend.useGraphSettings = true;
-					    legend.color = "#010541";
-					    chart.addLegend(legend);
-					    
-					    // WRITE
+					    // WRITE                                
 					    chart.write("Wind_speed_graph");
 					});
-
-					// generate some random data, quite different range
+					
 					function generateChartData1() {
-					   
+						   
 					    var list1 = eval('(' + '${MNDomain}' + ')');
 					   // var list2 = eval('(' + '${wcPylonArray}' + ')');
 
@@ -220,7 +182,7 @@ function AskAndSubmit(t)
 						var Nvalues = list1.NValues;
 						
 						
-					    for (var i = 0; i < Mvalues.length/2; i++) {
+					    for (var i = 0; i < Mvalues.length; i++) {
 					        // we create date objects here. In your data, you can have date strings 
 					        // and then set format of your dates using chart.dataDateFormat property,
 					        // however when possible, use date objects, as this will speed up chart rendering.                    
@@ -228,59 +190,31 @@ function AskAndSubmit(t)
 					        
 					  		        
 					        chartData.push({
-					            date: Nvalues[i],
-					            visits:  Mvalues[Mvalues.length-i-1],
-					            visits2: Mvalues[i]
+					            x: Nvalues[i],
+					            y:  Mvalues[i],
+					            value: 1
 					        });
 					        
 					        <c:forEach items="${wcPylonArray}" var="item">
 							
-					        if ("${item.n}" > Nvalues[i] && "${item.n}" < Nvalues[i+1]){
-					        						        	
-					    		   chartData.push({
-							            date: "${item.n}",
-							            pilons: "${item.m}"
-							        });
-					    		  
-					    		   chartData.push({
-							            date: "${item.n}",
-							       });
-					    		   
-					    	   
-					    }
-																					
-						</c:forEach>
-					        
-					      /*  for (var j = 0; j < 6; j++){
-						    	   if (list2[j].n > Nvalues[i])
+						        if ("${item.n}" > Nvalues[i] && "${item.n}" < Nvalues[i+1]){
+						        						        	
 						    		   chartData.push({
-								            date: list2[j].n,
-								            pilons: list2[j].m
+								            n: "${item.n}",
+								            m: "${item.m}",
+								            value : "pilon: ${item.pylonNumber}"
 								        });
-						    	   // TODO: napravi razmake
-								        
-						       }				        
-					        */
+						    		  
+						    		   chartData.push({
+								            date: "${item.n}",
+								       });
+						    		   
+						    	   
+							    }														
+							</c:forEach>
 					    }
 					}
-
-					// this method is called when chart is first inited as we listen for "dataUpdated" event
-					function zoomChart1() {
-					    // different zoom methods can be used - zoomToIndexes, zoomToDates, zoomToCategoryValues
-					    chart.zoomToIndexes(chartData.length - 40, chartData.length - 1);
-					}
-
-					// changes cursor mode from pan to select
-					function setPanSelect() {
-					    if (document.getElementById("rb1").checked) {
-					        chartCursor.pan = false;
-					        chartCursor.zoomable = true;
-					        
-					    } else {
-					        chartCursor.pan = true;
-					    }
-					    chart.validateNow();
-					}
+					
 					</script>
 				</div>
 				
