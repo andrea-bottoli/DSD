@@ -46,10 +46,6 @@
 			<span><a href="CurrentStateView">Current State</a></span>
 		</div>
 		
-		<div class="button">
-			<span><a href="HistoryView">History Diagrams</a></span>
-		</div>
-		
 		
 		<br/>
 	</div>
