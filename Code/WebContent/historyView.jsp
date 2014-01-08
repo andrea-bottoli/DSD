@@ -23,7 +23,6 @@
 <t:desktopPage>
 			
 <body>
-
 	<script>
 //this script is temporarly here
 
@@ -75,8 +74,9 @@ $(function() {
 	var Dchecked = list.TDChecked[1];
 	
 
-	$("#hstartDate").val(startDate);
-	$("#hendDate").val(endDate);
+	$("input[id='hstartDate']").val(startDate);
+	$("input[id='hendDate']").val(endDate);
+
 	
 	if (Tchecked == true) 
 		$("#Tvalue").attr("checked",true);
