@@ -52,8 +52,13 @@
 					<td>${wind_direction}°</td>
 					</tr>
 					<tr>
-					<td class="actual_values_table_entry">River bed height:</td>
+					<td class="actual_values_table_entry">River bed level:</td>
 					<td>${river_bed_height} m</td>
+					</tr>
+					<tr>
+					<td class="actual_values_table_entry">Water height:</td>
+					<td>${water_height} m</td>
+					
 					</tr>
 				</table>
 				</div>
