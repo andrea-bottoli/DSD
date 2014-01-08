@@ -16,8 +16,11 @@
 package dsd.view;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -54,6 +57,13 @@ public class MN_Domain_WC_Table_and_Alarm extends HttpServlet {
 		calEnd.set(2012, 10, 19, 22, 00, 00);// 2011-03-23 17:56:30
 		
 		ArrayList<WorstPylonCase> wcPylonArray = WorstCaseController.GetAllForPeriod(calStart, calEnd, true, true);
+		
+		long lastDateMiliseconds = CalculatedDataController.GetMaxTimestamp(eCalculatedDataType.TenMinutes);
+		
+		Date currentDate = new Date(lastDateMiliseconds);
+		
+		DateFormat df = new SimpleDateFormat("EEEEEEE, MMMMMMMM d, yyyy HH:mm:ss");
+		
 		
 		MNDomain MN = MNDomainController.GetMNDomain();
 		
@@ -131,6 +141,8 @@ public class MN_Domain_WC_Table_and_Alarm extends HttpServlet {
 		req.setAttribute("mantovaPath", ParsedInputFilesController
 				.FetchStoredPath(eFileType.Mantova, calEnd));
 		req.setAttribute("wcPylonArray", wcPylonArray);
+		
+		req.setAttribute("lastDate", df.format(currentDate));
 
 		RequestDispatcher dispatcher = getServletContext()
 				.getRequestDispatcher("/MN_domain_WC_Table_and_Alarm.jsp");
@@ -153,6 +165,12 @@ public class MN_Domain_WC_Table_and_Alarm extends HttpServlet {
 		calEnd.set(2012, 10, 19, 22, 00, 00);// 2011-03-23 17:56:30
 
 		ArrayList<WorstPylonCase> wcPylonArray = WorstCaseController.GetAllForPeriod(calStart, calEnd, true, true);
+		
+long lastDateMiliseconds = CalculatedDataController.GetMaxTimestamp(eCalculatedDataType.TenMinutes);
+		
+		Date currentDate = new Date(lastDateMiliseconds);
+		
+		DateFormat df = new SimpleDateFormat("EEEEEEE, MMMMMMMM d, yyyy HH:mm:ss");
 		
 		String messageToMail = "Table of the worst case: \n\n ";
 		messageToMail += "Pilon: "+" Worst Case: "+" N:    "+"           M:     " + "          Tx:     "+"         Ty:     " +"         Mx:     " +"         My:     " +"\n\n";
@@ -235,6 +253,10 @@ public class MN_Domain_WC_Table_and_Alarm extends HttpServlet {
 				.FetchStoredPath(eFileType.Mantova, calEnd));
 		req.setAttribute("wcPylonArray", wcPylonArray);
 
+
+		req.setAttribute("lastDate", df.format(currentDate));
+
+		
 		RequestDispatcher dispatcher = getServletContext()
 				.getRequestDispatcher("/MN_domain_WC_Table_and_Alarm.jsp");
 		

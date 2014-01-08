@@ -16,8 +16,11 @@
 package dsd.view;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -44,16 +47,26 @@ public class CurrentStateView extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-
-		Calendar calStart = Calendar.getInstance();
-		calStart.set(2012, 10, 18, 22, 00, 00);// 2011-03-23 16:46:00
+		
+		long lastDateMiliseconds = CalculatedDataController.GetMaxTimestamp(eCalculatedDataType.TenMinutes);
 
 		Calendar calEnd = Calendar.getInstance();
-		calEnd.set(2012, 10, 19, 22, 00, 00);// 2011-03-23 17:56:30
+		calEnd.setTimeInMillis(lastDateMiliseconds);// end date
+		
+		Calendar calStart = Calendar.getInstance();
+		calStart.setTimeInMillis(lastDateMiliseconds);// start date
+		
+		calStart.add(Calendar.DATE, -1);
 
 		ArrayList<CalculatedData> TenMinData = CalculatedDataController
 				.GetAllForPeriod(calStart, calEnd,
 						eCalculatedDataType.TenMinutes);
+		
+		
+		
+		Date currentDate = new Date(lastDateMiliseconds);
+		
+		DateFormat df = new SimpleDateFormat("EEEEEEE, MMMMMMMM d, yyyy HH:mm:ss");
 
 		List<RawData> rawDataList = RawDataController.GetAllForPeriod(calStart,
 				calEnd);
@@ -127,6 +140,8 @@ public class CurrentStateView extends HttpServlet {
 				.FetchStoredPath(eFileType.Mantova, calEnd));
 
 		req.setAttribute("wcPylonArray", wcPylonArray);
+		
+		req.setAttribute("lastDate", df.format(currentDate));
 
 		// last measured values
 		req.setAttribute("water_flow_rate", water_flow_rate);
