@@ -18,6 +18,7 @@ package dsd.view;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -90,7 +91,7 @@ public class HistoryView extends HttpServlet {
 			} else if (request.getParameter("showMonth") != null) 
 			{
 				//TODO implement when the real calculated data is in the database :)
-				/*int month = Integer.parseInt(request.getParameter("month"));
+				int month = Integer.parseInt(request.getParameter("month"));
 				int year = Integer.parseInt(request.getParameter("year"));
 				
 				calStart.set(Calendar.YEAR, year);
@@ -100,29 +101,71 @@ public class HistoryView extends HttpServlet {
 				calStart.set(Calendar.MINUTE, 0);
 				calStart.set(Calendar.SECOND, 0);
 				
-				calEnd.setTimeInMillis(calStart.getTimeInMillis());
+				calEnd.set(Calendar.YEAR, year);
+				calEnd.set(Calendar.MONTH, month - 1);
+				calEnd.set(Calendar.DAY_OF_MONTH, 1);
+				calEnd.set(Calendar.HOUR_OF_DAY, 0);
+				calEnd.set(Calendar.MINUTE, 0);
+				calEnd.set(Calendar.SECOND, 0);
+
 				if (month == 12) {
-					calEnd.set(Calendar.MONTH, 1);
+					calEnd.set(Calendar.MONTH, 0);
+					calEnd.set(Calendar.YEAR, year + 1);
+				}
+				else
+					calEnd.set(Calendar.MONTH, month);
+							
+				TenMinData = CalculatedDataController.GetAllForPeriod(calStart, calEnd, eCalculatedDataType.TenMinutes);
+				
+			}else {
+				
+				long lastDateMiliseconds = CalculatedDataController.GetMaxTimestamp(eCalculatedDataType.TenMinutes);		
+				
+				Date dmaxDate = new Date(lastDateMiliseconds);
+				Calendar maxDate = Calendar.getInstance();
+				
+				maxDate.setTimeInMillis(lastDateMiliseconds);
+				
+				int month = dmaxDate.getMonth();
+				int year = dmaxDate.getYear() + 1900;
+
+				calStart.set(Calendar.YEAR, year);
+				calStart.set(Calendar.MONTH, month);
+				calStart.set(Calendar.DAY_OF_MONTH, 1);
+				calStart.set(Calendar.HOUR_OF_DAY, 0);
+				calStart.set(Calendar.MINUTE, 0);
+				calStart.set(Calendar.SECOND, 0);
+				
+				calEnd.set(Calendar.YEAR, year);
+				calEnd.set(Calendar.MONTH, month);
+				calEnd.set(Calendar.DAY_OF_MONTH, 1);
+				calEnd.set(Calendar.HOUR_OF_DAY, 0);
+				calEnd.set(Calendar.MINUTE, 0);
+				calEnd.set(Calendar.SECOND, 0);
+				
+
+				if (month == 11) {
+					calEnd.set(Calendar.MONTH, 0);
 					calEnd.set(Calendar.YEAR, year + 1);
 				}
 				else
 					calEnd.set(Calendar.MONTH, month + 1);
-				*/
-			}else {
-				//TODO, what will be displayed by default? the current month?
-	
+							
+				TenMinData = CalculatedDataController.GetAllForPeriod(calStart, calEnd, eCalculatedDataType.TenMinutes);
+	/*
 				calStart.set(2011, 2, 22, 16, 00, 0);//2011-03-22 15:00:00
 				calEnd.set(2011, 2, 22, 23, 59, 00);//2011-03-22 16:00:30
 				//comment2
 				
 				TenMinData = CalculatedDataController.GetAllForPeriod(calStart, calEnd, eCalculatedDataType.TenMinutes);
+				*/
 			}
-		}else {
+		}else 
+		{
 			calStart.setTimeInMillis(Long.parseLong(request.getParameter("hstartDate")));
 			calEnd.setTimeInMillis(Long.parseLong(request.getParameter("hendDate")));
 			TenMinData = CalculatedDataController.GetAllForPeriod(calStart, calEnd,	eCalculatedDataType.TenMinutes);
 			
-
 		}
 		
 		JSONObject obj = null;
