@@ -144,6 +144,7 @@ function AskAndSubmit(t)
 					    graph.bullet = "bubble";
 					    graph.maxBulletSize = 8;
 					    graph.lineColor = "#0411e7";
+					    graph.title = "MN domain";
 					    graph.balloonText = "N:<b>[[x]]</b> M:<b>[[y]]</b><br>value:<b>[[value]]</b>";
 					    chart.addGraph(graph);
 					    
@@ -156,6 +157,7 @@ function AskAndSubmit(t)
 					    graphP.bullet = "bubble";
 					    graphP.maxBulletSize = 10;
 					    graphP.lineColor = "#e70411";
+					    graphP.title = "Pilons";
 					    graphP.balloonText = "N:<b>[[x]]</b> M:<b>[[y]]</b><br>value:<b>[[value]]</b>";
 					    chart.addGraph(graphP);
 					    
@@ -167,6 +169,15 @@ function AskAndSubmit(t)
 					    chartScrollbar.color = "#FFFFFF";
 					    chartScrollbar.autoGridCount = true;
 					    chart.addChartScrollbar(chartScrollbar);
+					    
+
+					    var legend = new AmCharts.AmLegend();
+					    legend.bulletType = "round";
+					    legend.equalWidths = false;
+					    legend.valueWidth = 120;
+					    legend.useGraphSettings = true;
+					    legend.color = "#010541";
+					    chart.addLegend(legend);
 					    
 					    // WRITE                                
 					    chart.write("Wind_speed_graph");
