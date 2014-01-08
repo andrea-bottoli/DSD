@@ -16,6 +16,8 @@
 package dsd.view;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -57,8 +59,14 @@ public class HistoryView extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ArrayList<CalculatedData> TenMinData  = null;
+		long lastDateMilisecond = CalculatedDataController.GetMaxTimestamp(eCalculatedDataType.TenMinutes);
 		Calendar calStart = Calendar.getInstance();
 		Calendar calEnd = Calendar.getInstance();
+		
+		Date currentDate = new Date(lastDateMilisecond);
+		
+		DateFormat df = new SimpleDateFormat("EEEEEEE, MMMMMMMM d, yyyy HH:mm:ss");
+		
 		boolean Tchecked;
 		boolean Dchecked;
 		if (request.getParameter("Tvalue") == null)
@@ -227,6 +235,7 @@ public class HistoryView extends HttpServlet {
 		request.setAttribute("rawDataList", obj);
 		request.setAttribute("modenaPath", ParsedInputFilesController.FetchStoredPath(eFileType.Modena, calEnd));
 		request.setAttribute("mantovaPath", ParsedInputFilesController.FetchStoredPath(eFileType.Mantova, calEnd));
+		request.setAttribute("lastDate", df.format(currentDate));
 		
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/historyView.jsp");
 		dispatcher.forward(request, response);
