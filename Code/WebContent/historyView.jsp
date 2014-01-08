@@ -57,6 +57,7 @@ $(function() {
 		}
 	});
 	
+	
 	$(function() {
 		$( "#datepicker" ).datepicker({ 
 			minDate: min,
