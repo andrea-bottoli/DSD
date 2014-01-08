@@ -21,6 +21,7 @@
 	<script type="text/javascript" src="JS/Chart.js"></script>
 	<script type="text/javascript" src="JS/amCharts/amcharts.js"></script>
 	<script type="text/javascript" src="JS/amCharts/serial.js"></script>
+	<script type="text/javascript" src="JS/amCharts/xy.js""></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10/jquery.min.js"></script>
 	<script type="text/javascript" src="JS/charts.js"></script>
 	

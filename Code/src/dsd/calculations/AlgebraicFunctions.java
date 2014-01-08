@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Br?i?, Dzana Kujan, Nikola Radisavljevic, Jörn Tillmanns, Miraldi Fifo
+ * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Brcic, Dzana Kujan, Nikola Radisavljevic, Jorn Tillmanns, Miraldi Fifo
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -222,7 +222,7 @@ public class AlgebraicFunctions {
 	 * 
 	 * 			a*x^3 + b*x^2 + c*x^1 + d = 0
 	 * 
-	 * 	This function uses the Cardano-Tartaglia method, with the substitution of François Viète
+	 * 	This function uses the Cardano-Tartaglia method, with the substitution of FranÃ§ois ViÃ¨te
 	 * 
 	 * @param a the coefficient of the term of degree 3
 	 * @param b the coefficient of the term of degree 2
@@ -284,7 +284,7 @@ public class AlgebraicFunctions {
 			
 			/*
 			 * Term that represent b/(3*a) due to the
-			 * substitution of François Viète
+			 * substitution of FranÃ§ois ViÃ¨te
 			 */
 			term1 = b/3.0;
 			

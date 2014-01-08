@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Br?i?, Dzana Kujan, Nikola Radisavljevic, Jörn Tillmanns, Miraldi Fifo
+ * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Brcic, Dzana Kujan, Nikola Radisavljevic, Jorn Tillmanns, Miraldi Fifo
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,9 +26,7 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 
 import dsd.calculations.InputConversion;
@@ -40,53 +38,7 @@ import dsd.model.enums.eSonarType;
 
 public class ParserControler
 {
-	/*
-	 * these values are hard-coded for now because we need to quickly parse the
-	 * raw data, in the future some other approach is needed where the server
-	 * will be able to process and parse files on any physical machine
-	 */
-	public static final String path2011 = "C:\\Users\\Marko\\Desktop\\2011.Borgoforte\\";
-	public static final String path2012 = "C:\\Users\\Marko\\Desktop\\2012.Borgoforte\\";
-	public static final String path2013 = "C:\\Users\\Marko\\Desktop\\2013.Borgoforte\\";
-	public static final String path2014 = "C:\\Users\\Marko\\Desktop\\2014.Borgoforte\\";
-
-	public static final String pathMantova = "01. Telecamera Mantova\\";
-	public static final String pathModena = "02. Telecamera Modena\\";
-	public static final String pathSonar = "03. Ecoscandaglio\\";
-	public static final String pathAnalog = "04. Ane_Idro\\";
-
-	public static final List<String> listDirs2 = new ArrayList<String>(Arrays.asList(pathAnalog, pathMantova,
-			pathModena, pathSonar));
-	public static final List<String> listDirs = new ArrayList<String>(Arrays.asList(/*path2011 ,*/
-																							 path2012
-			/*
-			 * , path2013 , path2014
-			 */));
-
-	public static void ParseFiles()
-	{
-		for (String dir : listDirs)
-		{
-			for (String dir2 : listDirs2)
-			{
-				File folderPath = new File(dir + dir2);
-				if (folderPath.exists() && folderPath.isDirectory())
-				{
-					for (File file : folderPath.listFiles())
-					{
-						for (eFileType fileType : eFileType.values())
-						{
-							if (file.getName().startsWith(fileType.toString().toLowerCase()))
-							{
-								ParseInputFile(file, fileType);
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
+	
 	/*
 	 * parse the sonar file or analog file and update the raw data
 	 */
@@ -94,7 +46,6 @@ public class ParserControler
 	{
 		if (ParsedInputFilesController.IsAlreadyParsed(file.getName()))
 		{
-//			System.out.println(file.getName() + " already parsed so it will be skipped!");
 			return;
 		}
 		List<RawData> rawDataList = new ArrayList<RawData>();
@@ -144,8 +95,6 @@ public class ParserControler
 	{
 		String storedFolderPathForPictures = "ParsedImages" + File.separatorChar;
 		String storedFolderPathForTextFiles = "ParsedTextFiles" + File.separatorChar;
-		// String storedFolderPathForMovies = "ParsedMovies" +
-		// File.separatorChar;
 
 		switch (fileType)
 		{
@@ -454,11 +403,9 @@ public class ParserControler
 	private String ReturnRootPath()
 	{
 		// URL returned
-		// "/C:/Program%20Files/Tomcat%206.0/webapps/myapp/WEB-INF/classes/"
 		URL r = this.getClass().getResource("/");
 
 		// path decoded
-		// "/C:/Program Files/Tomcat 6.0/webapps/myapp/WEB-INF/classes/"
 		String decoded = null;
 		try
 		{
@@ -471,9 +418,7 @@ public class ParserControler
 		}
 
 		if (decoded.startsWith("/"))
-			// path "C:/Program Files/Tomcat 6.0/webapps/myapp/WEB-INF/classes/"
 			decoded = decoded.replaceFirst("/", "");
-		// return path "C:/Program Files/Tomcat 6.0/webapps/myapp/
 		return decoded.replaceAll("WEB-INF/classes/", "");
 	}
 }

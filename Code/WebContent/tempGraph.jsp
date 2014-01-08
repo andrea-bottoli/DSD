@@ -33,27 +33,32 @@
 				<table>
 					<tr>
 					<td class="actual_values_table_entry">Flow rate: </td>
-					<td>520 m3/s</td>
+					<td>${water_flow_rate} m3/s</td>
 					</tr>
 					<tr>
 					<td class="actual_values_table_entry">Water level:</td>
-					<td>17 m</td>
+					<td>${water_level} m</td>
 					</tr>
 					<tr>
 					<td class="actual_values_table_entry">Water speed:</td>
-					<td>1 m/s</td>
+					<td>${water_speed}  m/s</td>
 					</tr>
 					<tr>
 					<td class="actual_values_table_entry">Wind speed:</td>
-					<td>3 m/s</td>
+					<td>${wind_speed} m/s</td>
 					</tr>
 					<tr>
 					<td class="actual_values_table_entry">Wind direction:</td>
-					<td>32°</td>
+					<td>${wind_direction}°</td>
 					</tr>
 					<tr>
-					<td class="actual_values_table_entry">River bed height:</td>
-					<td>3 m</td>
+					<td class="actual_values_table_entry">River bed level:</td>
+					<td>${river_bed_height} m</td>
+					</tr>
+					<tr>
+					<td class="actual_values_table_entry">Water height:</td>
+					<td>${water_height} m</td>
+					
 					</tr>
 				</table>
 				</div>
@@ -206,8 +211,8 @@
 					  		        
 					        chartData.push({
 					            date: newDate,
-					            visits:  windSpeed[i],
-					            visits2: max_windSpeed[i]
+					            visits:  windSpeed[i].toFixed(2),
+					            visits2: max_windSpeed[i].toFixed(2)
 					        });
 					    }
 					}
@@ -326,7 +331,7 @@
 					  		
 					        chartData2.push({
 					            date: newDate,
-					            visits: dataSet[i]
+					            visits: dataSet[i].toFixed(2)
 					        });
 					    }
 					}
@@ -468,8 +473,8 @@
 					  		        
 					        chartData3.push({
 					            date: newDate,
-					            visits: hidrometerValues[i],
-					            visits2: sonarValues[i]
+					            visits: hidrometerValues[i].toFixed(2),
+					            visits2: sonarValues[i].toFixed(2)
 					        });
 					    }
 					}
@@ -494,39 +499,6 @@
 					</script>
 
 				</div>
-		
-		<c:if test = "${pageContext.request.authType !=null}"> 
-		<div id="parameters" class=" WorstCaseTable">
-		<pclass="graph_name" > Worst-Case-Table</p>
-		<table class="hoverTable">
-			<tr>
-				<td  style="width:5%; font-weight:900; font-size:100%">Pylon ID</td>
-				<td  style="width:10%; font-weight:bold">Worst Case</td>
-				<td  style="width:20%; font-weight:bold">Combination number/lable</td>
-				<td  style="width:10%; font-weight:bold">N</td>
-				<td  style="width:5%; font-weight:bold">M</td>
-				<td  style="width:10%; font-weight:bold">Tx</td>
-				<td style="width:5%; font-weight:bold">Ty</td>
-				<td  style="width:10%; font-weight:bold">Mx</td>
-				<td  style="width:20%; font-weight:bold">My</td>
-			</tr>
-			<c:forEach items="${wcPylonArray}" var="item">
-				<tr>
-						<td >${item.pylonNumber}</td>	
-						<td >${item.safetyFactor}</td>
-						<td >${item.comboNumber}</td>	
-						<td >${item.n}</td>
-						<td >${item.m}</td>	
-						<td >${item.tx}</td>	
-						<td >${item.ty}</td>	
-						<td >${item.mx}</td>	
-						<td >${item.my}</td>			
-							
-				</tr>
-			</c:forEach>
-		</table>
-	</div>
-	</c:if>
 			 
 			<div class="clear_float"></div>
 		

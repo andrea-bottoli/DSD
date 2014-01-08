@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Br?i?, Dzana Kujan, Nikola Radisavljevic, Jörn Tillmanns, Miraldi Fifo
+ * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Brcic, Dzana Kujan, Nikola Radisavljevic, Jorn Tillmanns, Miraldi Fifo
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,10 +46,10 @@ public class CurrentStateView extends HttpServlet {
 			throws ServletException, IOException {
 
 		Calendar calStart = Calendar.getInstance();
-		calStart.set(2011, 2, 25, 17, 00, 01);// 2011-03-23 16:46:00
+		calStart.set(2012, 10, 18, 22, 00, 00);// 2011-03-23 16:46:00
 
 		Calendar calEnd = Calendar.getInstance();
-		calEnd.set(2011, 2, 25, 18, 00, 00);// 2011-03-23 17:56:30
+		calEnd.set(2012, 10, 19, 22, 00, 00);// 2011-03-23 17:56:30
 
 		ArrayList<CalculatedData> TenMinData = CalculatedDataController
 				.GetAllForPeriod(calStart, calEnd,
@@ -61,6 +61,22 @@ public class CurrentStateView extends HttpServlet {
 				.GetAllForPeriod(calStart, calEnd, false, false);
 
 		JSONObject obj = null;
+
+		// current values
+
+		float water_flow_rate = (float) Math.round(TenMinData.get(
+				TenMinData.size() - 1).getWaterFlowRate() * 100) / 100;
+		float water_level = (float) Math.round(TenMinData.get(
+				TenMinData.size() - 1).getHydrometer() * 100) / 100;
+		float water_speed = (float) Math.round(TenMinData.get(
+				TenMinData.size() - 1).getWaterSpeed() * 100) / 100;
+		float wind_speed = (float) Math.round(TenMinData.get(
+				TenMinData.size() - 1).getWindSpeed() * 100) / 100;
+		float wind_direction = (float) Math.round(TenMinData.get(
+				TenMinData.size() - 1).getWindDirection() * 100) / 100;
+		float river_bed_height = (float) Math.round(TenMinData.get(
+				TenMinData.size() - 1).getSonar() * 100) / 100;
+
 		try {
 
 			obj = new JSONObject();
@@ -80,13 +96,7 @@ public class CurrentStateView extends HttpServlet {
 				listOfTimeStamps.put(TenMinData.get(i).getTimestampDate()
 						.getTime());
 
-				listOfWindSpeed.put(TenMinData.get(i).getWindSpeed()); // TODO:
-																		// put
-																		// the
-																		// real
-																		// wind
-																		// speed
-																		// values
+				listOfWindSpeed.put(TenMinData.get(i).getWindSpeed());
 				listOfWindSpeed_MAX.put(TenMinData.get(i).getWindSpeedMax());
 
 				listOfWindSpeedDirection.put(TenMinData.get(i)
@@ -115,7 +125,17 @@ public class CurrentStateView extends HttpServlet {
 				.FetchStoredPath(eFileType.Modena, calEnd));
 		req.setAttribute("mantovaPath", ParsedInputFilesController
 				.FetchStoredPath(eFileType.Mantova, calEnd));
+
 		req.setAttribute("wcPylonArray", wcPylonArray);
+
+		// last measured values
+		req.setAttribute("water_flow_rate", water_flow_rate);
+		req.setAttribute("water_level", water_level);
+		req.setAttribute("water_speed", water_speed);
+		req.setAttribute("wind_speed", wind_speed);
+		req.setAttribute("wind_direction", wind_direction);
+		req.setAttribute("river_bed_height", river_bed_height);
+		req.setAttribute("water_height", water_level - river_bed_height);
 
 		RequestDispatcher dispatcher = getServletContext()
 				.getRequestDispatcher("/tempGraph.jsp");

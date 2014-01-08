@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Br?i?, Dzana Kujan, Nikola Radisavljevic, Jörn Tillmanns, Miraldi Fifo
+ * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Brcic, Dzana Kujan, Nikola Radisavljevic, Jorn Tillmanns, Miraldi Fifo
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,12 +27,17 @@ public class StatisticsFormulas {
 	{
 		float sum = 0;
 		
-		for(Float f : list)
-		{
-			sum += f;
+		if(list.size() > 0){
+			for(Float f : list)
+			{
+				sum += f;
+			}
+			
+			return (sum/list.size());
+		}else{
+			return (float) 0;
 		}
 		
-		return (sum/list.size());
 	}
 	
 	protected static float maxValue(List<Float> list)
@@ -57,15 +62,21 @@ public class StatisticsFormulas {
 		float sum = 0;
 		float variance = 0;
 		
-		mean = meanValue(list);
-		
-		for(Float f : list)
+		if(list.size() > 0)
 		{
-			sum += Math.pow((f - mean),2);
+			mean = meanValue(list);
+			
+			for(Float f : list)
+			{
+				sum += Math.pow((f - mean),2);
+			}
+			
+			variance = sum/list.size();
+			
+			return variance;
+		}else
+		{
+			return (float)0;
 		}
-		
-		variance = sum/list.size();
-		
-		return variance;
 	}
 }

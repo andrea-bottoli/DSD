@@ -1,18 +1,3 @@
-/*******************************************************************************
-*Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Br?i?, Dzana Kujan, Nikola Radisavljevic, Jörn Tillmanns, Miraldi Fifo
-*
-*Licensed under the Apache License, Version 2.0 (the "License");
-*you may not use this file except in compliance with the License.
-*You may obtain a copy of the License at
-*
-*  http://www.apache.org/licenses/LICENSE-2.0
-*
-*Unless required by applicable law or agreed to in writing, software
-*distributed under the License is distributed on an "AS IS" BASIS,
-*WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-*See the License for the specific language governing permissions and
-*limitations under the License.
-*******************************************************************************/
 AmCharts.AmFunnelChart=AmCharts.Class({inherits:AmCharts.AmSlicedChart,construct:function(r){this.type="funnel";AmCharts.AmFunnelChart.base.construct.call(this,r);this.cname="AmFunnelChart";this.startX=this.startY=0;this.baseWidth="100%";this.neckHeight=this.neckWidth=0;this.rotate=!1;this.valueRepresents="height";this.pullDistance=30;this.labelPosition="center";this.labelText="[[title]]: [[value]]";this.balloonText="[[title]]: [[value]]\n[[description]]";AmCharts.applyTheme(this,r,this.cname)},drawChart:function(){AmCharts.AmFunnelChart.base.drawChart.call(this);
 var r=this.chartData;if(AmCharts.ifArray(r))if(0<this.realWidth&&0<this.realHeight){var s=this.container,A=this.startDuration,k=this.rotate,v=this.updateWidth();this.realWidth=v;var f=this.updateHeight();this.realHeight=f;var n=AmCharts.toCoordinate,B=n(this.marginLeft,v),u=n(this.marginRight,v),a=n(this.marginTop,f)+this.getTitleHeight(),n=n(this.marginBottom,f),u=v-B-u,w=AmCharts.toCoordinate(this.baseWidth,u),p=AmCharts.toCoordinate(this.neckWidth,u),C=f-n-a,x=AmCharts.toCoordinate(this.neckHeight,
 C),t=a+C-x;k&&(a=f-n,t=a-C+x);this.firstSliceY=a;AmCharts.VML&&(this.startAlpha=1);for(var g=u/2+B,D=(C-x)/((w-p)/2),y=w/2,w=(C-x)*(w+p)/2+p*x,x=a,F=0,E=0;E<r.length;E++){var c=r[E];if(!0!==c.hidden){var l=[],h=[],b;if("height"==this.valueRepresents)b=C*c.percents/100;else{var m=-w*c.percents/100/2,z=y,d=-1/(2*D);b=Math.pow(z,2)-4*d*m;0>b&&(b=0);b=(Math.sqrt(b)-z)/(2*d);if(!k&&a>=t||k&&a<=t)b=2*-m/p;else if(!k&&a+b>t||k&&a-b<t)d=k?Math.round(b+(a-b-t)):Math.round(b-(a+b-t)),b=d/D,b=d+2*(-m-(z-b/2)*

@@ -20,16 +20,71 @@
 
 <t:desktopPage>
 <div>
-<h1>Real-time Bridge Monitoring... </h1>
-<p>... is a project of the <b>DSD</b> Course. <b>DSD</b> is the abbreviation of <b>Distributed Software Development</b> and is a joined Course of
-</p>
+
+<h1 style="text-align:center"><strong>REAL-TIME BRIDGE MONITORING</strong></h1>
+
+<p style="text-align:center"><img alt="" src="SiteImages/logo.png" style="height:227px; width:300px" /></p>
+
+<h2>DESCRIPTION</h2>
+
+<p style="margin-left:10px">Real-Time Bridge Monitoring allows to verify in real-time (with a delay of 1 hour due to local server delay) the status of a number of piers of a bridge (in this case the Borgoforte bridge on Po river in Italy) based on some physical parameters, including:</p>
+
 <ul>
-<li>Mälardalen University (MdH), School of Innovation, Design and Engineering (IDT), Sweden</li>
-<li>University of Zagreb, Faculty of Electrical Engineering and Computing (FER), Croatia</li>
-<li>Politecnico di Milano, Information Engineering School (POLIMI), Italy</li>
+	<li>wind speed [m/s]</li>
+	<li>wind direction [°]</li>
+	<li>water level [m asl]</li>
+	<li>water rate [m3/s]</li>
+	<li>river bed level [m asl]</li>
+	<li>presence of debris</li>
+	<li>presence and type of traffic</li>
+	<li>material of the bridge</li>
+	<li>structural parameters</li>
 </ul>
+
+<h2>USERS</h2>
+
+<p style="margin-left:10px">Users that could use the system are:</p>
+
+<ul>
+	<li><strong>External users</strong>
+
+	<ul>
+		<li>​anyone who wants to access the site without having to log​</li>
+	</ul>
+	</li>
+	<li><strong>Operators</strong>
+	<ul>
+		<li>the persons responsible for the monitoring of the bridge​</li>
+	</ul>
+	</li>
+	<li><strong>Engineers</strong>
+	<ul>
+		<li>the persons responsible for the monitoring of the bridge and the definition of the structural model that describes the bridge and the forces acting on it​</li>
+	</ul>
+	</li>
+	<li><strong>Administrator</strong>
+	<ul>
+		<li>the person responsible for adding new users (with the right role) and for edit or delete existing users</li>
+	</ul>
+	</li>
+</ul>
+
+<h2>FEATURES</h2>
+
+<p style="margin-left:10px">Real-Time Bridge Monitoring also provides access to different types of users with different roles; they could perform different tasks such as:</p>
+
+<ul>
+	<li>view the current state</li>
+	<li>view the historical states</li>
+	<li>view the MN domain</li>
+	<li>add/edit/delete users</li>
+	<li>edit some parameters</li>
+	<li>view some statistics</li>
+	<li>launch the alarm</li>
+</ul>
+
 <p>For more Information please look at the <a href="http://www.fer.unizg.hr/rasip/dsd">offical DSD Homepage</a>.</p>
-<h3>Team</h3>
+<h2>TEAM</h2>
 <ul class="ul_no_dot team-members-list-left">
 <li class="team-members-list-item"><img alt="" src="SiteImages/dev-team/ab.jpg" class="team-img"> Andrea Bottoli</li>
 <li class="team-members-list-item"><img alt="" src="SiteImages/dev-team/dk.jpg" class="team-img"> Dzana Kujan</li>
@@ -44,14 +99,13 @@
 
 <div class ="clear_float">
 </div>
+<h2>CONTACT</h2>
+If you want to contact us, send an e-mail to:
+<a href="andrea.bottoli@mail.polimi.it"> Andrea Bottoli</a>
 
-<h3>Contact</h3>
-We don't want to have contact with you!
-
-<h3>License</h3>
+<h2>LICENSE</h2>
 We provide our Software under the <a href="LICENSE-2.0.jsp">Apache License 2.0</a>.
  You will find the source code in our <a href="https://github.com/andrea-bottoli/DSD">GitHub Repository</a>. All pictograms used on this side are licenced under <a href="license_pictogramms.jsp">SIL Open Font License</a>. 
 </div>
-
 
 </t:desktopPage>

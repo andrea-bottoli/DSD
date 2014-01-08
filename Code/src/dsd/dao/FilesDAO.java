@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Br?i?, Dzana Kujan, Nikola Radisavljevic, Jörn Tillmanns, Miraldi Fifo
+ * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Brcic, Dzana Kujan, Nikola Radisavljevic, Jorn Tillmanns, Miraldi Fifo
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
-import com.sun.org.apache.bcel.internal.generic.ANEWARRAY;
-
 import dsd.model.enums.eFileType;
 
 public class FilesDAO
@@ -31,15 +29,6 @@ public class FilesDAO
 	private static String sonarFileDir = "";
 	private static String pictureModenaFileDir = "";
 	private static String pictureMantovaFileDir = "";
-//	private static String anaFileDir = "C:\\Users\\Lorenzo\\Desktop\\Sources\\";
-//	private static String sonarFileDir = "C:\\Users\\Lorenzo\\Desktop\\Sources\\";
-//	private static String pictureModenaFileDir = "C:\\Users\\Lorenzo\\Desktop\\Sources\\";
-//	private static String pictureMantovaFileDir = "C:\\Users\\Lorenzo\\Desktop\\Sources\\";
-//	private static String anaFileDir = "/home/joti/Dokumente/Uni/MDH/DSD/Data Sources/2011.Borgoforte/04. Ane_Idro/";
-//	private static String sonarFileDir = "/home/joti/Dokumente/Uni/MDH/DSD/Data Sources/2011.Borgoforte/04. Ane_Idro/";
-//	private static String pictureModenaFileDir = "/home/joti/Dokumente/Uni/MDH/DSD/Data Sources/2011.Borgoforte/04. Ane_Idro/";
-//	private static String pictureMantovaFileDir = "/home/joti/Dokumente/Uni/MDH/DSD/Data Sources/2011.Borgoforte/04. Ane_Idro/";
-	
 	
 	public static void setSourcePath(String path)
 	{

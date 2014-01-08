@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Br?i?, Dzana Kujan, Nikola Radisavljevic, Jörn Tillmanns, Miraldi Fifo
+ * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Brcic, Dzana Kujan, Nikola Radisavljevic, Jorn Tillmanns, Miraldi Fifo
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -219,16 +219,18 @@ public class CalculationsControllerTask implements Runnable{
 				startDate.set(Calendar.HOUR_OF_DAY, 0);
 				startDate.set(Calendar.MINUTE, 0);
 				startDate.set(Calendar.SECOND, 0);
+				
+				startTimestamp = startDate.getTimeInMillis();
+			}else{
+				startTimestamp = 0;
 			}
-						
-			startTimestamp = startDate.getTimeInMillis();
 		}else{
 			startTimestamp = this.lastTimestamp;
 		}
 		
 		endTimestamp = RawDataController.GetMaxTimestamp();
 		
-		if((startTimestamp == 0) || (endTimestamp == 0)){
+		if((startTimestamp <= 0) || (endTimestamp <= 0)){
 			this.iterationNumber = 0;
 		}else{
 			this.iterationNumber = (int) (((endTimestamp - startTimestamp)/1000)/this.sampleSize);
@@ -591,6 +593,7 @@ public class CalculationsControllerTask implements Runnable{
 		cd.setTimestamp(this.lastTimestamp);
 		
 		this.calculatedData.add(cd);
+
 	}
 	
 	
@@ -611,5 +614,5 @@ public class CalculationsControllerTask implements Runnable{
 	{
 		calculatedData.clear();
 	}
+	
 }
-
