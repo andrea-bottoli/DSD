@@ -3,47 +3,47 @@
   realizations="true" associations="true" dependencies="true" nesting-relationships="true">  
   <package id="1" language="java" name="dsd.calculations" project="BridgeMonitoring" 
     file="/BridgeMonitoring/src/dsd/calculations" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="837" y="224"/>    
+    <position height="-1" width="-1" x="270" y="24"/>    
     <display autosize="true" stereotype="true" accessors="true"/>  
   </package>  
   <package id="2" language="java" name="dsd.controller" project="BridgeMonitoring" 
     file="/BridgeMonitoring/src/dsd/controller" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="571" y="201"/>    
+    <position height="-1" width="-1" x="434" y="328"/>    
     <display autosize="true" stereotype="true" accessors="true"/>  
   </package>  
   <package id="3" language="java" name="dsd.dao" project="BridgeMonitoring" file="/BridgeMonitoring/src/dsd/dao" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="422" y="29"/>    
+    <position height="-1" width="-1" x="460" y="97"/>    
     <display autosize="true" stereotype="true" accessors="true"/>  
   </package>  
   <package id="4" language="java" name="dsd.model" project="BridgeMonitoring" file="/BridgeMonitoring/src/dsd/model" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="254" y="215"/>    
+    <position height="-1" width="-1" x="1042" y="192"/>    
     <display autosize="true" stereotype="true" accessors="true"/>  
   </package>  
   <package id="5" language="java" name="dsd.view" project="BridgeMonitoring" file="/BridgeMonitoring/src/dsd/view" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="531" y="376"/>    
+    <position height="-1" width="-1" x="785" y="382"/>    
     <display autosize="true" stereotype="true" accessors="true"/>  
   </package>  
   <package id="6" language="java" name="dsd.controller.mathEngineTask" project="BridgeMonitoring" 
     file="/BridgeMonitoring/src/dsd/controller/mathEngineTask" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="50" width="199" x="627" y="66"/>    
+    <position height="-1" width="-1" x="752" y="42"/>    
     <display autosize="true" stereotype="true" accessors="true"/>  
   </package>  
   <package id="7" language="java" name="dsd.model.calculation" project="BridgeMonitoring" 
     file="/BridgeMonitoring/src/dsd/model/calculation" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1011" y="166"/>    
+    <position height="-1" width="-1" x="751" y="212"/>    
     <display autosize="true" stereotype="true" accessors="true"/>  
   </package>  
   <package id="8" language="java" name="dsd.jobs" project="BridgeMonitoring" file="/BridgeMonitoring/src/dsd/jobs" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="742" y="349"/>    
+    <position height="-1" width="-1" x="222" y="253"/>    
     <display autosize="true" stereotype="true" accessors="true"/>  
   </package>  
   <dependency id="9">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="4"/>  
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="7"/>  
   </dependency>  
   <dependency id="10">    
     <end type="SOURCE" refId="2"/>    
@@ -51,34 +51,58 @@
   </dependency>  
   <dependency id="11">    
     <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="3"/>  
-  </dependency>  
-  <dependency id="12">    
-    <end type="SOURCE" refId="6"/>    
     <end type="TARGET" refId="1"/>  
   </dependency>  
+  <dependency id="12">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="3"/>  
+  </dependency>  
   <dependency id="13">    
-    <end type="SOURCE" refId="5"/>    
+    <end type="SOURCE" refId="3"/>    
     <end type="TARGET" refId="4"/>  
   </dependency>  
   <dependency id="14">    
     <end type="SOURCE" refId="5"/>    
-    <end type="TARGET" refId="2"/>  
+    <end type="TARGET" refId="4"/>  
   </dependency>  
   <dependency id="15">    
-    <end type="SOURCE" refId="6"/>    
-    <end type="TARGET" refId="2"/>  
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="6"/>  
   </dependency>  
   <dependency id="16">    
-    <end type="SOURCE" refId="8"/>    
-    <end type="TARGET" refId="2"/>  
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="7"/>  
   </dependency>  
   <dependency id="17">    
-    <end type="SOURCE" refId="2"/>    
+    <end type="SOURCE" refId="3"/>    
     <end type="TARGET" refId="1"/>  
   </dependency>  
   <dependency id="18">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <dependency id="19">    
     <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="4"/>  
+  </dependency>  
+  <dependency id="20">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <dependency id="21">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <dependency id="22">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <dependency id="23">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="1"/>  
+  </dependency>  
+  <dependency id="24">    
+    <end type="SOURCE" refId="2"/>    
     <end type="TARGET" refId="7"/>  
   </dependency>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
