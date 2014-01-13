@@ -67,10 +67,14 @@
 			</div>
 
 			<div id="pictures">
-				<p class=sensorPicsNames><b>Mantova side:	</b></p>
+	<!-- 			<p class=sensorPicsNames><b>Mantova side:	</b></p>
 				<img class=sensorPics src="SiteImages/mantova11032212564100.jpg" alt="Mantova camera picture of Bridge Borgoforte" />
 				<p class=sensorPicsNames><b>Modena side:	</b></p>
-				<img class=sensorPics src="SiteImages/modena11032213541300.jpg" alt="Modena camera picture of Bridge Borgoforte" />
+				<img class=sensorPics src="SiteImages/modena11032213541300.jpg" alt="Modena camera picture of Bridge Borgoforte" /> -->
+				<p class=sensorPicsNames><b>Mantova side:	</b></p>
+				<img class=sensorPics src="${mantovaPath}" alt="Mantova camera picture of Bridge Borgoforte" />
+				<p class=sensorPicsNames><b>Modena side:	</b></p>
+				<img class=sensorPics src="${modenaPath}" alt="Modena camera picture of Bridge Borgoforte" />
 			</div>
 			
 			<div id="google_rose">

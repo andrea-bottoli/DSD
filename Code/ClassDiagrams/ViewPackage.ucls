@@ -3,19 +3,10 @@
   realizations="true" associations="true" dependencies="true" nesting-relationships="true">  
   <package id="1" language="java" name="dsd.view" project="BridgeMonitoring" file="/BridgeMonitoring/src/dsd/view" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="460" width="1064" x="245" y="-39"/>    
+    <position height="611" width="1156" x="245" y="-39"/>    
     <display autosize="false" stereotype="true" accessors="true"/>  
   </package>  
-  <class id="2" language="java" name="dsd.view.TestRawData" project="BridgeMonitoring" 
-    file="/BridgeMonitoring/src/dsd/view/TestRawData.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="436" y="105"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
-      visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="3" language="java" name="dsd.view.CurrentStateView" project="BridgeMonitoring" 
+  <class id="2" language="java" name="dsd.view.CurrentStateView" project="BridgeMonitoring" 
     file="/BridgeMonitoring/src/dsd/view/CurrentStateView.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="760" y="105"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -24,24 +15,73 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="dsd.view.TestParser" project="BridgeMonitoring" 
-    file="/BridgeMonitoring/src/dsd/view/TestParser.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1084" y="105"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
-      visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="5" language="java" name="dsd.view.TestParametersView" project="BridgeMonitoring" 
+  <class id="3" language="java" name="dsd.view.TestParametersView" project="BridgeMonitoring" 
     file="/BridgeMonitoring/src/dsd/view/TestParametersView.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="786" y="292"/>    
+    <position height="-1" width="-1" x="440" y="462"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
+  <class id="4" language="java" name="dsd.view.Login" project="BridgeMonitoring" 
+    file="/BridgeMonitoring/src/dsd/view/Login.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="425" y="90"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="dsd.view.MailSender" project="BridgeMonitoring" 
+    file="/BridgeMonitoring/src/dsd/view/MailSender.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1141" y="70"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="dsd.view.MN_Domain_WC_Table_and_Alarm" project="BridgeMonitoring" 
+    file="/BridgeMonitoring/src/dsd/view/MN_Domain_WC_Table_and_Alarm.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="800" y="283"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="dsd.view.TestTimestampAndCounts" project="BridgeMonitoring" 
+    file="/BridgeMonitoring/src/dsd/view/TestTimestampAndCounts.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="423" y="304"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="dsd.view.UserAdministrationView" project="BridgeMonitoring" 
+    file="/BridgeMonitoring/src/dsd/view/UserAdministrationView.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1031" y="456"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="dsd.view.WCPylonTable" project="BridgeMonitoring" 
+    file="/BridgeMonitoring/src/dsd/view/WCPylonTable.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1190" y="257"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <dependency id="10">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="5"/>  
+  </dependency>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    
