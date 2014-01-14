@@ -1,0 +1,578 @@
+/*******************************************************************************
+ * Copyright 2013 Andrea Bottoli, Lorenzo Pagliari, Marko Brcic, Dzana Kujan, Nikola Radisavljevic, Jorn Tillmanns, Miraldi Fifo
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
+
+/* reset */
+* {
+margin: 0;
+padding: 0;
+-moz-box-sizing: border-box;
+-webkit-box-sizing: border-box;
+box-sizing: border-box;
+}
+/* render html5 elements as block 
+   rendert html5 elemente als block  */
+
+@font-face {
+	font-family: 'icons';
+	src: url('./modernpics.otf');hover_icon
+	
+	font-weight: normal;
+	font-style: normal;	
+}
+
+.header, .footer { display: block;}
+
+.clear_float{clear: both;}
+
+.ul_no_dot{
+	padding: 0px;
+	list-style: none;
+}
+
+
+
+.icon{
+	font-family: "icons";	
+	font-size: 1.3em;
+	text-decoration: none;
+	}
+
+.icon:HOVER{
+	text-decoration: underline;
+}
+
+ul{
+	padding-left: 30px;
+}
+
+
+body {
+background-color: #eee;
+font-size: 0.95em;
+font-family: Monospace, SunSans-Regular, Sans-Serif;
+color:#564b47;
+}
+
+a:link, a:visited{
+	color: #564b47;
+	text-decoration: underline;
+}
+
+a:hover {color: #564b47;}
+a:active { color:#000000;}
+
+h1 {
+font-size:1.8em;
+font-weight: bold;
+margin: 0 0 20px;
+}
+
+h2{
+font-size:1.2em;
+font-weight: bold;
+margin: 30px 0 15px;
+}
+
+.graph_name {
+	font-weight:bold;
+	text-decoration: underline;
+	margin-left:10px;
+	margin-top:5px;
+	margin-bottom:5px;
+}
+
+	
+
+/* ----------header for logo-------------- */
+.header {
+	background: #ccc;
+	width: 100%;
+	height: 130px; 
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index:1;
+	border-bottom:1px solid #666;
+	border-top:1px solid #666;
+}
+
+.logo {
+	width: 100px;
+	height: 100px;
+	float: right;
+}
+.logo img { 
+	padding: 0 0 10px;
+	width: 200px;	
+}
+
+.login{
+	position: absolute;
+	clear: both;
+	display: block;
+	top: 5px;
+	margin-left: 20px;
+	margin-right: 5px;
+	font-size: 0.8em;
+}
+
+.title {
+	postition: absolute;
+	text-align: center;
+}
+
+
+
+.buttons{
+	float: left;
+	margin-left: 20px;
+	position: absolute;
+	bottom: 5px;
+	
+}
+
+.button{
+	float:left;
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-top: 4px;
+	border:black solid 1px;
+	width: 220px;
+	height: 30px;;
+	background-color: #fff;
+	text-align: center;
+	margin: 1px;
+	margin-top: 6px;
+}
+
+.button:hover{
+	background-color: #aaa;
+}
+
+/* ----------------- content--------------------- */
+
+.content {
+background-color: #f5f5f5;
+width: 90%;
+max-width: 1239px;
+/*min-width:700px;*/
+margin:0 auto;
+padding: 140px 20px 150px;
+}
+
+#pictures{
+	width: 30%;
+    /*height: 465px;*/
+    float:left; /* add this */
+   
+}
+
+.sensorPics{
+	height: 200px;
+	margin-left: 5%;
+	margin-right: 5%;
+}
+
+.sensorPicsNames{
+	margin-left: 5%;
+	margin-right: 5%;
+	margin-top: 3%;
+}
+
+.actual_values_table_entry {
+	font-weight:bold;
+	/*text-decoration: underline;*/
+	width: 200px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#actual_values{
+	width: 27%;
+    height: 420px;
+    float:left; /* add this */	
+}
+
+
+#google_rose{
+	width: 22%;
+	margin-top: 37px;
+    height: 445px;
+    float:left; /* add this */
+    	
+}
+
+#pic_google{
+	width:90%;
+	height: 442px;;
+	margin-right: 5%;
+}
+
+#stack_structure_frame{
+	width: 21%;
+	margin-top: 37px;
+    height: 445px;
+    float:left; /* add this */
+    	
+}
+
+#stack_structiure_pic{
+	width:90%;
+	height: 442px;;
+	margin-right: 5%;
+}
+
+
+#wrapper {
+	margin-top: 20px;
+    width: 100%;
+    height: 1065px;
+    /*border: 1px solid black;*/
+    /*overflow-x: scroll; /* will contain if #first is longer than #second */
+}
+#first {
+    width: 100%;
+    height: 320px;
+    float:left; /* add this */
+    border: 1px solid green;
+}
+#second {
+	margin-top: 10px;
+	width: 100%;
+	height: 320px;
+    border: 1px solid green;
+    float:left;
+   /*overflow: hidden;  if you don't want #second to wrap below #first */
+}
+
+#thirth {
+	margin-top: 10px;
+	width: 100%;
+	height: 320px;
+    border: 1px solid green;
+    float:left;
+   /*overflow: hidden;  /*if you don't want #second to wrap below #first */
+}
+
+.all_graphs{
+	width: 100%;
+	height: 290px;
+	}
+	
+#bridge_structure {
+	margin-left: 5%;
+	margin-right: 5%;
+	width: 90%;
+	
+}	
+
+/*-----------historyViewContent----------------*/
+
+#historyRange {
+	padding: 1%;
+		margin: 1% 2%; /* top and bottom are 1%; left and right are 2%*/
+
+		border: 1px solid green;
+		width: 96%;
+}
+
+#historyRange p, label {
+	font-weight: bold;
+}
+
+.formElement {
+	float: left;
+	margin-top: 1%;
+	margin-left: 4%;
+	
+}
+
+.formElement2 {
+	float: left;
+	margin-top: 1%;
+	margin-left: 1%;
+}
+
+.formElement3 {
+	margin-top: 1%;
+	
+}
+
+
+#TD {
+	font-size: 23px;
+	margin: 2px;
+	float: left;
+	width: 10%;
+}
+
+#historyRange input[type=text] {
+	padding:5px; 
+	border:2px solid #ccc; 
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+
+#historyRange  input[type=text]:focus {
+	border-color:#333; 
+}
+
+#historyRange select {
+	padding:5px; border:2px solid #ccc;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-appearance: none;
+}
+
+#historyRange select:focus {
+	border-color:#333; 
+}
+
+input[type=checkbox] {
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	width: 20px;
+	height: 20px;
+	margin: 1% 0.5% 1% 1%;
+}
+
+#historyRange input[type=submit] {
+	padding:5px 15px; 
+	background:#ccc; 
+	border:0 none;
+	cursor:pointer;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	margin: 34px 1%; 
+}
+
+#monthTillNow input[type=submit] {
+	padding:5px 15px; 
+	background:#ccc; 
+	border:0 none;
+	cursor:pointer;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	margin: 25px 4%;
+}
+
+#historyRange h {
+	font-weight: bold;
+	font-size: 17px;
+}
+
+#chosenHistorySettings {
+		padding: 1%;
+		margin: 1% 2%; /* top and bottom are 1%; left and right are 2%*/
+		height: 70px;
+		border: 1px solid green;
+		width: 96%;
+}
+
+#labelRange {
+	width: 86%;
+	float: left;
+}
+
+#labelStartDate{
+	color: #b5030d;
+}
+
+ #labelEndDate {
+	color: #b5030d;
+}
+
+
+
+#chosenHistorySettings h {
+	font-weight: bold;
+	font-size: 17px;
+}
+
+.dateRange {
+	width: 100%;
+	height: 70px;
+}
+
+.specificDate {
+	width: 100%;
+	height: 70px;
+}
+
+.specificMonth {
+	width: 100%;
+	height: 70px;
+}
+
+#wrapperHistory {
+	margin: 1% 2%;
+    width: 98%;
+    height: 1385px;
+}
+
+
+#firstHistory {
+	width: 100%;
+    height: 320px;
+    float:left; /* add this */
+    border: 1px solid green;
+}
+
+#secondHistory {
+	margin-top: 10px;
+	width: 100%;
+	height: 320px;
+    border: 1px solid green;
+    float:left;
+}
+
+#thirthHistory {
+	margin-top: 10px;
+	width: 100%;
+	height: 320px;
+    border: 1px solid green;
+    float:left;
+   overflow: hidden;
+}
+
+#fourthHistory {
+	margin-top: 10px;
+	width: 100%;
+	height: 320px;
+    border: 1px solid green;
+    float:left;
+   overflow: hidden;
+}
+
+/*------------parameters-----------------------*/
+
+.hoverTable{
+	width:100%; 
+	border-collapse:collapse; 
+}
+
+.hoverTable td{ 
+	padding:7px; border:#4e95f4 1px solid;
+}
+
+/* Define the default color for all the table rows */
+.hoverTable tr{
+	background: #c6d5c6;
+}
+
+/* Define the hover highlight color for the table row */
+.hoverTable tr:hover {
+	background-color: #e7e7b1;
+} 
+    
+#parameters input[type=text] {
+	padding:5px; 
+	border:2px solid #ccc; 
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	background-color: #dae7f9;
+}
+
+#parameters  input[type=text]:focus {
+	border-color:#333; 
+}
+
+#parameters input[type=submit] {
+	padding:5px 5px; 
+	background:#ccc; 
+	border:0 none;
+	cursor:pointer;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	margin: 5px 1%; 
+	background-color: #75a6e8;
+}
+	
+	
+.team-img{
+	max-width:160px;
+	vertical-align: middle;
+}
+
+.team-members-list-left{
+	float:left;
+}
+
+.team-members-list-right{
+	float:right;
+}
+
+.team-members-list-item{
+	padding: 3px;
+	
+}
+
+.WorstCaseTable{
+	
+	min-height: 300px;
+	
+}
+
+/*-------------MNDomain--------------------------*/
+
+
+#MNGraph {
+    width: 100%;
+    height: 500px;
+    float:left; /* add this */
+    border: 1px solid green;
+}
+
+.mnGraph{
+	width: 100%;
+	height: 450px;
+	}
+	
+
+/* -----------UserDetail--------------------------- */
+.ul_left{
+	padding: 0px;
+	float:left;
+	margin: 0px;
+	margin-right: 8px;
+	padding-right: 20px;
+	list-style: none;
+	line-height: 2em;
+	
+}
+
+.ul_right{
+	list-style: none;
+	line-height: 2em;	
+	padding: 0px;
+	
+}
+
+
+
+
+/* -----------footer--------------------------- */
+
+.footer {
+	background: #eee;
+	width: 100%; 
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	border-bottom:1px solid #666;
+	border-top:1px solid #666;
+	height: 30px;
+	}
